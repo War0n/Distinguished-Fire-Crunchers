@@ -20,9 +20,9 @@ public class Tile extends JPanel{
 	public Tile(Color bgColor,String label) {
 		tileLabel = new JLabel(label);
 		tileLabel.setForeground(Color.WHITE);
-		tileLabel.setFont(new Font("BabelStone Han",Font.BOLD,12));
+		tileLabel.setFont(new Font("BabelStone Han",Font.BOLD,18));
 
-		setMaximumSize(new Dimension(25,25));
+		setMaximumSize(new Dimension(40,40));
 		setPreferredSize(getMaximumSize());
 		if(bgColor != null){
 			setBackground(bgColor);

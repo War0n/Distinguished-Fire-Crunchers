@@ -24,7 +24,14 @@ public class Spel extends JPanel{
 		// TODO Auto-generated constructor stub
 		swapButton = new JButton("Swap");
 		skipButton = new JButton("Skip");
-		playButton = new JButton("Play");		
+		playButton = new JButton("Play");
+		swapButton.setBackground(new Color(44,47,53));
+		swapButton.setForeground(Color.white);
+		skipButton.setBackground(new Color(44,47,53));
+		skipButton.setForeground(Color.white);
+		playButton.setBackground(new Color(44,47,53));
+		playButton.setForeground(Color.white);
+		
 		
 		letterbak = new Letterbak();
 		buttons = new ButtonPanel();

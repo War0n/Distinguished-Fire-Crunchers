@@ -12,7 +12,7 @@ public class FunctionPanel extends JPanel{
 	
 	public FunctionPanel() {
 		// TODO Auto-generated constructor stub
-		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));		
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}
 
 }
