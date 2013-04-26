@@ -14,11 +14,11 @@ public class Gui extends JFrame {
 	
 	public Gui(){
 		gameOfWordfeud = new Spel();
-		image = new ImageIcon("images/wordfeud.jpg");
+		image = new ImageIcon("src/images/wordfeud.png");
 		setIconImage(image.getImage());
 		this.setContentPane(gameOfWordfeud);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Wordfeud");
+		this.setTitle("Woordje Leggen Niemand Zeggen");
 		
 		
 		this.setVisible(true);
