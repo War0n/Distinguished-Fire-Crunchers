@@ -1,10 +1,12 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.nio.charset.Charset;
 import java.util.Random;
 
@@ -16,13 +18,16 @@ public class Tile extends JPanel{
 
 	private Random rnd;
 	private JLabel tileLabel;
+	private Stone steen;
 	
 	public Tile(Color bgColor,String label) {
 		tileLabel = new JLabel(label);
 		tileLabel.setForeground(Color.WHITE);
 		tileLabel.setFont(new Font("BabelStone Han",Font.BOLD,18));
+		
 
 		setMaximumSize(new Dimension(40,40));
+		setMinimumSize(new Dimension(40,40));
 		setPreferredSize(getMaximumSize());
 		if(bgColor != null){
 			setBackground(bgColor);
@@ -66,8 +71,26 @@ public class Tile extends JPanel{
 //		System.out.println("Tile compiler Done!");
 	}
 	
-	public void getStone(){
-		
+	public Stone getStone(){
+		return steen;
+	}
+	
+	public void setStone(Stone steen){
+		this.steen = steen;
+		removeAll();
+		add(steen);
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		// TODO Auto-generated method stub
+		super.paintComponent(g);
+		if(steen != null){
+			if(steen.decideImage() != null){
+				BufferedImage img = steen.decideImage();
+				g.drawImage(img, 0,0,this);
+			}
+		}
 	}
 	
 }
