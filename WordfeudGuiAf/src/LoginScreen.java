@@ -60,13 +60,15 @@ public class LoginScreen extends JPanel{
 		content.add(Box.createHorizontalGlue());
 		
 		loginButton.addActionListener(new ActionListener() {
-			
+			private CompetitiesMenu competitieView;
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				getParent();
+				competitieView = new CompetitiesMenu();
 				Spel gameOfWordfeud = new Spel();
-				activeFrame.setContentPane(gameOfWordfeud);
+				activeFrame.setContentPane(competitieView);
 				activeFrame.pack();
 			}
 		});
