@@ -24,9 +24,7 @@ public class Gui extends JFrame {
 		this.setTitle("Woordje Leggen Niemand Zeggen");
 		this.setResizable(false);
 		
-		createCompetition = new CreateCompetition();
-		//this.setContentPane(createCompetition);
-		
+	
 		this.validate();
 		this.pack();
 		this.setLocationRelativeTo(null);
