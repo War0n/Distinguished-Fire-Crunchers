@@ -41,9 +41,9 @@ public class GUI extends JFrame {
 		return competition;
 	}
 
-	public void setCompetitie(Competitie createCompetition)
+	public void setCompetitie(Competitie competition)
 	{
-		this.competition= createCompetition;
+		this.competition= competition;
 	}
 
 	public CompetitiesMenu getCompetitieView()
