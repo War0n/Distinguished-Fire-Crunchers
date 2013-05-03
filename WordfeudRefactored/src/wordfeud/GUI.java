@@ -12,7 +12,7 @@ public class GUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private LoginScreen loginScreen;
 	private CompetitiesMenu competitieView;
-	private CreateCompetition createCompetition;
+	private Competitie competition;
 	private ImageIcon image;
 	
 	public GUI()
@@ -27,7 +27,7 @@ public class GUI extends JFrame {
 		this.setTitle("Woordje Leggen Niemand Zeggen");
 		this.setResizable(false);
 		
-		setCreateCompetition(new CreateCompetition());
+		setCompetitie(new Competitie());
 		//this.setContentPane(createCompetition);
 		
 		this.validate();
@@ -36,14 +36,14 @@ public class GUI extends JFrame {
 		this.setVisible(true);
 	}
 
-	public CreateCompetition getCreateCompetition()
+	public Competitie getCompetitie()
 	{
-		return createCompetition;
+		return competition;
 	}
 
-	public void setCreateCompetition(CreateCompetition createCompetition)
+	public void setCompetitie(Competitie createCompetition)
 	{
-		this.createCompetition = createCompetition;
+		this.competition= createCompetition;
 	}
 
 	public CompetitiesMenu getCompetitieView()
