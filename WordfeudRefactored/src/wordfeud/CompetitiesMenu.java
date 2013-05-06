@@ -73,7 +73,7 @@ public class CompetitiesMenu extends JPanel{
 		int idCompetitie = 0;
 		String eigenaar = null;
 		
-		rs = connect.voerQueryUit("select * from Competities");
+		rs = connect.voerGetQueryUit("select * from Competities");
 		try {
 			while(rs.next())
 			{

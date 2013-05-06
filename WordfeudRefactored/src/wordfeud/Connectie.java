@@ -27,7 +27,7 @@ public class Connectie {
 		return con;
 	}
 	
-	public ResultSet voerQueryUit(String myQuery){
+	public ResultSet voerGetQueryUit(String myQuery){
 		try {
 			pr = con.prepareStatement(myQuery);
 			result = pr.executeQuery();
