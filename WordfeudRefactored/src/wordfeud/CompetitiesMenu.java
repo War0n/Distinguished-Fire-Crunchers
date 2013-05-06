@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -29,6 +31,7 @@ public class CompetitiesMenu extends JPanel{
 	private JPanel competities;
 	private JScrollPane scrollPane;
 	private JButton inviteButton;
+	private Connectie connect;
 	
 	public CompetitiesMenu() {
 		// TODO Auto-generated constructor stub
@@ -64,50 +67,71 @@ public class CompetitiesMenu extends JPanel{
 	}
 	
 	public void showCompetitions(){
-		//Hier een for each loop met opgehaalde competities!!
-		for(int i=1; i <= 30;i++){
-		JPanel comp = new JPanel();
-		comp.setMaximumSize(new Dimension(650,80));
-		comp.setPreferredSize(comp.getMaximumSize());
-		comp.setBackground(new Color(44,47,53));
-		JLabel compTxt = new JLabel("Competitie " + i + " met details hier!");
-		compTxt.setForeground(Color.white);
-		comp.add(compTxt);
-		competities.add(Box.createVerticalStrut(5));
-		competities.add(comp);
 		
-		comp.addMouseListener(new MouseListener() {
+		connect = new Connectie();
+		ResultSet rs;
+		
+		rs = connect.voerQueryUit("select * from Competities");
+		try {
+			while(rs.next())
+			{
+				int idCompetitie = 0;
+				String eigenaar = null;
+				try {
+					idCompetitie = rs.getInt("idCompetitie");
+					eigenaar = rs.getString("eigenaar");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			//Hier een for each loop met opgehaalde competities!!
+			//for(int i=1; i <= 30;i++){
+			JPanel comp = new JPanel();
+			comp.setMaximumSize(new Dimension(650,80));
+			comp.setPreferredSize(comp.getMaximumSize());
+			comp.setBackground(new Color(44,47,53));
+			JLabel compTxt = new JLabel("Competitie " + idCompetitie + " Eigenaar: " + eigenaar);
+			compTxt.setForeground(Color.white);
+			comp.add(compTxt);
+			competities.add(Box.createVerticalStrut(5));
+			competities.add(comp);
 			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
+			comp.addMouseListener(new MouseListener() {
 				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
+				@Override
+				public void mouseReleased(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
 				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
+				@Override
+				public void mousePressed(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
 				
+				@Override
+				public void mouseExited(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					SpelPanel gameOfWordfeud = new SpelPanel();
+					setParentContentPane(gameOfWordfeud);
+				}
+			});
 			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				SpelPanel gameOfWordfeud = new SpelPanel();
-				setParentContentPane(gameOfWordfeud);
-			}
-		});
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error: " + e);
 		}
 	}
 	
