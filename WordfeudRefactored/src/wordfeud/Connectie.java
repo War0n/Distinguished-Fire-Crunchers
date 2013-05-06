@@ -31,7 +31,6 @@ public class Connectie {
 		try {
 			pr = con.prepareStatement(myQuery);
 			result = pr.executeQuery();
-			con.close();
 			return result;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -44,11 +43,19 @@ public class Connectie {
 		 try {
 			pr = (PreparedStatement) con.createStatement();
 			pr.executeUpdate(myQuery);
-			con.close();
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	public void closeConnection()
+	{
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error: " + e);
 		}
 	}
 }

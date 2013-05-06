@@ -130,6 +130,7 @@ public class CompetitiesMenu extends JPanel{
 			// TODO Auto-generated catch block
 			System.out.println("Error: " + e);
 		}
+		connect.closeConnection();
 	}
 	
 	public void setParentContentPane(JPanel contentPane){
