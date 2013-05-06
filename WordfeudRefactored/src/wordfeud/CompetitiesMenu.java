@@ -70,20 +70,17 @@ public class CompetitiesMenu extends JPanel{
 		
 		connect = new Connectie();
 		ResultSet rs;
+		int idCompetitie = 0;
+		String eigenaar = null;
 		
 		rs = connect.voerQueryUit("select * from Competities");
 		try {
 			while(rs.next())
 			{
-				int idCompetitie = 0;
-				String eigenaar = null;
-				try {
-					idCompetitie = rs.getInt("idCompetitie");
-					eigenaar = rs.getString("eigenaar");
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
+				idCompetitie = rs.getInt("idCompetitie");
+				eigenaar = rs.getString("eigenaar");
+				
 			//Hier een for each loop met opgehaalde competities!!
 			//for(int i=1; i <= 30;i++){
 			JPanel comp = new JPanel();
