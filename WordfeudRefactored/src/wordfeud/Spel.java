@@ -28,4 +28,8 @@ public class Spel
 	{
 		return bord;
 	}
+	
+	public int getSpelId(){
+		return spelID;
+	}
 }
