@@ -77,36 +77,41 @@ public class LoginScreen extends JPanel {
 				Connectie connect = new Connectie();
 				ResultSet rs;
 				rs = connect
-						.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"+usernameField.getText()+"'");
+						.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
+								+ usernameField.getText() + "'");
 				try {
 					rs.next();
-					if (rs.getInt(1)==0) {
+					if (rs.getInt(1) == 0) {
 						connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
 								+ usernameField.getText()
 								+ "', 'user', '1', '"
 								+ passwordField.getPassword() + "');");
 						connect.closeConnection();
+						usernameField.setText("");
+						passwordField.setText("");
 						regLabel.setText("Registratie voltooid!");
-					}
-					else{
+					} else {
 						regLabel.setText("Joost heeft je naam al gejat");
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
+
 			}
 
 		});
 		// Loginbutton ActionListener
 		loginButton.addActionListener(new ActionListener() {
+			Connectie connect = new Connectie();
 			private CompetitiesMenu competitieView;
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				ResultSet rs;
+				rs = connect
+						.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
+								+ usernameField.getText() + "'");
 				getParent();
 				competitieView = new CompetitiesMenu();
 				activeFrame.setContentPane(competitieView);
