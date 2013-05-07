@@ -28,6 +28,7 @@ public class LoginScreen extends JPanel{
 	private JLabel userLabel;
 	private JLabel passLabel;
 	private JButton loginButton;
+	private JButton registerButton;
 	private JFrame activeFrame;
 
 	public LoginScreen(JFrame frame) {
@@ -43,6 +44,7 @@ public class LoginScreen extends JPanel{
 		content.setLayout(new BoxLayout(content, BoxLayout.PAGE_AXIS));
 				
 		loginButton = new JButton("Log In");
+		registerButton = new JButton("Register");
 		usernameField = new JTextField();
 		userLabel = new JLabel("Username:");
 		userLabel.setForeground(Color.white);
@@ -58,6 +60,7 @@ public class LoginScreen extends JPanel{
 		content.add(usernameField);
 		content.add(passLabel);
 		content.add(passwordField);
+		content.add(registerButton);
 		content.add(loginButton);
 		add(content);
 		content.add(Box.createHorizontalGlue());
