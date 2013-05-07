@@ -33,13 +33,13 @@ public class Bord
 		}
 		
 		// Triple word
-		tiles[0][5].setType(TileType.TYPE_TW);
-		tiles[0][11].setType(TileType.TYPE_TW);
+		tiles[0][4].setType(TileType.TYPE_TW);
+		tiles[0][10].setType(TileType.TYPE_TW);
 		tiles[4][0].setType(TileType.TYPE_TW);
 		tiles[4][14].setType(TileType.TYPE_TW);
 		tiles[10][0].setType(TileType.TYPE_TW);
 		tiles[10][14].setType(TileType.TYPE_TW);
-		tiles[14][5].setType(TileType.TYPE_TW);
+		tiles[14][4].setType(TileType.TYPE_TW);
 		tiles[14][10].setType(TileType.TYPE_TW);
 		
 		// Double word
