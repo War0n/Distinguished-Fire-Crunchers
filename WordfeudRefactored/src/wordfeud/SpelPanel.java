@@ -21,6 +21,7 @@ public class SpelPanel extends JPanel{
 	private FunctionPanel functiepanel;
 	private LetterbakPanel letterbak;
 	private ChatGUI cg;
+	private Chat chat;
 	private ButtonPanel buttons;
 	private JButton swapButton;
 	private JButton skipButton;
@@ -28,7 +29,7 @@ public class SpelPanel extends JPanel{
 	private JButton chatButton;
 	
 	public SpelPanel() {
-		
+		chat = new Chat();
 		spel = new Spel();
 		setMinimumSize(new Dimension(650,750));
 		setPreferredSize(getMinimumSize());
@@ -46,6 +47,7 @@ public class SpelPanel extends JPanel{
 		chatButton.setForeground(Color.white);
 		cg = new ChatGUI();
 		cg.setVisible(false);
+		chat.addObserver(cg);
 		
 		letterbak = new LetterbakPanel(spel.getLetterBak());
 		buttons = new ButtonPanel();

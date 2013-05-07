@@ -5,6 +5,7 @@ public class Spel
 	private Bord bord; 
 	private Letterbak letterbak;
 	private LetterSet letterSet;
+	private int spelID;
 	
 	public Spel()
 	{

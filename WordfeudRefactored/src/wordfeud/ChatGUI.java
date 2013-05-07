@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -15,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class ChatGUI  extends JFrame{
+public class ChatGUI  extends JFrame implements Observer{
 
 	/**
 	 * 
@@ -29,6 +31,7 @@ public class ChatGUI  extends JFrame{
 	private JLabel chatHistory;
 	private JTextField tekstVeld;
 	private JButton sendButton;
+	private Chat chat;
 	
 	public ChatGUI(){
 		this.setTitle("Chatvenster");
@@ -39,6 +42,7 @@ public class ChatGUI  extends JFrame{
 		chatHistory = new JLabel();
 		tekstVeld = new JTextField();
 		sendButton = new JButton("Stuur");
+		chat = new Chat();
 		
 		sendPanel.setLayout(new GridLayout(1,2));
 		sendPanel.add(tekstVeld);
@@ -80,7 +84,7 @@ public class ChatGUI  extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				chat();
+				
 			}
 		});
 		
@@ -89,13 +93,15 @@ public class ChatGUI  extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				chat();
+				
 			}
 		});
 	}
 	
-	public void chat(){
-		String chatTekst = tekstVeld.getText();
-		chatHistory.setText("<html>" + chatHistory.getText() + "<br/>" + chatTekst + "</html>");
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 }
