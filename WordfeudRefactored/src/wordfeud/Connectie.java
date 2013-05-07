@@ -5,12 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Connectie {
 
 	private Connection con;
 	private PreparedStatement pr;
 	private ResultSet result;
+	private Statement st;
 	
 	public Connectie(){
 		try{
@@ -41,8 +43,8 @@ public class Connectie {
 	
 	public void voerInsertQueryUit(String myQuery){
 		 try {
-			pr = (PreparedStatement) con.createStatement();
-			pr.executeUpdate(myQuery);
+			st = con.createStatement();
+			st.executeUpdate(myQuery);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

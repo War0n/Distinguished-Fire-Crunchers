@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -15,9 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+public class LoginScreen extends JPanel {
 
-public class LoginScreen extends JPanel{
-	
 	/**
 	 * 
 	 */
@@ -27,34 +28,36 @@ public class LoginScreen extends JPanel{
 	private JPanel content;
 	private JLabel userLabel;
 	private JLabel passLabel;
+	private JLabel regLabel;
 	private JButton loginButton;
 	private JButton registerButton;
 	private JFrame activeFrame;
 
 	public LoginScreen(JFrame frame) {
-		setMinimumSize(new Dimension(650,750));
+		setMinimumSize(new Dimension(650, 750));
 		setPreferredSize(getMinimumSize());
-		setBackground(new Color(23,26,30));
+		setBackground(new Color(23, 26, 30));
 		setLayout(new FlowLayout(FlowLayout.CENTER));
 		activeFrame = frame;
-		
+
 		content = new JPanel();
-		content.setPreferredSize(new Dimension(200,200));
-		content.setBackground(new Color(23,26,30));
+		content.setPreferredSize(new Dimension(200, 200));
+		content.setBackground(new Color(23, 26, 30));
 		content.setLayout(new BoxLayout(content, BoxLayout.PAGE_AXIS));
-				
+
 		loginButton = new JButton("Log In");
 		registerButton = new JButton("Register");
 		usernameField = new JTextField();
 		userLabel = new JLabel("Username:");
 		userLabel.setForeground(Color.white);
-		usernameField.setMaximumSize(new Dimension(200,20));
-		passwordField =new JPasswordField();
+		regLabel = new JLabel("");
+		regLabel.setForeground(Color.white);
+		usernameField.setMaximumSize(new Dimension(200, 20));
+		passwordField = new JPasswordField();
 		passLabel = new JLabel("Password:");
 		passLabel.setForeground(Color.white);
-		passwordField.setMaximumSize(new Dimension(200,20));
-		
-		
+		passwordField.setMaximumSize(new Dimension(200, 20));
+
 		content.add(Box.createHorizontalGlue());
 		content.add(userLabel);
 		content.add(usernameField);
@@ -62,9 +65,42 @@ public class LoginScreen extends JPanel{
 		content.add(passwordField);
 		content.add(registerButton);
 		content.add(loginButton);
+		content.add(regLabel);
+
 		add(content);
 		content.add(Box.createHorizontalGlue());
-		
+
+		registerButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Connectie connect = new Connectie();
+				ResultSet rs;
+				rs = connect
+						.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"+usernameField.getText()+"'");
+				try {
+					rs.next();
+					if (rs.getInt(1)==0) {
+						connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
+								+ usernameField.getText()
+								+ "', 'user', '1', '"
+								+ passwordField.getPassword() + "');");
+						connect.closeConnection();
+						regLabel.setText("Registratie voltooid!");
+					}
+					else{
+						regLabel.setText("Joost heeft je naam al gejat");
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+			}
+
+		});
+		// Loginbutton ActionListener
 		loginButton.addActionListener(new ActionListener() {
 			private CompetitiesMenu competitieView;
 
@@ -78,6 +114,5 @@ public class LoginScreen extends JPanel{
 			}
 		});
 	}
-	
 
 }
