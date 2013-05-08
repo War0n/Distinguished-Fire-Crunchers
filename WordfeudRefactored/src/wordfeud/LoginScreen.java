@@ -85,7 +85,7 @@ public class LoginScreen extends JPanel {
 						connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
 								+ usernameField.getText()
 								+ "', 'user', '1', '"
-								+ passwordField.getPassword() + "');");
+								+ passwordField.getPassword().toString() + "');");
 						connect.closeConnection();
 						usernameField.setText("");
 						passwordField.setText("");
@@ -108,9 +108,7 @@ public class LoginScreen extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ResultSet rs;
-				rs = connect
-						.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
+				connect.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
 								+ usernameField.getText() + "'");
 				getParent();
 				competitieView = new CompetitiesMenu();

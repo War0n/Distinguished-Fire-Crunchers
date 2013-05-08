@@ -122,7 +122,10 @@ public class GUITile extends JPanel{
 		if( tile.getStone() != null )
 		{
 			g.drawImage(tile.getStone().getImage(), 0, 0, this);
+			this.tileLabel.setVisible(false);
 		}
+		else
+			this.tileLabel.setVisible(true);
 	}
 
 	public Tile getTile()
