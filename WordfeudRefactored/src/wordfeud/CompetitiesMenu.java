@@ -131,8 +131,21 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 					"Je Competitie is aangemaakt!", "",
 					JOptionPane.WARNING_MESSAGE);
 			popup = null;
-			this.revalidate();
-			this.repaint();
+			JPanel comp = new JPanel();
+			comp.setMaximumSize(new Dimension(650,80));
+			comp.setPreferredSize(comp.getMaximumSize());
+			comp.setBackground(new Color(44,47,53));
+			JLabel compTxt = new JLabel("Competitie " + (aantalCompetities + 1) + " Eigenaar: " + eigenaar);
+			compTxt.setForeground(Color.white);
+			comp.add(compTxt);
+			competities.add(Box.createVerticalStrut(5));
+			competities.add(comp);
+			aantalCompetities++;
+			alleEigenaren += eigenaar;
+			
+			comp.addMouseListener(this);
+			revalidate();
+			repaint();
 		}else{
 			JOptionPane.showMessageDialog(popup,
 					"Je hebt al een competitie!", "",
