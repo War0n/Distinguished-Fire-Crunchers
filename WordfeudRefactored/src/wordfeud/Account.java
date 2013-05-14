@@ -2,14 +2,14 @@ package wordfeud;
 
 public class Account {
 
-	private String accountNaam;
+	private static String accountNaam;
 	
-	public Account(String naam)
+	public  Account(String naam)
 	{
 		accountNaam = naam;
 	}
 	
-	public String getAccountNaam(){
+	public static String getAccountNaam(){
 		return accountNaam;
 	}
 	

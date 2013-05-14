@@ -25,7 +25,7 @@ public class LoginScreen extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField usernameField;
-	private JTextField passwordField;
+	private JPasswordField passwordField;
 	private JPanel content;
 	private JLabel userLabel;
 	private JLabel passLabel;
@@ -56,7 +56,7 @@ public class LoginScreen extends JPanel {
 		regLabel = new JLabel("");
 		regLabel.setForeground(Color.white);
 		usernameField.setMaximumSize(new Dimension(200, 20));
-		passwordField = new JTextField();
+		passwordField = new JPasswordField();
 		passLabel = new JLabel("Password:");
 		passLabel.setForeground(Color.white);
 		passwordField.setMaximumSize(new Dimension(200, 20));
@@ -90,13 +90,17 @@ public class LoginScreen extends JPanel {
 								JOptionPane.WARNING_MESSAGE);
 						popup = null;
 					} else {
-
+						String password = "";
+						for(char c:passwordField.getPassword()){
+							password = password + c;
+						}
+						
 						if (rs.getInt(1) == 0) {
 
 							connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
 									+ usernameField.getText()
 									+ "', 'user', '1', '"
-									+ passwordField.getText().toString()
+									+ password
 									+ "');");
 							connect.closeConnection();
 							usernameField.setText("");
@@ -132,11 +136,15 @@ public class LoginScreen extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				Connectie connect = new Connectie();
 				ResultSet rs;
+				String password = "";
+				for(char c:passwordField.getPassword()){
+					password = password + c;
+				}
 				rs = connect
 						.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
 								+ usernameField.getText()
 								+ "' AND password ='"
-								+ passwordField.getText().toString() + "' ");
+								+ password + "' ");
 				try {
 					rs.next();
 					if (rs.getInt(1) == 1) {
