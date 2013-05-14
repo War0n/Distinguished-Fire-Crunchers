@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -33,7 +34,7 @@ public class LoginScreen extends JPanel {
 	private JButton registerButton;
 	private JFrame activeFrame;
 	private String curUser;
-	
+	JFrame popup = null;
 
 	public LoginScreen(JFrame frame) {
 		setMinimumSize(new Dimension(650, 750));
@@ -83,18 +84,37 @@ public class LoginScreen extends JPanel {
 								+ usernameField.getText() + "'");
 				try {
 					rs.next();
-					if (rs.getInt(1) == 0) {
-						connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
-								+ usernameField.getText()
-								+ "', 'user', '1', '"
-								+ passwordField.getText().toString()
-								+ "');");
-						connect.closeConnection();
-						usernameField.setText("");
-						passwordField.setText("");
-						regLabel.setText("Registratie voltooid!");
+					if ((usernameField.getText().equals(""))) {
+						JOptionPane.showMessageDialog(popup,
+								"Je hebt niks ingevuld! ", "Bezet!",
+								JOptionPane.WARNING_MESSAGE);
+						popup = null;
 					} else {
-						regLabel.setText("Joost heeft je naam al gejat");
+
+						if (rs.getInt(1) == 0) {
+
+							connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
+									+ usernameField.getText()
+									+ "', 'user', '1', '"
+									+ passwordField.getText().toString()
+									+ "');");
+							connect.closeConnection();
+							usernameField.setText("");
+							passwordField.setText("");
+
+							JOptionPane
+									.showMessageDialog(
+											popup,
+											"Je bent geregistreerd! Je kunt nu inloggen!",
+											"Voltooid",
+											JOptionPane.PLAIN_MESSAGE);
+							popup = null;
+						} else {
+							JOptionPane.showMessageDialog(popup,
+									"Deze naam is al bezet! kies een andere!",
+									"Bezet!", JOptionPane.WARNING_MESSAGE);
+							popup = null;
+						}
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
