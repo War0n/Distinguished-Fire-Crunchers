@@ -5,8 +5,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Formatter;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -19,7 +23,38 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class LoginScreen extends JPanel {
+	private static String encryptPassword(String password)
+	{
+	    String sha1 = "";
+	    try
+	    {
+	        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+	        crypt.reset();
+	        crypt.update(password.getBytes("UTF-8"));
+	        sha1 = byteToHex(crypt.digest());
+	    }
+	    catch(NoSuchAlgorithmException e)
+	    {
+	        e.printStackTrace();
+	    }
+	    catch(UnsupportedEncodingException e)
+	    {
+	        e.printStackTrace();
+	    }
+	    return sha1;
+	}
 
+	private static String byteToHex(final byte[] hash)
+	{
+	    Formatter formatter = new Formatter();
+	    for (byte b : hash)
+	    {
+	        formatter.format("%02x", b);
+	    }
+	    String result = formatter.toString();
+	    formatter.close();
+	    return result;
+	}
 	/**
 	 * 
 	 */
@@ -94,7 +129,7 @@ public class LoginScreen extends JPanel {
 						for(char c:passwordField.getPassword()){
 							password = password + c;
 						}
-						
+						password = encryptPassword(password);
 						if (rs.getInt(1) == 0) {
 
 							connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
@@ -128,6 +163,7 @@ public class LoginScreen extends JPanel {
 			}
 
 		});
+		
 		// Loginbutton ActionListener
 		loginButton.addActionListener(new ActionListener() {
 			private CompetitiesMenu competitieView;
@@ -140,6 +176,7 @@ public class LoginScreen extends JPanel {
 				for(char c:passwordField.getPassword()){
 					password = password + c;
 				}
+				password = encryptPassword(password);
 				rs = connect
 						.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
 								+ usernameField.getText()
