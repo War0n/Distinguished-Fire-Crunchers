@@ -10,17 +10,19 @@ public class Stone
 {
 	private char letter;
 	private BufferedImage img;
+	private boolean bLocked;
 	
 	public Stone(char letter)
 	{
 		this.letter = letter;
 		File imageFile = new File("src/images/"+ letter + ".png");
+		//File imageFile = new File("src/images/blank.png");
 		try {
 			img  = ImageIO.read(imageFile);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
 	}
 	
 	public char getLetter()
@@ -41,5 +43,15 @@ public class Stone
 	public BufferedImage getImage()
 	{
 		return img;
+	}
+	
+	public boolean getLocked()
+	{
+		return bLocked;
+	}
+	
+	public void setLocked(boolean locked)
+	{
+		bLocked = locked;
 	}
 }

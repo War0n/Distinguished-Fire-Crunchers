@@ -24,7 +24,7 @@ public class LoginScreen extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField usernameField;
-	private JPasswordField passwordField;
+	private JTextField passwordField;
 	private JPanel content;
 	private JLabel userLabel;
 	private JLabel passLabel;
@@ -32,6 +32,8 @@ public class LoginScreen extends JPanel {
 	private JButton loginButton;
 	private JButton registerButton;
 	private JFrame activeFrame;
+	private String curUser;
+	
 
 	public LoginScreen(JFrame frame) {
 		setMinimumSize(new Dimension(650, 750));
@@ -53,7 +55,7 @@ public class LoginScreen extends JPanel {
 		regLabel = new JLabel("");
 		regLabel.setForeground(Color.white);
 		usernameField.setMaximumSize(new Dimension(200, 20));
-		passwordField = new JPasswordField();
+		passwordField = new JTextField();
 		passLabel = new JLabel("Password:");
 		passLabel.setForeground(Color.white);
 		passwordField.setMaximumSize(new Dimension(200, 20));
@@ -85,7 +87,8 @@ public class LoginScreen extends JPanel {
 						connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
 								+ usernameField.getText()
 								+ "', 'user', '1', '"
-								+ passwordField.getPassword().toString() + "');");
+								+ passwordField.getText().toString()
+								+ "');");
 						connect.closeConnection();
 						usernameField.setText("");
 						passwordField.setText("");
@@ -103,19 +106,35 @@ public class LoginScreen extends JPanel {
 		});
 		// Loginbutton ActionListener
 		loginButton.addActionListener(new ActionListener() {
-			Connectie connect = new Connectie();
 			private CompetitiesMenu competitieView;
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				connect.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
-								+ usernameField.getText() + "'");
-				getParent();
-				competitieView = new CompetitiesMenu();
-				activeFrame.setContentPane(competitieView);
-				activeFrame.pack();
+				Connectie connect = new Connectie();
+				ResultSet rs;
+				rs = connect
+						.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
+								+ usernameField.getText()
+								+ "' AND password ='"
+								+ passwordField.getText().toString() + "' ");
+				try {
+					rs.next();
+					if (rs.getInt(1) == 1) {
+						curUser = usernameField.getText();
+						Account loggedin = new Account(curUser);
+						competitieView = new CompetitiesMenu();
+						activeFrame.setContentPane(competitieView);
+						activeFrame.pack();
+					} else {
+						regLabel.setText("Naam of Wachtwoord fouttief!");
+					}
+
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
-	}
 
+	}
 }

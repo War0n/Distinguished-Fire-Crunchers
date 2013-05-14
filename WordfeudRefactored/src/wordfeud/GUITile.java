@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -122,6 +121,18 @@ public class GUITile extends JPanel{
 		if( tile.getStone() != null )
 		{
 			g.drawImage(tile.getStone().getImage(), 0, 0, this);
+			
+			Font tmp = g.getFont();
+			LetterSet letterSet = new LetterSet("nl-NL");
+			
+			//g.drawImage(img, 0, 0, this);
+			
+			char[] c = new char[1];
+			c[0] = tile.getStone().getLetter();
+			g.setFont(tmp.deriveFont(32.0f));
+			g.drawChars(c, 0, 1, 8, 34);
+			g.setFont(tmp);
+			g.drawString(""+letterSet.getLetter(c[0]).getWaarde(), 28, 13);
 			this.tileLabel.setVisible(false);
 		}
 		else

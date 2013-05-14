@@ -62,7 +62,7 @@ public class LetterbakPanel extends JPanel
 		this.letterbak = letterbak;
 	}
 	
-	private class MyDragGestureListener implements DragGestureListener 
+	public class MyDragGestureListener implements DragGestureListener 
 	{
 
 	    @Override
@@ -70,6 +70,10 @@ public class LetterbakPanel extends JPanel
 	    {
 	        Cursor cursor = null;
 	        GUITile panel = (GUITile) event.getComponent();
+	        if(panel.getTile().getLocked() == true)
+	        {
+	        	return; // niet laten slepen als steen gepinned is.
+	        }
 
 	        if (event.getDragAction() == DnDConstants.ACTION_MOVE) 
 	        {
@@ -99,18 +103,35 @@ public class LetterbakPanel extends JPanel
 
 	            if (event.isDataFlavorSupported(flav)) 
 	            {
-	                event.acceptDrop(DnDConstants.ACTION_MOVE);
-	                this.tile.getTile().setStone(an.getTile().getStone());
-	                an.getTile().setStone(null);
-	                an.validate();
-	                an.repaint();
-	                event.dropComplete(true);
-	                this.tile.validate();
-	                this.tile.repaint();
+	            	if(this.tile.getTile().getStone() == null) // geen steen, dus leggen
+	            	{
+		                event.acceptDrop(DnDConstants.ACTION_MOVE);
+		                this.tile.getTile().setStone(an.getTile().getStone());
+		                an.getTile().setStone(null);
+		                an.validate();
+		                an.repaint();
+		                event.dropComplete(true);
+		                this.tile.validate();
+		                this.tile.repaint();
+	            	}
+	            	else // ligt al een steen, dus swappen?
+	            	{
+	            		if( this.tile.getTile().getLocked() == false )
+	            		{
+	            			Stone tmp = this.tile.getTile().getStone();
+	            			this.tile.getTile().setStone(an.getTile().getStone());
+			                an.getTile().setStone(tmp);
+			                an.validate();
+			                an.repaint();
+			                event.dropComplete(true);
+			                this.tile.validate();
+			                this.tile.repaint();
+	            		}
+	            	}
 	                return;
 	            }
 	            event.rejectDrop();
-	        } 
+	        }
 	        catch (Exception e) 
 	        {
 	            e.printStackTrace();

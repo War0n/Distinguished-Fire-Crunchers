@@ -79,5 +79,14 @@ public class SpelPanel extends JPanel{
 				cg.setState(JFrame.NORMAL);
 			}
 		});
+		
+		placeButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				speelVeld.lockField();
+			}
+		});
 	}
 }

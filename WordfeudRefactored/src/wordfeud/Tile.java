@@ -66,4 +66,22 @@ public class Tile
 	{
 		return type.equals(TileType.TYPE_START);
 	}
+	
+	// locked
+	public boolean getLocked()
+	{
+		if(steen != null)
+		{
+			return steen.getLocked();
+		}
+		return false;
+	}
+	
+	public void setLocked(boolean locked)
+	{
+		if(steen != null)
+		{
+			steen.setLocked(locked);
+		}
+	}
 }
