@@ -15,7 +15,7 @@ public class LetterSet
 		private int waarde;
 		private int aantal;
 		
-		public int getWaarde()
+		public int getWaarde()//
 		{
 			return waarde;
 		}

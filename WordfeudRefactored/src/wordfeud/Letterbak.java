@@ -9,7 +9,7 @@ public class Letterbak
 	public Letterbak()
 	{
 		stenen = new ArrayList<Stone>();
-		stenen.add(new Stone('A'));
+		stenen.add(new Stone('A'));//
 		stenen.add(new Stone('B'));
 		stenen.add(new Stone('C'));
 		stenen.add(new Stone('D'));

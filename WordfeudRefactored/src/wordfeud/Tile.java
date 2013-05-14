@@ -16,7 +16,7 @@ public class Tile
 	
 	public Tile()
 	{
-		this.type = TileType.TYPE_NONE;
+		this.type = TileType.TYPE_NONE;//
 		steen = null;
 	}
 	

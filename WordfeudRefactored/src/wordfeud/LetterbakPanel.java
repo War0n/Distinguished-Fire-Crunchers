@@ -27,7 +27,7 @@ public class LetterbakPanel extends JPanel
 	private Letterbak letterbak;
 	private ArrayList<GUITile> tiles;
 	
-	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");
+	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");//
 	
 	public LetterbakPanel(Letterbak letterbak) 
 	{

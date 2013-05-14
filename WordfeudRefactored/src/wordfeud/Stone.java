@@ -15,7 +15,7 @@ public class Stone
 	public Stone(char letter)
 	{
 		this.letter = letter;
-		File imageFile = new File("src/images/tile.png");
+		File imageFile = new File("src/images/tile.png");//
 		try {
 			img  = ImageIO.read(imageFile);
 		} catch (IOException e) {
