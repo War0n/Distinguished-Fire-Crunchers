@@ -73,6 +73,7 @@ public class CompetitiesMenu extends JPanel{
 		int idCompetitie = 0;
 		String eigenaar = null;
 		
+		//Haal alle competities op uit de db
 		rs = connect.voerSelectQueryUit("select * from Competities");
 		try {
 			while(rs.next())
@@ -81,8 +82,6 @@ public class CompetitiesMenu extends JPanel{
 				idCompetitie = rs.getInt("idCompetitie");
 				eigenaar = rs.getString("eigenaar");
 				
-			//Hier een for each loop met opgehaalde competities!!
-			//for(int i=1; i <= 30;i++){
 			JPanel comp = new JPanel();
 			comp.setMaximumSize(new Dimension(650,80));
 			comp.setPreferredSize(comp.getMaximumSize());
