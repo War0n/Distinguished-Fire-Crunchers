@@ -73,6 +73,7 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 		add(functies);
 		add(scrollPane);
 		aantalCompetities = 0;
+		alleEigenaren = "";
 		showCompetitions();
 	}
 	
