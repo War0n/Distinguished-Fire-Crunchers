@@ -103,7 +103,7 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 			competities.add(Box.createVerticalStrut(5));
 			competities.add(comp);
 			aantalCompetities++;
-			alleEigenaren += eigenaar;
+			alleEigenaren += eigenaar + ";";
 			
 			comp.addMouseListener(this);				
 			}
@@ -124,7 +124,7 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 		String eigenaar = curUser.getAccountNaam();
 		Connectie connect = new Connectie();
 		
-		if(!(alleEigenaren.contains(eigenaar))){
+		if(!(alleEigenaren.contains(eigenaar + ";"))){
 			connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Competities` (`idCompetitie`, `eigenaar`) VALUES ('" + (aantalCompetities + 1) + "', '" + eigenaar + "');");
 			connect.closeConnection();
 			alleEigenaren += eigenaar;
@@ -142,7 +142,7 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 			competities.add(Box.createVerticalStrut(5));
 			competities.add(comp);
 			aantalCompetities++;
-			alleEigenaren += eigenaar;
+			alleEigenaren += eigenaar + ";";
 			
 			comp.addMouseListener(this);
 			revalidate();
