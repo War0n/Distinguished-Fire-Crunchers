@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,6 +17,7 @@ public class GUIMenu extends JPanel {
 	private JLabel titel;
 	private JPanel head;
 	private JPanel menu;
+	private JButton Competitie;
 	private GUIMenuItem itemCompetitie;
 	private GUIMenuItem itemObserver;
 	private GUIMenuItem itemPWChange;
@@ -37,11 +39,13 @@ public class GUIMenu extends JPanel {
 		menu = new JPanel();
 		menu.setLayout(new BoxLayout(menu,BoxLayout.Y_AXIS));
 		menu.setBackground(this.getBackground());
+		Competitie = new JButton("Competities");
 		makeMenu();
 		
 		add(titel);
 		add(head);
 		add(menu);
+		add(Competitie);
 	}
 	
 	public void makeMenu(){

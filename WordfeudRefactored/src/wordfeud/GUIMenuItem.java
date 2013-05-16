@@ -12,6 +12,7 @@ public class GUIMenuItem extends JPanel{
 		setMaximumSize(new Dimension(650,80));
 		setPreferredSize(this.getMaximumSize());
 		setBackground(new Color(44,47,53));
+		
 	}
 
 }
