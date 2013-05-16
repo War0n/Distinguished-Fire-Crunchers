@@ -44,7 +44,8 @@ public class GUIMenu extends JPanel implements ActionListener{
 		
 		for(int i = 0; i < myButtons.size(); i++)
 		{
-			myButtons.get(i).setPreferredSize(new Dimension(650, 50));
+			myButtons.get(i).setPreferredSize(new Dimension(600, 50));
+			myButtons.get(i).addActionListener(this);
 			menu.add(myButtons.get(i));
 		}
 				
@@ -55,7 +56,21 @@ public class GUIMenu extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+		if(arg0.getSource().equals(competitieButton)){
+			
+		}
+		if(arg0.getSource().equals(observerButton)){
+			
+		}
+		if(arg0.getSource().equals(wachtwoordWijzigen)){
+			
+		}
+		if(arg0.getSource().equals(uitnodigingButton)){
+			
+		}
+		if(arg0.getSource().equals(stopButton)){
+			
+		}
 		
 	}
 	
