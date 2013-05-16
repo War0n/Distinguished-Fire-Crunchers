@@ -15,8 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
 public class ChatGUI  extends JFrame implements Observer{
 
@@ -29,7 +29,7 @@ public class ChatGUI  extends JFrame implements Observer{
 	private JPanel chatFrame;
 	private JPanel sendPanel;
 	private JLabel chatStatus;
-	private JTextArea chatHistory;
+	private JTextPane chatHistory;
 	private JTextField tekstVeld;
 	private JButton sendButton;
 	private Chat chat;
@@ -42,7 +42,8 @@ public class ChatGUI  extends JFrame implements Observer{
 		chatFrame = new JPanel();
 		sendPanel = new JPanel();
 		chatStatus = new JLabel("Chatten met: USERNAME");
-		chatHistory = new JTextArea();
+		chatHistory = new JTextPane();
+		chatHistory.setContentType("text/html");
 		tekstVeld = new JTextField();
 		sendButton = new JButton("Stuur");
 		chat = new Chat(game.getSpelId());
@@ -54,7 +55,7 @@ public class ChatGUI  extends JFrame implements Observer{
 		chatFrame.setLayout(new BorderLayout());
 		chatFrame.add(sendPanel,BorderLayout.SOUTH);
 		chatHistory.setForeground(Color.white);
-		chatHistory.setBackground(Color.BLUE);
+		chatHistory.setBackground(new Color(23,26,30));
 		chatFrame.add(chatHistory, BorderLayout.CENTER);
 		
 		statusBar.setMaximumSize(new Dimension(300,50));

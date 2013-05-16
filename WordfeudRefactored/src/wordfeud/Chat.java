@@ -1,10 +1,11 @@
 package wordfeud;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Observable;
 import java.sql.Blob;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 
 public class Chat extends Observable implements Runnable{
 
@@ -12,9 +13,11 @@ public class Chat extends Observable implements Runnable{
 	private ResultSet rs;
 	private String chatLines;
 	private Integer spelID;
+	private Format formatter;
 	
 	public Chat(int spelID){
 		this.spelID = spelID;
+		formatter = new SimpleDateFormat("dd-MM-yy KK:mm");
 		Thread chatThread = new Thread(this,"ChatThread");
 		chatThread.start();
 	}
@@ -28,23 +31,24 @@ public class Chat extends Observable implements Runnable{
 	public String getChatLines(int spelID){
 		connect = new Connectie();
 		rs = connect.voerSelectQueryUit("SELECT * FROM ChatRegels WHERE spel_id = "+ spelID);
-		chatLines = "";
+		chatLines = "<html style=\"margin:1px;\"><body style=\"color:white; font-family:Arial,verdana;\">";
 		try{
 
 		
 		while(rs.next())
 		{
-			String date = rs.getDate("datumtijd").toString();
+		String date = formatter.format(rs.getDate("datumtijd"));
 		String account=rs.getString("account_naam");
 		 Blob berichtBlob = rs.getBlob("bericht");
 		 byte[] bdata = berichtBlob.getBytes(1, (int) berichtBlob.length());
 		 String bericht = new String(bdata);
-		 chatLines = chatLines + System.lineSeparator() + date+ " " + account + ": " + bericht;
+		 chatLines = chatLines + date+ " <b>" + account + "</b>: " + bericht + "<br/>" ;
 		}
 
 		}catch(SQLException e){
 		            System.out.println("Error: " + e);
 		}
+		chatLines = chatLines + "</body></html>";
 		connect.closeConnection();
 		
 		this.setChanged();
