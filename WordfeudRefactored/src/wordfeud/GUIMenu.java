@@ -19,6 +19,7 @@ import javax.swing.SwingUtilities;
 public class GUIMenu extends JPanel implements ActionListener{
 
 	private JLabel titel;
+	private JLabel message;
 	private JPanel head;
 	private JPanel menu;
 	private JPanel blankSpace;
@@ -26,10 +27,13 @@ public class GUIMenu extends JPanel implements ActionListener{
 	private WFButton observerButton;
 	private WFButton wachtwoordWijzigen;
 	private WFButton uitnodigingButton;
+	private WFButton modButton;
 	private WFButton stopButton;
 	private ArrayList<WFButton> myButtons;
 	private GridLayout myGridLayout;
 	private CompetitiesMenu myCompetitiesMenu;
+	private ModeratorPanel myModPanel;
+	private static Account currentAccount;
 	
 	public GUIMenu(){
 		setMinimumSize(new Dimension(650,750));
@@ -40,6 +44,9 @@ public class GUIMenu extends JPanel implements ActionListener{
 		titel.setForeground(Color.white);
 		titel.setFont(new Font("Arial",Font.BOLD,40));
 		titel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		message = new JLabel("");
+		message.setAlignmentX(Component.CENTER_ALIGNMENT);
+		message.setForeground(Color.RED);
 		head =  new JPanel();
 		head.setBackground(this.getBackground());
 		head.setMinimumSize(new Dimension(650,125));
@@ -59,11 +66,13 @@ public class GUIMenu extends JPanel implements ActionListener{
 		observerButton = new WFButton("Observeren");
 		wachtwoordWijzigen = new WFButton("Wachtwoord wijzigen");
 		stopButton = new WFButton("Spel Stoppen");
+		modButton = new WFButton("Moderator scherm bekijken");
 		myButtons = new ArrayList<WFButton>();
 		
 		myButtons.add(competitieButton);
 		myButtons.add(uitnodigingButton);
 		myButtons.add(observerButton);
+		myButtons.add(modButton);
 		myButtons.add(wachtwoordWijzigen);
 		myButtons.add(stopButton);
 
@@ -74,6 +83,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		}
 				
 		add(titel);
+		add(message);
 		add(head);
 		add(menu);
 		add(blankSpace);
@@ -88,6 +98,16 @@ public class GUIMenu extends JPanel implements ActionListener{
 		if(arg0.getSource().equals(observerButton)){
 			
 		}
+		if(arg0.getSource().equals(modButton)){
+			currentAccount = new Account();
+			if(currentAccount.checkModerator(currentAccount.getAccountNaam()))
+			{
+				myModPanel = new ModeratorPanel();
+				setParentContentPane(myModPanel);
+			}else{
+				message.setText("Je bent geen moderator!");
+			}
+		}
 		if(arg0.getSource().equals(wachtwoordWijzigen)){
 			
 		}
@@ -96,8 +116,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		}
 		if(arg0.getSource().equals(stopButton)){
 			System.exit(0);
-		}
-		
+		}		
 	}
 	
 	public void setParentContentPane(JPanel contentPane){
