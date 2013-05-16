@@ -16,6 +16,10 @@ public class Account {
 		return accountNaam;
 	}
 	
+	public static void setAccountNaam(String loginNaam){
+		Account.accountNaam = loginNaam;
+	}
+	
 	public boolean checkModerator(String accountNaam)
 	{
 		Connectie connect = new Connectie();
