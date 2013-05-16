@@ -3,13 +3,15 @@ package wordfeud;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GUIMenu extends JPanel {
+public class GUIMenu extends JPanel implements ActionListener{
 
 	private JLabel titel;
 	private JPanel head;
@@ -40,11 +42,21 @@ public class GUIMenu extends JPanel {
 		menu.setMinimumSize(new Dimension(650,700));
 		menu.setPreferredSize(menu.getMinimumSize());
 		
-		
-		
+		for(int i = 0; i < myButtons.size(); i++)
+		{
+			myButtons.get(i).setPreferredSize(new Dimension(650, 50));
+			menu.add(myButtons.get(i));
+		}
+				
 		add(titel);
 		add(head);
 		add(menu);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
