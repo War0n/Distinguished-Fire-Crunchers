@@ -1,5 +1,7 @@
 package wordfeud;
 
+import java.util.Random;
+
 public class Spel
 {
 	private Bord bord; 
@@ -12,6 +14,7 @@ public class Spel
 		bord = new Bord();
 		letterbak = new Letterbak();
 		letterSet = new LetterSet("nl-NL"); // Nederlands? :)
+		spelID = new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
 	}
 	
 	public LetterSet getLetterSet()
