@@ -3,25 +3,23 @@ package wordfeud;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 public class GUIMenu extends JPanel {
 
 	private JLabel titel;
 	private JPanel head;
 	private JPanel menu;
-	private JButton Competitie;
-	private GUIMenuItem itemCompetitie;
-	private GUIMenuItem itemObserver;
-	private GUIMenuItem itemPWChange;
-	private GUIMenuItem itemExit;
+	private WFButton competitieButton;
+	private WFButton observerButton;
+	private WFButton wachtwoordWijzigen;
+	private WFButton uitnodigingButton;
+	private WFButton stopButton;
+	private ArrayList<WFButton> myButtons;
 	
 	public GUIMenu(){
 		setMinimumSize(new Dimension(650,750));
@@ -33,49 +31,20 @@ public class GUIMenu extends JPanel {
 		titel.setFont(new Font("Arial",Font.BOLD,30));
 		head =  new JPanel();
 		head.setBackground(this.getBackground());
-		head.setMaximumSize(new Dimension(650,50));
-		head.setPreferredSize(head.getMaximumSize());
+		head.setMinimumSize(new Dimension(650,50));
+		head.setPreferredSize(head.getMinimumSize());
 		head.add(titel);
 		menu = new JPanel();
 		menu.setLayout(new BoxLayout(menu,BoxLayout.Y_AXIS));
 		menu.setBackground(this.getBackground());
-		Competitie = new JButton("Competities");
-		makeMenu();
+		menu.setMinimumSize(new Dimension(650,700));
+		menu.setPreferredSize(menu.getMinimumSize());
+		
+		
 		
 		add(titel);
 		add(head);
 		add(menu);
-		add(Competitie);
 	}
-	
-	public void makeMenu(){
-		itemCompetitie	= new GUIMenuItem();
-		itemObserver 	= new GUIMenuItem();
-		itemPWChange	= new GUIMenuItem();
-		itemExit 		= new GUIMenuItem();
-		
-		JLabel txtcomp = new JLabel("Competie overzicht");
-		txtcomp.setForeground(Color.white);
-		itemCompetitie.add(txtcomp);
-		
-		JLabel txtobs = new JLabel("Obeserver");
-		txtcomp.setForeground(Color.white);
-		itemObserver.add(txtobs);
-		
-		JLabel txtpwc = new JLabel("Wijzig wachtwoord");
-		txtcomp.setForeground(Color.white);
-		itemPWChange.add(txtpwc);
-	
-		JLabel txtex = new JLabel("Exit");
-		txtcomp.setForeground(Color.white);
-		itemExit.add(txtex);
-		
-		menu.add(itemCompetitie);
-		menu.add(itemObserver);
-		menu.add(itemPWChange);
-		menu.add(itemExit);
-	}
-
-
 	
 }
