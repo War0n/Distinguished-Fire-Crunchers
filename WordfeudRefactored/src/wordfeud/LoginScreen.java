@@ -69,6 +69,7 @@ public class LoginScreen extends JPanel {
 	private JButton registerButton;
 	private JFrame activeFrame;
 	private String curUser;
+	private GUIMenu myGuiMenu;
 	JFrame popup = null;
 
 	public LoginScreen(JFrame frame) {
@@ -95,6 +96,7 @@ public class LoginScreen extends JPanel {
 		passLabel = new JLabel("Password:");
 		passLabel.setForeground(Color.white);
 		passwordField.setMaximumSize(new Dimension(200, 20));
+		myGuiMenu = new GUIMenu();
 
 		content.add(Box.createHorizontalGlue());
 		content.add(userLabel);
@@ -189,7 +191,7 @@ public class LoginScreen extends JPanel {
 							//Hier veranderd
 							Account.setAccountNaam(curUser);
 							menuView = new GUIMenu();
-							activeFrame.setContentPane(menuView);
+							activeFrame.setContentPane(myGuiMenu);
 							activeFrame.pack();
 						} else {
 							regLabel.setText("Naam of Wachtwoord fouttief!");
