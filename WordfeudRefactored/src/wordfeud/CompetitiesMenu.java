@@ -35,7 +35,7 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 	private JScrollPane scrollPane;
 	private JButton inviteButton;
 	private Connectie connect;
-	private Account curUser;
+	private static Account curUser;
 	private String alleEigenaren;
 	private int aantalCompetities;
 	private JFrame popup = null;
