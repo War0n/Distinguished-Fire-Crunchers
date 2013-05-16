@@ -166,7 +166,7 @@ public class LoginScreen extends JPanel {
 		
 		// Loginbutton ActionListener
 		loginButton.addActionListener(new ActionListener() {
-			private CompetitiesMenu competitieView;
+			private GUIMenu menuView;
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -188,8 +188,8 @@ public class LoginScreen extends JPanel {
 							curUser = usernameField.getText();
 							//Hier veranderd
 							Account.setAccountNaam(curUser);
-							competitieView = new CompetitiesMenu();
-							activeFrame.setContentPane(competitieView);
+							menuView = new GUIMenu();
+							activeFrame.setContentPane(menuView);
 							activeFrame.pack();
 						} else {
 							regLabel.setText("Naam of Wachtwoord fouttief!");

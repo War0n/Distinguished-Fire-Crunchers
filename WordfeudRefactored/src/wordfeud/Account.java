@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Account {
-//TEST
 	private static String accountNaam;
 		
 	public static String getAccountNaam(){
