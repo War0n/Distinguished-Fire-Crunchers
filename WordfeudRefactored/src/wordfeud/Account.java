@@ -19,7 +19,7 @@ public class Account {
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;
 		
-		myResultSet = connect.voerSelectQueryUit("SELECT rol From Accounts WHERE naam = " + accountNaam + ";");
+		myResultSet = connect.voerSelectQueryUit("SELECT rol From Accounts WHERE naam = '" + accountNaam + "';");
 		
 		try {
 			while(myResultSet.next())
