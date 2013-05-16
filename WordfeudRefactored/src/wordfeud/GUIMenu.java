@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 public class GUIMenu extends JPanel implements ActionListener{
@@ -20,6 +21,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 	private JLabel titel;
 	private JPanel head;
 	private JPanel menu;
+	private JPanel blankSpace;
 	private WFButton competitieButton;
 	private WFButton observerButton;
 	private WFButton wachtwoordWijzigen;
@@ -36,18 +38,21 @@ public class GUIMenu extends JPanel implements ActionListener{
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		titel = new JLabel("Menu");
 		titel.setForeground(Color.white);
-		titel.setFont(new Font("Arial",Font.BOLD,30));
+		titel.setFont(new Font("Arial",Font.BOLD,40));
 		titel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		head =  new JPanel();
 		head.setBackground(this.getBackground());
-		head.setMinimumSize(new Dimension(650,50));
+		head.setMinimumSize(new Dimension(650,125));
 		head.setPreferredSize(head.getMinimumSize());
 		head.add(titel);
 		menu = new JPanel();
-		menu.setPreferredSize(new Dimension(650,700));
+		menu.setPreferredSize(new Dimension(650,500));
 		myGridLayout = new GridLayout(0,1,0,20);
 		menu.setLayout(myGridLayout);
 		menu.setBackground(this.getBackground());
+		blankSpace = new JPanel();
+		blankSpace.setPreferredSize(new Dimension(650,125));
+		blankSpace.setBackground(this.getBackground());
 				
 		competitieButton = new WFButton("Competities openen");
 		uitnodigingButton = new WFButton("Uitnodigingen bekijken");
@@ -71,6 +76,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		add(titel);
 		add(head);
 		add(menu);
+		add(blankSpace);
 	}
 
 	@Override
