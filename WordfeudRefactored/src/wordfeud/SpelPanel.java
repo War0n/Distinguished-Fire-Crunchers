@@ -45,7 +45,7 @@ public class SpelPanel extends JPanel{
 		placeButton.setForeground(Color.white);
 		chatButton.setBackground(new Color(44,47,53));
 		chatButton.setForeground(Color.white);
-		cg = new ChatGUI(spel, new Account("NAAM"));
+		cg = new ChatGUI(spel);
 		cg.setVisible(false);
 		chat.addObserver(cg);
 		

@@ -183,18 +183,18 @@ public class LoginScreen extends JPanel {
 								+ "' AND password ='"
 								+ password + "' ");
 				try {
-					rs.next();
-					if (rs.getInt(1) == 1) {
-						curUser = usernameField.getText();
-						//Hier veranderd
-						Account.setAccountNaam(curUser);
-						competitieView = new CompetitiesMenu();
-						activeFrame.setContentPane(competitieView);
-						activeFrame.pack();
-					} else {
-						regLabel.setText("Naam of Wachtwoord fouttief!");
+					if(rs.next()){
+						if (rs.getInt(1) == 1) {
+							curUser = usernameField.getText();
+							//Hier veranderd
+							Account.setAccountNaam(curUser);
+							competitieView = new CompetitiesMenu();
+							activeFrame.setContentPane(competitieView);
+							activeFrame.pack();
+						} else {
+							regLabel.setText("Naam of Wachtwoord fouttief!");
+						}
 					}
-
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

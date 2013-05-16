@@ -1,5 +1,6 @@
 package wordfeud;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Observable;
@@ -33,11 +34,12 @@ public class Chat extends Observable implements Runnable{
 		
 		while(rs.next())
 		{
+			String date = rs.getDate("datumtijd").toString();
 		String account=rs.getString("account_naam");
 		 Blob berichtBlob = rs.getBlob("bericht");
 		 byte[] bdata = berichtBlob.getBytes(1, (int) berichtBlob.length());
 		 String bericht = new String(bdata);
-		 chatLines = chatLines + System.lineSeparator() + account + ": " + bericht;
+		 chatLines = chatLines + System.lineSeparator() + date+ " " + account + ": " + bericht;
 		}
 
 		}catch(SQLException e){

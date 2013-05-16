@@ -35,7 +35,7 @@ public class ChatGUI  extends JFrame implements Observer{
 	private Chat chat;
 	private Spel game;
 	
-	public ChatGUI(Spel game, Account account){
+	public ChatGUI(Spel game){
 		this.setTitle("Chatvenster");
 		this.game = game;
 		statusBar = new JPanel();
@@ -88,6 +88,7 @@ public class ChatGUI  extends JFrame implements Observer{
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				chat.addChatLine(game.getSpelId(), Account.getAccountNaam(), tekstVeld.getText());
+				tekstVeld.setText("");
 			}
 		});
 		
@@ -97,6 +98,7 @@ public class ChatGUI  extends JFrame implements Observer{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				chat.addChatLine(game.getSpelId(), Account.getAccountNaam(), tekstVeld.getText());	
+				tekstVeld.setText("");
 			}
 		});
 	}
