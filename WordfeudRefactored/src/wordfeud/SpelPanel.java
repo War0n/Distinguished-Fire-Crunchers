@@ -29,8 +29,8 @@ public class SpelPanel extends JPanel{
 	private JButton chatButton;
 	
 	public SpelPanel() {
-		chat = new Chat();
 		spel = new Spel();
+		chat = new Chat(spel.getSpelId());
 		setMinimumSize(new Dimension(650,750));
 		setPreferredSize(getMinimumSize());
 		swapButton = new JButton("Swap");

@@ -186,6 +186,7 @@ public class LoginScreen extends JPanel {
 					rs.next();
 					if (rs.getInt(1) == 1) {
 						curUser = usernameField.getText();
+						//Hier veranderd
 						Account.setAccountNaam(curUser);
 						competitieView = new CompetitiesMenu();
 						activeFrame.setContentPane(competitieView);
