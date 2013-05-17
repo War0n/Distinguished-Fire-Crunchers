@@ -7,6 +7,9 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -21,7 +24,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 public class LoginScreen extends JPanel {
 	private static String encryptPassword(String password) {
@@ -136,10 +141,17 @@ public class LoginScreen extends JPanel {
 
 		content.add(loginpanel);
 		content.add(registerpanel);
-
 		add(content);
 		content.add(Box.createHorizontalGlue());
-
+		passwordField.addKeyListener(new KeyAdapter() {
+			@SuppressWarnings("unused")
+			public void KeyPressed(KeyEvent e) {
+				if (e.getKeyCode()==(KeyEvent.VK_ENTER)) {
+					System.out.println("het werkt ongeveer");
+					clickLogin();
+				}
+			}
+		});
 		registerButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -234,6 +246,12 @@ public class LoginScreen extends JPanel {
 				}
 			}
 		});
+
+	}
+
+	public void clickLogin() {
+
+		loginButton.doClick();
 
 	}
 }
