@@ -35,7 +35,6 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 	private JScrollPane scrollPane;
 	private JButton inviteButton;
 	private Connectie connect;
-	private static Account curUser;
 	private String alleEigenaren;
 	private int aantalCompetities;
 	private JFrame popup = null;
@@ -123,7 +122,7 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 		//Zo niet maak een competitie aan met id onderste rij id + 1
 		//en de eigenaar is curUser
 		
-		String eigenaar = curUser.getAccountNaam();
+		String eigenaar = Account.getAccountNaam();
 		Connectie connect = new Connectie();
 		
 		if(!(alleEigenaren.contains(eigenaar + ";"))){

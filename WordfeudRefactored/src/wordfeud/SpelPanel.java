@@ -1,13 +1,17 @@
 package wordfeud;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 
 public class SpelPanel extends JPanel{
@@ -18,33 +22,33 @@ public class SpelPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private Spel spel;
 	private BordPanel speelVeld; 
+	private JPanel leftBottomContainer;
+	private JPanel scores;
+	private JLabel score;
 	private FunctionPanel functiepanel;
 	private LetterbakPanel letterbak;
 	private ChatGUI cg;
 	private Chat chat;
 	private ButtonPanel buttons;
-	private JButton swapButton;
-	private JButton skipButton;
-	private JButton placeButton;
-	private JButton chatButton;
+	private WFButton swapButton;
+	private WFButton skipButton;
+	private WFButton placeButton;
+	private WFButton chatButton;
+	private WFButton backButton;
 	
 	public SpelPanel() {
 		spel = new Spel();
 		chat = new Chat(spel.getSpelId());
 		setMinimumSize(new Dimension(650,750));
 		setPreferredSize(getMinimumSize());
-		swapButton = new JButton("Swap");
-		skipButton = new JButton("Skip");
-		placeButton = new JButton("Play");
-		chatButton = new JButton("Chat");
-		swapButton.setBackground(new Color(44,47,53));
-		swapButton.setForeground(Color.white);
-		skipButton.setBackground(new Color(44,47,53));
-		skipButton.setForeground(Color.white);
-		placeButton.setBackground(new Color(44,47,53));
-		placeButton.setForeground(Color.white);
-		chatButton.setBackground(new Color(44,47,53));
-		chatButton.setForeground(Color.white);
+		swapButton = new WFButton("Swap");
+		skipButton = new WFButton("Skip");
+		placeButton = new WFButton("Play");
+		chatButton = new WFButton("Chat");
+		backButton = new WFButton("< Terug");
+		score = new JLabel("Scoreveld hier");
+		score.setForeground(Color.white);
+		
 		cg = new ChatGUI(spel);
 		cg.setVisible(false);
 		chat.addObserver(cg);
@@ -62,11 +66,28 @@ public class SpelPanel extends JPanel{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		speelVeld = new BordPanel(spel.getBord());
 		functiepanel = new FunctionPanel();
+		leftBottomContainer = new JPanel();
+		scores = new JPanel();
+		scores.setLayout(new BorderLayout());
+		scores.setBackground(letterbak.getBackground());
+		scores.setMaximumSize(new Dimension(600,50));
+		
+		leftBottomContainer.setLayout(new BoxLayout(leftBottomContainer,BoxLayout.PAGE_AXIS));
 		this.add(speelVeld);
-		functiepanel.add(letterbak);
+		scores.add(backButton,BorderLayout.WEST);
+		scores.add(score,BorderLayout.EAST);
+		leftBottomContainer.add(letterbak);
+		leftBottomContainer.add(scores);
+		functiepanel.add(leftBottomContainer);
 		functiepanel.add(buttons);
 		this.add(functiepanel);
 //		System.out.println("Spel Compiler Done!");
+	}
+	
+	public void setParentContentPane(JPanel contentPane){
+		JFrame root = (JFrame) SwingUtilities.getWindowAncestor(this);
+		root.setContentPane(contentPane);
+		root.pack();
 	}
 	
 	public void initButtons(){
@@ -86,6 +107,16 @@ public class SpelPanel extends JPanel{
 			public void actionPerformed(ActionEvent arg0)
 			{
 				speelVeld.lockField();
+			}
+		});
+		
+		
+		backButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				setParentContentPane(new CompetitiesMenu());
 			}
 		});
 	}
