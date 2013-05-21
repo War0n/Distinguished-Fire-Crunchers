@@ -13,11 +13,15 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 public class GUIMenu extends JPanel implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private JLabel titel;
 	private JLabel message;
 	private JPanel head;
@@ -33,7 +37,6 @@ public class GUIMenu extends JPanel implements ActionListener{
 	private GridLayout myGridLayout;
 	private CompetitiesMenu myCompetitiesMenu;
 	private Moderatoe myModPanel;
-	private static Account currentAccount;
 	
 	public GUIMenu(){
 		setMinimumSize(new Dimension(650,750));
@@ -99,8 +102,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 			
 		}
 		if(arg0.getSource().equals(modButton)){
-			currentAccount = new Account();
-			if(currentAccount.checkModerator(currentAccount.getAccountNaam()))
+			if(Account.checkModerator(Account.getAccountNaam()))
 			{
 				myModPanel = new Moderatoe();
 				setParentContentPane(myModPanel);

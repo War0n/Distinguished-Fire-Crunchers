@@ -6,6 +6,11 @@ import javax.swing.JButton;
 
 public class WFButton extends JButton {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public WFButton(String text){
 		super();
 		this.setText(text);

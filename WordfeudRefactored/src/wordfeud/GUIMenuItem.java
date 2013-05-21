@@ -8,6 +8,11 @@ import javax.swing.JPanel;
 
 public class GUIMenuItem extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public GUIMenuItem() {
 		setMaximumSize(new Dimension(650,80));
 		setPreferredSize(this.getMaximumSize());

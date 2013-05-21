@@ -5,16 +5,20 @@ import java.sql.SQLException;
 
 public class Account {
 	private static String accountNaam;
+	
+	private Account() // private constructor
+	{
+	}
 		
 	public static String getAccountNaam(){
 		return accountNaam;
 	}
 	
 	public static void setAccountNaam(String loginNaam){
-		Account.accountNaam = loginNaam;
+		accountNaam = loginNaam;
 	}
 	
-	public boolean checkModerator(String accountNaam)
+	public static boolean checkModerator(String accountNaam)
 	{
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;
