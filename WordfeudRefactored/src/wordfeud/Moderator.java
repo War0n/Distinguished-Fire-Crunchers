@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -21,6 +20,11 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 public class Moderator extends JPanel implements ActionListener{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private JButton acceptWord;
 	private JButton declineWord;
