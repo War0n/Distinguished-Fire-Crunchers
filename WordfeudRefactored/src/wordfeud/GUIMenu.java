@@ -32,7 +32,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 	private ArrayList<WFButton> myButtons;
 	private GridLayout myGridLayout;
 	private CompetitiesMenu myCompetitiesMenu;
-	private Moderatoe myModPanel;
+	private Moderator myModPanel;
 	private static Account currentAccount;
 	
 	public GUIMenu(){
@@ -102,7 +102,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 			currentAccount = new Account();
 			if(currentAccount.checkModerator(currentAccount.getAccountNaam()))
 			{
-				myModPanel = new Moderatoe();
+				myModPanel = new Moderator();
 				setParentContentPane(myModPanel);
 			}else{
 				message.setText("Je bent geen moderator!");
