@@ -10,6 +10,7 @@ public class Admin extends Observable {
 	private Connectie connect;
 	private ResultSet namenRS;
 	private ResultSet gegevensRS;
+	private ArrayList<String[]> gegevens;
 	private ArrayList<String> namen;
 	
 	public Admin(){
@@ -30,10 +31,23 @@ public class Admin extends Observable {
 			connect.closeConnection();
 	}
 	
-	public void getInfo(String naam){
+	public String[] getInfo(String naam){
 		connect = new Connectie();
 		gegevensRS = connect.voerSelectQueryUit("SELECT * from Accounts WHERE naam = " + naam);
-		
+		String[] rij = new String[4];
+		try {
+			while(gegevensRS.next()){
+				rij[0] = gegevensRS.getString("naam");
+				rij[1]= gegevensRS.getString("rol");
+				rij[2] = gegevensRS.getString("geaccepteerd");
+				rij[3]= gegevensRS.getString("password");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		connect.closeConnection();
+		return rij;
 	}
 
 }

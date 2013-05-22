@@ -12,6 +12,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -58,28 +59,48 @@ public class GUIAdmin extends JPanel implements Observer{
 		
 		admin = new Admin();
 		admin.addObserver(this);
+		
+		
+		add(titel);
+		add(message);
+		add(head);
+//		add(menu);
+//		add(blankSpace);
+		
 	}
 
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
+		System.out.println("BUTTON TOEGEVOEGD");
 		ArrayList<String> namen = (ArrayList<String>)arg1;
 		displayNamen(namen);
 	}
 	
 	public void displayNamen(ArrayList<String> namen){
+
 		for(String naam:namen){
 		WFButton naamButton = new WFButton(naam);
-		this.add(naamButton);
 		naamButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 					JFrame popup = new JFrame();	
-					//JOptionPane.showMessageDialog(popup, e)
+					JButton srcButton = (JButton) e.getSource();
+					String[] data = admin.getInfo(srcButton.getText());
+					String verzamelData = "";
+					for(String gegeven:data){
+						verzamelData = verzamelData + gegeven + System.lineSeparator();
+					}
+					
+					JOptionPane.showMessageDialog(popup,
+							verzamelData, "Gegevens van: " + data[0],
+							JOptionPane.QUESTION_MESSAGE);
 			}
 		});
 		
+		this.add(naamButton);
+
 		}
 	}
 
