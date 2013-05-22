@@ -76,7 +76,7 @@ public class GUIAdmin extends JPanel implements Observer{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 					JFrame popup = new JFrame();	
-					JOptionPane.showMessageDialog(popup, e)
+					//JOptionPane.showMessageDialog(popup, e)
 			}
 		});
 		

@@ -27,7 +27,7 @@ public class Admin extends Observable {
 		}
 		setChanged();
 		notifyObservers(namen);
-		connect.closeConnection();
+			connect.closeConnection();
 	}
 	
 	public void getInfo(String naam){
