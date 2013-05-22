@@ -2,6 +2,7 @@ package wordfeud;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -31,7 +32,8 @@ public class BordPanel extends JPanel
 		this.setSpeelVeld(speelVeld);
 		setLayout(new GridLayout(15,15,2,2));
 		setBackground(new Color(23,26,30));
-		
+		setMaximumSize(new Dimension(630,630));
+		setPreferredSize(getMaximumSize());
 		tiles = new GUITile[15][15];
 		
 		for(int y = 0; y < 15; y++)

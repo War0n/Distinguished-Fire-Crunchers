@@ -1,5 +1,9 @@
 package wordfeud;
 
+import java.awt.Dimension;
+
+import javax.tools.DiagnosticCollector;
+
 public class Bord
 {
 	private String name;
