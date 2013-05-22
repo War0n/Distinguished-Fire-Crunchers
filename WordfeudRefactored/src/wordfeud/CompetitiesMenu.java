@@ -37,14 +37,16 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 	private Connectie connect;
 	private String alleEigenaren;
 	private int aantalCompetities;
+	private boolean observerMode;
 	private JFrame popup = null;
 	
-	public CompetitiesMenu() {
+	public CompetitiesMenu(boolean observerMode) {
 		// TODO Auto-generated constructor stub
 		setMinimumSize(new Dimension(650,750));
 		setPreferredSize(getMinimumSize());
 		setBackground(new Color(23,26,30));
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+		this.observerMode = observerMode;
 		inviteButton = new JButton("Competitie aanmaken");
 		inviteButton.addActionListener(this);
 		titel = new JLabel("Competitieoverzicht");
@@ -165,8 +167,11 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		SpelPanel gameOfWordfeud = new SpelPanel();
-		setParentContentPane(gameOfWordfeud);
+		if (!observerMode){
+			setParentContentPane(new SpelPanel());
+		} else {
+			setParentContentPane(new ObserverGUI());
+		}
 	}
 	
 	@Override

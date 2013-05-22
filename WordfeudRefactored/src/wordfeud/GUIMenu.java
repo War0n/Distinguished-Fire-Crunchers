@@ -96,11 +96,11 @@ public class GUIMenu extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource().equals(competitieButton)){
-			myCompetitiesMenu = new CompetitiesMenu();
+			myCompetitiesMenu = new CompetitiesMenu(false);
 			setParentContentPane(myCompetitiesMenu);
 		}
 		if(arg0.getSource().equals(observerButton)){
-			setParentContentPane(new ObserverGUI());
+			setParentContentPane(new CompetitiesMenu(true));
 		}
 		if(arg0.getSource().equals(modButton)){
 			if(Account.checkModerator(Account.getAccountNaam()))
