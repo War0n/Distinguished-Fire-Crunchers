@@ -37,6 +37,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 	private GridLayout myGridLayout;
 	private CompetitiesMenu myCompetitiesMenu;
 	private Moderator myModPanel;
+	private GUIModerator myGUIModerator;
 	
 	public GUIMenu(){
 		setMinimumSize(new Dimension(650,750));
@@ -104,8 +105,8 @@ public class GUIMenu extends JPanel implements ActionListener{
 		if(arg0.getSource().equals(modButton)){
 			if(Account.checkModerator(Account.getAccountNaam()))
 			{
-				myModPanel = new Moderator();
-				setParentContentPane(myModPanel);
+				myGUIModerator = new GUIModerator();
+				Moderator myModerator = new Moderator(myGUIModerator);
 			}else{
 				message.setText("Je bent geen moderator!");
 			}
