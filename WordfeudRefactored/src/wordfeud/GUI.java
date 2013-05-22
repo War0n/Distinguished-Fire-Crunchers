@@ -18,17 +18,15 @@ public class GUI extends JFrame {
 	public GUI()
 	{
 		loginScreen = new LoginScreen(this);
-		setCompetitieView(new CompetitiesMenu());
+		setCompetitieView(new CompetitiesMenu(true));
 		image = new ImageIcon("src/images/wordfeud.png");
 		setIconImage(image.getImage());
 		this.setContentPane(loginScreen);
-		//this.setContentPane(competitieView);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Woordje Leggen Niemand Zeggen");
 		this.setResizable(false);
 		
 		setCompetitie(new Competitie());
-		//this.setContentPane(createCompetition);
 		
 		this.validate();
 		this.pack();

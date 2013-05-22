@@ -17,6 +17,7 @@ public class ObserverGUI extends JPanel{
 		private BordPanel speelVeld; 
 		private JPanel leftBottomContainer;
 		private JPanel scores;
+		private JPanel filler;
 		private JLabel score;
 		private WFButton backButton;
 		
@@ -34,9 +35,11 @@ public class ObserverGUI extends JPanel{
 			leftBottomContainer = new JPanel();
 			backButton = new WFButton("< Terug");
 			scores = new JPanel();
+			filler = new JPanel();
 			scores.setLayout(new BorderLayout());
-			scores.setBackground(getBackground());
-			scores.setMaximumSize(new Dimension(600,50));
+			scores.setBackground(new Color(23,26,30));
+			filler.setBackground(new Color(23,26,30));
+			scores.setMaximumSize(new Dimension(800,50));
 			
 			leftBottomContainer.setLayout(new BoxLayout(leftBottomContainer,BoxLayout.PAGE_AXIS));
 			this.add(speelVeld);
@@ -44,6 +47,8 @@ public class ObserverGUI extends JPanel{
 			scores.add(score,BorderLayout.EAST);
 			leftBottomContainer.add(scores);
 			initButtons();
+			
+			add(filler);
 			add(leftBottomContainer);
 		}
 		
@@ -60,7 +65,7 @@ public class ObserverGUI extends JPanel{
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO Auto-generated method stub
-					setParentContentPane(new CompetitiesMenu());
+					setParentContentPane(new CompetitiesMenu(true));
 				}
 			});
 		}

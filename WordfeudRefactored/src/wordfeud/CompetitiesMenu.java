@@ -22,7 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 
-public class CompetitiesMenu extends JPanel implements MouseListener, ActionListener{
+public class CompetitiesMenu extends JPanel  implements MouseListener,ActionListener{
 	
 	/**
 	 * 
@@ -33,19 +33,24 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 	private JPanel functies; 
 	private JPanel competities;
 	private JScrollPane scrollPane;
-	private JButton inviteButton;
+	private WFButton inviteButton;
+	private WFButton backButton;
 	private Connectie connect;
 	private String alleEigenaren;
 	private int aantalCompetities;
+	private boolean observerMode;
 	private JFrame popup = null;
 	
-	public CompetitiesMenu() {
+	public CompetitiesMenu(boolean observerMode) {
 		// TODO Auto-generated constructor stub
 		setMinimumSize(new Dimension(650,750));
 		setPreferredSize(getMinimumSize());
 		setBackground(new Color(23,26,30));
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-		inviteButton = new JButton("Competitie aanmaken");
+		this.observerMode = observerMode;
+		backButton = new WFButton("< Terug naar menu");
+		backButton.addActionListener(this);
+		inviteButton = new WFButton("Competitie aanmaken");
 		inviteButton.addActionListener(this);
 		titel = new JLabel("Competitieoverzicht");
 		titel.setForeground(Color.white);
@@ -56,10 +61,11 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 		head.setPreferredSize(head.getMaximumSize());
 		head.add(titel);
 		functies = new JPanel();
-		functies.setBackground(new Color(156,71,26));
+		functies.setBackground(new Color(29,144,160));
 		functies.setMaximumSize(new Dimension(650,40));
 		functies.setPreferredSize(functies.getMaximumSize());
 		functies.setLayout(new FlowLayout());
+		functies.add(backButton);
 		functies.add(inviteButton);
 		competities = new JPanel();
 		competities.setLayout(new BoxLayout(competities,BoxLayout.Y_AXIS));
@@ -164,9 +170,12 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		SpelPanel gameOfWordfeud = new SpelPanel();
-		setParentContentPane(gameOfWordfeud);
+		// TODO Auto-generated method stub	
+			if (!observerMode){
+				setParentContentPane(new SpelPanel());
+			} else {
+				setParentContentPane(new ObserverGUI());
+			}
 	}
 	
 	@Override
@@ -196,7 +205,12 @@ public class CompetitiesMenu extends JPanel implements MouseListener, ActionList
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		addCompetition();
+		if(arg0.getSource().equals(inviteButton)){
+			addCompetition();
+		} else if(arg0.getSource().equals(backButton)){
+			setParentContentPane(new GUIMenu());
+		}
+		
 	}
 
 }

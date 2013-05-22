@@ -37,8 +37,8 @@ public class SpelPanel extends JPanel{
 	public SpelPanel() {
 		spel = new Spel();
 		chat = new Chat(spel.getSpelId());
-		setMinimumSize(new Dimension(650,750));
-		setPreferredSize(getMinimumSize());
+		setMaximumSize(new Dimension(650,750));
+		setPreferredSize(getMaximumSize());
 		swapButton = new WFButton("Swap");
 		skipButton = new WFButton("Skip");
 		placeButton = new WFButton("Play");
@@ -60,7 +60,7 @@ public class SpelPanel extends JPanel{
 		buttons.add(chatButton);
 		
 		initButtons();
-		setBackground(Color.blue);
+		setBackground(new Color(23,26,30));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		speelVeld = new BordPanel(spel.getBord());
 		functiepanel = new FunctionPanel();
@@ -114,7 +114,7 @@ public class SpelPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				setParentContentPane(new CompetitiesMenu());
+				setParentContentPane(new CompetitiesMenu(false));
 			}
 		});
 	}
