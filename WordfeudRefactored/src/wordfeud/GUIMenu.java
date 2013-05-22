@@ -28,6 +28,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 	private JPanel menu;
 	private JPanel blankSpace;
 	private WFButton competitieButton;
+	private WFButton competitieAanmaken;
 	private WFButton observerButton;
 	private WFButton wachtwoordWijzigen;
 	private WFButton uitnodigingButton;
@@ -66,6 +67,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		blankSpace.setBackground(this.getBackground());
 				
 		competitieButton = new WFButton("Competities openen");
+		competitieAanmaken = new WFButton("Competitie aanmaken");
 		uitnodigingButton = new WFButton("Uitnodigingen bekijken");
 		observerButton = new WFButton("Observeren");
 		wachtwoordWijzigen = new WFButton("Wachtwoord wijzigen");
@@ -74,6 +76,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		myButtons = new ArrayList<WFButton>();
 		
 		myButtons.add(competitieButton);
+		myButtons.add(competitieAanmaken);
 		myButtons.add(uitnodigingButton);
 		myButtons.add(observerButton);
 		myButtons.add(modButton);
