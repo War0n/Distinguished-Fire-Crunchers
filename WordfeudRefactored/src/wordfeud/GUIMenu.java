@@ -107,6 +107,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 			{
 				myGUIModerator = new GUIModerator();
 				Moderator myModerator = new Moderator(myGUIModerator);
+				setParentContentPane(myGUIModerator);
 			}else{
 				message.setText("Je bent geen moderator!");
 			}
