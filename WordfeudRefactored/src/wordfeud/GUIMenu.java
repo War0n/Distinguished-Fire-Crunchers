@@ -100,7 +100,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 			setParentContentPane(myCompetitiesMenu);
 		}
 		if(arg0.getSource().equals(observerButton)){
-			
+			setParentContentPane(new ObserverGUI());
 		}
 		if(arg0.getSource().equals(modButton)){
 			if(Account.checkModerator(Account.getAccountNaam()))
