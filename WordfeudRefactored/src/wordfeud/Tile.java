@@ -1,87 +1,79 @@
 package wordfeud;
 
-public class Tile
-{
+public class Tile {
 	// privates <:
 	private TileType type;
 	private Stone steen;
-	
-	
+	private boolean nieuwGelegd;
+
 	// Constructor
-	public Tile(TileType type)
-	{
+	public Tile(TileType type) {
 		this.type = type;
 		steen = null;
 	}
-	
-	public Tile()
-	{
+
+	public Tile() {
 		this.type = TileType.TYPE_NONE;//
 		steen = null;
 	}
-	
+
 	// Getters en setters
-	public Stone getStone()
-	{
+	public Stone getStone() {
 		return steen;
 	}
-	
-	public void setStone(Stone steen)
-	{
+
+	public void setStone(Stone steen) {
 		this.steen = steen;
 	}
-	
-	public TileType getType()
-	{
+
+	public TileType getType() {
 		return type;
 	}
-	
-	public void setType(TileType type)
-	{
+
+	public void setType(TileType type) {
 		this.type = type;
 	}
-	
-	// 	Speciale Tile Types.
-	public boolean isDoubleLetter()
-	{
+
+	// Speciale Tile Types.
+	public boolean isDoubleLetter() {
 		return type.equals(TileType.TYPE_DL);
 	}
-	
-	public boolean isTripleLetter()
-	{
+
+	public boolean isTripleLetter() {
 		return type.equals(TileType.TYPE_TL);
 	}
-	
-	public boolean isDoubleWord()
-	{
+
+	public boolean isDoubleWord() {
 		return type.equals(TileType.TYPE_DW);
 	}
-	
-	public boolean isTripleWord()
-	{
+
+	public boolean isTripleWord() {
 		return type.equals(TileType.TYPE_TW);
 	}
-	
-	public boolean isStart()
-	{
+
+	public boolean isStart() {
 		return type.equals(TileType.TYPE_START);
 	}
-	
+
 	// locked
-	public boolean getLocked()
-	{
-		if(steen != null)
-		{
+	public boolean getLocked() {
+		if (steen != null) {
 			return steen.getLocked();
 		}
 		return false;
 	}
-	
-	public void setLocked(boolean locked)
-	{
-		if(steen != null)
-		{
+
+	public void setLocked(boolean locked) {
+		if (steen != null) {
 			steen.setLocked(locked);
 		}
+	}
+
+	public boolean getNieuwGelegd() {
+		return nieuwGelegd;
+	}
+
+	public void setNieuwGelegd(boolean nieuwGelegd) {
+		this.nieuwGelegd = nieuwGelegd;
 	}
 }

@@ -1,5 +1,7 @@
 package wordfeud;
 
+import java.util.ArrayList;
+
 public class Bord
 {
 	private String name;
@@ -118,5 +120,33 @@ public class Bord
 		if(x < 0 || y < 0 || x > 15 || y > 15)
 			return null;
 		return tiles[x][y];
+	}
+
+	public Tile[][] getTiles() {
+		return tiles;
+	}
+	public int[] getCoordinat(Tile tileInput){
+		int[] coor = new int[2];
+		for(int x = 0; x < 16; x++){
+			for(int y = 0; y < 16; y++){
+				if(tiles[x][y].equals(tileInput)){
+					coor[0] = x;
+					coor[1] = y;
+					return coor;
+				}
+			}
+		}
+		return null;
+	}
+	public ArrayList<Tile> getNewTiles(){
+	ArrayList<Tile> newTiles = new ArrayList<Tile>();
+		for( Tile[] tileList : tiles){
+			for( Tile tile : tileList){
+				if(tile.getNieuwGelegd()){
+					newTiles.add(tile);
+				}
+			}
+		}
+		return newTiles;
 	}
 }
