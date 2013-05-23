@@ -73,7 +73,7 @@ public class LoginScreen extends JPanel {
 		setBackground(new Color(23, 26, 30));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		activeFrame = frame;
-
+		activeFrame.setPreferredSize(new Dimension(200, 200));
 		loginpanel = new JPanel();
 		loginpanel.setLayout(new BoxLayout(loginpanel, BoxLayout.Y_AXIS));
 		loginpanel.setBackground(new Color(23, 26, 30));
@@ -105,13 +105,13 @@ public class LoginScreen extends JPanel {
 		passwordField.setMaximumSize(new Dimension(150, 20));
 		registerControle = new JPasswordField();
 		registerControle.setVisible(false);
-		registercontroleLabel = new JLabel("Password herhalen");
+		registercontroleLabel = new JLabel("Password herhalen:");
 		registercontroleLabel.setForeground(Color.white);
-		registercontroleLabel.setAlignmentX(RIGHT_ALIGNMENT);
+		registercontroleLabel.setAlignmentX(CENTER_ALIGNMENT);
 		registercontroleLabel.setVisible(false);
 		registerControle.setMaximumSize(new Dimension(150, 20));
 		myGuiMenu = new GUIMenu();
-		
+
 		loginpanel.add(userLabel);
 		loginpanel.add(Box.createVerticalStrut(2));
 		loginpanel.add(usernameField);
