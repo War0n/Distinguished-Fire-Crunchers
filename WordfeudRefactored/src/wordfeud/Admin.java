@@ -15,6 +15,10 @@ public class Admin extends Observable {
 	public Admin(){
 		namen = new ArrayList<String>();
 		connect = new Connectie();
+		
+	}
+	
+	public void getAccounts(){
 		namenRS = connect.voerSelectQueryUit("SELECT naam from Accounts");
 		try {
 			while(namenRS.next()){
@@ -32,14 +36,13 @@ public class Admin extends Observable {
 	
 	public String[] getInfo(String naam){
 		connect = new Connectie();
-		gegevensRS = connect.voerSelectQueryUit("SELECT * from Accounts WHERE naam = " + naam);
-		String[] rij = new String[4];
+		gegevensRS = connect.voerSelectQueryUit("SELECT * from Accounts WHERE naam = '" + naam+"'");
+		String[] rij = new String[3];
 		try {
 			while(gegevensRS.next()){
 				rij[0] = gegevensRS.getString("naam");
 				rij[1]= gegevensRS.getString("rol");
 				rij[2] = gegevensRS.getString("geaccepteerd");
-				rij[3]= gegevensRS.getString("password");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
