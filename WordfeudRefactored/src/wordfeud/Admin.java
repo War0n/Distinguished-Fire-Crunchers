@@ -40,9 +40,14 @@ public class Admin extends Observable {
 		String[] rij = new String[3];
 		try {
 			while(gegevensRS.next()){
-				rij[0] = gegevensRS.getString("naam");
-				rij[1]= gegevensRS.getString("rol");
-				rij[2] = gegevensRS.getString("geaccepteerd");
+				rij[0] = "Username: "+gegevensRS.getString("naam");
+				rij[1]= "Role: "+gegevensRS.getString("rol");
+				if(gegevensRS.getString("geaccepteerd").equals("1")){
+				rij[2] = "Accepted: true";
+				}
+				else if(gegevensRS.getString("geaccepteerd").equals("0")){
+					rij[2] = "Accepted: false";
+				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

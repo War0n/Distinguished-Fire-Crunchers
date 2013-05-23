@@ -16,7 +16,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -110,9 +109,14 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 			verzamelData = verzamelData + gegeven + System.lineSeparator();
 		}
 		
-		JOptionPane.showMessageDialog(popup,
-				verzamelData, "Gegevens van: " + data[0],
-				JOptionPane.QUESTION_MESSAGE);
+		popup.setTitle("Gegevens van: "+ data[0]);
+		popup.setMinimumSize(new Dimension(300,200));
+		JLabel popupData = new JLabel(verzamelData);
+		popup.setLayout(myGridLayout);
+		popup.setResizable(false);
+		popup.add(popupData);
+		popup.pack();
+		popup.setVisible(true);
 	}
 	
 
