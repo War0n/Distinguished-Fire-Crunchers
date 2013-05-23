@@ -3,41 +3,39 @@ package wordfeud;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Spel
-{
-	private Bord bord; 
+public class Spel {
+	private Bord bord;
 	private Letterbak letterbak;
 	private LetterSet letterSet;
-	private ArrayList<Tile> newTiles = bord.getNewTiles();
-	private ArrayList<ArrayList> woordenLijst = new ArrayList<ArrayList>();
+	private ArrayList<Tile> newTiles;
+	private ArrayList<ArrayList> woordenLijst;
 	private int spelID;
-	
-	public Spel()
-	{
+
+	public Spel() {
 		bord = new Bord();
+		newTiles = bord.getNewTiles();
+		woordenLijst = new ArrayList<ArrayList>();
 		letterbak = new Letterbak();
 		letterSet = new LetterSet("nl-NL"); // Nederlands? :)
 		spelID = new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
 	}
-	
-	public LetterSet getLetterSet()
-	{
+
+	public LetterSet getLetterSet() {
 		return letterSet;
 	}
-	
-	public Letterbak getLetterBak()
-	{
+
+	public Letterbak getLetterBak() {
 		return letterbak;
 	}
-	
-	public Bord getBord()
-	{
+
+	public Bord getBord() {
 		return bord;
 	}
-	
-	public int getSpelId(){
+
+	public int getSpelId() {
 		return spelID;
 	}
+
 	public void puntenTeller() {
 		int score = 0;
 		for (int i = 0; i < woordenLijst.size(); i++) {
@@ -46,17 +44,14 @@ public class Spel
 				if (currTile.isDoubleLetter()) {
 					score = score
 							+ (currTile.getStone().getValue(
-									new LetterSet("NL-nl")) * 2);
+									new LetterSet("nl-NL")) * 2);
 				} else if (currTile.isTripleLetter()) {
 					score = score
-							+ (currTile.getStone().getValue(
-									new LetterSet("NL-nl")) * 3);
+							+ (currTile.getStone().getValue(letterSet) * 3);
 				} else if (currTile.isDoubleWord()) {
-					score = (score + currTile.getStone().getValue(
-							new LetterSet("NL-nl")) * 2);
+					score = (score + currTile.getStone().getValue(letterSet) * 2);
 				} else if (currTile.isTripleWord()) {
-					score = (score + currTile.getStone().getValue(
-							new LetterSet("NL-nl")) * 3);
+					score = (score + currTile.getStone().getValue(letterSet) * 3);
 				}
 			}
 		}
