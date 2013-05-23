@@ -73,7 +73,8 @@ public class LoginScreen extends JPanel {
 		setBackground(new Color(23, 26, 30));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		activeFrame = frame;
-		activeFrame.setPreferredSize(new Dimension(200, 200));
+		activeFrame.setMinimumSize(new Dimension(200, 200));
+		
 		loginpanel = new JPanel();
 		loginpanel.setLayout(new BoxLayout(loginpanel, BoxLayout.Y_AXIS));
 		loginpanel.setBackground(new Color(23, 26, 30));
