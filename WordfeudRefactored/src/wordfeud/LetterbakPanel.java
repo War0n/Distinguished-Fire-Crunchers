@@ -37,6 +37,7 @@ public class LetterbakPanel extends JPanel
 		{
 			tiles.add(new GUITile(TileType.TYPE_NONE));
 			add(tiles.get(i));
+			tiles.get(i).setOverride(true);
 			tiles.get(i).setStone(letterbak.getStones().get(i));
 			
 			DragSource ds = new DragSource();

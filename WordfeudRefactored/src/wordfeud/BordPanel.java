@@ -68,6 +68,7 @@ public class BordPanel extends JPanel
 			for(int x = 0; x < 15; x++)
 			{
 				tiles[x][y].getTile().setLocked(true);
+				tiles[x][y].repaint();
 			}
 		}	
 	}
