@@ -8,13 +8,13 @@ public class Spel {
 	private Letterbak letterbak;
 	private LetterSet letterSet;
 	private ArrayList<Tile> newTiles;
-	private ArrayList<ArrayList> woordenLijst;
+	private ArrayList<ArrayList<Tile>> woordenLijst;
 	private int spelID;
 
 	public Spel() {
 		bord = new Bord();
 		newTiles = bord.getNewTiles();
-		woordenLijst = new ArrayList<ArrayList>();
+		woordenLijst = new ArrayList<ArrayList<Tile>>();
 		letterbak = new Letterbak();
 		letterSet = new LetterSet("nl-NL"); // Nederlands? :)
 		spelID = new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
@@ -58,7 +58,7 @@ public class Spel {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ArrayList<ArrayList> vindWoord() {
+	public ArrayList<ArrayList<Tile>> vindWoord() {
 
 		Tile currentTile = newTiles.get(0);
 		woordenLijst.add(new ArrayList<Tile>());
@@ -105,8 +105,7 @@ public class Spel {
 							}
 							done2 = false;
 						}
-						woordenLijst.get(woordenLijst.size()).add(
-								new ArrayList<Tile>());
+						woordenLijst.get(woordenLijst.size()).add(new ArrayList<Tile>());
 						while (!done2) {
 							if (!nextTile(currentTile, 'r').equals(null)) {
 								woordenLijst.get(woordenLijst.size() - 1).add(
@@ -151,8 +150,7 @@ public class Spel {
 							}
 							done2 = false;
 						}
-						woordenLijst.get(woordenLijst.size()).add(
-								new ArrayList<Tile>());
+						woordenLijst.get(woordenLijst.size()).add(new ArrayList<Tile>());
 						while (!done2) {
 							if (!nextTile(currentTile, 'd').equals(null)) {
 								woordenLijst.get(woordenLijst.size() - 1).add(
