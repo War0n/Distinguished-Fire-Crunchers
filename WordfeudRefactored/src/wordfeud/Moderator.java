@@ -1,24 +1,12 @@
 package wordfeud;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Observable;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
 
 public class Moderator extends Observable implements ActionListener{
 	
@@ -29,9 +17,9 @@ public class Moderator extends Observable implements ActionListener{
 	private GUIModerator myGUIModerator;
 	private GUIMenu myGuiMenu;
 
-	public Moderator(GUIModerator myGUIModerator){
+	public Moderator(GUIModerator gui){
 
-		this.myGUIModerator = myGUIModerator;
+		this.myGUIModerator = gui;
 		this.addObserver(myGUIModerator);
 		this.refreshList();
 		myGUIModerator.addButtonMethods(this);

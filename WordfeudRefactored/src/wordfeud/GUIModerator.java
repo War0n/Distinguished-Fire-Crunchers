@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -19,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
+@SuppressWarnings("serial")
 public class GUIModerator extends JPanel implements Observer{
 	
 	private JButton acceptWord;
@@ -33,6 +33,9 @@ public class GUIModerator extends JPanel implements Observer{
 		this.setMinimumSize(new Dimension(650,750));
 		this.setPreferredSize(getMinimumSize());
 		this.setLayout(new BorderLayout());
+		this.setBackground(new Color(23,26,30));
+		
+		new Moderator(this);
 		
 		reviewWoorden = new ArrayList<JCheckBox>();
 		
@@ -65,6 +68,8 @@ public class GUIModerator extends JPanel implements Observer{
 		reviewWoorden.clear();
 		
 	}
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		reviewWoorden = (ArrayList<JCheckBox>) arg1;
