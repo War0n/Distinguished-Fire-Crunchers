@@ -2,6 +2,7 @@ package wordfeud;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -54,15 +55,13 @@ public class LoginScreen extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
-	private JTextField registerField;
-	private JPasswordField registerpassField;
+	private JPasswordField registerControle;
 	private JPanel content;
 	private JPanel loginpanel;
-	private JPanel registerpanel;
+	private JPanel buttonpanel;
 	private JLabel userLabel;
 	private JLabel passLabel;
-	private JLabel registerLabel;
-	private JLabel registerpassLabel;
+	private JLabel registercontroleLabel;
 	private WFButton loginButton;
 	private WFButton registerButton;
 	private JFrame activeFrame;
@@ -71,8 +70,6 @@ public class LoginScreen extends JPanel {
 	JFrame popup = null;
 
 	public LoginScreen(JFrame frame) {
-		setMinimumSize(new Dimension(650, 750));
-		setPreferredSize(getMinimumSize());
 		setBackground(new Color(23, 26, 30));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		activeFrame = frame;
@@ -83,64 +80,58 @@ public class LoginScreen extends JPanel {
 		loginpanel.setPreferredSize(new Dimension(150, 150));
 		loginpanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 
-		registerpanel = new JPanel();
-		registerpanel.setLayout(new BoxLayout(registerpanel, BoxLayout.Y_AXIS));
-		registerpanel.setBackground(new Color(23, 26, 30));
-		registerpanel.setPreferredSize(new Dimension(150, 150));
-		registerpanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		buttonpanel = new JPanel();
+		buttonpanel.setLayout(new FlowLayout());
+		buttonpanel.setBackground(new Color(23, 26, 30));
 
 		content = new JPanel();
 		content.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		content.setAlignmentY(JPanel.CENTER_ALIGNMENT);
-		content.setPreferredSize(new Dimension(200, 200));
 		content.setBackground(new Color(23, 26, 30));
 		content.setLayout(new BoxLayout(content, BoxLayout.X_AXIS));
 
 		loginButton = new WFButton("Log In");
 		registerButton = new WFButton("Register");
 		usernameField = new JTextField();
-		registerField = new JTextField();
 
-		registerLabel = new JLabel("Username:");
-		registerLabel.setForeground(Color.white);
 		userLabel = new JLabel("Username:");
 		userLabel.setForeground(Color.white);
-		usernameField.setMaximumSize(new Dimension(200, 20));
-		registerField.setMaximumSize(new Dimension(200, 20));
+		userLabel.setAlignmentX(RIGHT_ALIGNMENT);
+		usernameField.setMaximumSize(new Dimension(150, 20));
 		passwordField = new JPasswordField();
 		passLabel = new JLabel("Password:");
 		passLabel.setForeground(Color.white);
-		passwordField.setMaximumSize(new Dimension(200, 20));
-		registerpassField = new JPasswordField();
-		registerpassLabel = new JLabel("Password:");
-		registerpassLabel.setForeground(Color.white);
-		registerpassField.setMaximumSize(new Dimension(200, 20));
+		passLabel.setAlignmentX(RIGHT_ALIGNMENT);
+		passwordField.setMaximumSize(new Dimension(150, 20));
+		registerControle = new JPasswordField();
+		registerControle.setVisible(false);
+		registercontroleLabel = new JLabel("Password herhalen");
+		registercontroleLabel.setForeground(Color.white);
+		registercontroleLabel.setAlignmentX(RIGHT_ALIGNMENT);
+		registercontroleLabel.setVisible(false);
+		registerControle.setMaximumSize(new Dimension(150, 20));
 		myGuiMenu = new GUIMenu();
-
-		content.add(Box.createHorizontalGlue());
-		content.add(Box.createVerticalGlue());
+		
 		loginpanel.add(userLabel);
+		loginpanel.add(Box.createVerticalStrut(2));
 		loginpanel.add(usernameField);
+		loginpanel.add(Box.createVerticalStrut(2));
 		loginpanel.add(passLabel);
+		loginpanel.add(Box.createVerticalStrut(2));
 		loginpanel.add(passwordField);
+		loginpanel.add(registercontroleLabel);
+		loginpanel.add(registerControle);
 		loginpanel.add(Box.createVerticalStrut(5));
-		loginpanel.add(loginButton);
-
-		registerpanel.add(registerLabel);
-		registerpanel.add(registerField);
-		registerpanel.add(registerpassLabel);
-		registerpanel.add(registerpassField);
-		registerpanel.add(Box.createVerticalStrut(5));
-		registerpanel.add(registerButton);
-
+		buttonpanel.add(loginButton);
+		buttonpanel.add(registerButton);
+		loginpanel.add(buttonpanel);
 		content.add(loginpanel);
-		content.add(registerpanel);
 		add(content);
-		content.add(Box.createHorizontalGlue());
+		activeFrame.pack();
 		passwordField.addKeyListener(new KeyAdapter() {
 			@SuppressWarnings("unused")
 			public void KeyPressed(KeyEvent e) {
-				if (e.getKeyCode()==(KeyEvent.VK_ENTER)) {
+				if (e.getKeyCode() == (KeyEvent.VK_ENTER)) {
 					System.out.println("het werkt ongeveer");
 					clickLogin();
 				}
@@ -150,59 +141,81 @@ public class LoginScreen extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Connectie connect = new Connectie();
-				ResultSet rs;
-				rs = connect
-						.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
-								+ registerField.getText() + "'");
-				try {
-					rs.next();
-					if ((registerField.getText().equals(""))) {
-						JOptionPane.showMessageDialog(popup,
-								"Je hebt niks ingevuld! ", "Leeg!",
-								JOptionPane.WARNING_MESSAGE);
-						popup = null;
-					} else {
-						String password = "";
-						for (char c : registerpassField.getPassword()) {
-							password = password + c;
-						}
-						password = encryptPassword(password);
-						if (rs.getInt(1) == 0) {
+				String controlePassword = new String(registerControle
+						.getPassword());
+				String password2 = new String(passwordField.getPassword());
 
-							connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
-									+ registerField.getText()
-									+ "', 'user', '1', '" + password + "');");
-							connect.closeConnection();
-							registerField.setText("");
-							registerpassField.setText("");
-
-							JOptionPane
-									.showMessageDialog(
-											popup,
-											"Je bent geregistreerd! Je kunt nu inloggen!",
-											"Voltooid",
-											JOptionPane.PLAIN_MESSAGE);
+				if (registerControle.isVisible()
+						&& controlePassword.equals(password2)) {
+					Connectie connect = new Connectie();
+					ResultSet rs;
+					rs = connect
+							.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
+									+ usernameField.getText() + "'");
+					try {
+						rs.next();
+						if ((usernameField.getText().equals(""))) {
+							JOptionPane.showMessageDialog(popup,
+									"Je hebt niks ingevuld! ", "Leeg!",
+									JOptionPane.WARNING_MESSAGE);
 							popup = null;
 						} else {
-							JOptionPane.showMessageDialog(popup,
-									"Deze naam is al bezet! kies een andere!",
-									"Bezet!", JOptionPane.WARNING_MESSAGE);
-							popup = null;
+							String password = "";
+							for (char c : passwordField.getPassword()) {
+								password = password + c;
+							}
+							password = encryptPassword(password);
+							if (rs.getInt(1) == 0) {
+
+								connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
+										+ usernameField.getText()
+										+ "', 'user', '1', '"
+										+ password
+										+ "');");
+								connect.closeConnection();
+								usernameField.setText("");
+								passwordField.setText("");
+								registerControle.setVisible(false);
+								registercontroleLabel.setVisible(false);
+
+								JOptionPane
+										.showMessageDialog(
+												popup,
+												"Je bent geregistreerd! Je kunt nu inloggen!",
+												"Voltooid",
+												JOptionPane.PLAIN_MESSAGE);
+								popup = null;
+							} else {
+								JOptionPane
+										.showMessageDialog(
+												popup,
+												"Deze naam is al bezet! kies een andere!",
+												"Bezet!",
+												JOptionPane.WARNING_MESSAGE);
+								popup = null;
+							}
 						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+
+				} else if (registerControle.isVisible() == false) {
+					registerControle.setVisible(true);
+					registercontroleLabel.setVisible(true);
+
+				} else if (!controlePassword.equals(password2)) {
+					JOptionPane.showMessageDialog(popup,
+							"De wachtwoorden komen niet overeen!", "Foutje!",
+							JOptionPane.WARNING_MESSAGE);
+					popup = null;
 				}
-
 			}
-
 		});
 
 		// Loginbutton ActionListener
 		loginButton.addActionListener(new ActionListener() {
-			//private GUIMenu menuView;
+			// private GUIMenu menuView;
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -224,7 +237,7 @@ public class LoginScreen extends JPanel {
 							curUser = usernameField.getText();
 							// Hier veranderd
 							Account.setAccountNaam(curUser);
-							//menuView = new GUIMenu();
+							// menuView = new GUIMenu();
 							new GUIMenu();
 							activeFrame.setContentPane(myGuiMenu);
 							activeFrame.pack();
