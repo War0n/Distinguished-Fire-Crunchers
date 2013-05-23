@@ -10,7 +10,6 @@ public class Admin extends Observable {
 	private Connectie connect;
 	private ResultSet namenRS;
 	private ResultSet gegevensRS;
-	private ArrayList<String[]> gegevens;
 	private ArrayList<String> namen;
 	
 	public Admin(){

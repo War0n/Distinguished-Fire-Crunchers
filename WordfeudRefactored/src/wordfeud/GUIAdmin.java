@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class GUIAdmin extends JPanel implements Observer{
 	
 	private JLabel titel;
@@ -26,9 +27,6 @@ public class GUIAdmin extends JPanel implements Observer{
 	private JPanel menu;
 	private JPanel blankSpace;
 	private GridLayout myGridLayout;
-	private CompetitiesMenu myCompetitiesMenu;
-	private Moderator myModPanel;
-	private GUIModerator myGUIModerator;
 	private Admin admin;
 	
 	public GUIAdmin(){
@@ -70,6 +68,7 @@ public class GUIAdmin extends JPanel implements Observer{
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		System.out.println("BUTTON TOEGEVOEGD");
