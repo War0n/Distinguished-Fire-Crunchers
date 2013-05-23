@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 public enum TileType 
 {
-	TYPE_START("??"),
-	TYPE_NONE("XX"),
+	TYPE_START("*"),
+	TYPE_NONE("--"),
 	TYPE_DL("DL"),
 	TYPE_TL("TL"), 
 	TYPE_DW("DW"), 

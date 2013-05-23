@@ -9,15 +9,18 @@ import javax.imageio.ImageIO;
 public class Stone
 {
 	private char letter;
-	private BufferedImage img;
+	private BufferedImage lockedImg;
+	private BufferedImage unlockedImg;
 	private boolean bLocked;
 	
 	public Stone(char letter)
 	{
 		this.letter = letter;
 		File imageFile = new File("src/images/tile.png");//
+		File imageFile2 = new File("src/images/unlockedtile.png");//
 		try {
-			img  = ImageIO.read(imageFile);
+			lockedImg  = ImageIO.read(imageFile);
+			unlockedImg  = ImageIO.read(imageFile2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,7 +44,21 @@ public class Stone
 	
 	public BufferedImage getImage()
 	{
-		return img;
+		if( getLocked() == true )
+			return lockedImg;
+		else
+			return unlockedImg; 
+	}
+	
+	public BufferedImage getImage(boolean bOverrideLock)
+	{
+		if( bOverrideLock == true )
+			return lockedImg;
+		
+		if( getLocked() == true )
+			return lockedImg;
+		else
+			return unlockedImg;
 	}
 	
 	public boolean getLocked()

@@ -32,6 +32,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 	private WFButton observerButton;
 	private WFButton wachtwoordWijzigen;
 	private WFButton uitnodigingButton;
+	private WFButton adminButton;
 	private WFButton modButton;
 	private WFButton stopButton;
 	private ArrayList<WFButton> myButtons;
@@ -70,6 +71,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		observerButton = new WFButton("Observeren");
 		wachtwoordWijzigen = new WFButton("Wachtwoord wijzigen");
 		stopButton = new WFButton("Spel Stoppen");
+		adminButton = new WFButton("Administrator");
 		modButton = new WFButton("Moderator scherm bekijken");
 		myButtons = new ArrayList<WFButton>();
 		
@@ -77,6 +79,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		myButtons.add(competitieAanmaken);
 		myButtons.add(uitnodigingButton);
 		myButtons.add(observerButton);
+		myButtons.add(adminButton);
 		myButtons.add(modButton);
 		myButtons.add(wachtwoordWijzigen);
 		myButtons.add(stopButton);
@@ -119,7 +122,10 @@ public class GUIMenu extends JPanel implements ActionListener{
 		}
 		if(arg0.getSource().equals(stopButton)){
 			System.exit(0);
-		}		
+		}	
+		if(arg0.getSource().equals(adminButton)){
+			setParentContentPane(new GUIAdmin());
+		}
 	}
 	
 	public void setParentContentPane(JPanel contentPane){

@@ -16,6 +16,8 @@ public class GUITile extends JPanel{
 	private JLabel tileLabel;
 	private Tile tile;
 	
+	private boolean bOverrideLock;
+	
 	public GUITile(Tile tile) {
 		initTile(tile);
 	}
@@ -86,7 +88,7 @@ public class GUITile extends JPanel{
 		super.paintComponent(g);
 		if( tile.getStone() != null )
 		{
-			g.drawImage(tile.getStone().getImage(), 0, 0, this);
+			g.drawImage(tile.getStone().getImage(isOverride()), 0, 0, this);
 			
 			Font tmp = g.getFont();
 			LetterSet letterSet = new LetterSet("nl-NL");
@@ -113,6 +115,14 @@ public class GUITile extends JPanel{
 	public void setTile(Tile tile)
 	{
 		this.tile = tile;
+	}
+
+	public boolean isOverride() {
+		return bOverrideLock;
+	}
+
+	public void setOverride(boolean bOverrideLock) {
+		this.bOverrideLock = bOverrideLock;
 	}
 	
 }
