@@ -71,7 +71,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		observerButton = new WFButton("Observeren");
 		wachtwoordWijzigen = new WFButton("Wachtwoord wijzigen");
 		stopButton = new WFButton("Spel Stoppen");
-		adminButton = new WFButton("Administrator");
+		adminButton = new WFButton("Administrator scherm bekijken");
 		modButton = new WFButton("Moderator scherm bekijken");
 		myButtons = new ArrayList<WFButton>();
 		
