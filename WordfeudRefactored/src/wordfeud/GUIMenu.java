@@ -75,6 +75,15 @@ public class GUIMenu extends JPanel implements ActionListener{
 		modButton = new WFButton("Moderator scherm bekijken");
 		myButtons = new ArrayList<WFButton>();
 		
+		if(!(Account.checkModerator(Account.getAccountNaam())))
+		{
+			modButton.setEnabled(false);
+		}
+		if(!(Account.checkAdmin(Account.getAccountNaam())))
+		{
+			adminButton.setEnabled(false);
+		}
+		
 		myButtons.add(competitieButton);
 		myButtons.add(competitieAanmaken);
 		myButtons.add(uitnodigingButton);
@@ -107,12 +116,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 			setParentContentPane(new CompetitiesMenu(true));
 		}
 		if(arg0.getSource().equals(modButton)){
-			if(Account.checkModerator(Account.getAccountNaam()))
-			{
-				setParentContentPane(new GUIModerator());
-			}else{
-				message.setText("Je bent geen moderator!");
-			}
+			setParentContentPane(new GUIModerator());
 		}
 		if(arg0.getSource().equals(wachtwoordWijzigen)){
 			
