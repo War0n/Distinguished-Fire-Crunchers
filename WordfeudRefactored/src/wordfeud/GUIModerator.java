@@ -35,7 +35,7 @@ public class GUIModerator extends JPanel implements Observer{
 		this.setLayout(new BorderLayout());
 		this.setBackground(new Color(23,26,30));
 		
-		new Moderator(this);
+		//new Moderator(this);
 		
 		reviewWoorden = new ArrayList<JCheckBox>();
 		
@@ -48,6 +48,7 @@ public class GUIModerator extends JPanel implements Observer{
 		woordenPanel = new JPanel();
 		myButtonPanel = new JPanel();
 		backToMenu = new JButton("Ga terug");
+
 		
 		JScrollPane wordScrollPane = new JScrollPane(woordenPanel);
 		woordenPanel.setPreferredSize(new Dimension(300, 300));
