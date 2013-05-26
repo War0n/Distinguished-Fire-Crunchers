@@ -109,7 +109,9 @@ public class GUIMenu extends JPanel implements ActionListener{
 		if(arg0.getSource().equals(modButton)){
             if(Account.checkModerator(Account.getAccountNaam()))
             {
-            	setParentContentPane(new GUIModerator());
+            	GUIModerator myGUIModerator = new GUIModerator();
+				Moderator myModerator = new Moderator(myGUIModerator);
+				setParentContentPane(myGUIModerator);
             }else{
             	message.setText("Je hebt geen moderator rechten!");
             }
