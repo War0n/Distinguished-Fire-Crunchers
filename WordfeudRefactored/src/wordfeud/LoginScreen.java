@@ -242,6 +242,7 @@ public class LoginScreen extends JPanel {
 							new GUIMenu();
 							activeFrame.setContentPane(myGuiMenu);
 							activeFrame.pack();
+							activeFrame.setLocationRelativeTo(null);
 						} else {
 							JOptionPane.showMessageDialog(popup,
 									"Onjuiste inlognaam of wachtwoord",
