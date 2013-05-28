@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,6 +35,7 @@ public class SpelPanel extends JPanel{
 	private WFButton placeButton;
 	private WFButton chatButton;
 	private WFButton backButton;
+	private WFButton clearButton;
 	
 	public SpelPanel() {
 		spel = new Spel();
@@ -43,6 +46,7 @@ public class SpelPanel extends JPanel{
 		skipButton = new WFButton("Skip");
 		placeButton = new WFButton("Play");
 		chatButton = new WFButton("Chat");
+		clearButton = new WFButton("Clear");
 		backButton = new WFButton("< Terug");
 		score = new JLabel("Scoreveld hier");
 		score.setForeground(Color.white);
@@ -57,6 +61,7 @@ public class SpelPanel extends JPanel{
 		buttons.add(placeButton);
 		buttons.add(skipButton);
 		buttons.add(swapButton);
+		buttons.add(clearButton);
 		buttons.add(chatButton);
 		
 		initButtons();
@@ -115,6 +120,15 @@ public class SpelPanel extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				setParentContentPane(new CompetitiesMenu(false));
+			}
+		});
+		
+		clearButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				letterbak.addLetters(speelVeld.clearField());
+				
 			}
 		});
 	}

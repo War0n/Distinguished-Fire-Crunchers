@@ -14,6 +14,7 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetListener;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -71,6 +72,24 @@ public class BordPanel extends JPanel
 				tiles[x][y].repaint();
 			}
 		}	
+	}
+	
+	public ArrayList<Stone> clearField() 
+	{
+		ArrayList<Stone> stenen = new ArrayList<Stone>();
+		for(int y = 0; y < 15; y++)
+		{
+			for(int x = 0; x < 15; x++)
+			{
+				if(tiles[x][y].getTile().getLocked() == false)
+				{
+					stenen.add(tiles[x][y].getTile().getStone());
+					tiles[x][y].getTile().setStone(null);
+					tiles[x][y].repaint();
+				}
+			}
+		}	
+		return stenen;
 	}
 	
 	public class MyDragGestureListener implements DragGestureListener 
