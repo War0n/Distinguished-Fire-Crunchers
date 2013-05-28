@@ -200,9 +200,9 @@ public class LoginScreen extends JPanel {
 				ResultSet rs;
 				String password = new String(passwordField.getPassword());
 				rs = connect
-						.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
+						.voerSelectQueryUit("SELECT COUNT(naam) FROM account WHERE naam = '"
 								+ usernameField.getText()
-								+ "' AND password ='"
+								+ "' AND wachtwoord ='"
 								+ password + "' ");
 				try {
 					if (rs.next()) {

@@ -89,13 +89,13 @@ public class CompetitiesMenu extends JPanel  implements MouseListener,ActionList
 		String eigenaar = null;
 		
 		//Haal alle competities op uit de db
-		rs = connect.voerSelectQueryUit("select * from Competities");
+		rs = connect.voerSelectQueryUit("select * from Competitie");
 		try {
 			while(rs.next())
 			{
 				
-				idCompetitie = rs.getInt("idCompetitie");
-				eigenaar = rs.getString("eigenaar");
+				idCompetitie = rs.getInt("ID");
+				eigenaar = rs.getString("Account_naam_eigenaar");
 				
 				JPanel comp = new JPanel();
 				comp.setMaximumSize(new Dimension(650,80));
