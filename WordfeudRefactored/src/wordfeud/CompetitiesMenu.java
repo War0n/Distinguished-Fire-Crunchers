@@ -131,7 +131,7 @@ public class CompetitiesMenu extends JPanel  implements MouseListener,ActionList
 		Connectie connect = new Connectie();
 		
 		if(!(alleEigenaren.contains(eigenaar + ";"))){
-			connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Competities` (`idCompetitie`, `eigenaar`) VALUES ('" + (aantalCompetities + 1) + "', '" + eigenaar + "');");
+			connect.voerInsertOrUpdateQueryUit("INSERT INTO `myDBtestding`.`Competities` (`idCompetitie`, `eigenaar`) VALUES ('" + (aantalCompetities + 1) + "', '" + eigenaar + "');");
 			connect.closeConnection();
 			alleEigenaren += eigenaar;
 			JOptionPane.showMessageDialog(popup,

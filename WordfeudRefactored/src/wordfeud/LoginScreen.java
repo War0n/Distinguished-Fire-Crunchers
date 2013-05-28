@@ -168,7 +168,7 @@ public class LoginScreen extends JPanel {
 							password = encryptPassword(password);
 							if (rs.getInt(1) == 0) {
 
-								connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
+								connect.voerInsertOrUpdateQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
 										+ usernameField.getText()
 										+ "', 'user', '1', '"
 										+ password
