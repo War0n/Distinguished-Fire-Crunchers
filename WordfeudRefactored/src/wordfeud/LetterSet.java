@@ -55,7 +55,7 @@ public class LetterSet
 	private void fetch(String language)
 	{
 		Connectie connection = new Connectie();
-		ResultSet rs = connection.voerSelectQueryUit("SELECT * FROM wordfeud.lettertype WHERE LetterSet_code = '"+language+"';");
+		ResultSet rs = connection.voerSelectQueryUit("SELECT * FROM lettertype WHERE LetterSet_code = '"+language+"';");
 		try {
 			waarden.clear();
 			while(rs.next())

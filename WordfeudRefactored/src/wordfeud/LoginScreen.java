@@ -139,11 +139,16 @@ public class LoginScreen extends JPanel {
 							String password = new String(passwordField.getPassword());
 							if (rs.getInt(1) == 0) {
 
-								connect.voerInsertOrUpdateQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
+								connect.voerInsertOrUpdateQueryUit("INSERT INTO `Account` (`naam`, `password`) VALUES ('"
 										+ usernameField.getText()
-										+ "', 'user', '1', '"
+										+ "', '"
 										+ password
 										+ "');");
+								
+								connect.voerInsertOrUpdateQueryUit("INSERT INTO `accountrol` (`Account_naam`, `Rol_type`) VALUES ('"
+										+ usernameField.getText()
+										+ "', 'Player');");
+								
 								connect.closeConnection();
 								usernameField.setText("");
 								passwordField.setText("");
