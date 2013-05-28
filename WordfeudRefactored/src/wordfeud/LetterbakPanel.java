@@ -170,6 +170,7 @@ public class LetterbakPanel extends JPanel
 			{
 				shuffle.add(tiles.get(j).getStone());
 				tiles.get(j).setStone(null);//
+				tiles.get(j).repaint();//
 			}
 		}
 		Collections.shuffle(shuffle);
