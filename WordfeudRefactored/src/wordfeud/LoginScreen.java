@@ -130,7 +130,6 @@ public class LoginScreen extends JPanel {
 		add(content);
 		activeFrame.pack();
 		passwordField.addKeyListener(new KeyAdapter() {
-			@SuppressWarnings("unused")
 			public void KeyPressed(KeyEvent e) {
 				if (e.getKeyCode() == (KeyEvent.VK_ENTER)) {
 					System.out.println("het werkt ongeveer");
@@ -214,7 +213,7 @@ public class LoginScreen extends JPanel {
 			}
 		});
 
-		// Loginbutton ActionListener
+		// Loginbutton ActionListener//
 		loginButton.addActionListener(new ActionListener() {
 			// private GUIMenu menuView;
 
