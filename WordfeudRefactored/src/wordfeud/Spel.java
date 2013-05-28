@@ -105,7 +105,7 @@ public class Spel {
 							}
 							done2 = false;
 						}
-						woordenLijst.get(woordenLijst.size()).add(new ArrayList<Tile>());
+						woordenLijst.add(woordenLijst.size(), new ArrayList<Tile>());
 						while (!done2) {
 							if (!nextTile(currentTile, 'r').equals(null)) {
 								woordenLijst.get(woordenLijst.size() - 1).add(
@@ -150,7 +150,7 @@ public class Spel {
 							}
 							done2 = false;
 						}
-						woordenLijst.get(woordenLijst.size()).add(new ArrayList<Tile>());
+						woordenLijst.add(woordenLijst.size(), new ArrayList<Tile>());
 						while (!done2) {
 							if (!nextTile(currentTile, 'd').equals(null)) {
 								woordenLijst.get(woordenLijst.size() - 1).add(
