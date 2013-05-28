@@ -36,6 +36,7 @@ public class SpelPanel extends JPanel{
 	private WFButton chatButton;
 	private WFButton backButton;
 	private WFButton clearButton;
+	private WFButton shuffleButton;
 	
 	public SpelPanel() {
 		spel = new Spel();
@@ -47,6 +48,7 @@ public class SpelPanel extends JPanel{
 		placeButton = new WFButton("Play");
 		chatButton = new WFButton("Chat");
 		clearButton = new WFButton("Clear");
+		shuffleButton = new WFButton("Shuffle");
 		backButton = new WFButton("< Terug");
 		score = new JLabel("Scoreveld hier");
 		score.setForeground(Color.white);
@@ -63,6 +65,7 @@ public class SpelPanel extends JPanel{
 		buttons.add(swapButton);
 		buttons.add(clearButton);
 		buttons.add(chatButton);
+		buttons.add(shuffleButton);
 		
 		initButtons();
 		setBackground(new Color(23,26,30));
@@ -128,6 +131,15 @@ public class SpelPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				letterbak.addLetters(speelVeld.clearField());//
+				
+			}
+		});
+		
+		shuffleButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				letterbak.shuffle();
 				
 			}
 		});
