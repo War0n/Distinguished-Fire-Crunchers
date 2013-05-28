@@ -24,30 +24,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class LoginScreen extends JPanel {
-	private static String encryptPassword(String password) {
-		String sha1 = "";
-		try {
-			MessageDigest crypt = MessageDigest.getInstance("SHA-1");
-			crypt.reset();
-			crypt.update(password.getBytes("UTF-8"));
-			sha1 = byteToHex(crypt.digest());
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return sha1;
-	}
-
-	private static String byteToHex(final byte[] hash) {
-		Formatter formatter = new Formatter();
-		for (byte b : hash) {
-			formatter.format("%02x", b);
-		}
-		String result = formatter.toString();
-		formatter.close();
-		return result;
-	}
 
 	/**
 	 * 
@@ -160,11 +136,7 @@ public class LoginScreen extends JPanel {
 									JOptionPane.WARNING_MESSAGE);
 							popup = null;
 						} else {
-							String password = "";
-							for (char c : passwordField.getPassword()) {
-								password = password + c;
-							}
-							password = encryptPassword(password);
+							String password = new String(passwordField.getPassword());
 							if (rs.getInt(1) == 0) {
 
 								connect.voerInsertOrUpdateQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
@@ -221,11 +193,7 @@ public class LoginScreen extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				Connectie connect = new Connectie();
 				ResultSet rs;
-				String password = "";
-				for (char c : passwordField.getPassword()) {
-					password = password + c;
-				}
-				password = encryptPassword(password);
+				String password = new String(passwordField.getPassword());
 				rs = connect
 						.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
 								+ usernameField.getText()

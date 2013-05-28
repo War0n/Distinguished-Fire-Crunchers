@@ -22,7 +22,7 @@ public class SpelVerloop {
 				if (currTile.isDoubleLetter()) {
 					score = score
 							+ (currTile.getStone().getValue(
-									new LetterSet("nl-NL")) * 2);
+									new LetterSet("NL")) * 2);
 				} else if (currTile.isTripleLetter()) {
 					score = score
 							+ (currTile.getStone().getValue(spel.getLetterSet()) * 3);

@@ -19,7 +19,7 @@ public class Connectie {
 			Class.forName("com.mysql.jdbc.Driver");
 			
 			con = DriverManager.getConnection("jdbc:mysql://db.den-networks.net/myDBtestding", "WF", "avansWF");
-			// con = DriverManager.getConnection("jdbc:mysql://databases.aii.avans.nl", "rcollard", "Ab12345");
+			//con = DriverManager.getConnection("jdbc:mysql://databases.aii.avans.nl/rcollard_db2", "rcollard", "Ab12345");
 	
 		}catch(Exception ex){
 			System.out.println("Error: " + ex);

@@ -1,5 +1,7 @@
 package wordfeud;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class LetterSet
@@ -30,7 +32,8 @@ public class LetterSet
 	public LetterSet()
 	{
 		waarden = new HashMap<Character, Letter>();
-		initDutch();
+		fetch("NL");
+		//initDutch();
 	}
 	
 	public LetterSet(String language_id)
@@ -46,22 +49,26 @@ public class LetterSet
 	
 	public void setLanguage(String language_id)
 	{
-		switch(language_id)
-		{
-		case "nl-NL":
-			initDutch();
-			break;
-		case "en-US":
-		case "en-UK":
-			initEnglish();
-			break;
-		default:
-			initDutch();
-			break;
+		fetch(language_id);
+	}
+	
+	private void fetch(String language)
+	{
+		Connectie connection = new Connectie();
+		ResultSet rs = connection.voerSelectQueryUit("SELECT * FROM wordfeud.lettertype WHERE LetterSet_code = '"+language+"';");
+		try {
+			waarden.clear();
+			while(rs.next())
+			{
+				waarden.put(rs.getString("karakter").charAt(0), new Letter(rs.getInt("waarde"), rs.getInt("aantal")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
-	private void initDutch()
+	/*private void initDutch()
 	{
 		waarden.clear();
 		waarden.put('A', new Letter(1, 7));
@@ -121,5 +128,5 @@ public class LetterSet
 		waarden.put('X', new Letter(8, 1));
 		waarden.put('Y', new Letter(4, 2));
 		waarden.put('Z', new Letter(10, 1));
-	}
+	}*/
 }

@@ -101,7 +101,6 @@ public class SpelPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				cg.setVisible(true);
 				cg.setState(JFrame.NORMAL);
 			}
@@ -121,7 +120,6 @@ public class SpelPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				setParentContentPane(new CompetitiesMenu(false));
 			}
 		});
@@ -140,7 +138,6 @@ public class SpelPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				letterbak.shuffle();
-				
 			}
 		});
 	}
