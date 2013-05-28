@@ -126,7 +126,7 @@ public class LoginScreen extends JPanel {
 					Connectie connect = new Connectie();
 					ResultSet rs;
 					rs = connect
-							.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
+							.voerSelectQueryUit("SELECT COUNT(naam) FROM Account WHERE naam = '"
 									+ usernameField.getText() + "'");
 					try {
 						rs.next();
@@ -139,7 +139,7 @@ public class LoginScreen extends JPanel {
 							String password = new String(passwordField.getPassword());
 							if (rs.getInt(1) == 0) {
 
-								connect.voerInsertOrUpdateQueryUit("INSERT INTO `Account` (`naam`, `password`) VALUES ('"
+								connect.voerInsertOrUpdateQueryUit("INSERT INTO `Account` (`naam`, `wachtwoord`) VALUES ('"
 										+ usernameField.getText()
 										+ "', '"
 										+ password

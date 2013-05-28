@@ -12,29 +12,29 @@ public class Chat extends Observable implements Runnable{
 	private Connectie connect;
 	private ResultSet rs;
 	private String chatLines;
-	private Integer spelID;
+	private Integer spel_id;
 	private Format formatter;
 	
-	public Chat(int spelID){
-		this.spelID = spelID;
+	public Chat(int spel_id){
+		this.spel_id = spel_id;
 		formatter = new SimpleDateFormat("dd-MM-yy KK:mm");
 		Thread chatThread = new Thread(this,"ChatThread");
 		chatThread.start();
 	}
 	
-	public void addChatLine(int spelID,String accountNaam,String bericht){
+	public void addChatLine(int spel_id,String accountNaam,String bericht){
 		connect = new Connectie();
-		connect.voerInsertOrUpdateQueryUit("INSERT INTO ChatRegels VALUES(NOW(),'" + accountNaam + "',"+ spelID +",'"+ bericht +"')");
+		connect.voerInsertOrUpdateQueryUit("INSERT INTO chatregel VALUES(NOW(),'" + accountNaam + "',"+ spel_id +",'"+ bericht +"')");
 		connect.closeConnection();
 	}
 	
-	public String getChatLines(int spelID){
+	public String getChatLines(int spel_id){
 		connect = new Connectie();
-		rs = connect.voerSelectQueryUit("SELECT * FROM ChatRegels WHERE spel_id = "+ spelID);
+		rs = connect.voerSelectQueryUit("SELECT * FROM chatregel WHERE spel_id = "+ spel_id);
 		chatLines = "<html style=\"margin:1px;\"><body style=\"color:white; font-family:Arial,verdana;\">";
+
 		try{
 
-		
 		while(rs.next())
 		{
 		String date = formatter.format(rs.getDate("datumtijd"));
@@ -62,7 +62,7 @@ public class Chat extends Observable implements Runnable{
 		while(true){
 			try {
 				Thread.sleep(500);
-				getChatLines(spelID);
+				getChatLines(spel_id);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
