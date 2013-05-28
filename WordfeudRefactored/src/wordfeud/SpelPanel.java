@@ -127,7 +127,7 @@ public class SpelPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				letterbak.addLetters(speelVeld.clearField());
+				letterbak.addLetters(speelVeld.clearField());//
 				
 			}
 		});

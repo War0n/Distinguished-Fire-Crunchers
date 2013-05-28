@@ -151,7 +151,7 @@ public class LetterbakPanel extends JPanel
 			{
 				if(tiles.get(j).getStone() == null)
 				{
-					tiles.get(j).setStone(clearField.get(i));
+					tiles.get(j).setStone(clearField.get(i));//
 					tiles.get(j).repaint();
 					break;
 				}

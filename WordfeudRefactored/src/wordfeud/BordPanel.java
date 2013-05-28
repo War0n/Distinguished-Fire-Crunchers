@@ -74,7 +74,7 @@ public class BordPanel extends JPanel
 		}	
 	}
 	
-	public ArrayList<Stone> clearField() 
+	public ArrayList<Stone> clearField() //
 	{
 		ArrayList<Stone> stenen = new ArrayList<Stone>();
 		for(int y = 0; y < 15; y++)
