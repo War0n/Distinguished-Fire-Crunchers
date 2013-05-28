@@ -42,7 +42,7 @@ public class Connectie {
 		}
 	}
 	
-	public void voerInsertQueryUit(String myQuery){
+	public void voerInsertOrUpdateQueryUit(String myQuery){
 		 try {
 			st = con.createStatement();
 			st.executeUpdate(myQuery);

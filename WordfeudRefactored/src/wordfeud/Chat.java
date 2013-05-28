@@ -24,7 +24,7 @@ public class Chat extends Observable implements Runnable{
 	
 	public void addChatLine(int spelID,String accountNaam,String bericht){
 		connect = new Connectie();
-		connect.voerInsertQueryUit("INSERT INTO ChatRegels VALUES(NOW(),'" + accountNaam + "',"+ spelID +",'"+ bericht +"')");
+		connect.voerInsertOrUpdateQueryUit("INSERT INTO ChatRegels VALUES(NOW(),'" + accountNaam + "',"+ spelID +",'"+ bericht +"')");
 		connect.closeConnection();
 	}
 	
