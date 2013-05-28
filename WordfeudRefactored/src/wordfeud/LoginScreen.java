@@ -213,7 +213,7 @@ public class LoginScreen extends JPanel {
 			}
 		});
 
-		// Loginbutton ActionListener
+		// Loginbutton ActionListener//
 		loginButton.addActionListener(new ActionListener() {
 			// private GUIMenu menuView;
 
