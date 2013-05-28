@@ -57,7 +57,6 @@ public class Spel {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ArrayList<ArrayList<Tile>> vindWoord() {
 
 		Tile currentTile = newTiles.get(0);
