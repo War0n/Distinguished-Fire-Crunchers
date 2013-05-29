@@ -34,11 +34,7 @@ public class Moderator extends Observable implements ActionListener{
 				ResultSet myResultSet = connect.voerSelectQueryUit("select * from woordenboek where woord = '" + reviewWoorden.get(i).getText() + "'");
 				try {
 					if(!(myResultSet.next())){
-						connect.voerInsertOrUpdateQueryUit("insert into woordenboek (woord) values ('" + reviewWoorden.get(i).getText() + "') ");
-						connect.voerInsertOrUpdateQueryUit("DELETE FROM WoordenVoorReview WHERE Woord = '" + reviewWoorden.get(i).getText() + "'");
-					}
-					else{
-						connect.voerInsertOrUpdateQueryUit("DELETE FROM WoordenVoorReview WHERE Woord = '" + reviewWoorden.get(i).getText() + "'");
+						connect.voerInsertOrUpdateQueryUit("UPDATE  `rcollard_db2`.`woordenboek` SET  `status` =  'Accepted' WHERE  `woordenboek`.`woord` =  '" + reviewWoorden.get(i).getText() + "';");
 					}
 				} catch (SQLException e) {
 					System.out.println("Error: " + e);
@@ -62,7 +58,7 @@ public class Moderator extends Observable implements ActionListener{
 	
 	public void refreshList(){
 		connect = new Connectie();
-		myResultSet = connect.voerSelectQueryUit("select * from WoordenVoorReview");
+		myResultSet = connect.voerSelectQueryUit("SELECT * FROM woordenboek WHERE status = 'Pending'");
 		reviewWoorden = new ArrayList<JCheckBox>();
 		myGUIModerator.clearWoordenPanel();
 		try {	
