@@ -34,6 +34,8 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 	private JScrollPane myScroller;
 	private WFButton back;
 	private Admin admin;
+	private WFButton wwWijzig;
+	private WFButton verwijderAccount;
 	
 	public GUIAdmin(){
 		setMinimumSize(new Dimension(650,750));
@@ -56,7 +58,7 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		functies.setLayout(new FlowLayout());
 		back = new WFButton("< Terug naar menu");
 		functies.add(back);
-		menu = new JPanel();;
+		menu = new JPanel();
 		myGridLayout = new GridLayout(0,1,0,10);
 		menu.setLayout(myGridLayout);
 		menu.setBackground(this.getBackground());
@@ -125,12 +127,14 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		popup.setContentPane(popupPanel);
 		popup.pack();
 		popup.setVisible(true);
+		wwWijzig = new WFButton("Wijzig wachtwoord");
+		verwijderAccount = new WFButton("Verwijder account");
+		wwWijzig.setMaximumSize(new Dimension(50,50));
+		wwWijzig.setPreferredSize(getMaximumSize());
+		wwWijzig.addActionListener(this);
+		verwijderAccount.addActionListener(this);
 		
-		WFButton wwwijzig = new WFButton("Wijzig wachtwoord");
-		WFButton verwijderAccount = new WFButton("Verwijder account");
-		wwwijzig.setMaximumSize(new Dimension(150,50));
-		
-		popupPanel.add(wwwijzig);
+		popupPanel.add(wwWijzig);
 		popupPanel.add(verwijderAccount);
 	}
 	
@@ -146,6 +150,12 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource().equals(back)){
 		setParentContentPane(new GUIMenu());
+		}
+		else if(arg0.getSource().equals(wwWijzig)){
+			admin.chancePassword(naam, wachtwoord)
+		}
+		else if(arg0.getSource().equals(verwijderAccount)){
+			admin.removeAccount();
 		}
 	}
 

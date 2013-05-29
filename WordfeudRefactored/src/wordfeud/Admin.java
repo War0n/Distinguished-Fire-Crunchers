@@ -10,7 +10,7 @@ public class Admin extends Observable {
 	private Connectie connect;
 	private ResultSet namenRS;
 	private ResultSet gegevensRS;
-	private ResultSet testRS;
+	private ResultSet rolRS;
 	private ArrayList<String> namen;
 	
 	public Admin(){
@@ -45,24 +45,31 @@ public class Admin extends Observable {
 				rij[1] = "Wachtwoord: "+gegevensRS.getString("wachtwoord");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		testRS = connect.voerSelectQueryUit("SELECT Rol_type from accountrol WHERE Account_naam = '"+naam+"'");
+		rolRS = connect.voerSelectQueryUit("SELECT Rol_type from accountrol WHERE Account_naam = '"+naam+"'");
 		try {
 			rij[2]= "Rol: onbekend";
-			while(testRS.next()){
-				rij[2]= "Rol: "+ testRS.getString("Rol_type");	
+			while(rolRS.next()){
+				rij[2]= "Rol: "+ rolRS.getString("Rol_type");	
 		}
 			
-			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		connect.closeConnection();
 		return rij;
+	}
+	
+	public void removeAccount(String naam){
+		connect = new Connectie();
+		connect.voerInsertOrUpdateQueryUit("DELETE * from account WHERE naam = '" + naam+"'");
+	}
+	
+	public void chancePassword(String naam, String wachtwoord){
+		connect = new Connectie();
+		connect.voerInsertOrUpdateQueryUit("UPDATE account SET wachtwoord = '"+wachtwoord+"' WHERE naam = '" + naam+"'");
 	}
 
 }
