@@ -92,7 +92,8 @@ public class GUIMenu extends JPanel implements ActionListener{
 		
 		if(!Account.checkModerator(Account.getAccountNaam())){
 			modButton.setEnabled(false);
-		}else if(!Account.checkAdmin(Account.getAccountNaam())){
+		}
+		if(!Account.checkAdmin(Account.getAccountNaam())){
 			adminButton.setEnabled(false);
 		}
 				
