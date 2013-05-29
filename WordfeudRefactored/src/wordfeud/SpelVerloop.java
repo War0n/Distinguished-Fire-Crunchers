@@ -6,33 +6,46 @@ public class SpelVerloop {
 	private Spel spel;
 	private ArrayList<Tile> newTiles;
 	private ArrayList<ArrayList<Tile>> woordenLijst;
-	
-	public SpelVerloop(Spel spel){
+
+	public SpelVerloop(Spel spel) {
 		this.spel = spel;
 		newTiles = spel.getBord().getNewTiles();
 		woordenLijst = new ArrayList<ArrayList<Tile>>();
 	}
-	
-	
-	public void puntenTeller() {
+
+	public Integer puntenTeller() {
 		int score = 0;
+		boolean doubleword = false;
+		boolean tripleword = false;
 		for (int i = 0; i < woordenLijst.size(); i++) {
 			for (int ii = 0; ii < woordenLijst.get(i).size(); ii++) {
 				Tile currTile = (Tile) woordenLijst.get(i).get(ii);
 				if (currTile.isDoubleLetter()) {
 					score = score
-							+ (currTile.getStone().getValue(
-									new LetterSet("NL")) * 2);
+							+ (currTile.getStone()
+									.getValue(new LetterSet("NL")) * 2);
 				} else if (currTile.isTripleLetter()) {
 					score = score
-							+ (currTile.getStone().getValue(spel.getLetterSet()) * 3);
+							+ (currTile.getStone()
+									.getValue(spel.getLetterSet()) * 3);
 				} else if (currTile.isDoubleWord()) {
-					score = (score + currTile.getStone().getValue(spel.getLetterSet()) * 2);
+					score = (score + currTile.getStone().getValue(
+							spel.getLetterSet()));
+					doubleword = true;
 				} else if (currTile.isTripleWord()) {
-					score = (score + currTile.getStone().getValue(spel.getLetterSet()) * 3);
+					score = (score + currTile.getStone().getValue(
+							spel.getLetterSet()));
+					tripleword = true;
 				}
 			}
 		}
+		if (doubleword) {
+			score = score * 2;
+		} else if (tripleword) {
+			score = score * 3;
+		}
+		return score;
+
 	}
 
 	public ArrayList<ArrayList<Tile>> vindWoord() {
@@ -82,7 +95,8 @@ public class SpelVerloop {
 							}
 							done2 = false;
 						}
-						woordenLijst.add(woordenLijst.size(), new ArrayList<Tile>());
+						woordenLijst.add(woordenLijst.size(),
+								new ArrayList<Tile>());
 						while (!done2) {
 							if (!nextTile(currentTile, 'r').equals(null)) {
 								woordenLijst.get(woordenLijst.size() - 1).add(
@@ -127,7 +141,8 @@ public class SpelVerloop {
 							}
 							done2 = false;
 						}
-						woordenLijst.add(woordenLijst.size(), new ArrayList<Tile>());
+						woordenLijst.add(woordenLijst.size(),
+								new ArrayList<Tile>());
 						while (!done2) {
 							if (!nextTile(currentTile, 'd').equals(null)) {
 								woordenLijst.get(woordenLijst.size() - 1).add(
@@ -189,22 +204,26 @@ public class SpelVerloop {
 		int[] coor = spel.getBord().getCoordinat(tile);
 		switch (direction) {
 		case 'u':
-			if (!spel.getBord().getTile(coor[0], coor[1] + 1).getStone().equals(null)) {
+			if (!spel.getBord().getTile(coor[0], coor[1] + 1).getStone()
+					.equals(null)) {
 				return spel.getBord().getTile(coor[0], coor[1] + 1);
 			}
 			break;
 		case 'd':
-			if (!spel.getBord().getTile(coor[0], coor[1] - 1).getStone().equals(null)) {
+			if (!spel.getBord().getTile(coor[0], coor[1] - 1).getStone()
+					.equals(null)) {
 				return spel.getBord().getTile(coor[0], coor[1] - 1);
 			}
 			break;
 		case 'l':
-			if (!spel.getBord().getTile(coor[0] - 1, coor[1]).getStone().equals(null)) {
+			if (!spel.getBord().getTile(coor[0] - 1, coor[1]).getStone()
+					.equals(null)) {
 				return spel.getBord().getTile(coor[0] - 1, coor[1]);
 			}
 			break;
 		case 'r':
-			if (!spel.getBord().getTile(coor[0] + 1, coor[1]).getStone().equals(null)) {
+			if (!spel.getBord().getTile(coor[0] + 1, coor[1]).getStone()
+					.equals(null)) {
 				return spel.getBord().getTile(coor[0] + 1, coor[1]);
 			}
 			break;
