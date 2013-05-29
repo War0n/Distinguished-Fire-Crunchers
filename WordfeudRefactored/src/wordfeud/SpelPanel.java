@@ -44,7 +44,7 @@ public class SpelPanel extends JPanel{
 		setMaximumSize(new Dimension(650,750));
 		setPreferredSize(getMaximumSize());
 		swapButton = new WFButton("Swap");
-		skipButton = new WFButton("Skip");
+		skipButton = new WFButton("Pass");
 		placeButton = new WFButton("Play");
 		chatButton = new WFButton("Chat");
 		clearButton = new WFButton("Clear");
