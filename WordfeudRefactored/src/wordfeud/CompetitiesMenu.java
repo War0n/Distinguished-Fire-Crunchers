@@ -89,13 +89,13 @@ public class CompetitiesMenu extends JPanel  implements MouseListener,ActionList
 		String eigenaar = null;
 		
 		//Haal alle competities op uit de db
-		rs = connect.voerSelectQueryUit("select * from Competities");
+		rs = connect.voerSelectQueryUit("select * from Competitie");
 		try {
 			while(rs.next())
 			{
 				
-				idCompetitie = rs.getInt("idCompetitie");
-				eigenaar = rs.getString("eigenaar");
+				idCompetitie = rs.getInt("ID");
+				eigenaar = rs.getString("Account_naam_eigenaar");
 				
 				JPanel comp = new JPanel();
 				comp.setMaximumSize(new Dimension(650,80));
@@ -131,7 +131,7 @@ public class CompetitiesMenu extends JPanel  implements MouseListener,ActionList
 		Connectie connect = new Connectie();
 		
 		if(!(alleEigenaren.contains(eigenaar + ";"))){
-			connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Competities` (`idCompetitie`, `eigenaar`) VALUES ('" + (aantalCompetities + 1) + "', '" + eigenaar + "');");
+			connect.voerInsertOrUpdateQueryUit("INSERT INTO `Competitie` (`ID`, `Account_naam_eigenaar`) VALUES ('" + (aantalCompetities + 1) + "', '" + eigenaar + "');");
 			connect.closeConnection();
 			alleEigenaren += eigenaar;
 			JOptionPane.showMessageDialog(popup,

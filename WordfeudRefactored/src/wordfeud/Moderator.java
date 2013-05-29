@@ -34,11 +34,11 @@ public class Moderator extends Observable implements ActionListener{
 				ResultSet myResultSet = connect.voerSelectQueryUit("select * from woordenboek where woord = '" + reviewWoorden.get(i).getText() + "'");
 				try {
 					if(!(myResultSet.next())){
-						connect.voerInsertQueryUit("insert into woordenboek (woord) values ('" + reviewWoorden.get(i).getText() + "') ");
-						connect.voerInsertQueryUit("DELETE FROM WoordenVoorReview WHERE Woord = '" + reviewWoorden.get(i).getText() + "'");
+						connect.voerInsertOrUpdateQueryUit("insert into woordenboek (woord) values ('" + reviewWoorden.get(i).getText() + "') ");
+						connect.voerInsertOrUpdateQueryUit("DELETE FROM WoordenVoorReview WHERE Woord = '" + reviewWoorden.get(i).getText() + "'");
 					}
 					else{
-						connect.voerInsertQueryUit("DELETE FROM WoordenVoorReview WHERE Woord = '" + reviewWoorden.get(i).getText() + "'");
+						connect.voerInsertOrUpdateQueryUit("DELETE FROM WoordenVoorReview WHERE Woord = '" + reviewWoorden.get(i).getText() + "'");
 					}
 				} catch (SQLException e) {
 					System.out.println("Error: " + e);
@@ -53,7 +53,7 @@ public class Moderator extends Observable implements ActionListener{
 		connect = new Connectie();
 		for(int i = 0; i < reviewWoorden.size(); i++){
 			if(reviewWoorden.get(i).isSelected()){
-				connect.voerInsertQueryUit("DELETE FROM WoordenVoorReview WHERE Woord = '" + reviewWoorden.get(i).getText() + "';");
+				connect.voerInsertOrUpdateQueryUit("DELETE FROM WoordenVoorReview WHERE Woord = '" + reviewWoorden.get(i).getText() + "';");
 			}
 		}
 		connect.closeConnection();

@@ -13,6 +13,7 @@ import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JPanel;
 
@@ -62,6 +63,8 @@ public class LetterbakPanel extends JPanel
 	{
 		this.letterbak = letterbak;
 	}
+	
+	
 	
 	public class MyDragGestureListener implements DragGestureListener 
 	{
@@ -139,6 +142,50 @@ public class LetterbakPanel extends JPanel
 	            event.rejectDrop();
 	        }
 	    }
+	}
+
+	public void addLetters(ArrayList<Stone> clearField) 
+	{
+		for(int i = 0; i < clearField.size(); i++)
+		{
+			for(int j = 0; j < 7; j++)
+			{
+				if(tiles.get(j).getStone() == null)
+				{
+					tiles.get(j).setStone(clearField.get(i));//
+					tiles.get(j).repaint();
+					break;
+				}
+			}
+		}
+		
+	}
+
+	public void shuffle() 
+	{
+		ArrayList<Stone> shuffle = new ArrayList<Stone>();
+		for(int j = 0; j < 7; j++)
+		{
+			if(tiles.get(j).getStone() != null)
+			{
+				shuffle.add(tiles.get(j).getStone());
+				tiles.get(j).setStone(null);//
+				tiles.get(j).repaint();//
+			}
+		}
+		Collections.shuffle(shuffle);
+		for(int i = 0; i < shuffle.size(); i++)
+		{
+			for(int j = 0; j < 7; j++)
+			{
+				if(tiles.get(j).getStone() == null)
+				{
+					tiles.get(j).setStone(shuffle.get(i));//
+					tiles.get(j).repaint();
+					break;
+				}
+			}
+		}	
 	}
 }
 

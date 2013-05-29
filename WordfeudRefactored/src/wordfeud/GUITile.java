@@ -91,7 +91,7 @@ public class GUITile extends JPanel{
 			g.drawImage(tile.getStone().getImage(isOverride()), 0, 0, this);
 			
 			Font tmp = g.getFont();
-			LetterSet letterSet = new LetterSet("nl-NL");
+			LetterSet letterSet = new LetterSet("NL");
 			
 			//g.drawImage(img, 0, 0, this);
 			

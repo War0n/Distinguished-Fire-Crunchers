@@ -18,7 +18,8 @@ public class Connectie {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			
-			con = DriverManager.getConnection("jdbc:mysql://db.den-networks.net/myDBtestding", "WF", "avansWF");
+			//con = DriverManager.getConnection("jdbc:mysql://db.den-networks.net/myDBtestding", "WF", "avansWF");
+			con = DriverManager.getConnection("jdbc:mysql://databases.aii.avans.nl/rcollard_db2", "rcollard", "Ab12345");
 	
 		}catch(Exception ex){
 			System.out.println("Error: " + ex);
@@ -41,7 +42,7 @@ public class Connectie {
 		}
 	}
 	
-	public void voerInsertQueryUit(String myQuery){
+	public void voerInsertOrUpdateQueryUit(String myQuery){
 		 try {
 			st = con.createStatement();
 			st.executeUpdate(myQuery);

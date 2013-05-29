@@ -24,30 +24,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class LoginScreen extends JPanel {
-	private static String encryptPassword(String password) {
-		String sha1 = "";
-		try {
-			MessageDigest crypt = MessageDigest.getInstance("SHA-1");
-			crypt.reset();
-			crypt.update(password.getBytes("UTF-8"));
-			sha1 = byteToHex(crypt.digest());
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return sha1;
-	}
-
-	private static String byteToHex(final byte[] hash) {
-		Formatter formatter = new Formatter();
-		for (byte b : hash) {
-			formatter.format("%02x", b);
-		}
-		String result = formatter.toString();
-		formatter.close();
-		return result;
-	}
 
 	/**
 	 * 
@@ -130,7 +106,6 @@ public class LoginScreen extends JPanel {
 		add(content);
 		activeFrame.pack();
 		passwordField.addKeyListener(new KeyAdapter() {
-			@SuppressWarnings("unused")
 			public void KeyPressed(KeyEvent e) {
 				if (e.getKeyCode() == (KeyEvent.VK_ENTER)) {
 					System.out.println("het werkt ongeveer");
@@ -151,7 +126,7 @@ public class LoginScreen extends JPanel {
 					Connectie connect = new Connectie();
 					ResultSet rs;
 					rs = connect
-							.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
+							.voerSelectQueryUit("SELECT COUNT(naam) FROM Account WHERE naam = '"
 									+ usernameField.getText() + "'");
 					try {
 						rs.next();
@@ -161,18 +136,19 @@ public class LoginScreen extends JPanel {
 									JOptionPane.WARNING_MESSAGE);
 							popup = null;
 						} else {
-							String password = "";
-							for (char c : passwordField.getPassword()) {
-								password = password + c;
-							}
-							password = encryptPassword(password);
+							String password = new String(passwordField.getPassword());
 							if (rs.getInt(1) == 0) {
 
-								connect.voerInsertQueryUit("INSERT INTO `myDBtestding`.`Accounts` (`naam`, `rol`, `geaccepteerd`, `password`) VALUES ('"
+								connect.voerInsertOrUpdateQueryUit("INSERT INTO `Account` (`naam`, `wachtwoord`) VALUES ('"
 										+ usernameField.getText()
-										+ "', 'user', '1', '"
+										+ "', '"
 										+ password
 										+ "');");
+								
+								connect.voerInsertOrUpdateQueryUit("INSERT INTO `accountrol` (`Account_naam`, `Rol_type`) VALUES ('"
+										+ usernameField.getText()
+										+ "', 'Player');");
+								
 								connect.closeConnection();
 								usernameField.setText("");
 								passwordField.setText("");
@@ -214,7 +190,7 @@ public class LoginScreen extends JPanel {
 			}
 		});
 
-		// Loginbutton ActionListener
+		// Loginbutton ActionListener//
 		loginButton.addActionListener(new ActionListener() {
 			// private GUIMenu menuView;
 
@@ -222,15 +198,11 @@ public class LoginScreen extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				Connectie connect = new Connectie();
 				ResultSet rs;
-				String password = "";
-				for (char c : passwordField.getPassword()) {
-					password = password + c;
-				}
-				password = encryptPassword(password);
+				String password = new String(passwordField.getPassword());
 				rs = connect
-						.voerSelectQueryUit("SELECT COUNT(naam) FROM Accounts WHERE naam = '"
+						.voerSelectQueryUit("SELECT COUNT(naam) FROM account WHERE naam = '"
 								+ usernameField.getText()
-								+ "' AND password ='"
+								+ "' AND wachtwoord ='"
 								+ password + "' ");
 				try {
 					if (rs.next()) {
@@ -242,6 +214,7 @@ public class LoginScreen extends JPanel {
 							new GUIMenu();
 							activeFrame.setContentPane(myGuiMenu);
 							activeFrame.pack();
+							activeFrame.setLocationRelativeTo(null);
 						} else {
 							JOptionPane.showMessageDialog(popup,
 									"Onjuiste inlognaam of wachtwoord",

@@ -71,7 +71,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		observerButton = new WFButton("Observeren");
 		wachtwoordWijzigen = new WFButton("Wachtwoord wijzigen");
 		stopButton = new WFButton("Spel Stoppen");
-		adminButton = new WFButton("Administrator");
+		adminButton = new WFButton("Administrator scherm bekijken");
 		modButton = new WFButton("Moderator scherm bekijken");
 		myButtons = new ArrayList<WFButton>();
 		
@@ -107,13 +107,15 @@ public class GUIMenu extends JPanel implements ActionListener{
 			setParentContentPane(new CompetitiesMenu(true));
 		}
 		if(arg0.getSource().equals(modButton)){
-			if(Account.checkModerator(Account.getAccountNaam()))
-			{
-				setParentContentPane(new GUIModerator());
-			}else{
-				message.setText("Je bent geen moderator!");
-			}
-		}
+            if(Account.checkModerator(Account.getAccountNaam()))
+            {
+            	GUIModerator myGUIModerator = new GUIModerator();
+				Moderator myModerator = new Moderator(myGUIModerator);
+				setParentContentPane(myGUIModerator);
+            }else{
+            	message.setText("Je hebt geen moderator rechten!");
+            }
+    }
 		if(arg0.getSource().equals(wachtwoordWijzigen)){
 			
 		}
@@ -124,7 +126,12 @@ public class GUIMenu extends JPanel implements ActionListener{
 			System.exit(0);
 		}	
 		if(arg0.getSource().equals(adminButton)){
-			setParentContentPane(new GUIAdmin());
+			if(Account.checkAdmin(Account.getAccountNaam())){
+				setParentContentPane(new GUIAdmin());
+			}
+			else{
+				message.setText("Je hebt geen admin rechten!");
+			}
 		}
 	}
 	
@@ -133,5 +140,4 @@ public class GUIMenu extends JPanel implements ActionListener{
 		root.setContentPane(contentPane);
 		root.pack();
 	}
-	
 }
