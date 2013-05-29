@@ -48,7 +48,7 @@ public class Moderator extends Observable implements ActionListener{
 	public void declineWord(){
 		connect = new Connectie();
 		for(int i = 0; i < reviewWoorden.size(); i++){
-			if(reviewWoorden.get(i).isSelected()){
+			if(reviewWoorden.get(i).isSelected()){ //verander status van geselecteerde woorden in denied
 				connect.voerInsertOrUpdateQueryUit("UPDATE  `rcollard_db2`.`woordenboek` SET  `status` =  'Denied' WHERE  `woordenboek`.`woord` =  '" + reviewWoorden.get(i).getText() + "';");
 			}
 		}
@@ -64,7 +64,7 @@ public class Moderator extends Observable implements ActionListener{
 		try {	
 			while(myResultSet.next())
 			{
-				reviewWoorden.add(new JCheckBox(myResultSet.getString("Woord")));
+				reviewWoorden.add(new JCheckBox(myResultSet.getString("Woord")));	
 			}
 			setChanged();
 			notifyObservers(reviewWoorden);
