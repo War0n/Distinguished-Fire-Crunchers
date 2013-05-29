@@ -23,7 +23,7 @@ public class Account {
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;
 		
-		myResultSet = connect.voerSelectQueryUit("SELECT Rol_type From accountrol WHERE Account_naam = '" + accountNaam + "';");
+		myResultSet = connect.voerSelectQueryUit("SELECT Rol_type From accountrol WHERE Account_naam = '" + getAccountNaam() + "'");
 		
 		try {
 			while(myResultSet.next())
@@ -49,7 +49,7 @@ public class Account {
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;
 		
-		myResultSet = connect.voerSelectQueryUit("SELECT Rol_type From accountrol WHERE Account_naam = '" + accountNaam + "';");
+		myResultSet = connect.voerSelectQueryUit("SELECT Rol_type From accountrol WHERE Account_naam = '" + getAccountNaam() + "'");
 		
 		try {
 			while(myResultSet.next())

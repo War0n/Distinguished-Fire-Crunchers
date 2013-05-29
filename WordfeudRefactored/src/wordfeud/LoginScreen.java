@@ -42,7 +42,6 @@ public class LoginScreen extends JPanel {
 	private WFButton registerButton;
 	private JFrame activeFrame;
 	private String curUser;
-	private GUIMenu myGuiMenu;
 	JFrame popup = null;
 
 	public LoginScreen(JFrame frame) {
@@ -87,7 +86,6 @@ public class LoginScreen extends JPanel {
 		registercontroleLabel.setAlignmentX(CENTER_ALIGNMENT);
 		registercontroleLabel.setVisible(false);
 		registerControle.setMaximumSize(new Dimension(150, 20));
-		myGuiMenu = new GUIMenu();
 
 		loginpanel.add(userLabel);
 		loginpanel.add(Box.createVerticalStrut(2));
@@ -212,7 +210,7 @@ public class LoginScreen extends JPanel {
 							Account.setAccountNaam(curUser);
 							// menuView = new GUIMenu();
 							new GUIMenu();
-							activeFrame.setContentPane(myGuiMenu);
+							activeFrame.setContentPane(new GUIMenu());
 							activeFrame.pack();
 							activeFrame.setLocationRelativeTo(null);
 						} else {
