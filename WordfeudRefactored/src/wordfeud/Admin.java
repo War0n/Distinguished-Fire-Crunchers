@@ -19,7 +19,7 @@ public class Admin extends Observable {
 	}
 	
 	public void getAccounts(){
-		namenRS = connect.voerSelectQueryUit("SELECT naam from Accounts");
+		namenRS = connect.voerSelectQueryUit("SELECT naam from account");
 		try {
 			while(namenRS.next()){
 				namen.add(namenRS.getString("naam"));
