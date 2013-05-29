@@ -50,7 +50,7 @@ public class GUIModerator extends JPanel implements Observer{
 		myButtonPanel = new JPanel();
 		backToMenu = new WFButton("Ga terug");
 
-		
+		//scrollend
 		wordScrollPane = new JScrollPane(woordenPanel);
 		wordScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		woordenPanel.setLayout(new BoxLayout(woordenPanel,BoxLayout.Y_AXIS));
@@ -66,7 +66,7 @@ public class GUIModerator extends JPanel implements Observer{
 		myButtonPanel.add(backToMenu);
 		this.add(myButtonPanel, BorderLayout.LINE_END);
 	}
-	
+
 	public void clearWoordenPanel(){
 		woordenPanel.removeAll();
 		reviewWoorden.clear();
