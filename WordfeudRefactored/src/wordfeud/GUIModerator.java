@@ -21,12 +21,12 @@ import javax.swing.SwingUtilities;
 @SuppressWarnings("serial")
 public class GUIModerator extends JPanel implements Observer{
 	
-	private JButton acceptWord;
-	private JButton declineWord;
+	private WFButton acceptWord;
+	private WFButton declineWord;
 	private JPanel woordenPanel;
 	private JPanel myButtonPanel;
 	private JLabel titel;
-	private JButton backToMenu;
+	private WFButton backToMenu;
 	private ArrayList<JCheckBox> reviewWoorden;
 	
 	public GUIModerator(){
@@ -43,11 +43,11 @@ public class GUIModerator extends JPanel implements Observer{
 		titel.setForeground(Color.white);
 		titel.setFont(new Font("Arial",Font.BOLD,30));
 		titel.setPreferredSize(new Dimension(650,100));
-		acceptWord = new JButton("Accepteer");
-		declineWord = new JButton("Verwerp");
+		acceptWord = new WFButton("Accepteer");
+		declineWord = new WFButton("Verwerp");
 		woordenPanel = new JPanel();
 		myButtonPanel = new JPanel();
-		backToMenu = new JButton("Ga terug");
+		backToMenu = new WFButton("Ga terug");
 
 		
 		JScrollPane wordScrollPane = new JScrollPane(woordenPanel);
@@ -55,6 +55,8 @@ public class GUIModerator extends JPanel implements Observer{
 		woordenPanel.setLayout(new BoxLayout(woordenPanel,BoxLayout.Y_AXIS));
 		myButtonPanel.setLayout(new BoxLayout(myButtonPanel, BoxLayout.PAGE_AXIS));
 		myButtonPanel.setPreferredSize(new Dimension(120,650));
+		woordenPanel.setBackground(new Color(23,26,30));
+		myButtonPanel.setBackground(new Color(23,26,30));
 		
 		this.add(titel, BorderLayout.NORTH);
 		this.add(wordScrollPane, BorderLayout.CENTER);
@@ -76,6 +78,9 @@ public class GUIModerator extends JPanel implements Observer{
 		reviewWoorden = (ArrayList<JCheckBox>) arg1;
 		for(int i = 0; i < reviewWoorden.size(); i++){
 			woordenPanel.add(reviewWoorden.get(i));
+			reviewWoorden.get(i).setBackground(new Color(23,26,30));
+			reviewWoorden.get(i).setForeground(Color.WHITE);
+			
 		}
 		revalidate();
 		repaint();
