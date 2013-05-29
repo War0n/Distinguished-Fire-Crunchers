@@ -18,6 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
@@ -103,20 +105,33 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 	public void getInfo(ActionEvent e){
 		JFrame popup = new JFrame();	
 		JButton srcButton = (JButton) e.getSource();
+		JPanel popupPanel = new JPanel();
 		String[] data = admin.getInfo(srcButton.getText());
 		String verzamelData = "";
 		for(String gegeven:data){
 			verzamelData = verzamelData + gegeven + System.lineSeparator();
 		}
 		
-		popup.setTitle("Gegevens van: "+ data[0]);
+		popup.setTitle(data[0]);
 		popup.setMinimumSize(new Dimension(300,200));
-		JLabel popupData = new JLabel(verzamelData);
-		popup.setLayout(myGridLayout);
+		JTextArea popupData = new JTextArea(verzamelData);
+		popupData.setEditable(false);
+		popupData.setFont(new Font("Arial",Font.BOLD,20));
+		popupData.setBackground(new Color(23,26,30));
+		popupData.setForeground(Color.white);
+		popupPanel.setLayout(myGridLayout);
 		popup.setResizable(false);
-		popup.add(popupData);
+		popupPanel.add(popupData);
+		popup.setContentPane(popupPanel);
 		popup.pack();
 		popup.setVisible(true);
+		
+		WFButton wwwijzig = new WFButton("Wijzig wachtwoord");
+		WFButton verwijderAccount = new WFButton("Verwijder account");
+		wwwijzig.setMaximumSize(new Dimension(150,50));
+		
+		popupPanel.add(wwwijzig);
+		popupPanel.add(verwijderAccount);
 	}
 	
 
