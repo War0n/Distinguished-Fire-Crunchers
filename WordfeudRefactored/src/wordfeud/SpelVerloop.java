@@ -8,11 +8,18 @@ public class SpelVerloop {
 	private Spel spel;
 	private ArrayList<Tile> newTiles;
 	private ArrayList<ArrayList<Tile>> woordenLijst;
+	private int gepasst;
+	private boolean spelOver;
+	
 
 	public SpelVerloop(Spel spel) {
 		this.spel = spel;
 		newTiles = spel.getBord().getNewTiles();
 		woordenLijst = new ArrayList<ArrayList<Tile>>();
+	}
+	
+	public void play(){
+		
 	}
 	
 	public void skipTurn()

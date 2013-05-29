@@ -112,6 +112,7 @@ public class SpelPanel extends JPanel{
 			public void actionPerformed(ActionEvent arg0)
 			{
 				speelVeld.lockField();
+				//spel.getVerloop().play();
 			}
 		});
 		
