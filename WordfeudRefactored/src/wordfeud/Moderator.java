@@ -31,9 +31,9 @@ public class Moderator extends Observable implements ActionListener{
 		for(int i = 0; i < reviewWoorden.size(); i++){
 			if(reviewWoorden.get(i).isSelected()){ // voor alle geselecteerde woorden
 				
-				ResultSet myResultSet = connect.voerSelectQueryUit("select * from woordenboek where woord = '" + reviewWoorden.get(i).getText() + "'");
+				ResultSet myResultSet = connect.voerSelectQueryUit("SELECT * FROM woordenboek WHERE woord = '" + reviewWoorden.get(i).getText() + "'");
 				try {
-					if(!(myResultSet.next())){
+					if((myResultSet.next())){
 						connect.voerInsertOrUpdateQueryUit("UPDATE  `rcollard_db2`.`woordenboek` SET  `status` =  'Accepted' WHERE  `woordenboek`.`woord` =  '" + reviewWoorden.get(i).getText() + "';");
 					}
 				} catch (SQLException e) {
@@ -49,7 +49,7 @@ public class Moderator extends Observable implements ActionListener{
 		connect = new Connectie();
 		for(int i = 0; i < reviewWoorden.size(); i++){
 			if(reviewWoorden.get(i).isSelected()){
-				connect.voerInsertOrUpdateQueryUit("DELETE FROM WoordenVoorReview WHERE Woord = '" + reviewWoorden.get(i).getText() + "';");
+				connect.voerInsertOrUpdateQueryUit("UPDATE  `rcollard_db2`.`woordenboek` SET  `status` =  'Denied' WHERE  `woordenboek`.`woord` =  '" + reviewWoorden.get(i).getText() + "';");
 			}
 		}
 		connect.closeConnection();
