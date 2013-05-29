@@ -18,7 +18,7 @@ public class Account {
 		accountNaam = loginNaam;
 	}
 	
-	public static boolean checkModerator(String accountNaam)
+	public static boolean checkModerator()
 	{
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;
@@ -44,7 +44,7 @@ public class Account {
 		return false;
 	}
 	
-	public static boolean checkAdmin(String accountNaam)
+	public static boolean checkAdmin()
 	{
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;

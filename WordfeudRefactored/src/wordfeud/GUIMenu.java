@@ -90,10 +90,10 @@ public class GUIMenu extends JPanel implements ActionListener{
 			menu.add(myButtons.get(i));
 		}
 		
-		if(!Account.checkModerator(Account.getAccountNaam())){
+		if(!Account.checkModerator()){
 			modButton.setEnabled(false);
 		}
-		if(!Account.checkAdmin(Account.getAccountNaam())){
+		if(!Account.checkAdmin()){
 			adminButton.setEnabled(false);
 		}
 				
@@ -114,7 +114,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 			setParentContentPane(new CompetitiesMenu(true));
 		}
 		if(arg0.getSource().equals(modButton)){
-            if(Account.checkModerator(Account.getAccountNaam()))
+            if(Account.checkModerator())
             {
             	GUIModerator myGUIModerator = new GUIModerator();
 				Moderator myModerator = new Moderator(myGUIModerator);
@@ -133,7 +133,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 			System.exit(0);
 		}	
 		if(arg0.getSource().equals(adminButton)){
-			if(Account.checkAdmin(Account.getAccountNaam())){
+			if(Account.checkAdmin()){
 				setParentContentPane(new GUIAdmin());
 			}
 			else{
