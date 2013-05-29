@@ -54,7 +54,7 @@ public class Account {
 		try {
 			while(myResultSet.next())
 			{
-				if(myResultSet.getString("rol_type").equals("Administrator")){
+				if(myResultSet.getString("Rol_type").equals("Administrator")){
 					connect.closeConnection();
 					return true;
 				}
