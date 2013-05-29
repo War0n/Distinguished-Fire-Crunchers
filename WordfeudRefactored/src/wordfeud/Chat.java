@@ -29,12 +29,10 @@ public class Chat extends Observable implements Runnable{
 	}
 	
 	public String getChatLines(int spel_id){
-		connect = new Connectie();
-		rs = connect.voerSelectQueryUit("SELECT * FROM chatregel WHERE spel_id = "+ spel_id);
-		chatLines = "<html style=\"margin:1px;\"><body style=\"color:white; font-family:Arial,verdana;\">";
-
 		try{
-
+			chatLines = "";
+			connect = new Connectie();
+			rs = connect.voerSelectQueryUit("SELECT * FROM chatregel WHERE spel_id = "+ spel_id + " ORDER BY datetime ASC");
 		while(rs.next())
 		{
 		String date = formatter.format(rs.getTimestamp("datetime"));
@@ -42,15 +40,13 @@ public class Chat extends Observable implements Runnable{
 		 Blob berichtBlob = rs.getBlob("bericht");
 		 byte[] bdata = berichtBlob.getBytes(1, (int) berichtBlob.length());
 		 String bericht = new String(bdata);
-		 chatLines = chatLines + date + " <b>" + account + "</b>: " + bericht + "<br/>" ;
+		 chatLines = chatLines + date + " " + account + " : " + bericht + System.lineSeparator() ;
+		 
 		}
-
 		}catch(SQLException e){
 		            System.out.println("Error: " + e);
 		}
-		chatLines = chatLines + "</body></html>";
 		connect.closeConnection();
-		
 		this.setChanged();
 		this.notifyObservers(chatLines);
 		return chatLines;

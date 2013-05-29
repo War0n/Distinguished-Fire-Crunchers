@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
@@ -29,7 +30,7 @@ public class ChatGUI  extends JFrame implements Observer{
 	private JPanel chatFrame;
 	private JPanel sendPanel;
 	private JLabel chatStatus;
-	private JTextPane chatHistory;
+	private JTextArea chatHistory;
 	private JTextField tekstVeld;
 	private JButton sendButton;
 	private Chat chat;
@@ -42,8 +43,10 @@ public class ChatGUI  extends JFrame implements Observer{
 		chatFrame = new JPanel();
 		sendPanel = new JPanel();
 		chatStatus = new JLabel("Chatten met: USERNAME");
-		chatHistory = new JTextPane();
-		chatHistory.setContentType("text/html");
+		chatHistory = new JTextArea();
+		chatHistory.setEditable(false);
+		chatHistory.setLineWrap(true);
+		chatHistory.setWrapStyleWord(true);
 		tekstVeld = new JTextField();
 		sendButton = new JButton("Stuur");
 		chat = new Chat(game.getSpelId());
@@ -108,6 +111,8 @@ public class ChatGUI  extends JFrame implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
-		chatHistory.setText((String) arg1);
+		if(!chatHistory.getText().equals((String) arg1)){
+			chatHistory.setText((String) arg1);
+		}
 	}
 }
