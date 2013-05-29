@@ -23,12 +23,12 @@ public class Account {
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;
 		
-		myResultSet = connect.voerSelectQueryUit("SELECT rol_type From Accountrol WHERE account_naam = '" + accountNaam + "';");
+		myResultSet = connect.voerSelectQueryUit("SELECT Rol_type From accountrol WHERE Account_naam = '" + accountNaam + "';");
 		
 		try {
 			while(myResultSet.next())
 			{
-				if(myResultSet.getString("rol_type").equals("mod")){
+				if(myResultSet.getString("Rol_type").equals("Moderator")){
 					connect.closeConnection();
 					return true;
 				}
@@ -49,7 +49,7 @@ public class Account {
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;
 		
-		myResultSet = connect.voerSelectQueryUit("SELECT rol_type From Accountrol WHERE account_naam = '" + accountNaam + "';");
+		myResultSet = connect.voerSelectQueryUit("SELECT Rol_type From accountrol WHERE Account_naam = '" + accountNaam + "';");
 		
 		try {
 			while(myResultSet.next())
