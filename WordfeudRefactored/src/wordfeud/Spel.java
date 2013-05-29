@@ -13,7 +13,7 @@ public class Spel {
 		bord = new Bord();
 		letterbak = new Letterbak();
 		letterSet = new LetterSet("NL"); // Nederlands? :)
-		spelID = new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
+		spelID = 511;//new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
 		verloop = new SpelVerloop(this);
 	}
 
@@ -31,5 +31,9 @@ public class Spel {
 
 	public int getSpelId() {
 		return spelID;
+	}
+
+	public SpelVerloop getVerloop() {
+		return verloop;
 	}
 }

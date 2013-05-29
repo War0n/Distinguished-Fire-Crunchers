@@ -140,5 +140,13 @@ public class SpelPanel extends JPanel{
 				letterbak.shuffle();
 			}
 		});
+		
+		skipButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				spel.getVerloop().skipTurn();
+			}
+		});
 	}
 }
