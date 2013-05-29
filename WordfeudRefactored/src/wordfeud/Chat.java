@@ -17,14 +17,14 @@ public class Chat extends Observable implements Runnable{
 	
 	public Chat(int spel_id){
 		this.spel_id = spel_id;
-		formatter = new SimpleDateFormat("dd-MM-yy KK:mm");
+		formatter = new SimpleDateFormat("dd-MM-yy HH:mm");
 		Thread chatThread = new Thread(this,"ChatThread");
 		chatThread.start();
 	}
 	
 	public void addChatLine(int spel_id,String accountNaam,String bericht){
 		connect = new Connectie();
-		connect.voerInsertOrUpdateQueryUit("INSERT INTO chatregel VALUES(NOW(),'" + accountNaam + "',"+ spel_id +",'"+ bericht +"')");
+		connect.voerInsertOrUpdateQueryUit("INSERT INTO chatregel VALUES('" + accountNaam + "',"+ spel_id +",NOW(),'"+ bericht +"')");
 		connect.closeConnection();
 	}
 	
@@ -37,12 +37,12 @@ public class Chat extends Observable implements Runnable{
 
 		while(rs.next())
 		{
-		String date = formatter.format(rs.getDate("datumtijd"));
+		String date = formatter.format(rs.getTimestamp("datetime"));
 		String account=rs.getString("account_naam");
 		 Blob berichtBlob = rs.getBlob("bericht");
 		 byte[] bdata = berichtBlob.getBytes(1, (int) berichtBlob.length());
 		 String bericht = new String(bdata);
-		 chatLines = chatLines + date+ " <b>" + account + "</b>: " + bericht + "<br/>" ;
+		 chatLines = chatLines + date + " <b>" + account + "</b>: " + bericht + "<br/>" ;
 		}
 
 		}catch(SQLException e){
