@@ -10,6 +10,7 @@ public class Admin extends Observable {
 	private Connectie connect;
 	private ResultSet namenRS;
 	private ResultSet gegevensRS;
+	private ResultSet testRS;
 	private ArrayList<String> namen;
 	
 	public Admin(){
@@ -36,19 +37,26 @@ public class Admin extends Observable {
 	
 	public String[] getInfo(String naam){
 		connect = new Connectie();
-		gegevensRS = connect.voerSelectQueryUit("SELECT * from Accounts WHERE naam = '" + naam+"'");
+		gegevensRS = connect.voerSelectQueryUit("SELECT * from account WHERE naam = '" + naam+"'");
 		String[] rij = new String[3];
 		try {
 			while(gegevensRS.next()){
-				rij[0] = "Username: "+gegevensRS.getString("naam");
-				rij[1]= "Role: "+gegevensRS.getString("rol");
-				if(gegevensRS.getString("geaccepteerd").equals("1")){
-				rij[2] = "Accepted: true";
-				}
-				else if(gegevensRS.getString("geaccepteerd").equals("0")){
-					rij[2] = "Accepted: false";
-				}
+				rij[0] = "Gebruiksnaam: "+gegevensRS.getString("naam");
+				rij[1] = "Wachtwoord: "+gegevensRS.getString("wachtwoord");
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		testRS = connect.voerSelectQueryUit("SELECT Rol_type from accountrol WHERE Account_naam = '"+naam+"'");
+		try {
+			rij[2]= "Rol: onbekend";
+			while(testRS.next()){
+				rij[2]= "Rol: "+ testRS.getString("Rol_type");	
+		}
+			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

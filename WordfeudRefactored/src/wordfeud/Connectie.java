@@ -61,4 +61,28 @@ public class Connectie {
 			System.out.println("Error: " + e);
 		}
 	}
+	
+	public void doInsertUpdate(String query, Object ... args)
+	{
+		try {
+			st = con.createStatement();
+			st.executeUpdate(String.format(query, args));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public ResultSet doSelect(String query, Object ... args)
+	{
+		try {
+			pr = con.prepareStatement(String.format(query, args));
+			result = pr.executeQuery();
+			return result;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error: " + e);
+			return null;
+		}
+	}
 }

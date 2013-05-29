@@ -1,5 +1,7 @@
 package wordfeud;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SpelVerloop {
@@ -11,6 +13,32 @@ public class SpelVerloop {
 		this.spel = spel;
 		newTiles = spel.getBord().getNewTiles();
 		woordenLijst = new ArrayList<ArrayList<Tile>>();
+	}
+	
+	public void skipTurn()
+	{
+		Connectie con = new Connectie();
+		ResultSet rs;
+		try
+		{
+			rs = con.doSelect("SELECT MAX(ID), MAX(volgnummer) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%2$s'", spel.getSpelId(), Account.getAccountNaam() );
+			if(rs.next())
+			{
+				int ID = rs.getInt(1);
+				int volgNummer = rs.getInt(2);
+				con.doInsertUpdate("INSERT INTO beurt (ID, Account_naam, Spel_ID, volgnummer, score, Aktie_type) VALUES ('%1$d', '%2$s', '%3$d', '%4$d', '%5$d', '%6$s')", 
+					ID+1, 
+					Account.getAccountNaam(), 
+					spel.getSpelId(),
+					volgNummer+1,
+					puntenTeller().intValue(), 
+					"Pass");
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public Integer puntenTeller() {
