@@ -64,7 +64,7 @@ public class Moderator extends Observable implements ActionListener{
 		try {	
 			while(myResultSet.next())
 			{
-				reviewWoorden.add(new JCheckBox(myResultSet.getString("Woord")));
+				reviewWoorden.add(new JCheckBox(myResultSet.getString("Woord")));	
 			}
 			setChanged();
 			notifyObservers(reviewWoorden);

@@ -28,6 +28,7 @@ public class GUIModerator extends JPanel implements Observer{
 	private JLabel titel;
 	private WFButton backToMenu;
 	private ArrayList<JCheckBox> reviewWoorden;
+	private JScrollPane wordScrollPane;
 	
 	public GUIModerator(){
 		this.setMinimumSize(new Dimension(650,750));
@@ -50,8 +51,8 @@ public class GUIModerator extends JPanel implements Observer{
 		backToMenu = new WFButton("Ga terug");
 
 		
-		JScrollPane wordScrollPane = new JScrollPane(woordenPanel);
-		woordenPanel.setPreferredSize(new Dimension(300, 300));
+		wordScrollPane = new JScrollPane(woordenPanel);
+		wordScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		woordenPanel.setLayout(new BoxLayout(woordenPanel,BoxLayout.Y_AXIS));
 		myButtonPanel.setLayout(new BoxLayout(myButtonPanel, BoxLayout.PAGE_AXIS));
 		myButtonPanel.setPreferredSize(new Dimension(120,650));
