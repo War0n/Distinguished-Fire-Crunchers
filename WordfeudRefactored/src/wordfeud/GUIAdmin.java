@@ -138,6 +138,9 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		popupPanel.add(verwijderAccount);
 	}
 	
+	public void insertPassword(){
+		
+	}
 
 	public void setParentContentPane(JPanel contentPane){
 		JFrame root = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -152,10 +155,10 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		setParentContentPane(new GUIMenu());
 		}
 		else if(arg0.getSource().equals(wwWijzig)){
-			admin.chancePassword(naam, wachtwoord)
+			//admin.chancePassword(naam, wachtwoord)
 		}
 		else if(arg0.getSource().equals(verwijderAccount)){
-			admin.removeAccount();
+			//admin.removeAccount();
 		}
 	}
 
