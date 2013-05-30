@@ -13,7 +13,8 @@ public class SpelVerloop implements Runnable {
 	private ResultSet myResultSet;
 	private Connectie connect;
 	private int beurt;
-	private int volgnummer;
+	private int beurtVerdelen;
+	private String accountEersteBeurt;
 
 	public SpelVerloop(Spel spel) {
 		this.spel = spel;
@@ -21,6 +22,18 @@ public class SpelVerloop implements Runnable {
 		woordenLijst = new ArrayList<ArrayList<Tile>>();
 		Thread checkBeurten = new Thread(this);
 		checkBeurten.start();
+		accountEersteBeurt = "";
+		gamePlay();
+	}
+	
+	public void gamePlay(){
+		connect = new Connectie();
+		myResultSet = connect.voerSelectQueryUit("SELECT Account_naam FROM beurt WHERE Spel_ID = " + spel.getSpelId() + " ORDER BY ID ASC LIMIT 1");
+		try {
+			while(myResultSet.next()){
+					accountEersteBeurt = myResultSet.getString("Account_naam");
+			}
+		} catch (SQLException e) {e.printStackTrace();}
 	}
 	
 	public void play(){
@@ -53,7 +66,7 @@ public class SpelVerloop implements Runnable {
 		}
 	}
 
-	public Integer puntenTeller() {
+	private Integer puntenTeller() {
 		int score = 0;
 		boolean doubleword = false;
 		boolean tripleword = false;
@@ -88,7 +101,7 @@ public class SpelVerloop implements Runnable {
 
 	}
 
-	public ArrayList<ArrayList<Tile>> vindWoord() {
+	private ArrayList<ArrayList<Tile>> vindWoord() {
 
 		Tile currentTile = newTiles.get(0);
 		woordenLijst.add(new ArrayList<Tile>());
@@ -276,24 +289,19 @@ public class SpelVerloop implements Runnable {
 	public void run() {
 		connect = new Connectie();
 		
-		while(true){
-		myResultSet = connect.voerSelectQueryUit("SELECT count(*) AS aantal_beurten FROM beurt WHERE Spel_ID = " + spel.getSpelId() + ";");
-		beurt = 0;
-		try {
-			while(myResultSet.next()){
-				beurt = myResultSet.getInt("aantal_beurten");
-				System.out.println("Aantal beurten: " + beurt);
-			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		while(!spelOver){
+			myResultSet = connect.voerSelectQueryUit("SELECT count(*) FROM beurt WHERE Spel_ID = " + spel.getSpelId() + ";");
+			beurt = 0;
+			try {
+				while(myResultSet.next()){
+					beurt = myResultSet.getInt(1);
+					beurtVerdelen = beurt % 2;
+				}
+			} catch (SQLException e1) {e1.printStackTrace();}
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) { e.printStackTrace();}
 		}
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		}
+		connect.closeConnection();
 	}
 }
