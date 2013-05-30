@@ -304,4 +304,9 @@ public class SpelVerloop implements Runnable {
 		}
 		connect.closeConnection();
 	}
+	private void pakLetter(){
+		if(spel.getLetterBak().getStones().size() < 7){
+			connectieBLAAT
+		}
+	}
 }
