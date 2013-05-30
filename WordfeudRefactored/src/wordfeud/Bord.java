@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Bord
 {
+	private BordPanel panel;
 	private String name;
 	private Tile[][] tiles;
 	
@@ -17,6 +18,11 @@ public class Bord
 	{
 		this.name = name;
 		setupTiles();
+	}
+	
+	public void setPanel(BordPanel panel)
+	{
+		this.panel = panel;
 	}
 	
 	private void setupTiles()
