@@ -46,7 +46,7 @@ public class Bord
 		//int[] yArray = null;
 		String[] soortArray = null;
 		
-		ResultSet result = connectie.voerSelectQueryUit("SELECT s.ID, b.naam, t.x,  t.y, t.tegelType_soort AS soort FROM spel AS s LEFT JOIN bord AS b ON s.Bord_naam = b.naam LEFT JOIN tegel AS t ON b.naam = t.bord_naam WHERE s.ID = " + spel.getSpelId());
+		ResultSet result = connectie.voerSelectQueryUit("SELECT t.tegelType_soort AS soort FROM spel AS s LEFT JOIN bord AS b ON s.Bord_naam = b.naam LEFT JOIN tegel AS t ON b.naam = t.bord_naam WHERE s.ID = " + spel.getSpelId());
 		try{
 			Array soortSQLArray = result.getArray("soort");
 			soortArray = (String[])soortSQLArray.getArray();	
