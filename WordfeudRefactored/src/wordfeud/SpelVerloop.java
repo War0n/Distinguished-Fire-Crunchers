@@ -286,7 +286,7 @@ public class SpelVerloop implements Runnable {
 	}
 
 	@Override
-	public void run() {
+	public void run() { // kijken of er nieuwe beurten zijn
 		connect = new Connectie();
 		
 		while(!spelOver){
