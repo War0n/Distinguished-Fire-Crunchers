@@ -12,7 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class SwapGUI extends JFrame implements Observer{
+public class SwapGUI extends JFrame implements Observer {
 
 	private Letterbak letters;
 	private Spel curSpel;
@@ -20,14 +20,14 @@ public class SwapGUI extends JFrame implements Observer{
 	private WFButton swapCommit;
 	private WFButton swapCancel;
 	private JPanel cp;
-	
-	public SwapGUI(Spel spel){
+
+	public SwapGUI(Spel spel) {
 		this.letters = spel.getLetterBak();
 		this.curSpel = spel;
 		this.setTitle("Wissel letters in");
 		cp = (JPanel) this.getContentPane();
 		cp.setLayout(new BoxLayout(cp, BoxLayout.X_AXIS));
-		cp.setBackground(new Color(23,26,30));
+		cp.setBackground(new Color(23, 26, 30));
 		lettersView = new LetterbakPanel(this.letters);
 		swapCommit = new WFButton("Swap them!");
 		swapCancel = new WFButton("Cancel");
@@ -37,25 +37,25 @@ public class SwapGUI extends JFrame implements Observer{
 		cp.add(Box.createHorizontalStrut(10));
 		cp.add(swapCancel);
 		initButtons();
-		
+
 		this.pack();
 		this.setAlwaysOnTop(true);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
-	
-	public void initButtons(){
+
+	public void initButtons() {
 		swapCommit.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				commitAction();
 			}
 		});
-		
+
 		swapCancel.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -64,20 +64,19 @@ public class SwapGUI extends JFrame implements Observer{
 		});
 	}
 
-	public void cancelFrame(){
+	public void cancelFrame() {
 		this.dispose();
 	}
-	
+
 	private void commitAction() {
-		
-		
 		curSpel.getVerloop().skipTurn();
+		cancelFrame();
 	}
-	
+
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }
