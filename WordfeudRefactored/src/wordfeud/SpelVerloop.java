@@ -287,10 +287,10 @@ public class SpelVerloop implements Runnable {
 
 	@Override
 	public void run() { // kijken of er nieuwe beurten zijn
-		connect = new Connectie();
+		Connectie connect2 = new Connectie();
 		
 		while(!spelOver){
-			myResultSet = connect.voerSelectQueryUit("SELECT count(*) FROM beurt WHERE Spel_ID = " + spel.getSpelId() + ";");
+			myResultSet = connect2.voerSelectQueryUit("SELECT count(*) FROM beurt WHERE Spel_ID = " + spel.getSpelId() + ";");
 			beurt = 0;
 			try {
 				while(myResultSet.next()){
@@ -302,11 +302,11 @@ public class SpelVerloop implements Runnable {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) { e.printStackTrace();}
 		}
-		connect.closeConnection();
+		connect2.closeConnection();
 	}
 	private void pakLetter(){
 		if(spel.getLetterBak().getStones().size() < 7){
-			connectieBLAAT
+			connect.voerSelectQueryUit("SELECT * FROM pot WHERE Spel_ID = " + spel.getSpelId() );
 		}
 	}
 }
