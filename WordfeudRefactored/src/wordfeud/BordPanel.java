@@ -30,7 +30,7 @@ public class BordPanel extends JPanel
 	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");//
 	
 	public BordPanel(Bord speelVeld) {
-		this.setSpeelVeld(speelVeld);
+		this.setSpeelVeld(speelVeld);//
 		speelVeld.setPanel(this);
 		setLayout(new GridLayout(15,15,2,2));
 		setBackground(new Color(23,26,30));
