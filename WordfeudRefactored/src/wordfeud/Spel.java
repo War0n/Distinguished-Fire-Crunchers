@@ -10,7 +10,7 @@ public class Spel {
 	private SpelVerloop verloop;
 
 	public Spel() {
-		bord = new Bord();
+		bord = new Bord(this);
 		letterbak = new Letterbak();
 		letterSet = new LetterSet("NL"); // Nederlands? :)
 		spelID = 511;//new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!

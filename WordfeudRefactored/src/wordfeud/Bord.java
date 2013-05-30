@@ -1,5 +1,8 @@
 package wordfeud;
 
+import java.sql.Array;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -7,13 +10,17 @@ public class Bord
 {
 	private String name;
 	private Tile[][] tiles;
+	private Connectie connectie;
+	private Spel spel;
 	
 	private BordPanel panel;
 	
-	public Bord()
+	public Bord(Spel spel)
 	{
 		this.name = "";
 		setupTiles();
+		connectie = new Connectie();	
+		this.spel = spel;
 	}
 	
 	public Bord(String name)
@@ -35,9 +42,22 @@ public class Bord
 	private void setupTiles()
 	{
 		tiles = new Tile[15][15];
+		//int[] xArray = null;
+		//int[] yArray = null;
+		String[] soortArray = null;
 		
-		// De informatie over de tiles en hun type moet uit de database komen.
-		// Dit is nog niet geïmplementeerd, dus een leeg bord.
+		ResultSet result = connectie.voerSelectQueryUit("SELECT s.ID, b.naam, t.x,  t.y, t.tegelType_soort AS soort FROM spel AS s LEFT JOIN bord AS b ON s.Bord_naam = b.naam LEFT JOIN tegel AS t ON b.naam = t.bord_naam WHERE s.ID = " + spel.getSpelId());
+		try{
+			//Array xSQLArray = result.getArray("x");
+			//xArray = (int[])xSQLArray.getArray();
+			//Array ySQLArray = result.getArray("y");
+			//yArray = (int[])ySQLArray.getArray();
+			Array soortSQLArray = result.getArray("soort");
+			soortArray = (String[])soortSQLArray.getArray();	
+			}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
 		
 		for(int y = 0; y < 15; y++)
 		{
@@ -46,79 +66,38 @@ public class Bord
 				tiles[x][y] = new Tile();
 			}
 		}
+		int x = 0;
+		int y = 0;
+		for(String type : soortArray){
+			switch(type){
+			case "*":
+				tiles[x][y].setType(TileType.TYPE_START);
+			break;
+			case "DL":
+				tiles[x][y].setType(TileType.TYPE_DL);
+			break;
+			case "TL":
+				tiles[x][y].setType(TileType.TYPE_TL);
+			break;
+			case "DW":
+				tiles[x][y].setType(TileType.TYPE_DW);
+			break;
+			case "TW":
+				tiles[x][y].setType(TileType.TYPE_TW);
+			break;
+			default:
+			break;
+			}
+			if(x == 14){
+				x = 0;
+				y++;
+			}
+			else{
+				x++;
+			}
+		}
 		
-		// Triple word
-		tiles[0][4].setType(TileType.TYPE_TW);
-		tiles[0][10].setType(TileType.TYPE_TW);
-		tiles[4][0].setType(TileType.TYPE_TW);
-		tiles[4][14].setType(TileType.TYPE_TW);
-		tiles[10][0].setType(TileType.TYPE_TW);
-		tiles[10][14].setType(TileType.TYPE_TW);
-		tiles[14][4].setType(TileType.TYPE_TW);
-		tiles[14][10].setType(TileType.TYPE_TW);
-		
-		// Double word
-		tiles[2][2].setType(TileType.TYPE_DW);
-		tiles[12][2].setType(TileType.TYPE_DW);
-		tiles[7][3].setType(TileType.TYPE_DW);
-		tiles[4][4].setType(TileType.TYPE_DW);
-		tiles[10][4].setType(TileType.TYPE_DW);
-		tiles[3][7].setType(TileType.TYPE_DW);
-		tiles[11][7].setType(TileType.TYPE_DW);
-		tiles[4][10].setType(TileType.TYPE_DW);
-		tiles[10][10].setType(TileType.TYPE_DW);
-		tiles[7][11].setType(TileType.TYPE_DW);
-		tiles[2][12].setType(TileType.TYPE_DW);
-		tiles[12][12].setType(TileType.TYPE_DW);
-
-		// Triple letter
-		tiles[0][0].setType(TileType.TYPE_TL);
-		tiles[14][0].setType(TileType.TYPE_TL);
-		tiles[5][1].setType(TileType.TYPE_TL);
-		tiles[9][1].setType(TileType.TYPE_TL);
-		tiles[3][3].setType(TileType.TYPE_TL);
-		tiles[11][3].setType(TileType.TYPE_TL);
-		tiles[1][5].setType(TileType.TYPE_TL);
-		tiles[5][5].setType(TileType.TYPE_TL);
-		tiles[9][5].setType(TileType.TYPE_TL);
-		tiles[13][5].setType(TileType.TYPE_TL);
-		tiles[1][9].setType(TileType.TYPE_TL);
-		tiles[5][9].setType(TileType.TYPE_TL);
-		tiles[9][9].setType(TileType.TYPE_TL);
-		tiles[13][9].setType(TileType.TYPE_TL);
-		tiles[3][11].setType(TileType.TYPE_TL);
-		tiles[11][11].setType(TileType.TYPE_TL);
-		tiles[5][13].setType(TileType.TYPE_TL);
-		tiles[9][13].setType(TileType.TYPE_TL);
-		tiles[0][14].setType(TileType.TYPE_TL);
-		tiles[14][14].setType(TileType.TYPE_TL);
-
-		// Double letter
-		tiles[7][0].setType(TileType.TYPE_DL);
-		tiles[1][1].setType(TileType.TYPE_DL);
-		tiles[13][1].setType(TileType.TYPE_DL);
-		tiles[6][2].setType(TileType.TYPE_DL);
-		tiles[8][2].setType(TileType.TYPE_DL);
-		tiles[6][4].setType(TileType.TYPE_DL);
-		tiles[8][4].setType(TileType.TYPE_DL);
-		tiles[2][6].setType(TileType.TYPE_DL);
-		tiles[4][6].setType(TileType.TYPE_DL);
-		tiles[10][6].setType(TileType.TYPE_DL);
-		tiles[12][6].setType(TileType.TYPE_DL);
-		tiles[0][7].setType(TileType.TYPE_DL);
-		tiles[14][7].setType(TileType.TYPE_DL);
-		tiles[2][8].setType(TileType.TYPE_DL);
-		tiles[4][8].setType(TileType.TYPE_DL);
-		tiles[10][8].setType(TileType.TYPE_DL);
-		tiles[12][8].setType(TileType.TYPE_DL);
-		tiles[6][10].setType(TileType.TYPE_DL);
-		tiles[8][10].setType(TileType.TYPE_DL);
-		tiles[6][12].setType(TileType.TYPE_DL);
-		tiles[8][12].setType(TileType.TYPE_DL);
-		tiles[1][13].setType(TileType.TYPE_DL);
-		tiles[13][13].setType(TileType.TYPE_DL);
-		tiles[7][14].setType(TileType.TYPE_DL);
-		
+	
 		// Start
 		tiles[7][7].setType(TileType.TYPE_START);
 	}
