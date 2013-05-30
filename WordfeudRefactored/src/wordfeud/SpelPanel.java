@@ -149,5 +149,13 @@ public class SpelPanel extends JPanel{
 				spel.getVerloop().skipTurn();
 			}
 		});
+		
+		swapButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new SwapGUI(spel);
+			}
+		});
 	}
 }
