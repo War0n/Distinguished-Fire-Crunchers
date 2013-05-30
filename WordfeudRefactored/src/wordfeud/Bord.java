@@ -27,6 +27,11 @@ public class Bord
 		this.panel = panel;//
 	}
 	
+	public BordPanel getPanel(){
+		
+		return panel;
+	}
+	
 	private void setupTiles()
 	{
 		tiles = new Tile[15][15];
@@ -163,7 +168,8 @@ public class Bord
 		{
 			for(int x = 0; x < 15; x++)
 			{
-				tiles[x][y].setLocked(true);				
+				tiles[x][y].setLocked(true);
+				panel.repaint();
 			}
 		}	
 	}
