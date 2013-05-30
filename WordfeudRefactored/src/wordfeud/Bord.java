@@ -1,6 +1,7 @@
 package wordfeud;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 public class Bord
 {
@@ -148,5 +149,15 @@ public class Bord
 			}
 		}
 		return newTiles;
+	}
+	
+	public void lockField(){
+		for(int y = 0; y < 15; y++)
+		{
+			for(int x = 0; x < 15; x++)
+			{
+				tiles[x][y].setLocked(true);				
+			}
+		}	
 	}
 }

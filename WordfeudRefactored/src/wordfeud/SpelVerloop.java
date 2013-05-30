@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class SpelVerloop { //implements Runnable {
+public class SpelVerloop implements Runnable {
 	private Spel spel;
 	private ArrayList<Tile> newTiles;
 	private ArrayList<ArrayList<Tile>> woordenLijst;
@@ -19,8 +19,8 @@ public class SpelVerloop { //implements Runnable {
 		this.spel = spel;
 		newTiles = spel.getBord().getNewTiles();
 		woordenLijst = new ArrayList<ArrayList<Tile>>();
-		//Thread checkBeurten = new Thread(this);
-		//checkBeurten.start();
+		Thread checkBeurten = new Thread(this);
+		checkBeurten.start();
 	}
 	
 	public void play(){
@@ -272,14 +272,17 @@ public class SpelVerloop { //implements Runnable {
 		return null;
 	}
 
- /**	@Override
+	@Override
 	public void run() {
 		connect = new Connectie();
+		
+		while(true){
 		myResultSet = connect.voerSelectQueryUit("SELECT count(*) AS aantal_beurten FROM beurt WHERE Spel_ID = " + spel.getSpelId() + ";");
 		beurt = 0;
 		try {
 			while(myResultSet.next()){
 				beurt = myResultSet.getInt("aantal_beurten");
+				System.out.println("Aantal beurten: " + beurt);
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -291,6 +294,6 @@ public class SpelVerloop { //implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	}**/
+		}
+	}
 }
