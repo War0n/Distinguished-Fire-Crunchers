@@ -24,7 +24,7 @@ public class Bord
 	
 	public void setPanel(BordPanel panel)
 	{
-		this.panel = panel;
+		this.panel = panel;//
 	}
 	
 	private void setupTiles()

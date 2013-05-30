@@ -29,7 +29,7 @@ public class BordPanel extends JPanel
 	private Bord speelVeld;
 	private GUITile[][] tiles;
 	
-	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");//
+	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");
 	
 	public BordPanel(Bord speelVeld) {
 		this.setSpeelVeld(speelVeld);
