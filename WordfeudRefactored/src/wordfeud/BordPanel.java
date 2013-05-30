@@ -29,10 +29,11 @@ public class BordPanel extends JPanel
 	private Bord speelVeld;
 	private GUITile[][] tiles;
 	
-	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");//
+	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");
 	
 	public BordPanel(Bord speelVeld) {
 		this.setSpeelVeld(speelVeld);
+		speelVeld.setPanel(this);
 		setLayout(new GridLayout(15,15,2,2));
 		setBackground(new Color(23,26,30));
 		setMaximumSize(new Dimension(630,630));

@@ -8,6 +8,8 @@ public class Bord
 	private String name;
 	private Tile[][] tiles;
 	
+	private BordPanel panel;
+	
 	public Bord()
 	{
 		this.name = "";
@@ -18,6 +20,16 @@ public class Bord
 	{
 		this.name = name;
 		setupTiles();
+	}
+	
+	public void setPanel(BordPanel panel)
+	{
+		this.panel = panel;//
+	}
+	
+	public BordPanel getPanel(){
+		
+		return panel;
 	}
 	
 	private void setupTiles()
@@ -156,7 +168,8 @@ public class Bord
 		{
 			for(int x = 0; x < 15; x++)
 			{
-				tiles[x][y].setLocked(true);				
+				tiles[x][y].setLocked(true);
+				panel.repaint();
 			}
 		}	
 	}
