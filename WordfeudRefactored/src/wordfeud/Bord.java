@@ -1,12 +1,14 @@
 package wordfeud;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 public class Bord
 {
-	private BordPanel panel;
 	private String name;
 	private Tile[][] tiles;
+	
+	private BordPanel panel;
 	
 	public Bord()
 	{
@@ -22,7 +24,7 @@ public class Bord
 	
 	public void setPanel(BordPanel panel)
 	{
-		this.panel = panel;//
+		this.panel = panel;
 	}
 	
 	private void setupTiles()
@@ -154,5 +156,15 @@ public class Bord
 			}
 		}
 		return newTiles;
+	}
+	
+	public void lockField(){
+		for(int y = 0; y < 15; y++)
+		{
+			for(int x = 0; x < 15; x++)
+			{
+				tiles[x][y].setLocked(true);				
+			}
+		}	
 	}
 }

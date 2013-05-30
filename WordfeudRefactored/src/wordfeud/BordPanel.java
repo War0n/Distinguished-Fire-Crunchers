@@ -15,10 +15,12 @@ import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetListener;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 
-public class BordPanel extends JPanel 
+public class BordPanel extends JPanel
 {
 	/**
 	 * 
@@ -30,7 +32,7 @@ public class BordPanel extends JPanel
 	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");//
 	
 	public BordPanel(Bord speelVeld) {
-		this.setSpeelVeld(speelVeld);//
+		this.setSpeelVeld(speelVeld);
 		speelVeld.setPanel(this);
 		setLayout(new GridLayout(15,15,2,2));
 		setBackground(new Color(23,26,30));
@@ -65,14 +67,7 @@ public class BordPanel extends JPanel
 	
 	public void lockField() // implementeer hier de check of het wel echt woorden zijn!
 	{
-		for(int y = 0; y < 15; y++)
-		{
-			for(int x = 0; x < 15; x++)
-			{
-				tiles[x][y].getTile().setLocked(true);
-				tiles[x][y].repaint();
-			}
-		}	
+		speelVeld.lockField();
 	}
 	
 	public ArrayList<Stone> clearField() //
@@ -169,5 +164,6 @@ public class BordPanel extends JPanel
 	            event.rejectDrop();
 	        }
 	    }
+	    
 	}
 }
