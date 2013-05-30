@@ -36,6 +36,7 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 	private Admin admin;
 	private WFButton wwWijzig;
 	private WFButton verwijderAccount;
+	private String chancedPassword;
 	
 	public GUIAdmin(){
 		setMinimumSize(new Dimension(650,750));
@@ -109,11 +110,13 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		JButton srcButton = (JButton) e.getSource();
 		JPanel popupPanel = new JPanel();
 		String[] data = admin.getInfo(srcButton.getText());
-		String verzamelData = "";
+		//JTextField popupData = new JTextField();
+
+		String verzamelData = ""+"Gebruiksnaam: "+ data[0];		
 		for(String gegeven:data){
 			verzamelData = verzamelData + gegeven + System.lineSeparator();
+	
 		}
-		
 		popup.setTitle(data[0]);
 		popup.setMinimumSize(new Dimension(300,200));
 		JTextArea popupData = new JTextArea(verzamelData);
@@ -121,15 +124,18 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		popupData.setFont(new Font("Arial",Font.BOLD,20));
 		popupData.setBackground(new Color(23,26,30));
 		popupData.setForeground(Color.white);
-		popupPanel.setLayout(myGridLayout);
 		popup.setResizable(false);
 		popupPanel.add(popupData);
+		popupPanel.setBackground(new Color(23,26,30));
+		popupPanel.setLayout(myGridLayout);				//layoutmanager verkloot buttons
 		popup.setContentPane(popupPanel);
 		popup.pack();
 		popup.setVisible(true);
-		wwWijzig = new WFButton("Wijzig wachtwoord");
+		wwWijzig = new WFButton("Wijzig gegevens");
 		verwijderAccount = new WFButton("Verwijder account");
-		wwWijzig.setMaximumSize(new Dimension(50,50));
+		verwijderAccount.setMaximumSize(new Dimension(100,50));
+		verwijderAccount.setPreferredSize(getMaximumSize());
+		wwWijzig.setMaximumSize(new Dimension(5,5));
 		wwWijzig.setPreferredSize(getMaximumSize());
 		wwWijzig.addActionListener(this);
 		verwijderAccount.addActionListener(this);
@@ -139,7 +145,9 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 	}
 	
 	public void insertPassword(){
-		
+		JTextField myPassword = new JTextField();
+		myPassword.setSize(new Dimension(200,50));
+		chancedPassword = myPassword.getText();
 	}
 
 	public void setParentContentPane(JPanel contentPane){
@@ -148,7 +156,6 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		root.pack();
 	}
 
-	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource().equals(back)){

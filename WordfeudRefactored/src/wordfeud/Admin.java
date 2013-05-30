@@ -41,8 +41,8 @@ public class Admin extends Observable {
 		String[] rij = new String[3];
 		try {
 			while(gegevensRS.next()){
-				rij[0] = "Gebruiksnaam: "+gegevensRS.getString("naam");
-				rij[1] = "Wachtwoord: "+gegevensRS.getString("wachtwoord");
+				rij[0] = gegevensRS.getString("naam");
+				rij[1] = gegevensRS.getString("wachtwoord");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
