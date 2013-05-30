@@ -4,7 +4,6 @@ import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Observable;
 
 public class Bord
 {
@@ -91,6 +90,38 @@ public class Bord
 			else{
 				x++;
 			}
+		}
+	}
+	public void plaatsLetters(){
+		int[] xArray = null;
+		int[] yArray = null;
+		char[] bArray = null;
+		char[] kArray = null;
+		ResultSet result = connectie.voerSelectQueryUit("SELECT letter_ID, Tegel_X, Tegel_Y, BlancoLetterKarakter LetterType_karakter FROM gelegdeletter AS g LEFT JOIN letter AS l ON g.Letter_ID = l.ID WHERE l.spel_ID = " + spel.getSpelId());
+		try {
+			Array xSQLArray = result.getArray("Tegel_X");
+			xArray = (int[])xSQLArray.getArray();
+			Array ySQLArray = result.getArray("Tegel_Y");
+			yArray = (int[])ySQLArray.getArray();
+			Array bSQLArray = result.getArray("BlancoLetterKarakter");
+			bArray = (char[])bSQLArray.getArray();
+			Array kSQLArray = result.getArray("LetterType_karakter");
+			kArray = (char[])kSQLArray.getArray();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		int index = 0;
+		while(index < kArray.length){
+			if(kArray[index] != '?'){
+				tiles[xArray[index]][yArray[index]].setStone(new Stone(kArray[index]));
+				tiles[xArray[index]][yArray[index]].setNieuwGelegd(false);
+			}
+			else{
+				tiles[xArray[index]][yArray[index]].setStone(new Stone(kArray[index], bArray[index]));
+				tiles[xArray[index]][yArray[index]].setNieuwGelegd(false);
+			}
+			index++;
 		}
 	}
 	
