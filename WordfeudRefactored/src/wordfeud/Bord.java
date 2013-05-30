@@ -92,10 +92,6 @@ public class Bord
 				x++;
 			}
 		}
-		
-	
-		// Start
-		tiles[7][7].setType(TileType.TYPE_START);
 	}
 	
 	public String getName()
