@@ -23,53 +23,44 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class Changepassword extends JPanel {
+public class Changepassword extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField usernameField;
 	private JPasswordField passwordField;
 	private JPasswordField registerControle;
 	private JPanel content;
-	private JPanel loginpanel;
+	private JPanel changepwPanel;
 	private JPanel buttonpanel;
-	private JLabel userLabel;
 	private JLabel passLabel;
 	private JLabel registercontroleLabel;
-	private WFButton loginButton;
-	private WFButton registerButton;
+	private WFButton changepwbutton;
 	private JFrame activeFrame;
 	private String curUser;
 	JFrame popup = null;
 
-	public Changepassword(JFrame frame) {
+	public Changepassword() {
 		setBackground(new Color(23, 26, 30));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		activeFrame = frame;
+		activeFrame = this;
 		activeFrame.setMinimumSize(new Dimension(200, 200));
 		activeFrame.setResizable(false);
 		activeFrame.setLocationRelativeTo(null);
-		loginpanel = new JPanel();
-		loginpanel.setLayout(new BoxLayout(loginpanel, BoxLayout.Y_AXIS));
-		loginpanel.setBackground(new Color(23, 26, 30));
-		loginpanel.setPreferredSize(new Dimension(150, 150));
-		loginpanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		changepwPanel = (JPanel) activeFrame.getContentPane();
+		changepwPanel.setLayout(new BoxLayout(changepwPanel, BoxLayout.Y_AXIS));
+		changepwPanel.setBackground(new Color(23, 26, 30));
+		changepwPanel.setPreferredSize(new Dimension(150, 150));
+		changepwPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 
 		buttonpanel = new JPanel();
 		buttonpanel.setLayout(new FlowLayout());
 		buttonpanel.setBackground(new Color(23, 26, 30));
 
-		content = new JPanel();
-		content.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		content.setAlignmentY(JPanel.CENTER_ALIGNMENT);
-		content.setBackground(new Color(23, 26, 30));
-		content.setLayout(new BoxLayout(content, BoxLayout.X_AXIS));
 
-		loginButton = new WFButton("Log In");
-		registerButton = new WFButton("Register");
-		usernameField = new JTextField();
+
+		changepwbutton = new WFButton("Register");
 
 		passwordField = new JPasswordField();
 		passLabel = new JLabel("Nieuw wachtwoord:");
@@ -85,17 +76,16 @@ public class Changepassword extends JPanel {
 		registerControle.setMaximumSize(new Dimension(150, 20));
 
 
-		loginpanel.add(passLabel);
-		loginpanel.add(Box.createVerticalStrut(2));
-		loginpanel.add(passwordField);
-		loginpanel.add(registercontroleLabel);
-		loginpanel.add(registerControle);
-		loginpanel.add(Box.createVerticalStrut(5));
-		buttonpanel.add(registerButton);
-		loginpanel.add(buttonpanel);
-		content.add(loginpanel);
-		add(content);
+		changepwPanel.add(passLabel);
+		changepwPanel.add(Box.createVerticalStrut(2));
+		changepwPanel.add(passwordField);
+		changepwPanel.add(registercontroleLabel);
+		changepwPanel.add(registerControle);
+		changepwPanel.add(Box.createVerticalStrut(5));
+		buttonpanel.add(changepwbutton);
+		changepwPanel.add(buttonpanel);
 		activeFrame.pack();
+		this.setVisible(true);
 		passwordField.addKeyListener(new KeyAdapter() {
 			public void KeyPressed(KeyEvent e) {
 				if (e.getKeyCode() == (KeyEvent.VK_ENTER)) {
@@ -103,7 +93,7 @@ public class Changepassword extends JPanel {
 				}
 			}
 		});
-		registerButton.addActionListener(new ActionListener() {
+		changepwbutton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
