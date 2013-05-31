@@ -162,6 +162,23 @@ public class SpelPanel extends JPanel {
 				spel.getVerloop().play();
 			}
 		});
-
 	}
+	
+	public WFButton getPlayButton(){
+		return placeButton;
+	}
+	public WFButton getSwapButton()
+	{
+		return swapButton;
+	}
+	public WFButton getSkipButton(){
+		return skipButton;
+	}
+	public WFButton getClearButton(){
+		return clearButton;
+	}
+	public WFButton getShuffleButton(){
+		return shuffleButton;
+	}
+	
 }
