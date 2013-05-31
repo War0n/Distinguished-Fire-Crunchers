@@ -4,7 +4,6 @@ public class Tile {
 	// privates <:
 	private TileType type;
 	private Stone steen;
-	private boolean nieuwGelegd;
 
 	// Constructor
 	public Tile(TileType type) {
@@ -67,13 +66,5 @@ public class Tile {
 		if (steen != null) {
 			steen.setLocked(locked);
 		}
-	}
-
-	public boolean getNieuwGelegd() {
-		return nieuwGelegd;
-	}
-
-	public void setNieuwGelegd(boolean nieuwGelegd) {
-		this.nieuwGelegd = nieuwGelegd;
 	}
 }
