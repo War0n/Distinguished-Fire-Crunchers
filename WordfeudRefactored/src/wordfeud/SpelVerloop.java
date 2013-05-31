@@ -43,7 +43,8 @@ public class SpelVerloop implements Runnable {
 	}
 
 	public void play() {
-		
+		vindWoord();
+		puntenTeller();
 	}
 
 	@SuppressWarnings("static-access")
@@ -57,11 +58,13 @@ public class SpelVerloop implements Runnable {
 				"SELECT MAX(ID) AS maxid, Account_naam FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%2$s'",
 				spel.getSpelId(), Account.getAccountNaam());
 		try {
-			while(rs.next()){
+			while (rs.next()) {
 				accountNaam = rs.getString("Account_naam");
 				IDbeurt = rs.getInt("maxid");
 			}
-		} catch (SQLException e) {	e.printStackTrace();}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		if (!account.getAccountNaam().equals(rs)) {
 			myTurn = true;
 		}
