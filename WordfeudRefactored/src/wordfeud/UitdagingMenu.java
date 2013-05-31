@@ -159,9 +159,7 @@ public class UitdagingMenu extends JPanel implements ActionListener{
 	public void addUitdaging(){
 		inviteButton.setVisible(false);
 		this.remove(scrollPane);
-		challengePlayer = new JPanel();
-		challengePlayer.setLayout(new BoxLayout(challengePlayer,BoxLayout.Y_AXIS));
-		challengePlayer.setBackground(this.getBackground());
+		
 		
 		JLabel chalName = new JLabel("Naam speler:");
 		chalName.setForeground(Color.white);
@@ -172,21 +170,34 @@ public class UitdagingMenu extends JPanel implements ActionListener{
 		challengeCancelButton = new WFButton("Annuleren");
 		challengeCancelButton.addActionListener(this);
 		playerName = new JTextField();
-		
 		selectedCompetition = new JTextField();
-		
-		
-		
-		challengePlayer.add(chalName);
-		challengePlayer.add(playerName);
 		playerName.setMaximumSize(new Dimension(200,20));
-		challengePlayer.add(chalComp);
-		challengePlayer.add(selectedCompetition);
 		selectedCompetition.setMaximumSize(new Dimension(200,20));
+		
+		challengePlayer = new JPanel();
+		challengePlayer.setMaximumSize(new Dimension(650,140));
+		challengePlayer.setPreferredSize(challengePlayer.getMaximumSize());
+		challengePlayer.setBackground(new Color(44,47,53));
+		
+		Box superBox = new Box(BoxLayout.PAGE_AXIS);
+		
+		
+		Box inputBox = new Box(BoxLayout.PAGE_AXIS);
+		inputBox.add(chalName);
+		inputBox.add(playerName);
+		
+		inputBox.add(chalComp);
+		inputBox.add(selectedCompetition);
+		inputBox.add(Box.createVerticalStrut(10));
+		superBox.add(inputBox);
+		
 		Box lineBox = new Box(BoxLayout.LINE_AXIS);
 		lineBox.add(challengeButton);
 		lineBox.add(challengeCancelButton);
-		challengePlayer.add(lineBox);
+		superBox.add(lineBox);
+		
+		challengePlayer.add(superBox);
+		
 		this.add(challengePlayer);
 		System.out.println("Speler uitdagen2");
 		this.validate();

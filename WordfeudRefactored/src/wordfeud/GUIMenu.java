@@ -78,8 +78,8 @@ public class GUIMenu extends JPanel implements ActionListener{
 		myButtons = new ArrayList<WFButton>();
 		
 		myButtons.add(actieveSpellenButton);
-		//myButtons.add(competitieButton);
-		myButtons.add(competitieAanmaken);
+		myButtons.add(competitieButton);
+		//myButtons.add(competitieAanmaken);
 		myButtons.add(uitnodigingButton);
 		myButtons.add(observerButton);
 		myButtons.add(adminButton);

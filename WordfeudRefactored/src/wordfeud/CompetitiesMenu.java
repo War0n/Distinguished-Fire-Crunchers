@@ -18,10 +18,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 
-public class CompetitiesMenu extends JPanel  implements MouseListener,ActionListener{
+public class CompetitiesMenu extends JPanel  implements ActionListener{
 	
 	/**
 	 * 
@@ -39,6 +40,13 @@ public class CompetitiesMenu extends JPanel  implements MouseListener,ActionList
 	private int aantalCompetities;
 	private boolean observerMode;
 	private JFrame popup = null;
+	
+	private JPanel newCompPanel;
+	private JTextField compDesc;
+	private JTextField startDate;
+	private JTextField endDate;
+	private WFButton newCompButton;
+	private WFButton cancelButton;
 	
 	public CompetitiesMenu(boolean observerMode) {
 		// TODO Auto-generated constructor stub
@@ -66,19 +74,22 @@ public class CompetitiesMenu extends JPanel  implements MouseListener,ActionList
 		functies.setLayout(new FlowLayout());
 		functies.add(backButton);
 		functies.add(inviteButton);
+		
+		add(head);
+		add(functies);
+		initShow();
+		aantalCompetities = 0;
+		alleEigenaren = "";
+		showCompetitions();
+	}
+	
+	public void initShow(){
 		competities = new JPanel();
 		competities.setLayout(new BoxLayout(competities,BoxLayout.Y_AXIS));
 		competities.setBackground(this.getBackground());
 		scrollPane = new JScrollPane(competities);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		
-		
-		add(head);
-		add(functies);
 		add(scrollPane);
-		aantalCompetities = 0;
-		alleEigenaren = "";
-		showCompetitions();
 	}
 	
 	public void showCompetitions(){
@@ -110,8 +121,7 @@ public class CompetitiesMenu extends JPanel  implements MouseListener,ActionList
 					aantalCompetities = idCompetitie;
 				}
 				alleEigenaren += eigenaar + ";";
-				
-				comp.addMouseListener(this);				
+								
 			}
 		}
 		catch (SQLException e) {
@@ -121,43 +131,75 @@ public class CompetitiesMenu extends JPanel  implements MouseListener,ActionList
 		connect.closeConnection();
 	}
 	
+	public void newCompetition(){
+		this.remove(scrollPane);				
+		JLabel compNaam = new JLabel("Competitienaam:");
+		compNaam.setForeground(Color.white);
+		JLabel compStart = new JLabel("Competitie start (yyyy-mm-dd)");
+		compStart.setForeground(Color.white);
+		JLabel compEind = new JLabel("Competitie einde (yyyy-mm-dd)");
+		compEind.setForeground(Color.white);
+		newCompButton = new WFButton("Competitie maken");
+		newCompButton.addActionListener(this);
+		cancelButton = new WFButton("Annuleren");
+		cancelButton.addActionListener(this);
+		compDesc = new JTextField();
+		startDate = new JTextField();
+		endDate = new JTextField();
+		
+		compDesc.setMaximumSize(new Dimension(200,20));
+		startDate.setMaximumSize(new Dimension(200,20));
+		endDate.setMaximumSize(new Dimension(200,20));
+		
+		newCompPanel = new JPanel();
+		newCompPanel.setMaximumSize(new Dimension(650,160));
+		newCompPanel.setPreferredSize(newCompPanel.getMaximumSize());
+		newCompPanel.setBackground(new Color(44,47,53));
+		
+		Box superBox = new Box(BoxLayout.PAGE_AXIS);
+		
+		
+		Box inputBox = new Box(BoxLayout.PAGE_AXIS);
+		inputBox.add(compNaam);
+		inputBox.add(compDesc);
+		inputBox.add(Box.createVerticalStrut(5));
+		inputBox.add(compStart);
+		inputBox.add(startDate);
+		inputBox.add(Box.createVerticalStrut(5));
+		inputBox.add(compEind);
+		inputBox.add(endDate);
+		inputBox.add(Box.createVerticalStrut(10));
+		superBox.add(inputBox);
+		
+		Box lineBox = new Box(BoxLayout.LINE_AXIS);
+		lineBox.add(newCompButton);
+		lineBox.add(cancelButton);
+		superBox.add(lineBox);
+		
+		newCompPanel.add(superBox);
+		this.add(newCompPanel);
+		this.validate();
+		repaint();
+	}
+	
+	
 	public void addCompetition()
 	{
 		//Kijken of de eigenaar al een competitie heeft
-		//Zo niet maak een competitie aan met id onderste rij id + 1
-		//en de eigenaar is curUser
+		//Zo niet maak een competitie aan
 		
 		String eigenaar = Account.getAccountNaam();
 		Connectie connect = new Connectie();
 		
 		if(!(alleEigenaren.contains(eigenaar + ";"))){
-			connect.voerInsertOrUpdateQueryUit("INSERT INTO `Competitie` (`ID`, `Account_naam_eigenaar`) VALUES ('" + (aantalCompetities + 1) + "', '" + eigenaar + "');");
+			String q = "INSERT INTO `Competitie` (`Account_naam_eigenaar`, `start`, `einde`, `omschrijving`) VALUES ('"+eigenaar+"','"+startDate.getText()+"','"+endDate.getText()+"','"+compDesc.getText()+"')";
+			connect.voerInsertOrUpdateQueryUit(q);
 			connect.closeConnection();
-			alleEigenaren += eigenaar;
-			JOptionPane.showMessageDialog(popup,
-					"Je Competitie is aangemaakt!", "",
-					JOptionPane.WARNING_MESSAGE);
-			popup = null;
-			JPanel comp = new JPanel();
-			comp.setMaximumSize(new Dimension(650,80));
-			comp.setPreferredSize(comp.getMaximumSize());
-			comp.setBackground(new Color(44,47,53));
-			JLabel compTxt = new JLabel("Competitie " + (aantalCompetities + 1) + " Eigenaar: " + eigenaar);
-			compTxt.setForeground(Color.white);
-			comp.add(compTxt);
-			competities.add(Box.createVerticalStrut(5));
-			competities.add(comp);
-			aantalCompetities++;
-			alleEigenaren += eigenaar + ";";
-			
-			comp.addMouseListener(this);
-			revalidate();
-			repaint();
 		}else{
 			JOptionPane.showMessageDialog(popup,
 					"Je hebt al een competitie!", "",
 					JOptionPane.WARNING_MESSAGE);
-			popup = null;
+			popup = null;			
 		}
 	}
 	
@@ -167,47 +209,25 @@ public class CompetitiesMenu extends JPanel  implements MouseListener,ActionList
 		root.pack();
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub	
-			if (!observerMode){
-				setParentContentPane(new SpelPanel());
-			} else {
-				setParentContentPane(new ObserverGUI());
-			}
-	}
-	
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		if(arg0.getSource().equals(inviteButton)){
-			addCompetition();
+			newCompetition();
 		} else if(arg0.getSource().equals(backButton)){
 			setParentContentPane(new GUIMenu());
+		}else if(arg0.getSource().equals(newCompButton)){
+			addCompetition();
+			this.remove(newCompPanel);
+			initShow();
+			showCompetitions();
+			revalidate();
+			repaint();
+		}else if(arg0.getSource().equals(cancelButton)){
+			this.remove(newCompPanel);
+			initShow();
+			showCompetitions();
+			revalidate();
+			repaint();
 		}
 		
 	}
