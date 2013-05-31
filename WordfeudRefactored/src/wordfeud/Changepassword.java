@@ -118,9 +118,6 @@ public class Changepassword extends JPanel {
 							connect.voerInsertOrUpdateQueryUit("UPDATE account SET wachtwoord = '"+password2+"' WHERE naam = '" + Account.getAccountNaam()+"'");
 							
 							connect.closeConnection();
-							passwordField.setText("");
-							registerControle.setVisible(false);
-							registercontroleLabel.setVisible(false);
 							JOptionPane
 									.showMessageDialog(
 											popup,
@@ -128,6 +125,7 @@ public class Changepassword extends JPanel {
 											"Voltooid",
 											JOptionPane.PLAIN_MESSAGE);
 							popup = null;
+							activeFrame.dispose();
 				} else if (registerControle.isVisible() == false) {
 					registerControle.setVisible(true);
 					registercontroleLabel.setVisible(true);
