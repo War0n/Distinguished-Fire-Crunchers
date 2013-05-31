@@ -148,7 +148,7 @@ public class SpelVerloop implements Runnable {
 
 		// Woorden zoeken
 		while (!done) {
-			if (!nextTile(currentTile, 'u').equals(null)) {
+			if (!(nextTile(currentTile, 'u') == null)) {
 				currentTile = nextTile(currentTile, 'u');
 			} else {
 				done = true;
@@ -157,15 +157,15 @@ public class SpelVerloop implements Runnable {
 		done = false;
 		while (!done) {
 			woordenLijst.get(index).add(currentTile);
-			if (!nextTile(currentTile, 'd').equals(null)) {
+			if (!(nextTile(currentTile, 'd')== null)) {
 				if (!currentTile.equals(newTiles.get(0))) {
-					if (!nextTile(currentTile, 'l').equals(null)
-							|| !nextTile(currentTile, 'r').equals(null)
+					if (!(nextTile(currentTile, 'l')== null)
+							|| !(nextTile(currentTile, 'r')== null)
 							&& !currentTile.getStone().getLocked()) {
 						currentTile = nextTile(currentTile, 'l');
 						boolean done2 = false;
 						while (!done2) {
-							if (!nextTile(currentTile, 'l').equals(null)) {
+							if (!(nextTile(currentTile, 'l')== null)) {
 								currentTile = nextTile(currentTile, 'l');
 							} else {
 								done2 = true;
@@ -175,7 +175,7 @@ public class SpelVerloop implements Runnable {
 						woordenLijst.add(woordenLijst.size(),
 								new ArrayList<Tile>());
 						while (!done2) {
-							if (!nextTile(currentTile, 'r').equals(null)) {
+							if (!(nextTile(currentTile, 'r')== null)) {
 								woordenLijst.get(woordenLijst.size() - 1).add(
 										currentTile);
 								currentTile = nextTile(currentTile, 'r');
@@ -193,7 +193,7 @@ public class SpelVerloop implements Runnable {
 			}
 			done = false;
 			while (!done) {
-				if (!nextTile(currentTile, 'l').equals(null)) {
+				if (!(nextTile(currentTile, 'l')== null)) {
 					currentTile = nextTile(currentTile, 'l');
 				} else {
 					done = true;
@@ -203,15 +203,15 @@ public class SpelVerloop implements Runnable {
 		done = false;
 		while (!done) {
 			woordenLijst.get(index).add(currentTile);
-			if (!nextTile(currentTile, 'r').equals(null)) {
+			if (!(nextTile(currentTile, 'r')== null)) {
 				if (!currentTile.equals(newTiles.get(0))) {
-					if (!nextTile(currentTile, 'u').equals(null)
-							|| !nextTile(currentTile, 'd').equals(null)
+					if (!(nextTile(currentTile, 'u')== null)
+							|| !(nextTile(currentTile, 'd')== null)
 							&& !currentTile.getStone().getLocked()) {
 						currentTile = nextTile(currentTile, 'u');
 						boolean done2 = false;
 						while (!done2) {
-							if (!nextTile(currentTile, 'u').equals(null)) {
+							if (!(nextTile(currentTile, 'u')== null)) {
 								currentTile = nextTile(currentTile, 'u');
 							} else {
 								done2 = true;
@@ -221,7 +221,7 @@ public class SpelVerloop implements Runnable {
 						woordenLijst.add(woordenLijst.size(),
 								new ArrayList<Tile>());
 						while (!done2) {
-							if (!nextTile(currentTile, 'd').equals(null)) {
+							if (!(nextTile(currentTile, 'd')== null)) {
 								woordenLijst.get(woordenLijst.size() - 1).add(
 										currentTile);
 								currentTile = nextTile(currentTile, 'd');
@@ -281,26 +281,26 @@ public class SpelVerloop implements Runnable {
 		int[] coor = spel.getBord().getCoordinat(tile);
 		switch (direction) {
 		case 'u':
-			if (!spel.getBord().getTile(coor[0], coor[1] + 1).getStone()
-					.equals(null)) {
+			if (!(spel.getBord().getTile(coor[0], coor[1] + 1).getStone()
+					== null)) {
 				return spel.getBord().getTile(coor[0], coor[1] + 1);
 			}
 			break;
 		case 'd':
-			if (!spel.getBord().getTile(coor[0], coor[1] - 1).getStone()
-					.equals(null)) {
+			if (!(spel.getBord().getTile(coor[0], coor[1] - 1).getStone()
+					== null)) {
 				return spel.getBord().getTile(coor[0], coor[1] - 1);
 			}
 			break;
 		case 'l':
-			if (!spel.getBord().getTile(coor[0] - 1, coor[1]).getStone()
-					.equals(null)) {
+			if (!(spel.getBord().getTile(coor[0] - 1, coor[1]).getStone()
+					== null)) {
 				return spel.getBord().getTile(coor[0] - 1, coor[1]);
 			}
 			break;
 		case 'r':
-			if (!spel.getBord().getTile(coor[0] + 1, coor[1]).getStone()
-					.equals(null)) {
+			if (!(spel.getBord().getTile(coor[0] + 1, coor[1]).getStone()
+					== null)) {
 				return spel.getBord().getTile(coor[0] + 1, coor[1]);
 			}
 			break;
