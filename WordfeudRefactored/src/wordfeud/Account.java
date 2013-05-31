@@ -18,73 +18,51 @@ public class Account {
 		accountNaam = loginNaam;
 	}
 	
-	public static boolean checkModerator()
+	public boolean checkModerator()
 	{
-		Connectie connect = new Connectie();
-		ResultSet myResultSet;
-		
-		myResultSet = connect.voerSelectQueryUit("SELECT Rol_type From accountrol WHERE Account_naam = '" + getAccountNaam() + "'");
-		
-		try {
-			while(myResultSet.next())
-			{
-				if(myResultSet.getString("Rol_type").equals("Moderator")){
-					connect.closeConnection();
-					return true;
-				}
-			}
-		} catch (SQLException e) {
-			System.out.println("Error: " + e);
+		if(checkRol("Moderator")){
+			return true;
 		}
-		connect.closeConnection();
-		return false;
+		else
+		{
+			return false;
+		}
 	}
 	
-	public static boolean checkAdmin()
+	public boolean checkAdmin()
 	{
-		Connectie connect = new Connectie();
-		ResultSet myResultSet;
-		
-		myResultSet = connect.voerSelectQueryUit("SELECT Rol_type From accountrol WHERE Account_naam = '" + getAccountNaam() + "'");
-		
-		try {
-			while(myResultSet.next())
-			{
-				if(myResultSet.getString("Rol_type").equals("Administrator")){
-					connect.closeConnection();
-					return true;
-				}
-			}
-		} catch (SQLException e) {
-			System.out.println("Error: " + e);
+		if(checkRol("Admin")){
+			return true;
 		}
-		connect.closeConnection();
-		return false;
+		else
+		{
+			return false;
+		}
 	}
 	
-	public static boolean checkPlayer() // Eigenlijk dubbele code maar tijdnood
+	public boolean checkPlayer() // Eigenlijk dubbele code maar tijdnood
 	{
-		Connectie connect = new Connectie();
-		ResultSet myResultSet;
-		
-		myResultSet = connect.voerSelectQueryUit("SELECT Rol_type From accountrol WHERE Account_naam = '" + getAccountNaam() + "'");
-		
-		try {
-			while(myResultSet.next())
-			{
-				if(myResultSet.getString("Rol_type").equals("Player")){
-					connect.closeConnection();
-					return true;
-				}
-			}
-		} catch (SQLException e) {
-			System.out.println("Error: " + e);
+		if(checkRol("Player")){
+			return true;
 		}
-		connect.closeConnection();
-		return false;
+		else
+		{
+			return false;
+		}
 	}
 	
-	public static boolean checkObserver()
+	public boolean checkObserver()
+	{
+		if(checkRol("Observer")){
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public boolean checkRol(String rol)
 	{
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;
@@ -94,7 +72,7 @@ public class Account {
 		try {
 			while(myResultSet.next())
 			{
-				if(myResultSet.getString("Rol_type").equals("Observer")){
+				if(myResultSet.getString("Rol_type").equals(rol)){
 					connect.closeConnection();
 					return true;
 				}
