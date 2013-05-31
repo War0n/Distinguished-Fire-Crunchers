@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 public class Stone
 {
 	private char letter;
-	private char iederLetter;
+	private char blancoLetter;
 	private BufferedImage lockedImg;
 	private BufferedImage unlockedImg;
 	private boolean bLocked;
@@ -27,10 +27,10 @@ public class Stone
 			e.printStackTrace();
 		}
 	}
-	public Stone(char letter, char iederLetter)
+	public Stone(char letter, char blancoLetter)
 	{
 		this.letter = letter;
-		this.setIederLetter(iederLetter);
+		this.setBlancoLetter(blancoLetter);
 		File imageFile = new File("src/images/tile.png");//
 		File imageFile2 = new File("src/images/unlockedtile.png");//
 		try {
@@ -85,10 +85,10 @@ public class Stone
 	{
 		bLocked = locked;
 	}
-	public char getIederLetter() {
-		return iederLetter;
+	public char getBlancoLetter() {
+		return blancoLetter;
 	}
-	public void setIederLetter(char iederLetter) {
-		this.iederLetter = iederLetter;
+	public void setBlancoLetter(char blancoLetter) {
+		this.blancoLetter = blancoLetter;
 	}
 }

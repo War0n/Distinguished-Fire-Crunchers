@@ -306,7 +306,12 @@ public class SpelVerloop implements Runnable {
 	}
 	private void pakLetter(){
 		if(spel.getLetterBak().getStones().size() < 7){
-			connect.voerSelectQueryUit("SELECT * FROM pot WHERE Spel_ID = " + spel.getSpelId() );
+			ResultSet result = connect.voerSelectQueryUit("SELECT * FROM pot WHERE Spel_ID = " + spel.getSpelId());
+			/*
+			 * result.getArray en zo verder, array.length opvragen
+			 * als er genoeg letters in de pot zitten, voeg letters toe aan plankje (new stone)
+			 * werk DB bij, voeg records toe aan letterPlankje (Haal letters weg uit spel?)
+			 */
 		}
 	}
 }
