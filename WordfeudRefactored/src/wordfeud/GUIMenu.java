@@ -107,6 +107,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		} else {
 			observerButton.setEnabled(true);
 		}
+		
 		if(!Account.checkPlayer()){
 			competitieButton.setEnabled(false);
 			competitieAanmaken.setEnabled(false);

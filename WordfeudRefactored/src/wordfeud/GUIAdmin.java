@@ -154,12 +154,6 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		popupPanel.add(wwWijzig);
 		popupPanel.add(verwijderAccount);
 	}
-	
-	public void insertPassword(){
-		JTextField myPassword = new JTextField();
-		myPassword.setSize(new Dimension(200,50));
-		chancedPassword = myPassword.getText();
-	}
 
 	public void setParentContentPane(JPanel contentPane){
 		JFrame root = (JFrame) SwingUtilities.getWindowAncestor(this);

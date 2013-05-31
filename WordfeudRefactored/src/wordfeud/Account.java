@@ -31,7 +31,7 @@ public class Account {
 	
 	public static boolean checkAdmin()
 	{
-		if(checkRol("Admin")){
+		if(checkRol("Administrator")){
 			return true;
 		}
 		else
