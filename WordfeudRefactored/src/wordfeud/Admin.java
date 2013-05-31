@@ -20,6 +20,7 @@ public class Admin extends Observable {
 	}
 	
 	public void getAccounts(){
+		connect = new Connectie();
 		namenRS = connect.voerSelectQueryUit("SELECT naam from account");
 		try {
 			while(namenRS.next()){
@@ -64,13 +65,14 @@ public class Admin extends Observable {
 	
 	public void removeAccount(String naam){
 		connect = new Connectie();
-		connect.voerInsertOrUpdateQueryUit("DELETE * from account WHERE naam = '" + naam+"'");
+		connect.voerInsertOrUpdateQueryUit("DELETE FROM accountrol WHERE Account_naam = '" + naam +"'");
+		connect.voerInsertOrUpdateQueryUit("DELETE FROM account WHERE naam = '" + naam +"'");
 		connect.closeConnection();
 	}
 	
 	public void chancePassword(String naam, String wachtwoord){
 		connect = new Connectie();
-		connect.voerInsertOrUpdateQueryUit("UPDATE account SET wachtwoord = '"+wachtwoord+"' WHERE naam = '" + naam+"'");
+		connect.voerInsertOrUpdateQueryUit("UPDATE account SET wachtwoord = '"+ wachtwoord +"' WHERE naam = '" + naam +"'");
 		connect.closeConnection();
 	}
 

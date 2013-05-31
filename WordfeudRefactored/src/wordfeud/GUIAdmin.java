@@ -38,6 +38,12 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 	private WFButton verwijderAccount;
 	private String chancedPassword;
 	
+	JFrame popup;
+	JTextField passwordField;
+	JLabel usernameLabel;
+	JLabel usernameDataLabel;
+	JLabel passwordLabel;
+	
 	public GUIAdmin(){
 		setMinimumSize(new Dimension(650,750));
 		setPreferredSize(getMinimumSize());
@@ -96,38 +102,43 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					getInfo(e);
+					getAccountInfo(e);
 			}
 		});
 		
 		menu.add(naamButton);
 
 		}
+		menu.repaint();
 	}
 	
-	public void getInfo(ActionEvent e){
-		JFrame popup = new JFrame();	
+	public void getAccountInfo(ActionEvent e){
+		popup = new JFrame();	
 		JButton srcButton = (JButton) e.getSource();
 		JPanel popupPanel = new JPanel();
-		String[] data = admin.getInfo(srcButton.getText());
-		//JTextField popupData = new JTextField();
+		String[] data = admin.getInfo(srcButton.getText());	
+		
+		passwordField = new JTextField();
+		usernameLabel = new JLabel("Gebruikersnaam: ");
+		usernameDataLabel = new JLabel(data[0]);
+		passwordLabel = new JLabel("Wachtwoord: ");
+		
+		usernameLabel.setForeground(Color.white);
+		usernameDataLabel.setForeground(Color.white);
+		passwordLabel.setForeground(Color.white);
+		
+		popupPanel.add(usernameLabel);
+		popupPanel.add(usernameDataLabel);
+		passwordField.setText(data[1]);
+		popupPanel.add(passwordLabel);
+		popupPanel.add(passwordField);
 
-		String verzamelData = ""+"Gebruiksnaam: "+ data[0];		
-		for(String gegeven:data){
-			verzamelData = verzamelData + gegeven + System.lineSeparator();
-	
-		}
 		popup.setTitle(data[0]);
-		popup.setMinimumSize(new Dimension(300,200));
-		JTextArea popupData = new JTextArea(verzamelData);
-		popupData.setEditable(false);
-		popupData.setFont(new Font("Arial",Font.BOLD,20));
-		popupData.setBackground(new Color(23,26,30));
-		popupData.setForeground(Color.white);
+		popup.setMinimumSize(new Dimension(300,50));
+		
 		popup.setResizable(false);
-		popupPanel.add(popupData);
 		popupPanel.setBackground(new Color(23,26,30));
-		popupPanel.setLayout(myGridLayout);				//layoutmanager verkloot buttons
+		popupPanel.setLayout(new GridLayout(3,2));			
 		popup.setContentPane(popupPanel);
 		popup.pack();
 		popup.setVisible(true);
@@ -159,13 +170,16 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource().equals(back)){
-		setParentContentPane(new GUIMenu());
+			setParentContentPane(new GUIMenu());
 		}
 		else if(arg0.getSource().equals(wwWijzig)){
-			//admin.chancePassword(naam, wachtwoord)
+			admin.chancePassword(usernameDataLabel.getText(), passwordField.getText());
+			popup.dispose();
+			admin.getAccounts();
 		}
 		else if(arg0.getSource().equals(verwijderAccount)){
-			//admin.removeAccount();
+			admin.removeAccount(usernameDataLabel.getText());
+			popup.dispose();
 		}
 	}
 
