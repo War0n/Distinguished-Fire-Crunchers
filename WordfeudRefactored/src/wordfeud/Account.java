@@ -18,7 +18,7 @@ public class Account {
 		accountNaam = loginNaam;
 	}
 	
-	public boolean checkModerator()
+	public static boolean checkModerator()
 	{
 		if(checkRol("Moderator")){
 			return true;
@@ -29,7 +29,7 @@ public class Account {
 		}
 	}
 	
-	public boolean checkAdmin()
+	public static boolean checkAdmin()
 	{
 		if(checkRol("Admin")){
 			return true;
@@ -40,7 +40,7 @@ public class Account {
 		}
 	}
 	
-	public boolean checkPlayer() // Eigenlijk dubbele code maar tijdnood
+	public static boolean checkPlayer() // Eigenlijk dubbele code maar tijdnood
 	{
 		if(checkRol("Player")){
 			return true;
@@ -51,7 +51,7 @@ public class Account {
 		}
 	}
 	
-	public boolean checkObserver()
+	public static boolean checkObserver()
 	{
 		if(checkRol("Observer")){
 			return true;
@@ -62,7 +62,7 @@ public class Account {
 		}
 	}
 	
-	public boolean checkRol(String rol)
+	public static boolean checkRol(String rol)
 	{
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;
