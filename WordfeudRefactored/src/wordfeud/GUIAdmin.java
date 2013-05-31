@@ -14,6 +14,8 @@ import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,15 +36,19 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 	private JScrollPane myScroller;
 	private WFButton back;
 	private Admin admin;
-	private WFButton wwWijzig;
+	private WFButton updateButton;
 	private WFButton verwijderAccount;
-	private String chancedPassword;
 	
-	JFrame popup;
-	JTextField passwordField;
-	JLabel usernameLabel;
-	JLabel usernameDataLabel;
-	JLabel passwordLabel;
+	
+	private JFrame popup;
+	private JPanel rolePanel;
+	private JLabel roleLabel;
+	private JTextField passwordField;
+	private JLabel usernameLabel;
+	private JLabel usernameDataLabel;
+	private JLabel passwordLabel;
+	
+	private ArrayList<JCheckBox> roleArray;
 	
 	public GUIAdmin(){
 		setMinimumSize(new Dimension(650,750));
@@ -69,14 +75,12 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		myGridLayout = new GridLayout(0,1,0,10);
 		menu.setLayout(myGridLayout);
 		menu.setBackground(this.getBackground());
-		blankSpace = new JPanel();
-		blankSpace.setPreferredSize(new Dimension(650,50));
-		blankSpace.setBackground(this.getBackground());
 		myScroller = new JScrollPane(menu);
 		myScroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		admin = new Admin();
 		admin.addObserver(this);
 		back.addActionListener(this);
+		roleArray = new ArrayList<JCheckBox>();
 		
 		add(head);
 		add(functies);
@@ -122,17 +126,32 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		usernameLabel = new JLabel("Gebruikersnaam: ");
 		usernameDataLabel = new JLabel(data[0]);
 		passwordLabel = new JLabel("Wachtwoord: ");
+		roleLabel = new JLabel("Rollen: ");
 		
 		usernameLabel.setForeground(Color.white);
 		usernameDataLabel.setForeground(Color.white);
 		passwordLabel.setForeground(Color.white);
+		roleLabel.setForeground(Color.white);
 		
 		popupPanel.add(usernameLabel);
 		popupPanel.add(usernameDataLabel);
 		passwordField.setText(data[1]);
 		popupPanel.add(passwordLabel);
 		popupPanel.add(passwordField);
-
+		rolePanel = new JPanel();
+		rolePanel.setBackground(this.getBackground());
+		roleArray = admin.getAvailableRoles();
+		for(JCheckBox role : roleArray){
+			if(Account.checkRol(role.getText())){
+				role.setSelected(true);
+			}
+			role.setBackground(this.getBackground());
+			rolePanel.add(role);
+		}
+		popupPanel.add(roleLabel);
+		popupPanel.add(rolePanel);
+		
+		
 		popup.setTitle(data[0]);
 		popup.setMinimumSize(new Dimension(300,50));
 		
@@ -142,16 +161,16 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		popup.setContentPane(popupPanel);
 		popup.pack();
 		popup.setVisible(true);
-		wwWijzig = new WFButton("Wijzig gegevens");
+		updateButton = new WFButton("Wijzig gegevens");
 		verwijderAccount = new WFButton("Verwijder account");
 		verwijderAccount.setMaximumSize(new Dimension(100,50));
 		verwijderAccount.setPreferredSize(getMaximumSize());
-		wwWijzig.setMaximumSize(new Dimension(5,5));
-		wwWijzig.setPreferredSize(getMaximumSize());
-		wwWijzig.addActionListener(this);
+		updateButton.setMaximumSize(new Dimension(5,5));
+		updateButton.setPreferredSize(getMaximumSize());
+		updateButton.addActionListener(this);
 		verwijderAccount.addActionListener(this);
 		
-		popupPanel.add(wwWijzig);
+		popupPanel.add(updateButton);
 		popupPanel.add(verwijderAccount);
 	}
 
@@ -166,8 +185,9 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		if(arg0.getSource().equals(back)){
 			setParentContentPane(new GUIMenu());
 		}
-		else if(arg0.getSource().equals(wwWijzig)){
+		else if(arg0.getSource().equals(updateButton)){
 			admin.chancePassword(usernameDataLabel.getText(), passwordField.getText());
+			admin.changeRoles(null);
 			popup.dispose();
 			admin.getAccounts();
 		}

@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import javax.swing.JCheckBox;
+
 public class Admin extends Observable {
 	
 	private Connectie connect;
@@ -74,6 +76,27 @@ public class Admin extends Observable {
 		connect = new Connectie();
 		connect.voerInsertOrUpdateQueryUit("UPDATE account SET wachtwoord = '"+ wachtwoord +"' WHERE naam = '" + naam +"'");
 		connect.closeConnection();
+	}
+	
+	public void changeRoles(ArrayList<String> selected){
+		
+	}
+	
+	public ArrayList<JCheckBox> getAvailableRoles(){
+		connect = new Connectie();
+		ResultSet roles = connect.voerSelectQueryUit("SELECT * FROM rol");
+		ArrayList<JCheckBox> checkboxes = new ArrayList<JCheckBox>();
+		try {
+			while(roles.next()){ 
+				checkboxes.add(new JCheckBox(roles.getString("type")));
+			}
+			return checkboxes;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		connect.closeConnection();
+		return null;
 	}
 
 }
