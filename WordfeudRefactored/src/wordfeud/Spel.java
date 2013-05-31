@@ -18,6 +18,15 @@ public class Spel {
 		verloop = new SpelVerloop(this);
 		spelPanel = panel;
 	}
+	
+	public Spel() {
+		letterbak = new Letterbak();
+		letterSet = new LetterSet("NL"); // Nederlands? :)
+		spelID = 511;//new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
+		bord = new Bord(this, "placeHolderName");
+		verloop = new SpelVerloop(this);
+		spelPanel = null;
+	}
 
 	public LetterSet getLetterSet() {
 		return letterSet;
