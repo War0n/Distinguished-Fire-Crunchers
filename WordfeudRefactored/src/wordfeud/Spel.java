@@ -43,7 +43,7 @@ public class Spel {
 		this.spelPanel = panel;
 	}
 	
-	public SpelPanel getSpelPanel(){
+	public SpelPanel getSpelPanel(){//knoppen kunnen disabelen in verloop
 		
 		return spelPanel;
 	}

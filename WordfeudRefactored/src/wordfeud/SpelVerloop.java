@@ -27,16 +27,11 @@ public class SpelVerloop implements Runnable {
 	}
 
 	public void gamePlay() {
-		connect = new Connectie();
-		myResultSet = connect
-				.voerSelectQueryUit("SELECT Account_naam FROM beurt WHERE Spel_ID = "
-						+ spel.getSpelId() + " ORDER BY ID ASC LIMIT 1");
-		try {
-			while (myResultSet.next()) {
-				accountEersteBeurt = myResultSet.getString("Account_naam");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if(myTurn()){
+			
+		}
+		else{
+			spel.getSpelPanel();
 		}
 	}
 
