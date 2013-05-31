@@ -107,18 +107,18 @@ public class LoginScreen extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				passwordField.requestFocus();
 			}
 		});
+		
 		passwordField.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				loginButton.doClick();
 			}
 		});
+		
 		registerButton.addActionListener(new ActionListener() {
 
 			@Override

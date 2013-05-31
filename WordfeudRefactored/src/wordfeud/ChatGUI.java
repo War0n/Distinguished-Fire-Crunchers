@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
@@ -21,6 +22,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.plaf.ScrollBarUI;
+import javax.swing.text.DefaultCaret;
 
 public class ChatGUI  extends JFrame implements Observer{
 
@@ -48,10 +50,9 @@ public class ChatGUI  extends JFrame implements Observer{
 		sendPanel = new JPanel();
 		chatStatus = new JLabel("Chatten met: USERNAME");
 		chatHistory = new JTextArea();
-		chatHistory.setEditable(false);
+		//chatHistory.setEditable(false);
 		chatHistory.setLineWrap(true);
 		chatHistory.setWrapStyleWord(true);
-		chatHistory.setAutoscrolls(true);
 		tekstVeld = new JTextField();
 		sendButton = new JButton("Stuur");
 		chat = new Chat(game.getSpelId());
@@ -60,6 +61,9 @@ public class ChatGUI  extends JFrame implements Observer{
 		sendPanel.add(tekstVeld);
 		sendPanel.add(sendButton);
 		
+		DefaultCaret caret = (DefaultCaret)chatHistory.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		
 		chatFrame.setLayout(new BorderLayout());
 		chatFrame.add(sendPanel,BorderLayout.SOUTH);
 		chatHistory.setForeground(Color.white);
@@ -67,6 +71,8 @@ public class ChatGUI  extends JFrame implements Observer{
 		scroll = new JScrollPane(chatHistory);
 		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.getVerticalScrollBar().setBackground(new Color(23,26,30));
+		scroll.setAutoscrolls(true);
+		chatHistory.setCaretPosition(chatHistory.getDocument().getLength());
 		chatFrame.add(scroll, BorderLayout.CENTER);
 		
 		
