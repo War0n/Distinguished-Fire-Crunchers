@@ -27,11 +27,21 @@ public class SpelVerloop implements Runnable {
 	}
 
 	public void gamePlay() {
+		while(!spelOver){
 		if(myTurn()){
-			
+			spel.getSpelPanel().getPlayButton().setEnabled(true);
+			spel.getSpelPanel().getShuffleButton().setEnabled(true);
+			spel.getSpelPanel().getSkipButton().setEnabled(true);
+			spel.getSpelPanel().getSwapButton().setEnabled(true);
+			spel.getSpelPanel().getClearButton().setEnabled(true);
 		}
 		else{
-			spel.getSpelPanel();
+			spel.getSpelPanel().getPlayButton().setEnabled(false);
+			spel.getSpelPanel().getShuffleButton().setEnabled(false);
+			spel.getSpelPanel().getSkipButton().setEnabled(false);
+			spel.getSpelPanel().getSwapButton().setEnabled(false);
+			spel.getSpelPanel().getClearButton().setEnabled(false);
+		}
 		}
 	}
 
