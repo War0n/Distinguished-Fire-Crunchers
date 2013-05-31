@@ -66,11 +66,9 @@ public class SpelVerloop implements Runnable {
 		boolean myTurn = false;
 		Connectie con = new Connectie();
 		ResultSet rs;
-		String accountNaam;
+		String accountNaam = "";
 		int IDbeurt;
-		rs = con.doSelect(
-				"SELECT MAX(ID) AS maxid, Account_naam FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%2$s'",
-				spel.getSpelId(), Account.getAccountNaam());
+		rs = con.doSelect("SELECT Account_naam, MAX( ID ) -1 AS maxid FROM beurt WHERE Spel_ID = " + spel.getSpelId() + " ORDER BY ID DESC ");
 		try {
 			while (rs.next()) {
 				accountNaam = rs.getString("Account_naam");
@@ -79,7 +77,7 @@ public class SpelVerloop implements Runnable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (!account.getAccountNaam().equals(rs)) {
+		if (!account.getAccountNaam().equals(accountNaam)) {
 			myTurn = true;
 		}
 		return myTurn;
