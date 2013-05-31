@@ -101,6 +101,7 @@ public class SpelVerloop implements Runnable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		gepasst ++;
 	}
 
 	private Integer puntenTeller() {
