@@ -40,18 +40,17 @@ public class Bord
 		//int[] yArray = null;
 		ArrayList<String> soortArray = new ArrayList<String>();
 		
-		result = connectie.voerSelectQueryUit("SELECT t.tegelType_soort AS soort FROM spel AS s LEFT JOIN bord AS b ON s.Bord_naam = b.naam LEFT JOIN tegel AS t ON b.naam = t.bord_naam WHERE s.ID = " + spel.getSpelId());
-		try{
-			while(result.next()){
-				soortArray.add(result.getString("soort"));
-				for(String string : soortArray){
-					System.out.println(string);
+		result = connectie.voerSelectQueryUit("SELECT t.tegelType_soort AS soort FROM spel AS s LEFT JOIN bord AS b ON s.Bord_naam = b.naam LEFT JOIN tegel AS t ON b.naam = t.bord_naam WHERE s.ID = " + spel.getSpelId() + " LIMIT 0, 225");
+			try {
+				while(result.next()){
+					soortArray.add(result.getString("soort"));
+					System.out.println(soortArray.size());
 				}
+			} catch (SQLException e) {
+				System.out.println(e);
+				e.printStackTrace();
 			}
-		}
-		catch(SQLException e){
-			e.printStackTrace();
-		}
+
 		
 		for(int y = 0; y < 15; y++)
 		{
