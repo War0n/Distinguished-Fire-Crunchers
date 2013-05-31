@@ -10,10 +10,10 @@ public class Spel {
 	private SpelVerloop verloop;
 
 	public Spel() {
-		bord = new Bord(this, "placeHolderName");
 		letterbak = new Letterbak();
 		letterSet = new LetterSet("NL"); // Nederlands? :)
 		spelID = 511;//new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
+		bord = new Bord(this, "placeHolderName");
 		verloop = new SpelVerloop(this);
 	}
 
