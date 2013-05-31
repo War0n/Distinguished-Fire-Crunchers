@@ -11,26 +11,21 @@ public class Bord
 	private Tile[][] tiles;
 	private Connectie connectie;
 	private Spel spel;
+	private ResultSet result;
 	
 	private BordPanel panel;
 	
-	public Bord(Spel spel)
-	{
-		this.name = "";
-		setupTiles();
-		connectie = new Connectie();	
-		this.spel = spel;
-	}
-	
-	public Bord(String name)
+	public Bord(Spel spel, String name)
 	{
 		this.name = name;
+		connectie = new Connectie();
+		this.spel = spel;
 		setupTiles();
 	}
 	
 	public void setPanel(BordPanel panel)
 	{
-		this.panel = panel;//
+		this.panel = panel;
 	}
 	
 	public BordPanel getPanel(){
@@ -43,13 +38,17 @@ public class Bord
 		tiles = new Tile[15][15];
 		//int[] xArray = null;
 		//int[] yArray = null;
-		String[] soortArray = null;
+		ArrayList<String> soortArray = new ArrayList<String>();
 		
-		ResultSet result = connectie.voerSelectQueryUit("SELECT t.tegelType_soort AS soort FROM spel AS s LEFT JOIN bord AS b ON s.Bord_naam = b.naam LEFT JOIN tegel AS t ON b.naam = t.bord_naam WHERE s.ID = " + spel.getSpelId());
+		result = connectie.voerSelectQueryUit("SELECT t.tegelType_soort AS soort FROM spel AS s LEFT JOIN bord AS b ON s.Bord_naam = b.naam LEFT JOIN tegel AS t ON b.naam = t.bord_naam WHERE s.ID = " + spel.getSpelId());
 		try{
-			Array soortSQLArray = result.getArray("soort");
-			soortArray = (String[])soortSQLArray.getArray();	
+			while(result.next()){
+				soortArray.add(result.getString("soort"));
+				for(String string : soortArray){
+					System.out.println(string);
+				}
 			}
+		}
 		catch(SQLException e){
 			e.printStackTrace();
 		}
