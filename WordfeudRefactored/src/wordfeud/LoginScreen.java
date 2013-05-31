@@ -103,11 +103,12 @@ public class LoginScreen extends JPanel {
 		content.add(loginpanel);
 		add(content);
 		activeFrame.pack();
-		passwordField.addKeyListener(new KeyAdapter() {
-			public void KeyPressed(KeyEvent e) {
-				if (e.getKeyCode() == (KeyEvent.VK_ENTER)) {
-					System.out.println("het werkt ongeveer");
-				}
+		passwordField.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				loginButton.doClick();
 			}
 		});
 		registerButton.addActionListener(new ActionListener() {

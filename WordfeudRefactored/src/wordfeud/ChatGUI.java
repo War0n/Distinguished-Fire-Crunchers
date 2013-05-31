@@ -15,9 +15,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.plaf.ScrollBarUI;
 
 public class ChatGUI  extends JFrame implements Observer{
 
@@ -32,6 +35,7 @@ public class ChatGUI  extends JFrame implements Observer{
 	private JLabel chatStatus;
 	private JTextArea chatHistory;
 	private JTextField tekstVeld;
+	private JScrollPane scroll;
 	private JButton sendButton;
 	private Chat chat;
 	private Spel game;
@@ -47,6 +51,7 @@ public class ChatGUI  extends JFrame implements Observer{
 		chatHistory.setEditable(false);
 		chatHistory.setLineWrap(true);
 		chatHistory.setWrapStyleWord(true);
+		chatHistory.setAutoscrolls(true);
 		tekstVeld = new JTextField();
 		sendButton = new JButton("Stuur");
 		chat = new Chat(game.getSpelId());
@@ -59,7 +64,11 @@ public class ChatGUI  extends JFrame implements Observer{
 		chatFrame.add(sendPanel,BorderLayout.SOUTH);
 		chatHistory.setForeground(Color.white);
 		chatHistory.setBackground(new Color(23,26,30));
-		chatFrame.add(chatHistory, BorderLayout.CENTER);
+		scroll = new JScrollPane(chatHistory);
+		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.getVerticalScrollBar().setBackground(new Color(23,26,30));
+		chatFrame.add(scroll, BorderLayout.CENTER);
+		
 		
 		statusBar.setMaximumSize(new Dimension(300,50));
 		statusBar.setPreferredSize(statusBar.getMaximumSize());
@@ -79,7 +88,7 @@ public class ChatGUI  extends JFrame implements Observer{
 		cp.add(chatFrame);
 		pack();
 		chatHistory.setMinimumSize(chatHistory.getSize());
-		chatHistory.setPreferredSize(getMinimumSize());
+		scroll.setPreferredSize(getMinimumSize());
 		setVisible(true);
 		
 		initActions();
