@@ -40,7 +40,7 @@ public class Account {
 		}
 	}
 	
-	public static boolean checkPlayer() // Eigenlijk dubbele code maar tijdnood
+	public static boolean checkPlayer()
 	{
 		if(checkRol("Player")){
 			return true;
