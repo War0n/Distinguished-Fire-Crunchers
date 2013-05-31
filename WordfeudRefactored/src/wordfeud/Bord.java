@@ -137,10 +137,11 @@ public class Bord
 	public Tile[][] getTiles() {
 		return tiles;
 	}
+	
 	public int[] getCoordinat(Tile tileInput){
 		int[] coor = new int[2];
-		for(int x = 0; x < 16; x++){
-			for(int y = 0; y < 16; y++){
+		for(int x = 0; x < 15; x++){
+			for(int y = 0; y < 15; y++){
 				if(tiles[x][y].equals(tileInput)){
 					coor[0] = x;
 					coor[1] = y;
