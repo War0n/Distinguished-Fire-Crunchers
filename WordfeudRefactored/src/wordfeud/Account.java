@@ -70,7 +70,7 @@ public class Account {
 		return false;
 	}
 	
-	public static boolean checkPlayer()
+	public static boolean checkPlayer() // Eigenlijk dubbele code maar tijdnood
 	{
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;
