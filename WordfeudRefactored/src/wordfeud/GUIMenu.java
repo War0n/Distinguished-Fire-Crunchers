@@ -27,6 +27,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 	private JPanel head;
 	private JPanel menu;
 	private JPanel blankSpace;
+	private WFButton actieveSpellenButton;
 	private WFButton competitieButton;
 	private WFButton competitieAanmaken;
 	private WFButton observerButton;
@@ -64,7 +65,8 @@ public class GUIMenu extends JPanel implements ActionListener{
 		blankSpace = new JPanel();
 		blankSpace.setPreferredSize(new Dimension(650,125));
 		blankSpace.setBackground(this.getBackground());
-				
+		
+		actieveSpellenButton = new WFButton("Actieve spellen");
 		competitieButton = new WFButton("Competities openen");
 		competitieAanmaken = new WFButton("Competitie aanmaken");
 		uitnodigingButton = new WFButton("Uitnodigingen bekijken");
@@ -75,7 +77,8 @@ public class GUIMenu extends JPanel implements ActionListener{
 		modButton = new WFButton("Moderator scherm bekijken");
 		myButtons = new ArrayList<WFButton>();
 		
-		myButtons.add(competitieButton);
+		myButtons.add(actieveSpellenButton);
+		//myButtons.add(competitieButton);
 		myButtons.add(competitieAanmaken);
 		myButtons.add(uitnodigingButton);
 		myButtons.add(observerButton);
@@ -127,6 +130,9 @@ public class GUIMenu extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		if(arg0.getSource().equals(actieveSpellenButton)){
+			setParentContentPane(new ActieveSpellenMenu());
+		}
 		if(arg0.getSource().equals(competitieButton)){
 			myCompetitiesMenu = new CompetitiesMenu(false);
 			setParentContentPane(myCompetitiesMenu);

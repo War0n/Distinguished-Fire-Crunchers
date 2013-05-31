@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.Box;
@@ -31,10 +30,6 @@ public class UitdagingMenu extends JPanel implements ActionListener{
 	private WFButton inviteButton;
 	private WFButton backButton;
 	private Connectie connect;
-	private String alleEigenaren;
-	private int aantalCompetities;
-	private boolean observerMode;
-	private JFrame popup = null;
 	
 	
 	
@@ -80,9 +75,6 @@ public class UitdagingMenu extends JPanel implements ActionListener{
 		add(functies);
 		
 		setUitdagingenList();
-		
-		aantalCompetities = 0;
-		alleEigenaren = "";
 		
 		showUitdagingen();
 	}
@@ -154,12 +146,7 @@ public class UitdagingMenu extends JPanel implements ActionListener{
 				comp.add(vertBox);
 				uitdagingen.add(Box.createVerticalStrut(5));
 				uitdagingen.add(comp);
-				if(rs.isLast()){
-					aantalCompetities = idCompetitie;
-				}
-				alleEigenaren += comp_naam + ";";
-				
-				//comp.addMouseListener(this);				
+						
 			}
 		}
 		catch (SQLException e) {
