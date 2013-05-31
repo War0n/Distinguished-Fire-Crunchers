@@ -38,7 +38,7 @@ public class SpelPanel extends JPanel {
 	private WFButton shuffleButton;
 
 	public SpelPanel() {
-		spel = new Spel();
+		spel = new Spel(this);
 		chat = new Chat(spel.getSpelId());
 		setMaximumSize(new Dimension(650, 750));
 		setPreferredSize(getMaximumSize());
