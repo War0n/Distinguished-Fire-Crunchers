@@ -38,8 +38,7 @@ public class SpelPanel extends JPanel {
 	private WFButton shuffleButton;
 
 	public SpelPanel() {
-		spel = new Spel(this);
-		chat = new Chat(spel.getSpelId());
+		
 		setMaximumSize(new Dimension(650, 750));
 		setPreferredSize(getMaximumSize());
 		swapButton = new WFButton("Swap");
@@ -49,6 +48,10 @@ public class SpelPanel extends JPanel {
 		clearButton = new WFButton("Clear");
 		shuffleButton = new WFButton("Shuffle");
 		backButton = new WFButton("< Terug");
+		
+		spel = new Spel(this);
+		chat = new Chat(spel.getSpelId());
+		
 		score = new JLabel("Scoreveld hier");
 		score.setForeground(Color.white);
 
