@@ -49,7 +49,8 @@ public class Changepassword extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		activeFrame = frame;
 		activeFrame.setMinimumSize(new Dimension(200, 200));
-
+		activeFrame.setResizable(false);
+		activeFrame.setLocationRelativeTo(null);
 		loginpanel = new JPanel();
 		loginpanel.setLayout(new BoxLayout(loginpanel, BoxLayout.Y_AXIS));
 		loginpanel.setBackground(new Color(23, 26, 30));
@@ -99,7 +100,6 @@ public class Changepassword extends JPanel {
 			public void KeyPressed(KeyEvent e) {
 				if (e.getKeyCode() == (KeyEvent.VK_ENTER)) {
 					System.out.println("het werkt ongeveer");
-					clickLogin();
 				}
 			}
 		});
@@ -128,7 +128,6 @@ public class Changepassword extends JPanel {
 											"Voltooid",
 											JOptionPane.PLAIN_MESSAGE);
 							popup = null;
-
 				} else if (registerControle.isVisible() == false) {
 					registerControle.setVisible(true);
 					registercontroleLabel.setVisible(true);
@@ -144,9 +143,4 @@ public class Changepassword extends JPanel {
 
 	}
 
-	public void clickLogin() {
-
-		loginButton.doClick();
-
-	}
 }

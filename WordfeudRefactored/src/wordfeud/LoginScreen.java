@@ -107,7 +107,6 @@ public class LoginScreen extends JPanel {
 			public void KeyPressed(KeyEvent e) {
 				if (e.getKeyCode() == (KeyEvent.VK_ENTER)) {
 					System.out.println("het werkt ongeveer");
-					clickLogin();
 				}
 			}
 		});
@@ -229,9 +228,4 @@ public class LoginScreen extends JPanel {
 
 	}
 
-	public void clickLogin() {
-
-		loginButton.doClick();
-
-	}
 }
