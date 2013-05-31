@@ -29,6 +29,7 @@ public class Account {
 			while(myResultSet.next())
 			{
 				if(myResultSet.getString("Rol_type").equals("Moderator")){
+					connect.closeConnection();
 					return true;
 				}
 			}
@@ -50,6 +51,7 @@ public class Account {
 			while(myResultSet.next())
 			{
 				if(myResultSet.getString("Rol_type").equals("Administrator")){
+					connect.closeConnection();
 					return true;
 				}
 			}
@@ -71,6 +73,7 @@ public class Account {
 			while(myResultSet.next())
 			{
 				if(myResultSet.getString("Rol_type").equals("Player")){
+					connect.closeConnection();
 					return true;
 				}
 			}
@@ -92,6 +95,7 @@ public class Account {
 			while(myResultSet.next())
 			{
 				if(myResultSet.getString("Rol_type").equals("Observer")){
+					connect.closeConnection();
 					return true;
 				}
 			}
