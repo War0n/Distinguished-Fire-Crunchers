@@ -101,6 +101,21 @@ public class GUIMenu extends JPanel implements ActionListener{
 		} else {
 			adminButton.setEnabled(true);
 		}
+		
+		if(!Account.checkObserver()){
+			observerButton.setEnabled(false);
+		} else {
+			observerButton.setEnabled(true);
+		}
+		if(!Account.checkPlayer()){
+			competitieButton.setEnabled(false);
+			competitieAanmaken.setEnabled(false);
+			uitnodigingButton.setEnabled(false);
+		} else {
+			competitieButton.setEnabled(true);
+			competitieAanmaken.setEnabled(true);
+			uitnodigingButton.setEnabled(true);
+		}
 				
 		add(titel);
 		add(message);
@@ -119,15 +134,10 @@ public class GUIMenu extends JPanel implements ActionListener{
 			setParentContentPane(new CompetitiesMenu(true));
 		}
 		if(arg0.getSource().equals(modButton)){
-            if(Account.checkModerator())
-            {
-            	GUIModerator myGUIModerator = new GUIModerator();
-				Moderator myModerator = new Moderator(myGUIModerator);
-				setParentContentPane(myGUIModerator);
-            }else{
-            	message.setText("Je hebt geen moderator rechten!");
-            }
-    }
+            GUIModerator myGUIModerator = new GUIModerator();
+			Moderator myModerator = new Moderator(myGUIModerator);
+			setParentContentPane(myGUIModerator);
+		}
 		if(arg0.getSource().equals(wachtwoordWijzigen)){
 			Changepassword cp = new Changepassword();
 	
@@ -139,12 +149,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 			System.exit(0);
 		}	
 		if(arg0.getSource().equals(adminButton)){
-			if(Account.checkAdmin()){
-				setParentContentPane(new GUIAdmin());
-			}
-			else{
-				message.setText("Je hebt geen admin rechten!");
-			}
+			setParentContentPane(new GUIAdmin());
 		}
 	}
 	

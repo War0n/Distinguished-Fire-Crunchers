@@ -20,31 +20,49 @@ public class Account {
 	
 	public static boolean checkModerator()
 	{
-		Connectie connect = new Connectie();
-		ResultSet myResultSet;
-		
-		myResultSet = connect.voerSelectQueryUit("SELECT Rol_type From accountrol WHERE Account_naam = '" + getAccountNaam() + "'");
-		
-		try {
-			while(myResultSet.next())
-			{
-				if(myResultSet.getString("Rol_type").equals("Moderator")){
-					connect.closeConnection();
-					return true;
-				}
-				else{
-					connect.closeConnection();
-					return false;
-				}
-			}
-		} catch (SQLException e) {
-			System.out.println("Error: " + e);
+		if(checkRol("Moderator")){
+			return true;
 		}
-		connect.closeConnection();
-		return false;
+		else
+		{
+			return false;
+		}
 	}
 	
 	public static boolean checkAdmin()
+	{
+		if(checkRol("Admin")){
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public static boolean checkPlayer()
+	{
+		if(checkRol("Player")){
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public static boolean checkObserver()
+	{
+		if(checkRol("Observer")){
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public static boolean checkRol(String rol)
 	{
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;
@@ -54,13 +72,9 @@ public class Account {
 		try {
 			while(myResultSet.next())
 			{
-				if(myResultSet.getString("Rol_type").equals("Administrator")){
+				if(myResultSet.getString("Rol_type").equals(rol)){
 					connect.closeConnection();
 					return true;
-				}
-				else{
-					connect.closeConnection();
-					return false;
 				}
 			}
 		} catch (SQLException e) {

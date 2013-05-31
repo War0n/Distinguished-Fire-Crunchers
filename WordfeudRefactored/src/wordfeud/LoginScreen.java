@@ -133,19 +133,23 @@ public class LoginScreen extends JPanel {
 									JOptionPane.WARNING_MESSAGE);
 							popup = null;
 						} else {
-							String password = new String(passwordField.getPassword());
+							String password = new String(passwordField
+									.getPassword());
 							if (rs.getInt(1) == 0) {
 
 								connect.voerInsertOrUpdateQueryUit("INSERT INTO `Account` (`naam`, `wachtwoord`) VALUES ('"
 										+ usernameField.getText()
 										+ "', '"
-										+ password
-										+ "');");
-								
+										+ password + "');");
+
 								connect.voerInsertOrUpdateQueryUit("INSERT INTO `accountrol` (`Account_naam`, `Rol_type`) VALUES ('"
 										+ usernameField.getText()
 										+ "', 'Player');");
 								
+								connect.voerInsertOrUpdateQueryUit("INSERT INTO `accountrol` (`Account_naam`, `Rol_type`) VALUES ('"
+										+ usernameField.getText()
+										+ "', 'Observer');");
+
 								connect.closeConnection();
 								usernameField.setText("");
 								passwordField.setText("");
@@ -199,8 +203,7 @@ public class LoginScreen extends JPanel {
 				rs = connect
 						.voerSelectQueryUit("SELECT COUNT(naam) FROM account WHERE naam = '"
 								+ usernameField.getText()
-								+ "' AND wachtwoord ='"
-								+ password + "' ");
+								+ "' AND wachtwoord ='" + password + "' ");
 				try {
 					if (rs.next()) {
 						if (rs.getInt(1) == 1) {

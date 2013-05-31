@@ -41,7 +41,6 @@ public class Bord
 		
 
 		result = connectie.voerSelectQueryUit("SELECT t.tegelType_soort AS soort FROM spel AS s LEFT JOIN bord AS b ON s.Bord_naam = b.naam LEFT JOIN tegel AS t ON b.naam = t.bord_naam WHERE " + spel.getSpelId() + " LIMIT 0, 225");
-		System.out.println("SPEL: " + spel.getSpelId());
 		try {
 			while(result.next()){
 				soortArray.add(result.getString("soort"));
@@ -113,11 +112,11 @@ public class Bord
 		while(index < kArray.length){
 			if(kArray[index] != '?'){
 				tiles[xArray[index]][yArray[index]].setStone(new Stone(kArray[index]));
-				tiles[xArray[index]][yArray[index]].setNieuwGelegd(false);
+				tiles[xArray[index]][yArray[index]].getStone().setLocked(false);
 			}
 			else{
 				tiles[xArray[index]][yArray[index]].setStone(new Stone(kArray[index], bArray[index]));
-				tiles[xArray[index]][yArray[index]].setNieuwGelegd(false);
+				tiles[xArray[index]][yArray[index]].getStone().setLocked(false);
 			}
 			index++;
 		}
@@ -155,12 +154,13 @@ public class Bord
 	ArrayList<Tile> newTiles = new ArrayList<Tile>();
 		for( Tile[] tileList : tiles){
 			for( Tile tile : tileList){
-				if(tile.getNieuwGelegd()){
-					newTiles.add(tile);
+				if(tile.getStone() != null){
+					if(!tile.getStone().getLocked()){
+						newTiles.add(tile);
+					}
 				}
 			}
 		}
-		System.out.println(newTiles.size());
 		return newTiles;
 	}
 	
