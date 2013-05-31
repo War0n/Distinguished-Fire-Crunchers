@@ -6,8 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -15,7 +13,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -36,10 +33,6 @@ public class CompetitiesMenu extends JPanel  implements ActionListener{
 	private WFButton inviteButton;
 	private WFButton backButton;
 	private Connectie connect;
-	private String alleEigenaren;
-	private int aantalCompetities;
-	private boolean observerMode;
-	private JFrame popup = null;
 	
 	private JPanel newCompPanel;
 	private JTextField compDesc;
@@ -54,7 +47,6 @@ public class CompetitiesMenu extends JPanel  implements ActionListener{
 		setPreferredSize(getMinimumSize());
 		setBackground(new Color(23,26,30));
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-		this.observerMode = observerMode;
 		backButton = new WFButton("< Terug naar menu");
 		backButton.addActionListener(this);
 		inviteButton = new WFButton("Competitie aanmaken");
@@ -78,8 +70,6 @@ public class CompetitiesMenu extends JPanel  implements ActionListener{
 		add(head);
 		add(functies);
 		initShow();
-		aantalCompetities = 0;
-		alleEigenaren = "";
 		showCompetitions();
 	}
 	
@@ -117,10 +107,6 @@ public class CompetitiesMenu extends JPanel  implements ActionListener{
 				comp.add(compTxt);
 				competities.add(Box.createVerticalStrut(5));
 				competities.add(comp);
-				if(rs.isLast()){
-					aantalCompetities = idCompetitie;
-				}
-				alleEigenaren += eigenaar + ";";
 								
 			}
 		}
@@ -185,22 +171,13 @@ public class CompetitiesMenu extends JPanel  implements ActionListener{
 	
 	public void addCompetition()
 	{
-		//Kijken of de eigenaar al een competitie heeft
-		//Zo niet maak een competitie aan
 		
 		String eigenaar = Account.getAccountNaam();
 		Connectie connect = new Connectie();
 		
-		if(!(alleEigenaren.contains(eigenaar + ";"))){
-			String q = "INSERT INTO `Competitie` (`Account_naam_eigenaar`, `start`, `einde`, `omschrijving`) VALUES ('"+eigenaar+"','"+startDate.getText()+"','"+endDate.getText()+"','"+compDesc.getText()+"')";
-			connect.voerInsertOrUpdateQueryUit(q);
-			connect.closeConnection();
-		}else{
-			JOptionPane.showMessageDialog(popup,
-					"Je hebt al een competitie!", "",
-					JOptionPane.WARNING_MESSAGE);
-			popup = null;			
-		}
+		String q = "INSERT INTO `Competitie` (`Account_naam_eigenaar`, `start`, `einde`, `omschrijving`) VALUES ('"+eigenaar+"','"+startDate.getText()+"','"+endDate.getText()+"','"+compDesc.getText()+"')";
+		connect.voerInsertOrUpdateQueryUit(q);
+		connect.closeConnection();
 	}
 	
 	public void setParentContentPane(JPanel contentPane){
