@@ -162,7 +162,7 @@ public class SpelVerloop implements Runnable {
 				if (!currentTile.equals(newTiles.get(0))) {
 					if (!nextTile(currentTile, 'l').equals(null)
 							|| !nextTile(currentTile, 'r').equals(null)
-							&& currentTile.getNieuwGelegd()) {
+							&& !currentTile.getStone().getLocked()) {
 						currentTile = nextTile(currentTile, 'l');
 						boolean done2 = false;
 						while (!done2) {
@@ -208,7 +208,7 @@ public class SpelVerloop implements Runnable {
 				if (!currentTile.equals(newTiles.get(0))) {
 					if (!nextTile(currentTile, 'u').equals(null)
 							|| !nextTile(currentTile, 'd').equals(null)
-							&& currentTile.getNieuwGelegd()) {
+							&& !currentTile.getStone().getLocked()) {
 						currentTile = nextTile(currentTile, 'u');
 						boolean done2 = false;
 						while (!done2) {
@@ -258,7 +258,7 @@ public class SpelVerloop implements Runnable {
 		boolean start = false;
 		for (ArrayList<Tile> woord : woordenLijst) {
 			for (Tile tile : woord) {
-				if (!tile.getNieuwGelegd()) {
+				if (tile.getStone().getLocked()) {
 					check = true;
 				} else {
 					if (spel.getBord().getCoordinat(tile)[0] == 7
