@@ -45,6 +45,7 @@ public class SpelVerloop implements Runnable {
 	public void play() {
 		vindWoord();
 		puntenTeller();
+		System.out.println(puntenTeller());
 	}
 
 	@SuppressWarnings("static-access")
