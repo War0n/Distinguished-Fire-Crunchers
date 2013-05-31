@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class SpelVerloop implements Runnable {
 	private Spel spel;
-	private ArrayList<Tile> newTiles;
 	private ArrayList<ArrayList<Tile>> woordenLijst;
 	private int gepasst;
 	private Account account;
@@ -20,7 +19,6 @@ public class SpelVerloop implements Runnable {
 	public SpelVerloop(Spel spel) {
 		this.spel = spel;
 		account = new Account();
-		newTiles = spel.getBord().getNewTiles();
 		woordenLijst = new ArrayList<ArrayList<Tile>>();
 		Thread checkBeurten = new Thread(this);
 		checkBeurten.start();
@@ -128,7 +126,7 @@ public class SpelVerloop implements Runnable {
 	}
 
 	private ArrayList<ArrayList<Tile>> vindWoord() {
-
+		ArrayList<Tile> newTiles = spel.getBord().getNewTiles();
 		Tile currentTile = newTiles.get(0);
 		woordenLijst.add(new ArrayList<Tile>());
 		boolean done = false;
