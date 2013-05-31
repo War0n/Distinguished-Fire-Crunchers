@@ -31,9 +31,6 @@ public class Account {
 				if(myResultSet.getString("Rol_type").equals("Moderator")){
 					return true;
 				}
-				else{
-					return false;
-				}
 			}
 		} catch (SQLException e) {
 			System.out.println("Error: " + e);
@@ -54,9 +51,6 @@ public class Account {
 			{
 				if(myResultSet.getString("Rol_type").equals("Administrator")){
 					return true;
-				}
-				else{
-					return false;
 				}
 			}
 		} catch (SQLException e) {
@@ -79,9 +73,6 @@ public class Account {
 				if(myResultSet.getString("Rol_type").equals("Player")){
 					return true;
 				}
-				else{
-					return false;
-				}
 			}
 		} catch (SQLException e) {
 			System.out.println("Error: " + e);
@@ -102,9 +93,6 @@ public class Account {
 			{
 				if(myResultSet.getString("Rol_type").equals("Observer")){
 					return true;
-				}
-				else{
-					return false;
 				}
 			}
 		} catch (SQLException e) {
