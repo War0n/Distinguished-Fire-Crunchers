@@ -8,6 +8,7 @@ public class Spel {
 	private LetterSet letterSet;
 	private int spelID;
 	private SpelVerloop verloop;
+	private SpelPanel spelPanel;
 
 	public Spel() {
 		letterbak = new Letterbak();
@@ -35,5 +36,15 @@ public class Spel {
 
 	public SpelVerloop getVerloop() {
 		return verloop;
+	}
+	
+	public void setSpelPanel(SpelPanel panel)
+	{
+		this.spelPanel = panel;
+	}
+	
+	public SpelPanel getSpelPanel(){
+		
+		return spelPanel;
 	}
 }
