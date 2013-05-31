@@ -336,7 +336,7 @@ public class SpelVerloop implements Runnable {
 	}
 
 	private void pakLetter() {
-		if (spel.getLetterBak().getStones().size() < 7) {
+		if (spel.getLetterBak().getNumberOfStones() < 7) {
 			ResultSet result = connect
 					.voerSelectQueryUit("SELECT * FROM pot WHERE Spel_ID = "
 							+ spel.getSpelId());

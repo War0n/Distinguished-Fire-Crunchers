@@ -4,22 +4,40 @@ import java.util.ArrayList;
 
 public class Letterbak
 {
-	private ArrayList<Stone> stenen;
+	private ArrayList<Tile> stenen;
 	
 	public Letterbak()
 	{
-		stenen = new ArrayList<Stone>();
-		stenen.add(new Stone('A'));
-		stenen.add(new Stone('B'));
-		stenen.add(new Stone('C'));
-		stenen.add(new Stone('D'));
-		stenen.add(new Stone('E'));
-		stenen.add(new Stone('F'));
-		stenen.add(new Stone('G'));
+		stenen = new ArrayList<Tile>();
+		for(int i = 0; i < 7; i++)
+		{
+			stenen.add(new Tile());
+			stenen.get(i).setStone(new Stone('A', i));
+		}
 	}
 	
-	public ArrayList<Stone> getStones()
+	public ArrayList<Tile> getTiles()
 	{
 		return stenen;
 	}
+	
+	public Tile getTile(int i)
+	{
+		return stenen.get(i);
+	}
+	
+	public int getNumberOfStones()
+	{
+		int numStones = 0;
+		for(int i = 0; i < 7; i++)
+		{
+			if(getTile(i).getStone() != null)
+			{
+				numStones++;
+			}
+		}
+		return numStones;
+	}
+	
+	//public void 
 }

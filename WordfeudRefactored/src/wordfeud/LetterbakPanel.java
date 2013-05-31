@@ -36,10 +36,9 @@ public class LetterbakPanel extends JPanel
 		tiles = new ArrayList<GUITile>();
 		for(int i = 0; i < 7; i++)
 		{
-			tiles.add(new GUITile(TileType.TYPE_NONE));
+			tiles.add(new GUITile(letterbak.getTile(i)));
 			add(tiles.get(i));
 			tiles.get(i).setOverride(true);
-			tiles.get(i).setStone(letterbak.getStones().get(i));
 			
 			DragSource ds = new DragSource();
 		    ds.createDefaultDragGestureRecognizer(tiles.get(i), DnDConstants.ACTION_MOVE, new MyDragGestureListener());
@@ -63,8 +62,6 @@ public class LetterbakPanel extends JPanel
 	{
 		this.letterbak = letterbak;
 	}
-	
-	
 	
 	public class MyDragGestureListener implements DragGestureListener 
 	{

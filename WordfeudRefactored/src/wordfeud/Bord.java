@@ -92,10 +92,13 @@ public class Bord
 	public void plaatsLetters(){
 		int[] xArray = null;
 		int[] yArray = null;
+		int[] lArray = null;
 		char[] bArray = null;
 		char[] kArray = null;
 		ResultSet result = connectie.voerSelectQueryUit("SELECT letter_ID, Tegel_X, Tegel_Y, BlancoLetterKarakter LetterType_karakter FROM gelegdeletter AS g LEFT JOIN letter AS l ON g.Letter_ID = l.ID WHERE l.spel_ID = " + spel.getSpelId());
 		try {
+			Array lSQLArray = result.getArray("letter_ID");
+			lArray = (int[])lSQLArray.getArray();
 			Array xSQLArray = result.getArray("Tegel_X");
 			xArray = (int[])xSQLArray.getArray();
 			Array ySQLArray = result.getArray("Tegel_Y");
@@ -111,11 +114,11 @@ public class Bord
 		int index = 0;
 		while(index < kArray.length){
 			if(kArray[index] != '?'){
-				tiles[xArray[index]][yArray[index]].setStone(new Stone(kArray[index]));
+				tiles[xArray[index]][yArray[index]].setStone(new Stone(kArray[index], lArray[index]));
 				tiles[xArray[index]][yArray[index]].getStone().setLocked(false);
 			}
 			else{
-				tiles[xArray[index]][yArray[index]].setStone(new Stone(kArray[index], bArray[index]));
+				tiles[xArray[index]][yArray[index]].setStone(new Stone(kArray[index], bArray[index], lArray[index]));
 				tiles[xArray[index]][yArray[index]].getStone().setLocked(false);
 			}
 			index++;

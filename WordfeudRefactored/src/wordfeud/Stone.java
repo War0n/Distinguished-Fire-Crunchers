@@ -14,12 +14,15 @@ public class Stone
 	private BufferedImage unlockedImg;
 	private boolean bLocked;
 	
-	public Stone(char letter)
+	public int letterId;
+	
+	public Stone(char letter, int letterId)
 	{
 		this.letter = letter;
 		File imageFile = new File("src/images/tile.png");
 		File imageFile2 = new File("src/images/unlockedtile.png");
 		bLocked = false;
+		this.letterId = letterId;
 		try {
 			lockedImg  = ImageIO.read(imageFile);
 			unlockedImg  = ImageIO.read(imageFile2);
@@ -28,10 +31,11 @@ public class Stone
 			e.printStackTrace();
 		}
 	}
-	public Stone(char letter, char blancoLetter)
+	public Stone(char letter, char blancoLetter, int letterId)
 	{
 		this.letter = letter;
 		this.setBlancoLetter(blancoLetter);
+		this.letterId = letterId;
 		File imageFile = new File("src/images/tile.png");//
 		File imageFile2 = new File("src/images/unlockedtile.png");//
 		try {
@@ -47,6 +51,17 @@ public class Stone
 	{
 		return letter;
 	}
+	
+	public int getLetterId()
+	{
+		return letterId;
+	}
+	
+	public void setLetterId(int letterId)
+	{
+		this.letterId = letterId;
+	}
+	
 	
 	public void setLetter(char letter)
 	{
@@ -86,10 +101,14 @@ public class Stone
 	{
 		bLocked = locked;
 	}
-	public char getBlancoLetter() {
+	
+	public char getBlancoLetter() 
+	{
 		return blancoLetter;
 	}
-	public void setBlancoLetter(char blancoLetter) {
+	
+	public void setBlancoLetter(char blancoLetter) 
+	{
 		this.blancoLetter = blancoLetter;
 	}
 }
