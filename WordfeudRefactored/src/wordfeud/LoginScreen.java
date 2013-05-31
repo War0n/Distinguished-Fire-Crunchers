@@ -103,6 +103,14 @@ public class LoginScreen extends JPanel {
 		content.add(loginpanel);
 		add(content);
 		activeFrame.pack();
+		usernameField.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				passwordField.requestFocus();
+			}
+		});
 		passwordField.addActionListener(new ActionListener() {
 			
 			@Override
