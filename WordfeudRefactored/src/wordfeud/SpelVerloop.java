@@ -23,10 +23,17 @@ public class SpelVerloop implements Runnable {
 		Thread checkBeurten = new Thread(this);
 		checkBeurten.start();
 		accountEersteBeurt = "";
-		gamePlay();
+		Thread gamePlay = new Thread(new Runnable()
+		{ 
+			public void run() 
+			{ 
+				gamePlayRunMethod(); 
+			} 
+		});
+		gamePlay.start();
 	}
 
-	public void gamePlay() {
+	public void gamePlayRunMethod() {
 		while(!spelOver){
 		if(myTurn()){
 			spel.getSpelPanel().getPlayButton().setEnabled(true);
@@ -43,6 +50,9 @@ public class SpelVerloop implements Runnable {
 			spel.getSpelPanel().getClearButton().setEnabled(false);
 		}
 		}
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {e.printStackTrace();}
 	}
 
 	public void play() {
@@ -317,8 +327,7 @@ public class SpelVerloop implements Runnable {
 	@Override
 	public void run() { // kijken of er nieuwe beurten zijn
 		Connectie connect2 = new Connectie();
-
-		while (!spelOver) {
+		while (!myTurn()) {
 			myResultSet = connect2
 					.voerSelectQueryUit("SELECT count(*) FROM beurt WHERE Spel_ID = "
 							+ spel.getSpelId() + ";");
