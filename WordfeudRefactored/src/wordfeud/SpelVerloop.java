@@ -9,6 +9,7 @@ public class SpelVerloop implements Runnable {
 	private ArrayList<Tile> newTiles;
 	private ArrayList<ArrayList<Tile>> woordenLijst;
 	private int gepasst;
+	private Account account;
 	private boolean spelOver;
 	private ResultSet myResultSet;
 	private Connectie connect;
@@ -18,6 +19,7 @@ public class SpelVerloop implements Runnable {
 
 	public SpelVerloop(Spel spel) {
 		this.spel = spel;
+		account = new Account();
 		newTiles = spel.getBord().getNewTiles();
 		woordenLijst = new ArrayList<ArrayList<Tile>>();
 		Thread checkBeurten = new Thread(this);
@@ -25,43 +27,55 @@ public class SpelVerloop implements Runnable {
 		accountEersteBeurt = "";
 		gamePlay();
 	}
-	
-	public void gamePlay(){
+
+	public void gamePlay() {
 		connect = new Connectie();
-		myResultSet = connect.voerSelectQueryUit("SELECT Account_naam FROM beurt WHERE Spel_ID = " + spel.getSpelId() + " ORDER BY ID ASC LIMIT 1");
+		myResultSet = connect
+				.voerSelectQueryUit("SELECT Account_naam FROM beurt WHERE Spel_ID = "
+						+ spel.getSpelId() + " ORDER BY ID ASC LIMIT 1");
 		try {
-			while(myResultSet.next()){
-					accountEersteBeurt = myResultSet.getString("Account_naam");
+			while (myResultSet.next()) {
+				accountEersteBeurt = myResultSet.getString("Account_naam");
 			}
-		} catch (SQLException e) {e.printStackTrace();}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	
-	public void play(){
-		
+
+	public void play() {
+
 	}
-	
-	public void skipTurn()
-	{
+
+	@SuppressWarnings("static-access")
+	public boolean myTurn() {
+		boolean myTurn = false;
 		Connectie con = new Connectie();
 		ResultSet rs;
-		try
-		{
-			rs = con.doSelect("SELECT MAX(ID), MAX(volgnummer) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%2$s'", spel.getSpelId(), Account.getAccountNaam() );
-			if(rs.next())
-			{
+		rs = con.doSelect(
+				"SELECT MAX(ID), Account_naam FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%2$s'",
+				spel.getSpelId(), Account.getAccountNaam());
+		if (!account.getAccountNaam().equals(rs)) {
+			myTurn = true;
+		}
+		return myTurn;
+	}
+
+	public void skipTurn() {
+		Connectie con = new Connectie();
+		ResultSet rs;
+		try {
+			rs = con.doSelect(
+					"SELECT MAX(ID), MAX(volgnummer) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%2$s'",
+					spel.getSpelId(), Account.getAccountNaam());
+			if (rs.next()) {
 				int ID = rs.getInt(1);
 				int volgNummer = rs.getInt(2);
-				con.doInsertUpdate("INSERT INTO beurt (ID, Account_naam, Spel_ID, volgnummer, score, Aktie_type) VALUES ('%1$d', '%2$s', '%3$d', '%4$d', '%5$d', '%6$s')", 
-					ID+1, 
-					Account.getAccountNaam(), 
-					spel.getSpelId(),
-					volgNummer+1,
-					puntenTeller().intValue(), 
-					"Pass");
+				con.doInsertUpdate(
+						"INSERT INTO beurt (ID, Account_naam, Spel_ID, volgnummer, score, Aktie_type) VALUES ('%1$d', '%2$s', '%3$d', '%4$d', '%5$d', '%6$s')",
+						ID + 1, Account.getAccountNaam(), spel.getSpelId(),
+						volgNummer + 1, puntenTeller().intValue(), "Pass");
 			}
-		}
-		catch(SQLException e)
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -288,29 +302,39 @@ public class SpelVerloop implements Runnable {
 	@Override
 	public void run() { // kijken of er nieuwe beurten zijn
 		Connectie connect2 = new Connectie();
-		
-		while(!spelOver){
-			myResultSet = connect2.voerSelectQueryUit("SELECT count(*) FROM beurt WHERE Spel_ID = " + spel.getSpelId() + ";");
+
+		while (!spelOver) {
+			myResultSet = connect2
+					.voerSelectQueryUit("SELECT count(*) FROM beurt WHERE Spel_ID = "
+							+ spel.getSpelId() + ";");
 			beurt = 0;
 			try {
-				while(myResultSet.next()){
+				while (myResultSet.next()) {
 					beurt = myResultSet.getInt(1);
 					beurtVerdelen = beurt % 2;
 				}
-			} catch (SQLException e1) {e1.printStackTrace();}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			try {
 				Thread.sleep(2000);
-			} catch (InterruptedException e) { e.printStackTrace();}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		connect2.closeConnection();
 	}
-	private void pakLetter(){
-		if(spel.getLetterBak().getStones().size() < 7){
-			ResultSet result = connect.voerSelectQueryUit("SELECT * FROM pot WHERE Spel_ID = " + spel.getSpelId());
+
+	private void pakLetter() {
+		if (spel.getLetterBak().getStones().size() < 7) {
+			ResultSet result = connect
+					.voerSelectQueryUit("SELECT * FROM pot WHERE Spel_ID = "
+							+ spel.getSpelId());
 			/*
-			 * result.getArray en zo verder, array.length opvragen
-			 * als er genoeg letters in de pot zitten, voeg letters toe aan plankje (new stone)
-			 * werk DB bij, voeg records toe aan letterPlankje (Haal letters weg uit spel?)
+			 * result.getArray en zo verder, array.length opvragen als er genoeg
+			 * letters in de pot zitten, voeg letters toe aan plankje (new
+			 * stone) werk DB bij, voeg records toe aan letterPlankje (Haal
+			 * letters weg uit spel?)
 			 */
 		}
 	}

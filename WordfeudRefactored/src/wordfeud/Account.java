@@ -6,7 +6,7 @@ import java.sql.SQLException;
 public class Account {
 	private static String accountNaam;
 	
-	private Account() // private constructor
+	public Account() // private constructor
 	{
 	}
 		
