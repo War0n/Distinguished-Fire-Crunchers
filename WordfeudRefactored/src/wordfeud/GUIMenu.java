@@ -129,6 +129,11 @@ public class GUIMenu extends JPanel implements ActionListener{
             }
     }
 		if(arg0.getSource().equals(wachtwoordWijzigen)){
+			JFrame wwch = new JFrame();
+			Changepassword cp = new Changepassword(wwch);
+			wwch.add(cp);
+			wwch.pack();
+			wwch.setVisible(true);
 			
 		}
 		if(arg0.getSource().equals(uitnodigingButton)){
