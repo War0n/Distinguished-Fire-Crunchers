@@ -11,21 +11,21 @@ public class Spel {
 	private SpelPanel spelPanel;
 
 	public Spel(SpelPanel panel, int clickedSpelID) {
-		letterbak = new Letterbak(this);
 		letterSet = new LetterSet("NL"); // Nederlands? :)
 		spelID = clickedSpelID;//new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
 		bord = new Bord(this, "placeHolderName");
-		spelPanel = panel;
 		verloop = new SpelVerloop(this);
+		spelPanel = panel;
+		letterbak = new Letterbak(this);
 	}
 	
 	public Spel(int clickedSpelID) {
-		letterbak = new Letterbak(this);
 		letterSet = new LetterSet("NL"); // Nederlands? :)
 		spelID = clickedSpelID;
 		bord = new Bord(this, "placeHolderName");
 		spelPanel = new SpelPanel(clickedSpelID);
 		verloop = new SpelVerloop(this);
+		letterbak = new Letterbak(this);
 	}
 
 	public LetterSet getLetterSet() {
