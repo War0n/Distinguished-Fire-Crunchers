@@ -10,8 +10,13 @@ public class MainClass
 	{
 		System.setProperty("file.encoding", "UTF-8");
 		//start programma
-		GUI WFGui = new GUI();
-		WFGui.setVisible(true);
+		try{
+			GUI WFGui = new GUI();
+			WFGui.setVisible(true);
+		}
+		catch(Exception e){
+			System.out.println("Er is iets verkeerd gegaan, controleer de internet verbinding en herstart het programma.\n___\n" + e);
+		}
 	}
 
 }
