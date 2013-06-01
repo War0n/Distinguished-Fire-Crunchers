@@ -183,5 +183,8 @@ public class SpelPanel extends JPanel {
 	public WFButton getShuffleButton(){
 		return shuffleButton;
 	}
-	
+	public void setScore(String text){
+		score.setText(text);
+		repaint();
+	}
 }
