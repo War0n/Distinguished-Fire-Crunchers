@@ -293,7 +293,6 @@ public class SpelVerloop implements Runnable {
 		}
 		return woordenLijst;
 	}
-
 	private Tile nextTile(Tile tile, char direction) {
 		int[] coor = spel.getBord().getCoordinat(tile);
 		switch (direction) {

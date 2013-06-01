@@ -1,6 +1,5 @@
 package wordfeud;
 
-import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,14 +38,13 @@ public class Bord
 		//int[] yArray = null;
 		ArrayList<String> soortArray = new ArrayList<String>();
 		
-
-		result = connectie.voerSelectQueryUit("SELECT t.tegelType_soort AS soort FROM spel AS s LEFT JOIN bord AS b ON s.Bord_naam = b.naam LEFT JOIN tegel AS t ON b.naam = t.bord_naam WHERE " + spel.getSpelId() + " LIMIT 0, 225");
-		try {
+		try{
+			result = connectie.voerSelectQueryUit("SELECT t.tegelType_soort AS soort FROM spel AS s LEFT JOIN bord AS b ON s.Bord_naam = b.naam LEFT JOIN tegel AS t ON b.naam = t.bord_naam WHERE " + spel.getSpelId() + " LIMIT 0, 225");
 			while(result.next()){
 				soortArray.add(result.getString("soort"));
 			}
 		} catch (SQLException e) {
-			System.out.println(e);
+			System.out.println("Er is iets verkeerd gegaam, start het programma opnieuw op, controleer de internetverbinding en probeer het nog eens.");
 			e.printStackTrace();
 		}
 
@@ -90,38 +88,29 @@ public class Bord
 		}
 	}
 	public void plaatsLetters(){
-		int[] xArray = null;
-		int[] yArray = null;
-		int[] lArray = null;
-		char[] bArray = null;
-		char[] kArray = null;
-		ResultSet result = connectie.voerSelectQueryUit("SELECT letter_ID, Tegel_X, Tegel_Y, BlancoLetterKarakter LetterType_karakter FROM gelegdeletter AS g LEFT JOIN letter AS l ON g.Letter_ID = l.ID WHERE l.spel_ID = " + spel.getSpelId());
-		try {
-			Array lSQLArray = result.getArray("letter_ID");
-			lArray = (int[])lSQLArray.getArray();
-			Array xSQLArray = result.getArray("Tegel_X");
-			xArray = (int[])xSQLArray.getArray();
-			Array ySQLArray = result.getArray("Tegel_Y");
-			yArray = (int[])ySQLArray.getArray();
-			Array bSQLArray = result.getArray("BlancoLetterKarakter");
-			bArray = (char[])bSQLArray.getArray();
-			Array kSQLArray = result.getArray("LetterType_karakter");
-			kArray = (char[])kSQLArray.getArray();
+		try{
+			ResultSet result = connectie.voerSelectQueryUit("SELECT letter_ID, Tegel_X, Tegel_Y, BlancoLetterKarakter LetterType_karakter FROM gelegdeletter AS g LEFT JOIN letter AS l ON g.Letter_ID = l.ID WHERE l.spel_ID = " + spel.getSpelId());
 			
+			while(result.next()){
+				int xSQL = result.getInt("Tegel_X");
+				int ySQL = result.getInt("Tegel_Y");
+				int idSQL = result.getInt("letter_ID");
+				String bString = result.getString("BlancoLetterKarakter");
+				String kString = result.getString("LetterType_karakter");
+				
+				if(kString.equals("?")){
+					tiles[xSQL][ySQL].setStone(new Stone(kString.toCharArray()[0], idSQL));
+				}
+				else{
+					tiles[xSQL][ySQL].setStone(new Stone(kString.toCharArray()[0], bString.toCharArray()[0], idSQL));
+					tiles[xSQL][ySQL].getStone().setBlancoLetter(kString.toCharArray()[0]);
+				}
+				tiles[xSQL][ySQL].getStone().setLocked(true);
+			}
+
 		} catch (SQLException e) {
+			System.out.println("Er is iets verkeerd gegaam, start het programma opnieuw op, controleer de internetverbinding en probeer het nog eens.");
 			e.printStackTrace();
-		}
-		int index = 0;
-		while(index < kArray.length){
-			if(kArray[index] != '?'){
-				tiles[xArray[index]][yArray[index]].setStone(new Stone(kArray[index], lArray[index]));
-				tiles[xArray[index]][yArray[index]].getStone().setLocked(false);
-			}
-			else{
-				tiles[xArray[index]][yArray[index]].setStone(new Stone(kArray[index], bArray[index], lArray[index]));
-				tiles[xArray[index]][yArray[index]].getStone().setLocked(false);
-			}
-			index++;
 		}
 	}
 	
