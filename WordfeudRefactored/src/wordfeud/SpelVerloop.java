@@ -23,39 +23,6 @@ public class SpelVerloop implements Runnable {
 		Thread checkBeurten = new Thread(this);
 		checkBeurten.start();
 		accountEersteBeurt = "";
-		Thread gamePlay = new Thread(new Runnable()
-		{ 
-			public void run() 
-			{ 
-				gamePlayRunMethod(); 
-			} 
-		});
-		gamePlay.start();
-	}
-
-	public void gamePlayRunMethod() {
-		while(!spelOver){
-			if(myTurn()){
-				spel.getSpelPanel().getPlayButton().setEnabled(true);
-				spel.getSpelPanel().getShuffleButton().setEnabled(true);
-				spel.getSpelPanel().getSkipButton().setEnabled(true);
-				spel.getSpelPanel().getSwapButton().setEnabled(true);
-				spel.getSpelPanel().getClearButton().setEnabled(true);
-			}
-			else{
-				spel.getSpelPanel().getPlayButton().setEnabled(false);
-				spel.getSpelPanel().getShuffleButton().setEnabled(false);
-				spel.getSpelPanel().getSkipButton().setEnabled(false);
-				spel.getSpelPanel().getSwapButton().setEnabled(false);
-				spel.getSpelPanel().getClearButton().setEnabled(false);
-			}
-			if(gepasst <= 3){
-				spelOver = true;
-			}
-		}
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {e.printStackTrace();}
 	}
 
 	public void play() {
@@ -293,6 +260,7 @@ public class SpelVerloop implements Runnable {
 		}
 		return woordenLijst;
 	}
+
 	private Tile nextTile(Tile tile, char direction) {
 		int[] coor = spel.getBord().getCoordinat(tile);
 		switch (direction) {
@@ -328,23 +296,37 @@ public class SpelVerloop implements Runnable {
 	@Override
 	public void run() { // kijken of er nieuwe beurten zijn
 		Connectie connect2 = new Connectie();
-		while (!myTurn()) {
-			myResultSet = connect2
-					.voerSelectQueryUit("SELECT count(*) FROM beurt WHERE Spel_ID = "
-							+ spel.getSpelId() + ";");
-			beurt = 0;
-			try {
-				while (myResultSet.next()) {
-					beurt = myResultSet.getInt(1);
-					beurtVerdelen = beurt % 2;
+		while (!spelOver) {
+			if(!myTurn()){
+				spel.getSpelPanel().getPlayButton().setEnabled(false);
+				spel.getSpelPanel().getShuffleButton().setEnabled(false);
+				spel.getSpelPanel().getSkipButton().setEnabled(false);
+				spel.getSpelPanel().getSwapButton().setEnabled(false);
+				spel.getSpelPanel().getClearButton().setEnabled(false);
+				myResultSet = connect2
+						.voerSelectQueryUit("SELECT count(*) FROM beurt WHERE Spel_ID = "
+								+ spel.getSpelId() + ";");
+				beurt = 0;
+				try {
+					while (myResultSet.next()) {
+						beurt = myResultSet.getInt(1);
+						beurtVerdelen = beurt % 2;
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
 				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			if(myTurn()){
+				spel.getSpelPanel().getPlayButton().setEnabled(true);
+				spel.getSpelPanel().getShuffleButton().setEnabled(true);
+				spel.getSpelPanel().getSkipButton().setEnabled(true);
+				spel.getSpelPanel().getSwapButton().setEnabled(true);
+				spel.getSpelPanel().getClearButton().setEnabled(true);				
 			}
 		}
 		connect2.closeConnection();
