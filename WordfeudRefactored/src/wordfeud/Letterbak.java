@@ -10,13 +10,14 @@
     {
             private ArrayList<Tile> stenen;
             private Spel curSpel;
+            private int beurt;
            
             public Letterbak(Spel currentSpel)
             {
                     stenen = new ArrayList<Tile>();
                     curSpel = currentSpel;
                     int spelId = curSpel.getSpelId();
-                    int Beurt = curSpel.getVerloop().getBeurt();
+                    beurt = curSpel.getVerloop().getBeurt();
                     for(int i = 0; i < 7; i++)
                     {
                             stenen.add(new Tile());
