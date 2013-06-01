@@ -235,6 +235,7 @@ public class LoginScreen extends JPanel {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				connect.closeConnection();
 			}
 		});
 

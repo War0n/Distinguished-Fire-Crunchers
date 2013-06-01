@@ -122,7 +122,7 @@ public class SpelPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				setParentContentPane(new CompetitiesMenu(false));
+				setParentContentPane(new ActieveSpellenMenu(false));
 			}
 		});
 
