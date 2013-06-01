@@ -15,8 +15,8 @@ public class Spel {
 		letterSet = new LetterSet("NL"); // Nederlands? :)
 		spelID = clickedSpelID;//new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
 		bord = new Bord(this, "placeHolderName");
-		verloop = new SpelVerloop(this);
 		spelPanel = panel;
+		verloop = new SpelVerloop(this);
 	}
 	
 	public Spel(int clickedSpelID) {
@@ -24,8 +24,8 @@ public class Spel {
 		letterSet = new LetterSet("NL"); // Nederlands? :)
 		spelID = clickedSpelID;
 		bord = new Bord(this, "placeHolderName");
+		spelPanel = new SpelPanel(clickedSpelID);
 		verloop = new SpelVerloop(this);
-		spelPanel = null;
 	}
 
 	public LetterSet getLetterSet() {

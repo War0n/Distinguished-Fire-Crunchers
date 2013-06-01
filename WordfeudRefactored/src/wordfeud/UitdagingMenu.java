@@ -213,7 +213,7 @@ public class UitdagingMenu extends JPanel implements ActionListener{
 		String letterset = "NL";
 		String bord = "Standard";
 		String q = "INSERT INTO Spel (Competitie_ID, Toestand_type, Account_naam_uitdager, Account_naam_tegenstander, moment_uitdaging, Reaktie_type, Bord_naam, LetterSet_naam) VALUES('"+compID+"','"+toestand+"','"+naam+"','"+naam2+"',NOW(),'"+reaktie+"','"+bord+"','"+letterset+"')";
-		System.out.println(q);
+//		System.out.println(q);
 		connect = new Connectie();
 		connect.voerInsertOrUpdateQueryUit(q);
 		connect.closeConnection();

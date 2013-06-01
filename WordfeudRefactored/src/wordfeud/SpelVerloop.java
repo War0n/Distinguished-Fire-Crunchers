@@ -1,8 +1,15 @@
 package wordfeud;
 
+import java.awt.Dimension;
+import java.awt.Point;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class SpelVerloop implements Runnable {
 	private Spel spel;
@@ -13,6 +20,7 @@ public class SpelVerloop implements Runnable {
 	private ResultSet myResultSet;
 	private Connectie connect;
 	private int beurt;
+	private Bord spelBord;
 	private int beurtVerdelen;
 	private String accountEersteBeurt;
 
@@ -22,6 +30,7 @@ public class SpelVerloop implements Runnable {
 		woordenLijst = new ArrayList<ArrayList<Tile>>();
 		Thread checkBeurten = new Thread(this);
 		checkBeurten.start();
+		spelBord = spel.getBord();
 		accountEersteBeurt = "";
 	}
 
@@ -37,8 +46,9 @@ public class SpelVerloop implements Runnable {
 		Connectie con = new Connectie();
 		ResultSet rs;
 		String accountNaam = "";
-		int IDbeurt;
-		rs = con.doSelect("SELECT Account_naam, MAX( ID ) -1 AS maxid FROM beurt WHERE Spel_ID = " + spel.getSpelId() + " ORDER BY ID DESC ");
+		int IDbeurt = 0;
+		rs = con.doSelect("SELECT Account_naam, MAX( ID ) -1 AS maxid FROM beurt WHERE Spel_ID = "
+				+ spel.getSpelId() + " ORDER BY ID DESC ");
 		try {
 			while (rs.next()) {
 				accountNaam = rs.getString("Account_naam");
@@ -64,14 +74,14 @@ public class SpelVerloop implements Runnable {
 				int ID = rs.getInt(1);
 				int volgNummer = rs.getInt(2);
 				con.doInsertUpdate(
-						"INSERT INTO beurt (ID, Account_naam, Spel_ID, volgnummer, score, Aktie_type) VALUES ('%1$d', '%2$s', '%3$d', '%4$d', '%5$d', '%6$s')",
-						ID + 1, Account.getAccountNaam(), spel.getSpelId(),
+						"INSERT INTO beurt (ID, Account_naam, Spel_ID, volgnummer, score, Aktie_type) VALUES (null, '%2$s', '%3$d', '%4$d', '%5$d', '%6$s')",
+						+1, Account.getAccountNaam(), spel.getSpelId(),
 						volgNummer + 1, puntenTeller().intValue(), "Pass");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		gepasst ++;
+		gepasst++;
 	}
 
 	private Integer puntenTeller() {
@@ -109,200 +119,109 @@ public class SpelVerloop implements Runnable {
 
 	}
 
-	private ArrayList<ArrayList<Tile>> vindWoord() {
-		ArrayList<Tile> newTiles = spel.getBord().getNewTiles();
-		Tile currentTile = null;
-		woordenLijst.add(new ArrayList<Tile>());
-		boolean done = false;
-		int index = 0;
-
-		// Is er wel gelegd?
-		if (newTiles.size() == 0) {
-			System.out.println("Niks gelegd..");
-			return null;
-		} else {
-			currentTile = newTiles.get(0);
-		}
+	private HashMap<Point, Tile> vindWoord() {
+		HashMap<Point, Tile> wordTilePositions = new HashMap<Point, Tile>();
+		ArrayList<Tile> newTiles = spelBord.getNewTiles();
 		
-		// Is er maar een letter gelegd?
-		if (newTiles.size() == 1) {
-			if (spel.getBord().getCoordinat(newTiles.get(0))[0] == 7
-					&& spel.getBord().getCoordinat(newTiles.get(0))[1] == 7) {
-				woordenLijst.get(0).add(newTiles.get(0));
-			} else {
-				return null;
+//		for (Tile selectedTile : newTiles) {
+//			HashMap<>
+//			int i;
+//			
+//			Point position = spelBord.getCoordinat(selectedTile);
+//			if(nextTile(position, 'n') == null && nextTile(position, 'w') == null){
+//				//Rechtsboven beginnen!
+//				if(nextTile(position, 's') != null){
+//					
+//					break;
+//				}else if(nextTile(position, 'e') != null){
+//					wordTilePositions.put(position, selectedTile);
+//					break;
+//				}else{
+//					System.out.println("losliggende letter!");
+//					return null;
+//				}
+//			}
+		while (!newTiles.isEmpty()){ 
+			Tile tmpTile = newTiles.get(0);
+			System.out.println(newTiles.get(0).getStone().getLetter());
+			String woord = String.valueOf(tmpTile.getStone().getLetter());
+			Point position = spelBord.getCoordinat(tmpTile);
+			while(nextTile(position, 'e').getStone() != null)
+			{
+			       woord = nextTile(position, 'e').getStone().getLetter() + woord;
+			       tmpTile = nextTile(position, 'e');
+			       newTiles.remove(tmpTile);
 			}
-		}
-
-		// Woorden zoeken
-		while (!done) {
-			if (!(nextTile(currentTile, 'u') == null)) {
-				currentTile = nextTile(currentTile, 'u');
-			} else {
-				done = true;
+			while(nextTile(position, 'w').getStone() != null)
+			{
+			       woord = woord + nextTile(position, 'w').getStone().getLetter();
+			       tmpTile = nextTile(position, 'w');
+			       newTiles.remove(tmpTile);
 			}
-		}
-		done = false;
-		while (!done) {
-			woordenLijst.get(index).add(currentTile);
-			if (!(nextTile(currentTile, 'd')== null)) {
-				if (!currentTile.equals(newTiles.get(0))) {
-					if (!(nextTile(currentTile, 'l')== null)
-							|| !(nextTile(currentTile, 'r')== null)
-							&& !currentTile.getStone().getLocked()) {
-						currentTile = nextTile(currentTile, 'l');
-						boolean done2 = false;
-						while (!done2) {
-							if (!(nextTile(currentTile, 'l')== null)) {
-								currentTile = nextTile(currentTile, 'l');
-							} else {
-								done2 = true;
-							}
-							done2 = false;
-						}
-						woordenLijst.add(woordenLijst.size(),
-								new ArrayList<Tile>());
-						while (!done2) {
-							if (!(nextTile(currentTile, 'r')== null)) {
-								woordenLijst.get(woordenLijst.size() - 1).add(
-										currentTile);
-								currentTile = nextTile(currentTile, 'r');
-							} else {
-								done2 = true;
-							}
-						}
-						currentTile = (Tile) woordenLijst.get(index).get(
-								woordenLijst.size());
-					}
-				}
-				currentTile = nextTile(currentTile, 'd');
-			} else {
-				done = true;
+			while(nextTile(position, 'n').getStone() != null)
+			{
+			       woord = nextTile(position, 'n').getStone().getLetter() + woord;
+			       tmpTile = nextTile(position, 'n');
+			       newTiles.remove(tmpTile);
 			}
-			done = false;
-			while (!done) {
-				if (!(nextTile(currentTile, 'l')== null)) {
-					currentTile = nextTile(currentTile, 'l');
-				} else {
-					done = true;
-				}
+			while(nextTile(position, 's').getStone() != null)
+			{
+			       woord = woord + nextTile(position, 's').getStone().getLetter();
+			       tmpTile = nextTile(position, 's');
+			       newTiles.remove(tmpTile);
 			}
+			
+			System.out.println(woord);
 		}
-		done = false;
-		while (!done) {
-			woordenLijst.get(index).add(currentTile);
-			if (!(nextTile(currentTile, 'r')== null)) {
-				if (!currentTile.equals(newTiles.get(0))) {
-					if (!(nextTile(currentTile, 'u')== null)
-							|| !(nextTile(currentTile, 'd')== null)
-							&& !currentTile.getStone().getLocked()) {
-						currentTile = nextTile(currentTile, 'u');
-						boolean done2 = false;
-						while (!done2) {
-							if (!(nextTile(currentTile, 'u')== null)) {
-								currentTile = nextTile(currentTile, 'u');
-							} else {
-								done2 = true;
-							}
-							done2 = false;
-						}
-						woordenLijst.add(woordenLijst.size(),
-								new ArrayList<Tile>());
-						while (!done2) {
-							if (!(nextTile(currentTile, 'd')== null)) {
-								woordenLijst.get(woordenLijst.size() - 1).add(
-										currentTile);
-								currentTile = nextTile(currentTile, 'd');
-							} else {
-								done2 = true;
-							}
-						}
-						currentTile = (Tile) woordenLijst.get(index).get(
-								woordenLijst.size());
-					}
-				}
-				currentTile = nextTile(currentTile, 'r');
-			} else {
-				done = true;
-			}
-		}
-		// controleer of er geen of dubbelwoorden gaten zijn.
-		int count = 0;
-		for (ArrayList<Tile> woord : woordenLijst) {
-			for (Tile tile : woord) {
-				for (Tile newTile : newTiles) {
-					if (newTile.equals(tile)) {
-						count++;
-					}
-				}
-			}
-		}
-		if (count != newTiles.size()) {
-			return null;
-		}
-		// Is dit het eerste woord?
-		boolean check = false;
-		boolean start = false;
-		for (ArrayList<Tile> woord : woordenLijst) {
-			for (Tile tile : woord) {
-				if (tile.getStone().getLocked()) {
-					check = true;
-				} else {
-					if (spel.getBord().getCoordinat(tile)[0] == 7
-							&& spel.getBord().getCoordinat(tile)[1] == 7) {
-						start = true;
-					}
-				}
-			}
-		}
-		if (check) {
-			if (start) {
-				return woordenLijst;
-			} else {
-				return null;
-			}
-		}
-		return woordenLijst;
+		return wordTilePositions;
 	}
 
-	private Tile nextTile(Tile tile, char direction) {
-		int[] coor = spel.getBord().getCoordinat(tile);
+	private Tile nextTile(Point position, char direction) {
+		int x = (int) position.getX();
+		int y = (int) position.getY();
+
 		switch (direction) {
-		case 'u':
-			if (!(spel.getBord().getTile(coor[0], coor[1] + 1).getStone()
-					== null)) {
-				return spel.getBord().getTile(coor[0], coor[1] + 1);
+		case 'n': {
+			if (!spelBord.getTile(x - 1, y).equals(null)) {
+				return spelBord.getTile(x - 1, y);
 			}
 			break;
-		case 'd':
-			if (!(spel.getBord().getTile(coor[0], coor[1] - 1).getStone()
-					== null)) {
-				return spel.getBord().getTile(coor[0], coor[1] - 1);
-			}
-			break;
-		case 'l':
-			if (!(spel.getBord().getTile(coor[0] - 1, coor[1]).getStone()
-					== null)) {
-				return spel.getBord().getTile(coor[0] - 1, coor[1]);
-			}
-			break;
-		case 'r':
-			if (!(spel.getBord().getTile(coor[0] + 1, coor[1]).getStone()
-					== null)) {
-				return spel.getBord().getTile(coor[0] + 1, coor[1]);
-			}
-			break;
-		default:
 		}
+
+		case 'e': {
+			if (!spelBord.getTile(x, y + 1).equals(null)) {
+				return spelBord.getTile(x, y + 1);
+			}
+			break;
+		}
+
+		case 's': {
+			if (!spelBord.getTile(x + 1, y).equals(null)) {
+				return spelBord.getTile(x + 1, y);
+			}
+			break;
+		}
+
+		case 'w': {
+			if (!spelBord.getTile(x, y - 1).equals(null)) {
+				return spelBord.getTile(x, y - 1);
+			}
+			break;
+		}
+
+		default:
+			return null;
+		}
+
 		return null;
 	}
 
 	@Override
 	public void run() { // kijken of er nieuwe beurten zijn
 		Connectie connect2 = new Connectie();
-		
+
 		while (!spelOver) {
-			if(!myTurn()){
+			if (!myTurn()) {
 				spel.getSpelPanel().getPlayButton().setEnabled(false);
 				spel.getSpelPanel().getShuffleButton().setEnabled(false);
 				spel.getSpelPanel().getSkipButton().setEnabled(false);
@@ -315,21 +234,24 @@ public class SpelVerloop implements Runnable {
 				try {
 					while (myResultSet.next()) {
 						beurt = myResultSet.getInt("aant_spellen");
-						System.out.println(beurt);
 						beurtVerdelen = beurt % 2;
 					}
-				} catch (SQLException e1) {e1.printStackTrace();}
-			}
-			if(myTurn()){
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			} else {
 				spel.getSpelPanel().getPlayButton().setEnabled(true);
 				spel.getSpelPanel().getShuffleButton().setEnabled(true);
 				spel.getSpelPanel().getSkipButton().setEnabled(true);
 				spel.getSpelPanel().getSwapButton().setEnabled(true);
-				spel.getSpelPanel().getClearButton().setEnabled(true);				
+				spel.getSpelPanel().getClearButton().setEnabled(true);
 			}
+
 			try {
 				Thread.sleep(2000);
-			} catch (InterruptedException e) {	e.printStackTrace();}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		connect2.closeConnection();
 	}
