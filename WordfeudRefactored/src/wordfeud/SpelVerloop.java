@@ -132,36 +132,6 @@ public class SpelVerloop implements Runnable {
 			String woord = String.valueOf(tmpTile.getStone().getLetter());
 			score = tmpTile.getStone().getValue(spel.getLetterSet());
 			
-			while(nextTile(position, 'e').getStone() != null)
-			{
-				if(newTiles.contains(nextTile(position, 'e'))){
-			       woord = woord + nextTile(position, 'e').getStone().getLetter();
-			       score = score + nextTile(position, 's').getStone().getValue(spel.getLetterSet());
-			       newTiles.remove(tmpTile);
-			       tmpTile = nextTile(position, 'e');
-			       position = spelBord.getCoordinat(tmpTile);
-				}
-			}
-			while(nextTile(position, 'w').getStone() != null)
-			{
-				if(newTiles.contains(nextTile(position, 'w'))){
-				       woord = nextTile(position, 'w').getStone().getLetter() + woord;
-				       score = score + nextTile(position, 's').getStone().getValue(spel.getLetterSet());
-				       newTiles.remove(tmpTile);
-				       tmpTile = nextTile(position, 'w');
-				       position = spelBord.getCoordinat(tmpTile);
-					}
-			}
-			while(nextTile(position, 'n').getStone() != null)
-			{
-				if(newTiles.contains(nextTile(position, 'n'))){
-				       woord = nextTile(position, 'n').getStone().getLetter() + woord;
-				       score = score + nextTile(position, 's').getStone().getValue(spel.getLetterSet());
-				       newTiles.remove(tmpTile);
-				       tmpTile = nextTile(position, 'n');
-				       position = spelBord.getCoordinat(tmpTile);
-					}
-			}
 			while(nextTile(position, 's').getStone() != null)
 			{
 				if(newTiles.contains(nextTile(position, 's'))){
@@ -172,6 +142,39 @@ public class SpelVerloop implements Runnable {
 				       position = spelBord.getCoordinat(tmpTile);
 					}
 			}	
+			
+			while(nextTile(position, 'e').getStone() != null)
+			{
+				if(newTiles.contains(nextTile(position, 'e'))){
+			       woord = woord + nextTile(position, 'e').getStone().getLetter();
+			       score = score + nextTile(position, 'e').getStone().getValue(spel.getLetterSet());
+			       newTiles.remove(tmpTile);
+			       tmpTile = nextTile(position, 'e');
+			       position = spelBord.getCoordinat(tmpTile);
+				}
+			}
+			
+			while(nextTile(position, 'w').getStone() != null)
+			{
+				if(newTiles.contains(nextTile(position, 'w'))){
+				       woord = nextTile(position, 'w').getStone().getLetter() + woord;
+				       score = score + nextTile(position, 'w').getStone().getValue(spel.getLetterSet());
+				       newTiles.remove(tmpTile);
+				       tmpTile = nextTile(position, 'w');
+				       position = spelBord.getCoordinat(tmpTile);
+					}
+			}
+			
+			while(nextTile(position, 'n').getStone() != null)
+			{
+				if(newTiles.contains(nextTile(position, 'n'))){
+				       woord = nextTile(position, 'n').getStone().getLetter() + woord;
+				       score = score + nextTile(position, 'n').getStone().getValue(spel.getLetterSet());
+				       newTiles.remove(tmpTile);
+				       tmpTile = nextTile(position, 'n');
+				       position = spelBord.getCoordinat(tmpTile);
+					}
+			}
 			woord.toLowerCase();
 			if (checkWoordInDB(woord)){
 				System.out.println(woord + " voor " + score);
@@ -191,14 +194,14 @@ public class SpelVerloop implements Runnable {
 
 		switch (direction) {
 		case 'n': {
-			if (!spelBord.getTile(x - 1, y).equals(null)) {
-				return spelBord.getTile(x - 1, y);
+			if (!spelBord.getTile(x, y + 1).equals(null)) {
+				return spelBord.getTile(x, y + 1);
 			}
 			break;
 		}
 
 		case 'e': {
-			if (!spelBord.getTile(x, y - 1).equals(null)) {
+			if (!spelBord.getTile(x, y + 1).equals(null)) {
 				return spelBord.getTile(x, y + 1);
 			}
 			break;
@@ -212,7 +215,7 @@ public class SpelVerloop implements Runnable {
 		}
 
 		case 'w': {
-			if (!spelBord.getTile(x, y + 1).equals(null)) {
+			if (!spelBord.getTile(x, y - 1).equals(null)) {
 				return spelBord.getTile(x, y - 1);
 			}
 			break;
