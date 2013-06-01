@@ -312,14 +312,7 @@ public class SpelVerloop implements Runnable {
 						beurt = myResultSet.getInt(1);
 						beurtVerdelen = beurt % 2;
 					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e1) {e1.printStackTrace();}
 			}
 			if(myTurn()){
 				spel.getSpelPanel().getPlayButton().setEnabled(true);
@@ -328,6 +321,9 @@ public class SpelVerloop implements Runnable {
 				spel.getSpelPanel().getSwapButton().setEnabled(true);
 				spel.getSpelPanel().getClearButton().setEnabled(true);				
 			}
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {	e.printStackTrace();}
 		}
 		connect2.closeConnection();
 	}
