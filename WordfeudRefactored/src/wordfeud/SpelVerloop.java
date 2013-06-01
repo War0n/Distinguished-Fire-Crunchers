@@ -269,4 +269,8 @@ public class SpelVerloop implements Runnable {
 			 */
 		}
 	}
+	
+	public int getBeurt(){
+		return this.beurt;
+	}
 }
