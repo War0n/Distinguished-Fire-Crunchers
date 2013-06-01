@@ -111,15 +111,19 @@ public class SpelVerloop implements Runnable {
 
 	private ArrayList<ArrayList<Tile>> vindWoord() {
 		ArrayList<Tile> newTiles = spel.getBord().getNewTiles();
-		Tile currentTile = newTiles.get(0);
+		Tile currentTile = null;
 		woordenLijst.add(new ArrayList<Tile>());
 		boolean done = false;
 		int index = 0;
 
 		// Is er wel gelegd?
 		if (newTiles.size() == 0) {
+			System.out.println("Niks gelegd..");
 			return null;
+		} else {
+			currentTile = newTiles.get(0);
 		}
+		
 		// Is er maar een letter gelegd?
 		if (newTiles.size() == 1) {
 			if (spel.getBord().getCoordinat(newTiles.get(0))[0] == 7
@@ -296,6 +300,7 @@ public class SpelVerloop implements Runnable {
 	@Override
 	public void run() { // kijken of er nieuwe beurten zijn
 		Connectie connect2 = new Connectie();
+		
 		while (!spelOver) {
 			if(!myTurn()){
 				spel.getSpelPanel().getPlayButton().setEnabled(false);
@@ -304,12 +309,13 @@ public class SpelVerloop implements Runnable {
 				spel.getSpelPanel().getSwapButton().setEnabled(false);
 				spel.getSpelPanel().getClearButton().setEnabled(false);
 				myResultSet = connect2
-						.voerSelectQueryUit("SELECT count(*) FROM beurt WHERE Spel_ID = "
+						.voerSelectQueryUit("SELECT count(*) AS aant_spellen FROM beurt WHERE Spel_ID = "
 								+ spel.getSpelId() + ";");
 				beurt = 0;
 				try {
 					while (myResultSet.next()) {
-						beurt = myResultSet.getInt(1);
+						beurt = myResultSet.getInt("aant_spellen");
+						System.out.println(beurt);
 						beurtVerdelen = beurt % 2;
 					}
 				} catch (SQLException e1) {

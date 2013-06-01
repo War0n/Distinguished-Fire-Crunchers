@@ -145,7 +145,7 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener{
 			//addCompetition();
 			String[] a = playBtn.get(arg0.getSource());
 			System.out.println("Open spel [id: "+a[0]+"]");
-			setParentContentPane(new SpelPanel());
+			setParentContentPane(new SpelPanel(Integer.parseInt(a[0])));
 		} else if(arg0.getSource().equals(backButton)){
 			setParentContentPane(new GUIMenu());
 		}

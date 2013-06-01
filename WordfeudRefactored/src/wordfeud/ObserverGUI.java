@@ -21,8 +21,8 @@ public class ObserverGUI extends JPanel{
 		private JLabel score;
 		private WFButton backButton;
 		
-		public ObserverGUI() {
-			spel = new Spel();
+		public ObserverGUI(Spel observableGame) {
+			spel = new Spel(0); //TODO verander in logisch nummer
 			setMinimumSize(new Dimension(650,750));
 			setPreferredSize(getMinimumSize());
 			score = new JLabel("Scoreveld hier");

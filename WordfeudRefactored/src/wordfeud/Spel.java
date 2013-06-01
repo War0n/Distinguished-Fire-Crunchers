@@ -10,19 +10,19 @@ public class Spel {
 	private SpelVerloop verloop;
 	private SpelPanel spelPanel;
 
-	public Spel(SpelPanel panel) {
-		letterbak = new Letterbak();
+	public Spel(SpelPanel panel, int clickedSpelID) {
+		letterbak = new Letterbak(this);
 		letterSet = new LetterSet("NL"); // Nederlands? :)
-		spelID = 511;//new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
+		spelID = clickedSpelID;//new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
 		bord = new Bord(this, "placeHolderName");
 		verloop = new SpelVerloop(this);
 		spelPanel = panel;
 	}
 	
-	public Spel() {
-		letterbak = new Letterbak();
+	public Spel(int clickedSpelID) {
+		letterbak = new Letterbak(this);
 		letterSet = new LetterSet("NL"); // Nederlands? :)
-		spelID = 511;//new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
+		spelID = clickedSpelID;
 		bord = new Bord(this, "placeHolderName");
 		verloop = new SpelVerloop(this);
 		spelPanel = null;
@@ -54,7 +54,6 @@ public class Spel {
 	}
 	
 	public SpelPanel getSpelPanel(){//knoppen kunnen disabelen in verloop
-		
 		return spelPanel;
 	}
 }

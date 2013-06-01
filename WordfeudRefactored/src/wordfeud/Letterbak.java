@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public class Letterbak
 {
 	private ArrayList<Tile> stenen;
+	private Spel curSpel;
 	
-	public Letterbak()
+	public Letterbak(Spel currentSpel)
 	{
 		stenen = new ArrayList<Tile>();
+		curSpel = currentSpel;
 		for(int i = 0; i < 7; i++)
 		{
 			stenen.add(new Tile());
