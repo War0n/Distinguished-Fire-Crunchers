@@ -257,7 +257,7 @@ public class SpelVerloop implements Runnable {
 				gepasst = 0;
 			}
 			if(myTurn()){
-				// zet alles op het bord waar nodig, update score
+				// zet alles op het bord waar nodig, update score moet nog
 				spel.getSpelPanel().getPlayButton().setEnabled(true);
 				spel.getSpelPanel().getShuffleButton().setEnabled(true);
 				spel.getSpelPanel().getSkipButton().setEnabled(true);
