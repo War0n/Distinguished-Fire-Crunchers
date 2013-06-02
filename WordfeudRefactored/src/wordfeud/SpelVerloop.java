@@ -61,6 +61,7 @@ public class SpelVerloop implements Runnable {
 		if (!account.getAccountNaam().equals(accountNaam)) {
 			myTurn = true;
 		}
+		con.closeConnection();
 		return myTurn;
 	}
 
