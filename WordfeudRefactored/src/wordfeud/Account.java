@@ -10,15 +10,15 @@ public class Account {
 	{
 	}
 		
-	public static String getAccountNaam(){
+	public String getAccountNaam(){
 		return accountNaam;
 	}
 	
-	public static void setAccountNaam(String loginNaam){
+	public void setAccountNaam(String loginNaam){
 		accountNaam = loginNaam;
 	}
 	
-	public static boolean checkModerator()
+	public boolean checkModerator()
 	{
 		if(checkRol("Moderator")){
 			return true;
@@ -29,7 +29,7 @@ public class Account {
 		}
 	}
 	
-	public static boolean checkAdmin()
+	public boolean checkAdmin()
 	{
 		if(checkRol("Administrator")){
 			return true;
@@ -40,7 +40,7 @@ public class Account {
 		}
 	}
 	
-	public static boolean checkPlayer()
+	public boolean checkPlayer()
 	{
 		if(checkRol("Player")){
 			return true;
@@ -51,7 +51,7 @@ public class Account {
 		}
 	}
 	
-	public static boolean checkObserver()
+	public boolean checkObserver()
 	{
 		if(checkRol("Observer")){
 			return true;
@@ -62,7 +62,7 @@ public class Account {
 		}
 	}
 	
-	public static boolean checkRol(String rol)
+	public boolean checkRol(String rol)
 	{
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;
