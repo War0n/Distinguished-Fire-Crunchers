@@ -26,6 +26,7 @@ public class SpelVerloop implements Runnable {
 	private String accountEersteBeurt;
 
 	public SpelVerloop(Spel spel) {
+		spelOver = false;
 		this.spel = spel;
 		account = new Account();
 		woordenboek = new ArrayList<String>();
