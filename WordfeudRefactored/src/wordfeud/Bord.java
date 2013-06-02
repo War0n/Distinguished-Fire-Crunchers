@@ -98,14 +98,10 @@ public class Bord {
 				String kString = result.getString("LetterType_karakter");
 
 				if (kString.equals("?")) {
-					tiles[xSQL][ySQL].setStone(new Stone(
-							kString.toCharArray()[0], idSQL));
+					tiles[xSQL][ySQL].setStone(new Stone(bString.toCharArray()[0], idSQL));
+					tiles[xSQL][ySQL].getStone().setBlancoLetter(bString.toCharArray()[0]);
 				} else {
-					tiles[xSQL][ySQL].setStone(new Stone(
-							kString.toCharArray()[0],
-							idSQL));
-					tiles[xSQL][ySQL].getStone().setBlancoLetter(
-							kString.toCharArray()[0]);
+					tiles[xSQL][ySQL].setStone(new Stone(kString.toCharArray()[0], idSQL));
 				}
 				tiles[xSQL][ySQL].getStone().setLocked(true);
 			}
@@ -121,21 +117,21 @@ public class Bord {
 		return name;
 	}
 
-	public Tile getTile(int x, int y) {
-		if (x < 0 || y < 0 || x > 15 || y > 15)
+	public Tile getTile(Point p) {
+		if (p.x < 0 || p.y < 0 || p.x > 15 || p.y > 15)
 			return null;
-		return tiles[x][y];
+		return tiles[p.x][p.y];
 	}
 
 	public Tile[][] getTiles() {
 		return tiles;
 	}
 
-	public Point getCoordinat(Tile tileInput) {
+	public Point getCoordinat(Stone stoneInput) {
 		Point coor = new Point();
 		for (int x = 0; x < 15; x++) {
 			for (int y = 0; y < 15; y++) {
-				if (tiles[x][y].equals(tileInput)) {
+				if (tiles[x][y].getStone().equals(stoneInput)) {
 					coor.x = x;
 					coor.y = y;
 					return coor;
