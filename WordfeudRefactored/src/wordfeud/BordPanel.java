@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -44,7 +45,7 @@ public class BordPanel extends JPanel
 		{
 			for(int x = 0; x < 15; x++)
 			{
-				tiles[x][y] = new GUITile(speelVeld.getTile(x,y));
+				tiles[x][y] = new GUITile(speelVeld.getTile(new Point(x,y)));
 				add(tiles[x][y]);
 				
 				DragSource ds = new DragSource();
