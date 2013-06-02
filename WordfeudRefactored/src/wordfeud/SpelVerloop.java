@@ -229,7 +229,7 @@ public class SpelVerloop implements Runnable {
 	}
 
 	@Override
-	public void run() { // kijken of er nieuwe beurten zijn
+	public void run() {
 		Connectie connect2 = new Connectie();
 
 		while (!spelOver) {
@@ -239,26 +239,29 @@ public class SpelVerloop implements Runnable {
 				spel.getSpelPanel().getSkipButton().setEnabled(false);
 				spel.getSpelPanel().getSwapButton().setEnabled(false);
 				spel.getSpelPanel().getClearButton().setEnabled(false);
-				myResultSet = connect2
-						.voerSelectQueryUit("SELECT count(*) AS aant_spellen FROM beurt WHERE Spel_ID = "
-								+ spel.getSpelId() + ";");
-				beurt = 0;
+				myResultSet = connect2.voerSelectQueryUit("SELECT Aktie_type FROM beurt WHERE Spel_ID = " + spel.getSpelId() +  " ORDER BY ID ASC LIMIT 3"); // kijken of winnaar is
 				try {
-					while (myResultSet.next()) {
-						beurt = myResultSet.getInt("aant_spellen");
-						beurtVerdelen = beurt % 2;
+					while(myResultSet.next()){
+						if(myResultSet.getString("Aktie_type").equals("Pass")){
+							gepasst ++;
+						}
 					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				if(gepasst >= 3){
+					spelOver = true;
+				}
+				gepasst = 0;
 			} else {
+				// zet alles op het bord waar nodig, update score
 				spel.getSpelPanel().getPlayButton().setEnabled(true);
 				spel.getSpelPanel().getShuffleButton().setEnabled(true);
 				spel.getSpelPanel().getSkipButton().setEnabled(true);
 				spel.getSpelPanel().getSwapButton().setEnabled(true);
 				spel.getSpelPanel().getClearButton().setEnabled(true);
 			}
-
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -267,7 +270,7 @@ public class SpelVerloop implements Runnable {
 		}
 		connect2.closeConnection();
 	}
-
+	
 	private void pakLetter() {
 		if (spel.getLetterBak().getNumberOfStones() < 7) {
 			ResultSet result = connect
