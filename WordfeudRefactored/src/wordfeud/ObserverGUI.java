@@ -23,7 +23,7 @@ public class ObserverGUI extends JPanel{
 		
 		public ObserverGUI(int observableSpelId) {
 			spel = new Spel(observableSpelId); //TODO verander in logisch nummer
-			setMinimumSize(new Dimension(650,750));
+			setMinimumSize(new Dimension(630,700));
 			setPreferredSize(getMinimumSize());
 			score = new JLabel("Scoreveld hier");
 			score.setForeground(Color.white);
@@ -39,7 +39,7 @@ public class ObserverGUI extends JPanel{
 			scores.setLayout(new BorderLayout());
 			scores.setBackground(new Color(23,26,30));
 			filler.setBackground(new Color(23,26,30));
-			scores.setMaximumSize(new Dimension(800,50));
+			scores.setMaximumSize(new Dimension(800,20));
 			
 			leftBottomContainer.setLayout(new BoxLayout(leftBottomContainer,BoxLayout.PAGE_AXIS));
 			this.add(speelVeld);
@@ -70,6 +70,3 @@ public class ObserverGUI extends JPanel{
 			});
 		}
 	}
-
-
-
