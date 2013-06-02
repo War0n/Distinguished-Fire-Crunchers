@@ -39,7 +39,7 @@ public class SpelVerloop implements Runnable {
 
 	public void play() {
 		vindWoord();
-
+		pakLetters();
 	}
 
 	@SuppressWarnings("static-access")
@@ -49,24 +49,29 @@ public class SpelVerloop implements Runnable {
 		ResultSet rs;
 		String accountNaam = "";
 		int beurt = 0;
-		rs = con.doSelect("SELECT Account_naam, MAX( ID ) -1 AS maxid FROM beurt WHERE Spel_ID = "
-				+ spel.getSpelId() + " ORDER BY ID DESC ");
+		rs = con.doSelect("SELECT Account_naam, ID FROM beurt WHERE Spel_ID = "
+				+ spel.getSpelId() + " ORDER BY ID DESC LIMIT 1");
 		try {
 			if(rs.next()) {
 				accountNaam = rs.getString("Account_naam");
-				beurt = rs.getInt("maxid") + 1;
+				beurt = rs.getInt("ID");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (account.getAccountNaam().equals(accountNaam)) {
-			myTurn = true;
+		if (!account.getAccountNaam().equals(accountNaam))
+		{
+				myTurn = true;
 		}
 		con.closeConnection();
 		return myTurn;
 	}
 
 	public void skipTurn() {
+		if( !myTurn() )
+		{
+			return;
+		}
 		Connectie con = new Connectie();
 		ResultSet rs;
 		try {
@@ -79,6 +84,7 @@ public class SpelVerloop implements Runnable {
 		} catch (SQLException e) {
 			e.printStackTrace();}
 		con.closeConnection();
+		pakLetters();
 	}
 
 	private Integer puntenTeller() {
@@ -274,18 +280,45 @@ public class SpelVerloop implements Runnable {
 		connect2.closeConnection();
 	}
 	
-	private void pakLetter() {
-		if (spel.getLetterBak().getNumberOfStones() < 7) {
-			ResultSet result = connect
-					.voerSelectQueryUit("SELECT * FROM pot WHERE Spel_ID = "
-							+ spel.getSpelId());
-			/*
-			 * result.getArray en zo verder, array.length opvragen als er genoeg
-			 * letters in de pot zitten, voeg letters toe aan plankje (new
-			 * stone) werk DB bij, voeg records toe aan letterPlankje (Haal
-			 * letters weg uit spel?)
-			 */
+	private void pakLetters() 
+	{
+		Connectie con = new Connectie();
+		for(int i = 0; i < 7; i++)
+		{
+			if( spel.getLetterBak().getTile(i).getStone() != null)
+			{
+				con.doInsertUpdate(
+					"INSERT INTO letterbakjeletter (Spel_ID, Letter_ID, Beurt_ID) VALUES (%1$d, %2$d, (SELECT MAX(ID) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%3$s'))",
+					spel.getSpelId(), spel.getLetterBak().getTile(i).getStone().getLetterId(), Account.getAccountNaam());
+			}
 		}
+		ResultSet rs = con.doSelect("SELECT Letter_ID FROM pot WHERE Spel_ID = %1$d ORDER BY RAND() LIMIT %2$d", spel.getSpelId(), 7 - spel.getLetterBak().getNumberOfStones());
+		try {
+			while (rs.next()) {
+				con.doInsertUpdate(
+					"INSERT INTO letterbakjeletter (Spel_ID, Letter_ID, Beurt_ID) VALUES (%1$d, %2$d, (SELECT MAX(ID) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%3$s'))",
+					spel.getSpelId(), rs.getInt(1), Account.getAccountNaam());
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ResultSet rs2 = con.doSelect("SELECT lb.Spel_ID, lb.Beurt_ID, l.ID, l.LetterType_LetterSet_code, l.LetterType_karakter FROM letterbakjeletter AS lb JOIN letter as l ON lb.Letter_ID = l.ID AND lb.Spel_ID = l.Spel_ID WHERE lb.Spel_ID = %1$d AND lb.Beurt_ID = (SELECT MAX(ID) FROM Beurt WHERE Spel_ID = %1$d AND Account_Naam = '%2$s') LIMIT 7;", spel.getSpelId(), Account.getAccountNaam());
+        int i = 0;
+        try
+        {
+                while(rs2.next())
+                {
+                        spel.getLetterBak().getTiles().get(i).setStone(new Stone(rs2.getString("LetterType_karakter").charAt(0), rs2.getInt("ID")));
+                        i++;
+                }
+        }
+        catch(SQLException io)
+        {
+                io.printStackTrace();
+        }
+		con.closeConnection();
 	}
 
 	public int getBeurt() {
