@@ -81,9 +81,8 @@ public class SpelVerloop implements Runnable {
 						volgNummer + 1, puntenTeller().intValue(), "Pass");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		gepasst++;
+			e.printStackTrace();}
+		con.closeConnection();
 	}
 
 	private Integer puntenTeller() {
