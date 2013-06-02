@@ -26,19 +26,20 @@ public class SpelVerloop implements Runnable {
 	private String accountEersteBeurt;
 
 	public SpelVerloop(Spel spel) {
+		spelOver = false;
 		this.spel = spel;
 		account = new Account();
 		woordenboek = new ArrayList<String>();
 		Thread checkBeurten = new Thread(this);
 		checkBeurten.start();
-		
+
 		spelBord = spel.getBord();
 		accountEersteBeurt = "";
 	}
 
 	public void play() {
 		vindWoord();
-		
+		pakLetters();
 	}
 
 	@SuppressWarnings("static-access")
@@ -48,48 +49,49 @@ public class SpelVerloop implements Runnable {
 		ResultSet rs;
 		String accountNaam = "";
 		int beurt = 0;
-		rs = con.doSelect("SELECT Account_naam, MAX( ID ) -1 AS maxid FROM beurt WHERE Spel_ID = "
-				+ spel.getSpelId() + " ORDER BY ID DESC ");
+		rs = con.doSelect("SELECT Account_naam, ID FROM beurt WHERE Spel_ID = "
+				+ spel.getSpelId() + " ORDER BY ID DESC LIMIT 1");
 		try {
-			while (rs.next()) {
+			if(rs.next()) {
 				accountNaam = rs.getString("Account_naam");
-				beurt = rs.getInt("maxid");
+				beurt = rs.getInt("ID");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (!account.getAccountNaam().equals(accountNaam)) {
-			myTurn = true;
+		if (!account.getAccountNaam().equals(accountNaam))
+		{
+				myTurn = true;
 		}
 		con.closeConnection();
 		return myTurn;
 	}
 
 	public void skipTurn() {
+		if( !myTurn() )
+		{
+			return;
+		}
 		Connectie con = new Connectie();
 		ResultSet rs;
 		try {
-			rs = con.doSelect(
-					"SELECT MAX(ID), MAX(volgnummer) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%2$s'",
-					spel.getSpelId(), Account.getAccountNaam());
+			rs = con.voerSelectQueryUit("SELECT MAX(ID) FROM beurt WHERE Spel_ID = " + spel.getSpelId());
 			if (rs.next()) {
 				int ID = rs.getInt(1);
-				int volgNummer = rs.getInt(2);
-				con.doInsertUpdate(
-						"INSERT INTO beurt (ID, Account_naam, Spel_ID, volgnummer, score, Aktie_type) VALUES (null, '%2$s', '%3$d', '%4$d', '%5$d', '%6$s')",
-						+1, Account.getAccountNaam(), spel.getSpelId(),
-						volgNummer + 1, puntenTeller().intValue(), "Pass");
+				con.doInsertUpdate("INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES ('%1$d', '%2$d', '%3$s', '%4$d', '%5$s')",
+						ID + 1, spel.getSpelId(), Account.getAccountNaam(), 0 , "Pass"); // moet aangepast worden aan nieuwe versie met puntenteller ipv 0
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();}
 		con.closeConnection();
+		pakLetters();
 	}
 
 	private Integer puntenTeller() {
 		int score = 0;
 		boolean doubleword = false;
 		boolean tripleword = false;
-		for (int i = 0; i < woordenLijst.size(); i++) {
+		for (int i = 0; i < woordenLijst.size(); i++) { //nullpointer
 			for (int ii = 0; ii < woordenLijst.get(i).size(); ii++) {
 				Tile currTile = (Tile) woordenLijst.get(i).get(ii);
 				if (currTile.isDoubleLetter()) {
@@ -124,67 +126,73 @@ public class SpelVerloop implements Runnable {
 		HashMap<Point, Tile> wordTilePositions = new HashMap<Point, Tile>();
 		ArrayList<Tile> newTiles = spelBord.getNewTiles();
 		int score = 0;
-		
 
-		if (!newTiles.isEmpty()){ 
+		if (!newTiles.isEmpty()) {
 			Tile tmpTile = newTiles.get(0);
 			Point position = spelBord.getCoordinat(tmpTile);
 			String woord = String.valueOf(tmpTile.getStone().getLetter());
 			score = tmpTile.getStone().getValue(spel.getLetterSet());
-			
-			while(nextTile(position, 's').getStone() != null)
-			{
-				if(newTiles.contains(nextTile(position, 's'))){
-				       woord = woord + nextTile(position, 's').getStone().getLetter();
-				       score = score + nextTile(position, 's').getStone().getValue(spel.getLetterSet());
-				       newTiles.remove(tmpTile);
-				       tmpTile = nextTile(position, 's');
-				       position = spelBord.getCoordinat(tmpTile);
-					}
-			}	
-			
-			while(nextTile(position, 'e').getStone() != null)
-			{
-				if(newTiles.contains(nextTile(position, 'e'))){
-			       woord = woord + nextTile(position, 'e').getStone().getLetter();
-			       score = score + nextTile(position, 'e').getStone().getValue(spel.getLetterSet());
-			       newTiles.remove(tmpTile);
-			       tmpTile = nextTile(position, 'e');
-			       position = spelBord.getCoordinat(tmpTile);
+
+			while (nextTile(position, 's').getStone() != null) {
+				if (newTiles.contains(nextTile(position, 's'))) {
+					woord = woord
+							+ nextTile(position, 's').getStone().getLetter();
+					score = score
+							+ nextTile(position, 's').getStone().getValue(
+									spel.getLetterSet());
+					newTiles.remove(tmpTile);
+					tmpTile = nextTile(position, 's');
+					position = spelBord.getCoordinat(tmpTile);
 				}
 			}
-			
-			while(nextTile(position, 'w').getStone() != null)
-			{
-				if(newTiles.contains(nextTile(position, 'w'))){
-				       woord = nextTile(position, 'w').getStone().getLetter() + woord;
-				       score = score + nextTile(position, 'w').getStone().getValue(spel.getLetterSet());
-				       newTiles.remove(tmpTile);
-				       tmpTile = nextTile(position, 'w');
-				       position = spelBord.getCoordinat(tmpTile);
-					}
+
+			while (nextTile(position, 'e').getStone() != null) {
+				if (newTiles.contains(nextTile(position, 'e'))) {
+					woord = woord
+							+ nextTile(position, 'e').getStone().getLetter();
+					score = score
+							+ nextTile(position, 'e').getStone().getValue(
+									spel.getLetterSet());
+					newTiles.remove(tmpTile);
+					tmpTile = nextTile(position, 'e');
+					position = spelBord.getCoordinat(tmpTile);
+				}
 			}
-			
-			while(nextTile(position, 'n').getStone() != null)
-			{
-				if(newTiles.contains(nextTile(position, 'n'))){
-				       woord = nextTile(position, 'n').getStone().getLetter() + woord;
-				       score = score + nextTile(position, 'n').getStone().getValue(spel.getLetterSet());
-				       newTiles.remove(tmpTile);
-				       tmpTile = nextTile(position, 'n');
-				       position = spelBord.getCoordinat(tmpTile);
-					}
+
+			while (nextTile(position, 'w').getStone() != null) {
+				if (newTiles.contains(nextTile(position, 'w'))) {
+					woord = nextTile(position, 'w').getStone().getLetter()
+							+ woord;
+					score = score
+							+ nextTile(position, 'w').getStone().getValue(
+									spel.getLetterSet());
+					newTiles.remove(tmpTile);
+					tmpTile = nextTile(position, 'w');
+					position = spelBord.getCoordinat(tmpTile);
+				}
+			}
+
+			while (nextTile(position, 'n').getStone() != null) {
+				if (newTiles.contains(nextTile(position, 'n'))) {
+					woord = nextTile(position, 'n').getStone().getLetter()
+							+ woord;
+					score = score
+							+ nextTile(position, 'n').getStone().getValue(
+									spel.getLetterSet());
+					newTiles.remove(tmpTile);
+					tmpTile = nextTile(position, 'n');
+					position = spelBord.getCoordinat(tmpTile);
+				}
 			}
 			woord.toLowerCase();
-			if (checkWoordInDB(woord)){
+			if (checkWoordInDB(woord)) {
 				System.out.println(woord + " voor " + score);
 			} else {
 				System.out.println(woord + " komt niet voor in de db");
 			}
-			
+
 		}
-	
-		
+
 		return wordTilePositions;
 	}
 
@@ -229,7 +237,7 @@ public class SpelVerloop implements Runnable {
 	}
 
 	@Override
-	public void run() { // kijken of er nieuwe beurten zijn
+	public void run() {
 		Connectie connect2 = new Connectie();
 
 		while (!spelOver) {
@@ -239,26 +247,30 @@ public class SpelVerloop implements Runnable {
 				spel.getSpelPanel().getSkipButton().setEnabled(false);
 				spel.getSpelPanel().getSwapButton().setEnabled(false);
 				spel.getSpelPanel().getClearButton().setEnabled(false);
-				myResultSet = connect2
-						.voerSelectQueryUit("SELECT count(*) AS aant_spellen FROM beurt WHERE Spel_ID = "
-								+ spel.getSpelId() + ";");
-				beurt = 0;
+				myResultSet = connect2.voerSelectQueryUit("SELECT Aktie_type FROM beurt WHERE Spel_ID = " + spel.getSpelId() +  " ORDER BY ID ASC LIMIT 3"); // kijken of winnaar is
 				try {
-					while (myResultSet.next()) {
-						beurt = myResultSet.getInt("aant_spellen");
-						beurtVerdelen = beurt % 2;
+					while(myResultSet.next()){
+						if(myResultSet.getString("Aktie_type").equals("Pass")){
+							gepasst ++;
+						}
 					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			} else {
+				if(gepasst >= 3){
+					spelOver = true;
+				}
+				gepasst = 0;
+			}
+			if(myTurn()){
+				// zet alles op het bord waar nodig, update score moet nog
 				spel.getSpelPanel().getPlayButton().setEnabled(true);
 				spel.getSpelPanel().getShuffleButton().setEnabled(true);
 				spel.getSpelPanel().getSkipButton().setEnabled(true);
 				spel.getSpelPanel().getSwapButton().setEnabled(true);
 				spel.getSpelPanel().getClearButton().setEnabled(true);
 			}
-
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -267,31 +279,60 @@ public class SpelVerloop implements Runnable {
 		}
 		connect2.closeConnection();
 	}
-
-	private void pakLetter() {
-		if (spel.getLetterBak().getNumberOfStones() < 7) {
-			ResultSet result = connect
-					.voerSelectQueryUit("SELECT * FROM pot WHERE Spel_ID = "
-							+ spel.getSpelId());
-			/*
-			 * result.getArray en zo verder, array.length opvragen als er genoeg
-			 * letters in de pot zitten, voeg letters toe aan plankje (new
-			 * stone) werk DB bij, voeg records toe aan letterPlankje (Haal
-			 * letters weg uit spel?)
-			 */
-		}
-	}
 	
-	public int getBeurt(){
+	private void pakLetters() 
+	{
+		Connectie con = new Connectie();
+		for(int i = 0; i < 7; i++)
+		{
+			if( spel.getLetterBak().getTile(i).getStone() != null)
+			{
+				con.doInsertUpdate(
+					"INSERT INTO letterbakjeletter (Spel_ID, Letter_ID, Beurt_ID) VALUES (%1$d, %2$d, (SELECT MAX(ID) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%3$s'))",
+					spel.getSpelId(), spel.getLetterBak().getTile(i).getStone().getLetterId(), Account.getAccountNaam());
+			}
+		}
+		ResultSet rs = con.doSelect("SELECT Letter_ID FROM pot WHERE Spel_ID = %1$d ORDER BY RAND() LIMIT %2$d", spel.getSpelId(), 7 - spel.getLetterBak().getNumberOfStones());
+		try {
+			while (rs.next()) {
+				con.doInsertUpdate(
+					"INSERT INTO letterbakjeletter (Spel_ID, Letter_ID, Beurt_ID) VALUES (%1$d, %2$d, (SELECT MAX(ID) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%3$s'))",
+					spel.getSpelId(), rs.getInt(1), Account.getAccountNaam());
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ResultSet rs2 = con.doSelect("SELECT lb.Spel_ID, lb.Beurt_ID, l.ID, l.LetterType_LetterSet_code, l.LetterType_karakter FROM letterbakjeletter AS lb JOIN letter as l ON lb.Letter_ID = l.ID AND lb.Spel_ID = l.Spel_ID WHERE lb.Spel_ID = %1$d AND lb.Beurt_ID = (SELECT MAX(ID) FROM Beurt WHERE Spel_ID = %1$d AND Account_Naam = '%2$s') LIMIT 7;", spel.getSpelId(), Account.getAccountNaam());
+        int i = 0;
+        try
+        {
+                while(rs2.next())
+                {
+                        spel.getLetterBak().getTiles().get(i).setStone(new Stone(rs2.getString("LetterType_karakter").charAt(0), rs2.getInt("ID")));
+                        i++;
+                }
+        }
+        catch(SQLException io)
+        {
+                io.printStackTrace();
+        }
+		con.closeConnection();
+	}
+
+	public int getBeurt() {
 		return this.beurt;
 	}
-	
-	public boolean checkWoordInDB(String woord){
+
+	public boolean checkWoordInDB(String woord) {
 		connect = new Connectie();
-		ResultSet woorden = connect.voerSelectQueryUit("SELECT * FROM woordenboek WHERE status = 'Accepted' AND woord ='" + woord + "'");
-		
+		ResultSet woorden = connect
+				.voerSelectQueryUit("SELECT * FROM woordenboek WHERE status = 'Accepted' AND woord ='"
+						+ woord + "'");
+
 		try {
-			if(woorden.last()){
+			if (woorden.last()) {
 				return true;
 			}
 		} catch (SQLException e) {
