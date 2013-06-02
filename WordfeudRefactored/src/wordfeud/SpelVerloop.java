@@ -61,6 +61,7 @@ public class SpelVerloop implements Runnable {
 		if (!account.getAccountNaam().equals(accountNaam)) {
 			myTurn = true;
 		}
+		con.closeConnection();
 		return myTurn;
 	}
 
@@ -69,27 +70,23 @@ public class SpelVerloop implements Runnable {
 		ResultSet rs;
 		try {
 			rs = con.doSelect(
-					"SELECT MAX(ID), MAX(volgnummer) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%2$s'",
+					"SELECT MAX(ID) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%2$s'",
 					spel.getSpelId(), Account.getAccountNaam());
 			if (rs.next()) {
 				int ID = rs.getInt(1);
-				int volgNummer = rs.getInt(2);
-				con.doInsertUpdate(
-						"INSERT INTO beurt (ID, Account_naam, Spel_ID, volgnummer, score, Aktie_type) VALUES (null, '%2$s', '%3$d', '%4$d', '%5$d', '%6$s')",
-						+1, Account.getAccountNaam(), spel.getSpelId(),
-						volgNummer + 1, puntenTeller().intValue(), "Pass");
+				con.doInsertUpdate("INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES (null, '%2$s', '%3$d', '%4$d', '%5$d', '%6$s')",
+						+1, spel.getSpelId(), Account.getAccountNaam(), puntenTeller().intValue() , "Pass"); // moet aangepast worden aan nieuwe versie
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		gepasst++;
+			e.printStackTrace();}
+		con.closeConnection();
 	}
 
 	private Integer puntenTeller() {
 		int score = 0;
 		boolean doubleword = false;
 		boolean tripleword = false;
-		for (int i = 0; i < woordenLijst.size(); i++) {
+		for (int i = 0; i < woordenLijst.size(); i++) { //nullpointer
 			for (int ii = 0; ii < woordenLijst.get(i).size(); ii++) {
 				Tile currTile = (Tile) woordenLijst.get(i).get(ii);
 				if (currTile.isDoubleLetter()) {
@@ -235,7 +232,7 @@ public class SpelVerloop implements Runnable {
 	}
 
 	@Override
-	public void run() { // kijken of er nieuwe beurten zijn
+	public void run() {
 		Connectie connect2 = new Connectie();
 
 		while (!spelOver) {
@@ -245,26 +242,29 @@ public class SpelVerloop implements Runnable {
 				spel.getSpelPanel().getSkipButton().setEnabled(false);
 				spel.getSpelPanel().getSwapButton().setEnabled(false);
 				spel.getSpelPanel().getClearButton().setEnabled(false);
-				myResultSet = connect2
-						.voerSelectQueryUit("SELECT count(*) AS aant_spellen FROM beurt WHERE Spel_ID = "
-								+ spel.getSpelId() + ";");
-				beurt = 0;
+				myResultSet = connect2.voerSelectQueryUit("SELECT Aktie_type FROM beurt WHERE Spel_ID = " + spel.getSpelId() +  " ORDER BY ID ASC LIMIT 3"); // kijken of winnaar is
 				try {
-					while (myResultSet.next()) {
-						beurt = myResultSet.getInt("aant_spellen");
-						beurtVerdelen = beurt % 2;
+					while(myResultSet.next()){
+						if(myResultSet.getString("Aktie_type").equals("Pass")){
+							gepasst ++;
+						}
 					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				if(gepasst >= 3){
+					spelOver = true;
+				}
+				gepasst = 0;
 			} else {
+				// zet alles op het bord waar nodig, update score
 				spel.getSpelPanel().getPlayButton().setEnabled(true);
 				spel.getSpelPanel().getShuffleButton().setEnabled(true);
 				spel.getSpelPanel().getSkipButton().setEnabled(true);
 				spel.getSpelPanel().getSwapButton().setEnabled(true);
 				spel.getSpelPanel().getClearButton().setEnabled(true);
 			}
-
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -273,7 +273,7 @@ public class SpelVerloop implements Runnable {
 		}
 		connect2.closeConnection();
 	}
-
+	
 	private void pakLetter() {
 		if (spel.getLetterBak().getNumberOfStones() < 7) {
 			ResultSet result = connect
