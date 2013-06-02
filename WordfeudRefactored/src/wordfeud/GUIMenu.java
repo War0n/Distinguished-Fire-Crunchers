@@ -41,7 +41,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 	private CompetitiesMenu myCompetitiesMenu;
 	
 	public GUIMenu(){
-		setMinimumSize(new Dimension(650,750));
+		setMinimumSize(new Dimension(630,750));
 		setPreferredSize(getMinimumSize());
 		setBackground(new Color(23,26,30));
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
