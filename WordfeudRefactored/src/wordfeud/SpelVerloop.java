@@ -52,37 +52,40 @@ public class SpelVerloop implements Runnable {
 		rs = con.doSelect("SELECT Account_naam, ID FROM beurt WHERE Spel_ID = "
 				+ spel.getSpelId() + " ORDER BY ID DESC LIMIT 1");
 		try {
-			if(rs.next()) {
+			if (rs.next()) {
 				accountNaam = rs.getString("Account_naam");
 				beurt = rs.getInt("ID");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (!account.getAccountNaam().equals(accountNaam))
-		{
-				myTurn = true;
+		if (!account.getAccountNaam().equals(accountNaam)) {
+			myTurn = true;
 		}
 		con.closeConnection();
 		return myTurn;
 	}
 
 	public void skipTurn() {
-		if( !myTurn() )
-		{
+		if (!myTurn()) {
 			return;
 		}
 		Connectie con = new Connectie();
 		ResultSet rs;
 		try {
-			rs = con.voerSelectQueryUit("SELECT MAX(ID) FROM beurt WHERE Spel_ID = " + spel.getSpelId());
+			rs = con.voerSelectQueryUit("SELECT MAX(ID) FROM beurt WHERE Spel_ID = "
+					+ spel.getSpelId());
 			if (rs.next()) {
 				int ID = rs.getInt(1);
-				con.doInsertUpdate("INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES ('%1$d', '%2$d', '%3$s', '%4$d', '%5$s')",
-						ID + 1, spel.getSpelId(), Account.getAccountNaam(), 0 , "Pass"); // moet aangepast worden aan nieuwe versie met puntenteller ipv 0
+				con.doInsertUpdate(
+						"INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES ('%1$d', '%2$d', '%3$s', '%4$d', '%5$s')",
+						ID + 1, spel.getSpelId(), Account.getAccountNaam(), 0,
+						"Pass"); // moet aangepast worden aan nieuwe versie met
+									// puntenteller ipv 0
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();}
+			e.printStackTrace();
+		}
 		con.closeConnection();
 		pakLetters();
 	}
@@ -91,60 +94,58 @@ public class SpelVerloop implements Runnable {
 		int score = 0;
 		boolean doubleword = false;
 		boolean tripleword = false;
-		for (int i = 0; i < woordenLijst.size(); i++) { //nullpointer
-			for (int ii = 0; ii < woordenLijst.get(i).size(); ii++) {
-				Tile currTile = (Tile) woordenLijst.get(i).get(ii);
-				if (currTile.isDoubleLetter()) {
-					score = score
-							+ (currTile.getStone()
-									.getValue(new LetterSet("NL")) * 2);
-				} else if (currTile.isTripleLetter()) {
-					score = score
-							+ (currTile.getStone()
-									.getValue(spel.getLetterSet()) * 3);
-				} else if (currTile.isDoubleWord()) {
-					score = (score + currTile.getStone().getValue(
-							spel.getLetterSet()));
-					doubleword = true;
-				} else if (currTile.isTripleWord()) {
-					score = (score + currTile.getStone().getValue(
-							spel.getLetterSet()));
-					tripleword = true;
-				}
-			}
-		}
-		if (doubleword) {
-			score = score * 2;
-		} else if (tripleword) {
-			score = score * 3;
-		}
-		return score;
+		for (HashMap<Point, Stone> woordTiles : woordenLijst) { // nullpointer
+			int woordScore = 0;
+			String woord = "";
+			boolean DW = false;
+			boolean TW = false;
+			for (Entry<Point, Stone> steen : woordTiles.entrySet()) {
+				Point xyPos = steen.getKey();
+				Stone curStone = steen.getValue();
+				char stoneChar = curStone.getLetter();
+				int stonevalue = curStone.getValue(spel.getLetterSet());
+				Tile curTile = spelBord.getTile(xyPos);
 
+				switch (curTile.getTileType()) {
+				case TYPE_DL:
+					stonevalue = stonevalue * 2;
+					break;
+				case TYPE_TL:
+					stonevalue = stonevalue * 3;
+					break;
+				case TYPE_DW:
+					DW = true;
+					break;
+				case TYPE_TW:
+					TW = true;
+					break;
+				default:
+					break;
+				}
+				woordScore = woordScore + stonevalue;
+				woord = woord + stoneChar;
+			}
+			if (TW) {
+				woordScore = woordScore * 3;
+			}
+			if (DW) {
+				woordScore = woordScore * 2;
+			}
+			System.out.println(woord);
+			score = score + woordScore;
+		}
 	}
 
-	private ArrayList<HashMap<Point, Stone>> vindWoord(){
+	private ArrayList<HashMap<Point, Stone>> vindWoord() {
 		/*
-		 * De methode returnd een ArrayList met daarin alle woorden die deze beurt gelegd zijn.
-		 * In een hashmap worden de stenen zelf meegegeven.
+		 * De methode returnd een ArrayList met daarin alle woorden die deze
+		 * beurt gelegd zijn. In een hashmap worden de stenen zelf meegegeven.
 		 * 
-		 * Bij dit voorbeeld zijn de hoofdletters nieuw en kleine oud
-		 *		1 2 3 4 5
-		 * 	  1 - - g e k
-		 * 	  2 - - e - -
-		 * 	  3 - E e N D
-		 * 	  4 - - n - o
-		 * 	  5 - - - - m
+		 * Bij dit voorbeeld zijn de hoofdletters nieuw en kleine oud 1 2 3 4 5
+		 * 1 - - g e k 2 - - e - - 3 - E e N D 4 - - n - o 5 - - - - m
 		 * 
-		 * Geeft:
-		 *	Woordenlijst[0]:
-		 *		2.3 , E
-		 * 		3.3 , e
-		 * 		3.4 , N
-		 * 		3.5 , D
-		 *Woordenlijst[1]:
-		 *		5.3 , D
-		 *		5.4 , o
-		 *		5.5 , m
+		 * Geeft: Woordenlijst[0]: 2.3 , E 3.3 , e 3.4 , N 3.5 , D
+		 * Woordenlijst[1]: 5.3 , D 5.4 , o 5.5 , m
 		 */
 		ArrayList<Tile> newTiles = spel.getBord().getNewTiles();
 		Stone currentStone = null;
@@ -152,61 +153,78 @@ public class SpelVerloop implements Runnable {
 		woordenLijst.add(new HashMap<Point, Stone>());
 		boolean done = false;
 		int index = 0;
-		
+
 		// Is er wel gelegd?
 		if (newTiles.size() == 0) {
-			//Er is niet gelegd
+			// Er is niet gelegd
 			return null;
 		} else {
 			currentStone = newTiles.get(0).getStone();
 		}
 		// Woorden zoeken
-		// Scroll naarboven vanaf de meest linksboven nieuwe letter 
+		// Scroll naarboven vanaf de meest linksboven nieuwe letter
 		while (!done) {
 			if ((nextStone(spel.getBord().getCoordinat(currentStone), 'u') != null)) {
-				currentStone = nextStone(spel.getBord().getCoordinat(currentStone), 'u');
+				currentStone = nextStone(
+						spel.getBord().getCoordinat(currentStone), 'u');
 			} else {
 				done = true;
 			}
 		}
 		done = false;
 		while (!done) {
-			woordenLijst.get(index).put(spel.getBord().getCoordinat(currentStone), currentStone);
+			woordenLijst.get(index).put(
+					spel.getBord().getCoordinat(currentStone), currentStone);
 			if ((nextStone(spel.getBord().getCoordinat(currentStone), 'd') != null)) {
 				if (!currentStone.equals(newTiles.get(0))) {
-					if ((nextStone(spel.getBord().getCoordinat(currentStone), 'l')!= null)
-							|| ((nextStone(spel.getBord().getCoordinat(currentStone), 'r')!= null)
-							&& !currentStone.getLocked())) {
-						currentStone = (nextStone(spel.getBord().getCoordinat(currentStone), 'l'));
+					if ((nextStone(spel.getBord().getCoordinat(currentStone),
+							'l') != null)
+							|| ((nextStone(
+									spel.getBord().getCoordinat(currentStone),
+									'r') != null) && !currentStone.getLocked())) {
+						currentStone = (nextStone(
+								spel.getBord().getCoordinat(currentStone), 'l'));
 						boolean done2 = false;
 						while (!done2) {
-							if (!(nextStone(spel.getBord().getCoordinat(currentStone), 'l')== null)) {
-								currentStone = nextStone(spel.getBord().getCoordinat(currentStone), 'l');
+							if (!(nextStone(
+									spel.getBord().getCoordinat(currentStone),
+									'l') == null)) {
+								currentStone = nextStone(spel.getBord()
+										.getCoordinat(currentStone), 'l');
 							} else {
 								done2 = true;
 							}
 							done2 = false;
 						}
-						woordenLijst.addAll(new ArrayList<HashMap<Point, Stone>>());
+						woordenLijst
+								.addAll(new ArrayList<HashMap<Point, Stone>>());
 						while (!done2) {
-							if ((nextStone(spel.getBord().getCoordinat(currentStone), 'r') != null)) {
-								woordenLijst.get(woordenLijst.size() - 1).put(spel.getBord().getCoordinat(currentStone), currentStone);
-								currentStone = nextStone(spel.getBord().getCoordinat(currentStone), 'r');
+							if ((nextStone(
+									spel.getBord().getCoordinat(currentStone),
+									'r') != null)) {
+								woordenLijst.get(woordenLijst.size() - 1).put(
+										spel.getBord().getCoordinat(
+												currentStone), currentStone);
+								currentStone = nextStone(spel.getBord()
+										.getCoordinat(currentStone), 'r');
 							} else {
 								done2 = true;
 							}
 						}
-						currentStone = woordenLijst.get(index).get(spel.getBord().getCoordinat(currentStone));
+						currentStone = woordenLijst.get(index).get(
+								spel.getBord().getCoordinat(currentStone));
 					}
 				}
-				currentStone = nextStone(spel.getBord().getCoordinat(currentStone), 'd');
+				currentStone = nextStone(
+						spel.getBord().getCoordinat(currentStone), 'd');
 			} else {
 				done = true;
 			}
 			done = false;
 			while (!done) {
 				if ((nextStone(spel.getBord().getCoordinat(currentStone), 'l') != null)) {
-					currentStone = nextStone(spel.getBord().getCoordinat(currentStone), 'l');
+					currentStone = nextStone(
+							spel.getBord().getCoordinat(currentStone), 'l');
 				} else {
 					done = true;
 				}
@@ -214,35 +232,50 @@ public class SpelVerloop implements Runnable {
 		}
 		done = false;
 		while (!done) {
-			woordenLijst.get(index).put(spel.getBord().getCoordinat(currentStone), currentStone);
+			woordenLijst.get(index).put(
+					spel.getBord().getCoordinat(currentStone), currentStone);
 			if ((nextStone(spel.getBord().getCoordinat(currentStone), 'r') != null)) {
 				if (!currentStone.equals(newTiles.get(0))) {
-					if ((nextStone(spel.getBord().getCoordinat(currentStone), 'u') != null)
-							|| (nextStone(spel.getBord().getCoordinat(currentStone), 'd') != null)
-							&& !currentStone.getLocked()) {
-						currentStone = nextStone(spel.getBord().getCoordinat(currentStone), 'u');
+					if ((nextStone(spel.getBord().getCoordinat(currentStone),
+							'u') != null)
+							|| (nextStone(
+									spel.getBord().getCoordinat(currentStone),
+									'd') != null) && !currentStone.getLocked()) {
+						currentStone = nextStone(
+								spel.getBord().getCoordinat(currentStone), 'u');
 						boolean done2 = false;
 						while (!done2) {
-							if ((nextStone(spel.getBord().getCoordinat(currentStone), 'u') != null)) {
-								currentStone = nextStone(spel.getBord().getCoordinat(currentStone), 'u');
+							if ((nextStone(
+									spel.getBord().getCoordinat(currentStone),
+									'u') != null)) {
+								currentStone = nextStone(spel.getBord()
+										.getCoordinat(currentStone), 'u');
 							} else {
 								done2 = true;
 							}
 							done2 = false;
 						}
-						woordenLijst.add(woordenLijst.size(), new HashMap<Point, Stone>());
+						woordenLijst.add(woordenLijst.size(),
+								new HashMap<Point, Stone>());
 						while (!done2) {
-							if ((nextStone(spel.getBord().getCoordinat(currentStone), 'd') != null)) {
-								woordenLijst.get(woordenLijst.size() - 1).put(spel.getBord().getCoordinat(currentStone), currentStone);
-								currentStone = nextStone(spel.getBord().getCoordinat(currentStone), 'd');
+							if ((nextStone(
+									spel.getBord().getCoordinat(currentStone),
+									'd') != null)) {
+								woordenLijst.get(woordenLijst.size() - 1).put(
+										spel.getBord().getCoordinat(
+												currentStone), currentStone);
+								currentStone = nextStone(spel.getBord()
+										.getCoordinat(currentStone), 'd');
 							} else {
 								done2 = true;
 							}
 						}
-						currentStone = woordenLijst.get(index).get(spel.getBord().getCoordinat(currentStone));
+						currentStone = woordenLijst.get(index).get(
+								spel.getBord().getCoordinat(currentStone));
 					}
 				}
-				currentStone = nextStone(spel.getBord().getCoordinat(currentStone), 'r');
+				currentStone = nextStone(
+						spel.getBord().getCoordinat(currentStone), 'r');
 			} else {
 				done = true;
 			}
@@ -271,7 +304,9 @@ public class SpelVerloop implements Runnable {
 				if (stone.getLocked()) {
 					check = true;
 				} else {
-					if (spel.getBord().getTile(spel.getBord().getCoordinat(stone)).getType().equals("TYPE_START")){
+					if (spel.getBord()
+							.getTile(spel.getBord().getCoordinat(stone))
+							.getType().equals("TYPE_START")) {
 						start = true;
 					}
 				}
@@ -285,9 +320,7 @@ public class SpelVerloop implements Runnable {
 			}
 		}
 		return woordenLijst;
-}
-
-
+	}
 
 	private Stone nextStone(Point position, char direction) {
 		int x = (int) position.getX();
@@ -331,23 +364,28 @@ public class SpelVerloop implements Runnable {
 				spel.getSpelPanel().getSkipButton().setEnabled(false);
 				spel.getSpelPanel().getSwapButton().setEnabled(false);
 				spel.getSpelPanel().getClearButton().setEnabled(false);
-				myResultSet = connect2.voerSelectQueryUit("SELECT Aktie_type FROM beurt WHERE Spel_ID = " + spel.getSpelId() +  " ORDER BY ID ASC LIMIT 3"); // kijken of winnaar is
+				myResultSet = connect2
+						.voerSelectQueryUit("SELECT Aktie_type FROM beurt WHERE Spel_ID = "
+								+ spel.getSpelId() + " ORDER BY ID ASC LIMIT 3"); // kijken
+																					// of
+																					// winnaar
+																					// is
 				try {
-					while(myResultSet.next()){
-						if(myResultSet.getString("Aktie_type").equals("Pass")){
-							gepasst ++;
+					while (myResultSet.next()) {
+						if (myResultSet.getString("Aktie_type").equals("Pass")) {
+							gepasst++;
 						}
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if(gepasst >= 3){
+				if (gepasst >= 3) {
 					spelOver = true;
 				}
 				gepasst = 0;
 			}
-			if(myTurn()){
+			if (myTurn()) {
 				// zet alles op het bord waar nodig, update score moet nog
 				spel.getSpelPanel().getPlayButton().setEnabled(true);
 				spel.getSpelPanel().getShuffleButton().setEnabled(true);
@@ -363,45 +401,53 @@ public class SpelVerloop implements Runnable {
 		}
 		connect2.closeConnection();
 	}
-	
-	private void pakLetters() 
-	{
+
+	private void pakLetters() {
 		Connectie con = new Connectie();
-		for(int i = 0; i < 7; i++)
-		{
-			if( spel.getLetterBak().getTile(i).getStone() != null)
-			{
+		for (int i = 0; i < 7; i++) {
+			if (spel.getLetterBak().getTile(i).getStone() != null) {
 				con.doInsertUpdate(
-					"INSERT INTO letterbakjeletter (Spel_ID, Letter_ID, Beurt_ID) VALUES (%1$d, %2$d, (SELECT MAX(ID) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%3$s'))",
-					spel.getSpelId(), spel.getLetterBak().getTile(i).getStone().getLetterId(), Account.getAccountNaam());
+						"INSERT INTO letterbakjeletter (Spel_ID, Letter_ID, Beurt_ID) VALUES (%1$d, %2$d, (SELECT MAX(ID) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%3$s'))",
+						spel.getSpelId(), spel.getLetterBak().getTile(i)
+								.getStone().getLetterId(),
+						Account.getAccountNaam());
 			}
 		}
-		ResultSet rs = con.doSelect("SELECT Letter_ID FROM pot WHERE Spel_ID = %1$d ORDER BY RAND() LIMIT %2$d", spel.getSpelId(), 7 - spel.getLetterBak().getNumberOfStones());
+		ResultSet rs = con
+				.doSelect(
+						"SELECT Letter_ID FROM pot WHERE Spel_ID = %1$d ORDER BY RAND() LIMIT %2$d",
+						spel.getSpelId(), 7 - spel.getLetterBak()
+								.getNumberOfStones());
 		try {
 			while (rs.next()) {
 				con.doInsertUpdate(
-					"INSERT INTO letterbakjeletter (Spel_ID, Letter_ID, Beurt_ID) VALUES (%1$d, %2$d, (SELECT MAX(ID) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%3$s'))",
-					spel.getSpelId(), rs.getInt(1), Account.getAccountNaam());
+						"INSERT INTO letterbakjeletter (Spel_ID, Letter_ID, Beurt_ID) VALUES (%1$d, %2$d, (SELECT MAX(ID) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%3$s'))",
+						spel.getSpelId(), rs.getInt(1),
+						Account.getAccountNaam());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		ResultSet rs2 = con.doSelect("SELECT lb.Spel_ID, lb.Beurt_ID, l.ID, l.LetterType_LetterSet_code, l.LetterType_karakter FROM letterbakjeletter AS lb JOIN letter as l ON lb.Letter_ID = l.ID AND lb.Spel_ID = l.Spel_ID WHERE lb.Spel_ID = %1$d AND lb.Beurt_ID = (SELECT MAX(ID) FROM Beurt WHERE Spel_ID = %1$d AND Account_Naam = '%2$s') LIMIT 7;", spel.getSpelId(), Account.getAccountNaam());
-        int i = 0;
-        try
-        {
-                while(rs2.next())
-                {
-                        spel.getLetterBak().getTiles().get(i).setStone(new Stone(rs2.getString("LetterType_karakter").charAt(0), rs2.getInt("ID")));
-                        i++;
-                }
-        }
-        catch(SQLException io)
-        {
-                io.printStackTrace();
-        }
+
+		ResultSet rs2 = con
+				.doSelect(
+						"SELECT lb.Spel_ID, lb.Beurt_ID, l.ID, l.LetterType_LetterSet_code, l.LetterType_karakter FROM letterbakjeletter AS lb JOIN letter as l ON lb.Letter_ID = l.ID AND lb.Spel_ID = l.Spel_ID WHERE lb.Spel_ID = %1$d AND lb.Beurt_ID = (SELECT MAX(ID) FROM Beurt WHERE Spel_ID = %1$d AND Account_Naam = '%2$s') LIMIT 7;",
+						spel.getSpelId(), Account.getAccountNaam());
+		int i = 0;
+		try {
+			while (rs2.next()) {
+				spel.getLetterBak()
+						.getTiles()
+						.get(i)
+						.setStone(
+								new Stone(rs2.getString("LetterType_karakter")
+										.charAt(0), rs2.getInt("ID")));
+				i++;
+			}
+		} catch (SQLException io) {
+			io.printStackTrace();
+		}
 		con.closeConnection();
 	}
 
