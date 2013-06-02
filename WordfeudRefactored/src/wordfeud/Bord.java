@@ -131,10 +131,12 @@ public class Bord {
 		Point coor = new Point();
 		for (int x = 0; x < 15; x++) {
 			for (int y = 0; y < 15; y++) {
-				if (tiles[x][y].getStone().equals(stoneInput)) {
-					coor.x = x;
-					coor.y = y;
-					return coor;
+				if(tiles[x][y].getStone() != null){
+					if (tiles[x][y].getStone().equals(stoneInput)) {
+						coor.x = x;
+						coor.y = y;
+						return coor;
+					}
 				}
 			}
 		}
