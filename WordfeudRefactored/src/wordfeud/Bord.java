@@ -102,7 +102,7 @@ public class Bord {
 							kString.toCharArray()[0], idSQL));
 				} else {
 					tiles[xSQL][ySQL].setStone(new Stone(
-							kString.toCharArray()[0], bString.toCharArray()[0],
+							kString.toCharArray()[0],
 							idSQL));
 					tiles[xSQL][ySQL].getStone().setBlancoLetter(
 							kString.toCharArray()[0]);

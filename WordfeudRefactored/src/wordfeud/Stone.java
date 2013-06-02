@@ -31,21 +31,6 @@ public class Stone
 			e.printStackTrace();
 		}
 	}
-	public Stone(char letter, char blancoLetter, int letterId)
-	{
-		this.letter = letter;
-		this.setBlancoLetter(blancoLetter);
-		this.letterId = letterId;
-		File imageFile = new File("src/images/tile.png");//
-		File imageFile2 = new File("src/images/unlockedtile.png");//
-		try {
-			lockedImg  = ImageIO.read(imageFile);
-			unlockedImg  = ImageIO.read(imageFile2);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
 	public char getLetter()
 	{
