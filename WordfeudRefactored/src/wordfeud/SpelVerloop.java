@@ -51,14 +51,14 @@ public class SpelVerloop implements Runnable {
 		rs = con.doSelect("SELECT Account_naam, MAX( ID ) -1 AS maxid FROM beurt WHERE Spel_ID = "
 				+ spel.getSpelId() + " ORDER BY ID DESC ");
 		try {
-			while (rs.next()) {
+			if(rs.next()) {
 				accountNaam = rs.getString("Account_naam");
-				beurt = rs.getInt("maxid");
+				beurt = rs.getInt("maxid") + 1;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (!account.getAccountNaam().equals(accountNaam)) {
+		if (account.getAccountNaam().equals(accountNaam)) {
 			myTurn = true;
 		}
 		con.closeConnection();
@@ -69,13 +69,11 @@ public class SpelVerloop implements Runnable {
 		Connectie con = new Connectie();
 		ResultSet rs;
 		try {
-			rs = con.doSelect(
-					"SELECT MAX(ID) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%2$s'",
-					spel.getSpelId(), Account.getAccountNaam());
+			rs = con.voerSelectQueryUit("SELECT MAX(ID) FROM beurt WHERE Spel_ID = " + spel.getSpelId());
 			if (rs.next()) {
 				int ID = rs.getInt(1);
-				con.doInsertUpdate("INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES (null, '%2$s', '%3$d', '%4$d', '%5$d', '%6$s')",
-						+1, spel.getSpelId(), Account.getAccountNaam(), puntenTeller().intValue() , "Pass"); // moet aangepast worden aan nieuwe versie
+				con.doInsertUpdate("INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES ('%1$d', '%2$d', '%3$s', '%4$d', '%5$s')",
+						ID + 1, spel.getSpelId(), Account.getAccountNaam(), 0 , "Pass"); // moet aangepast worden aan nieuwe versie met puntenteller ipv 0
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();}
@@ -251,7 +249,8 @@ public class SpelVerloop implements Runnable {
 					spelOver = true;
 				}
 				gepasst = 0;
-			} else {
+			}
+			if(myTurn()){
 				// zet alles op het bord waar nodig, update score
 				spel.getSpelPanel().getPlayButton().setEnabled(true);
 				spel.getSpelPanel().getShuffleButton().setEnabled(true);
