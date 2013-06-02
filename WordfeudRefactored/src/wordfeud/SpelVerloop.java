@@ -141,12 +141,7 @@ public class SpelVerloop implements Runnable {
 		 * 		3.3 , e
 		 * 		3.4 , N
 		 * 		3.5 , D
-		 * Woordeblijst[1]:
-		 * 		3.1 , g
-		 * 		3.2 , e
-		 * 		3.3 , e
-		 *		3.4 , n
-		 *Woordenlijst[2]:
+		 *Woordenlijst[1]:
 		 *		5.3 , D
 		 *		5.4 , o
 		 *		5.5 , m
