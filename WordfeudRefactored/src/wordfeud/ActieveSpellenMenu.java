@@ -168,4 +168,4 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		root.pack();
 	}
 
-}c
+}
