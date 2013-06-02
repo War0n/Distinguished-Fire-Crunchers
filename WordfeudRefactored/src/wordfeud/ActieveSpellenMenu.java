@@ -35,7 +35,7 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 
 	public ActieveSpellenMenu(boolean observer) {
 		this.observer = observer;
-		setMinimumSize(new Dimension(650, 750));
+		setMinimumSize(new Dimension(630, 700));
 		setPreferredSize(getMinimumSize());
 		setBackground(new Color(23, 26, 30));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

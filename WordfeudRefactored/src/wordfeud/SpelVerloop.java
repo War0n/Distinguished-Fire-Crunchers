@@ -31,14 +31,14 @@ public class SpelVerloop implements Runnable {
 		woordenboek = new ArrayList<String>();
 		Thread checkBeurten = new Thread(this);
 		checkBeurten.start();
-		
+
 		spelBord = spel.getBord();
 		accountEersteBeurt = "";
 	}
 
 	public void play() {
 		vindWoord();
-		
+
 	}
 
 	@SuppressWarnings("static-access")
@@ -119,67 +119,73 @@ public class SpelVerloop implements Runnable {
 		HashMap<Point, Tile> wordTilePositions = new HashMap<Point, Tile>();
 		ArrayList<Tile> newTiles = spelBord.getNewTiles();
 		int score = 0;
-		
 
-		if (!newTiles.isEmpty()){ 
+		if (!newTiles.isEmpty()) {
 			Tile tmpTile = newTiles.get(0);
 			Point position = spelBord.getCoordinat(tmpTile);
 			String woord = String.valueOf(tmpTile.getStone().getLetter());
 			score = tmpTile.getStone().getValue(spel.getLetterSet());
-			
-			while(nextTile(position, 's').getStone() != null)
-			{
-				if(newTiles.contains(nextTile(position, 's'))){
-				       woord = woord + nextTile(position, 's').getStone().getLetter();
-				       score = score + nextTile(position, 's').getStone().getValue(spel.getLetterSet());
-				       newTiles.remove(tmpTile);
-				       tmpTile = nextTile(position, 's');
-				       position = spelBord.getCoordinat(tmpTile);
-					}
-			}	
-			
-			while(nextTile(position, 'e').getStone() != null)
-			{
-				if(newTiles.contains(nextTile(position, 'e'))){
-			       woord = woord + nextTile(position, 'e').getStone().getLetter();
-			       score = score + nextTile(position, 'e').getStone().getValue(spel.getLetterSet());
-			       newTiles.remove(tmpTile);
-			       tmpTile = nextTile(position, 'e');
-			       position = spelBord.getCoordinat(tmpTile);
+
+			while (nextTile(position, 's').getStone() != null) {
+				if (newTiles.contains(nextTile(position, 's'))) {
+					woord = woord
+							+ nextTile(position, 's').getStone().getLetter();
+					score = score
+							+ nextTile(position, 's').getStone().getValue(
+									spel.getLetterSet());
+					newTiles.remove(tmpTile);
+					tmpTile = nextTile(position, 's');
+					position = spelBord.getCoordinat(tmpTile);
 				}
 			}
-			
-			while(nextTile(position, 'w').getStone() != null)
-			{
-				if(newTiles.contains(nextTile(position, 'w'))){
-				       woord = nextTile(position, 'w').getStone().getLetter() + woord;
-				       score = score + nextTile(position, 'w').getStone().getValue(spel.getLetterSet());
-				       newTiles.remove(tmpTile);
-				       tmpTile = nextTile(position, 'w');
-				       position = spelBord.getCoordinat(tmpTile);
-					}
+
+			while (nextTile(position, 'e').getStone() != null) {
+				if (newTiles.contains(nextTile(position, 'e'))) {
+					woord = woord
+							+ nextTile(position, 'e').getStone().getLetter();
+					score = score
+							+ nextTile(position, 'e').getStone().getValue(
+									spel.getLetterSet());
+					newTiles.remove(tmpTile);
+					tmpTile = nextTile(position, 'e');
+					position = spelBord.getCoordinat(tmpTile);
+				}
 			}
-			
-			while(nextTile(position, 'n').getStone() != null)
-			{
-				if(newTiles.contains(nextTile(position, 'n'))){
-				       woord = nextTile(position, 'n').getStone().getLetter() + woord;
-				       score = score + nextTile(position, 'n').getStone().getValue(spel.getLetterSet());
-				       newTiles.remove(tmpTile);
-				       tmpTile = nextTile(position, 'n');
-				       position = spelBord.getCoordinat(tmpTile);
-					}
+
+			while (nextTile(position, 'w').getStone() != null) {
+				if (newTiles.contains(nextTile(position, 'w'))) {
+					woord = nextTile(position, 'w').getStone().getLetter()
+							+ woord;
+					score = score
+							+ nextTile(position, 'w').getStone().getValue(
+									spel.getLetterSet());
+					newTiles.remove(tmpTile);
+					tmpTile = nextTile(position, 'w');
+					position = spelBord.getCoordinat(tmpTile);
+				}
+			}
+
+			while (nextTile(position, 'n').getStone() != null) {
+				if (newTiles.contains(nextTile(position, 'n'))) {
+					woord = nextTile(position, 'n').getStone().getLetter()
+							+ woord;
+					score = score
+							+ nextTile(position, 'n').getStone().getValue(
+									spel.getLetterSet());
+					newTiles.remove(tmpTile);
+					tmpTile = nextTile(position, 'n');
+					position = spelBord.getCoordinat(tmpTile);
+				}
 			}
 			woord.toLowerCase();
-			if (checkWoordInDB(woord)){
+			if (checkWoordInDB(woord)) {
 				System.out.println(woord + " voor " + score);
 			} else {
 				System.out.println(woord + " komt niet voor in de db");
 			}
-			
+
 		}
-	
-		
+
 		return wordTilePositions;
 	}
 
@@ -280,17 +286,19 @@ public class SpelVerloop implements Runnable {
 			 */
 		}
 	}
-	
-	public int getBeurt(){
+
+	public int getBeurt() {
 		return this.beurt;
 	}
-	
-	public boolean checkWoordInDB(String woord){
+
+	public boolean checkWoordInDB(String woord) {
 		connect = new Connectie();
-		ResultSet woorden = connect.voerSelectQueryUit("SELECT * FROM woordenboek WHERE status = 'Accepted' AND woord ='" + woord + "'");
-		
+		ResultSet woorden = connect
+				.voerSelectQueryUit("SELECT * FROM woordenboek WHERE status = 'Accepted' AND woord ='"
+						+ woord + "'");
+
 		try {
-			if(woorden.last()){
+			if (woorden.last()) {
 				return true;
 			}
 		} catch (SQLException e) {

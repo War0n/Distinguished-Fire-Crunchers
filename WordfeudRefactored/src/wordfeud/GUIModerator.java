@@ -31,7 +31,7 @@ public class GUIModerator extends JPanel implements Observer{
 	private JScrollPane wordScrollPane;
 	
 	public GUIModerator(){
-		this.setMinimumSize(new Dimension(650,750));
+		this.setMinimumSize(new Dimension(650,700));
 		this.setPreferredSize(getMinimumSize());
 		this.setLayout(new BorderLayout());
 		this.setBackground(new Color(23,26,30));
@@ -43,7 +43,7 @@ public class GUIModerator extends JPanel implements Observer{
 		titel = new JLabel("Moderator scherm");
 		titel.setForeground(Color.white);
 		titel.setFont(new Font("Arial",Font.BOLD,30));
-		titel.setPreferredSize(new Dimension(650,100));
+		titel.setPreferredSize(new Dimension(630,100));
 		acceptWord = new WFButton("Accepteer");
 		declineWord = new WFButton("Verwerp");
 		woordenPanel = new JPanel();

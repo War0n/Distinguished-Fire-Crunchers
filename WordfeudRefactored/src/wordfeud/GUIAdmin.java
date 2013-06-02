@@ -51,7 +51,7 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 	private ArrayList<JCheckBox> roleArray;
 	
 	public GUIAdmin(){
-		setMinimumSize(new Dimension(650,750));
+		setMinimumSize(new Dimension(630,700));
 		setPreferredSize(getMinimumSize());
 		setBackground(new Color(23,26,30));
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));

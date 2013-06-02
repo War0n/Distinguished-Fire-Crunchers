@@ -39,7 +39,7 @@ public class SpelPanel extends JPanel {
 
 	public SpelPanel(int spelID) {
 		
-		setMaximumSize(new Dimension(650, 750));
+		setMaximumSize(new Dimension(630, 700));
 		setPreferredSize(getMaximumSize());
 		swapButton = new WFButton("Swap");
 		skipButton = new WFButton("Pass");
@@ -74,17 +74,27 @@ public class SpelPanel extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		speelVeld = new BordPanel(spel.getBord());
 		functiepanel = new FunctionPanel();
+		functiepanel.setLayout(new BoxLayout(functiepanel,BoxLayout.X_AXIS));
 		leftBottomContainer = new JPanel();
 		scores = new JPanel();
 		scores.setLayout(new BorderLayout());
 		scores.setBackground(letterbak.getBackground());
-		scores.setMaximumSize(new Dimension(600, 50));
+		scores.setMaximumSize(new Dimension(400, 20));
+		scores.setPreferredSize(scores.getMaximumSize());
 
-		leftBottomContainer.setLayout(new BoxLayout(leftBottomContainer,
-				BoxLayout.PAGE_AXIS));
+		leftBottomContainer.setLayout(new BoxLayout(leftBottomContainer,BoxLayout.Y_AXIS));
 		this.add(speelVeld);
 		scores.add(backButton, BorderLayout.WEST);
 		scores.add(score, BorderLayout.EAST);
+		functiepanel.setBackground(letterbak.getBackground());
+		functiepanel.setMaximumSize(new Dimension(630,70));
+		functiepanel.setPreferredSize(functiepanel.getMaximumSize());
+		letterbak.setPreferredSize(new Dimension(300,40));
+		buttons.setMinimumSize(new Dimension(100,70));
+		buttons.setPreferredSize(getMinimumSize());
+		leftBottomContainer.setBackground(letterbak.getBackground());
+		leftBottomContainer.setMaximumSize(new Dimension(500,70));
+		leftBottomContainer.setPreferredSize(leftBottomContainer.getMaximumSize());
 		leftBottomContainer.add(letterbak);
 		leftBottomContainer.add(scores);
 		functiepanel.add(leftBottomContainer);
