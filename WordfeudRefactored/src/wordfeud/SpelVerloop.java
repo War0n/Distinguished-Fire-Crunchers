@@ -70,15 +70,13 @@ public class SpelVerloop implements Runnable {
 		ResultSet rs;
 		try {
 			rs = con.doSelect(
-					"SELECT MAX(ID), MAX(volgnummer) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%2$s'",
+					"SELECT MAX(ID) FROM beurt WHERE Spel_ID = %1$d AND Account_naam = '%2$s'",
 					spel.getSpelId(), Account.getAccountNaam());
 			if (rs.next()) {
 				int ID = rs.getInt(1);
-				int volgNummer = rs.getInt(2);
 				con.doInsertUpdate(
-						"INSERT INTO beurt (ID, Account_naam, Spel_ID, volgnummer, score, Aktie_type) VALUES (null, '%2$s', '%3$d', '%4$d', '%5$d', '%6$s')",
-						+1, Account.getAccountNaam(), spel.getSpelId(),
-						volgNummer + 1, puntenTeller().intValue(), "Pass");
+						"INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES (null, '%2$s', '%3$d', '%4$d', '%5$d', '%6$s')",
+						+1, spel.getSpelId(), Account.getAccountNaam(), puntenTeller().intValue(), "Pass");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();}
