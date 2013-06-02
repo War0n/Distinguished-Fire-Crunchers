@@ -134,6 +134,7 @@ public class SpelVerloop implements Runnable {
 			System.out.println(woord);
 			score = score + woordScore;
 		}
+		return score;
 	}
 
 	private ArrayList<HashMap<Point, Stone>> vindWoord() {
