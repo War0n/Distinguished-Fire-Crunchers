@@ -53,6 +53,10 @@ public class Tile {
 	public boolean isStart() {
 		return type.equals(TileType.TYPE_START);
 	}
+	
+	public TileType getTileType(){
+		return type;
+	}
 
 	// locked
 	public boolean getLocked() {
