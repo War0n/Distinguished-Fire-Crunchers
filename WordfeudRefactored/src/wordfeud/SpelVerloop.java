@@ -74,9 +74,8 @@ public class SpelVerloop implements Runnable {
 					spel.getSpelId(), Account.getAccountNaam());
 			if (rs.next()) {
 				int ID = rs.getInt(1);
-				con.doInsertUpdate(
-						"INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES (null, '%2$s', '%3$d', '%4$d', '%5$d', '%6$s')",
-						+1, spel.getSpelId(), Account.getAccountNaam(), puntenTeller().intValue(), "Pass");
+				con.doInsertUpdate("INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES (null, '%2$s', '%3$d', '%4$d', '%5$d', '%6$s')",
+						+1, spel.getSpelId(), Account.getAccountNaam(), puntenTeller().intValue() , "Pass"); // moet aangepast worden aan nieuwe versie
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();}
@@ -87,7 +86,7 @@ public class SpelVerloop implements Runnable {
 		int score = 0;
 		boolean doubleword = false;
 		boolean tripleword = false;
-		for (int i = 0; i < woordenLijst.size(); i++) {
+		for (int i = 0; i < woordenLijst.size(); i++) { //nullpointer
 			for (int ii = 0; ii < woordenLijst.get(i).size(); ii++) {
 				Tile currTile = (Tile) woordenLijst.get(i).get(ii);
 				if (currTile.isDoubleLetter()) {
