@@ -72,6 +72,31 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 
 		showSpellen();
 	}
+	
+	@SuppressWarnings("static-access")
+	public boolean myTurnActiveSpellen(int spelId) {
+		boolean myTurn = false;
+		Connectie con = new Connectie();
+		ResultSet rs;
+		String accountNaam = "";
+		int beurt = 0;
+		rs = con.doSelect("SELECT Account_naam, ID FROM beurt WHERE Spel_ID = "
+				+ spelId + " ORDER BY ID DESC LIMIT 1");
+		try {
+			if(rs.next()) {
+				accountNaam = rs.getString("Account_naam");
+				beurt = rs.getInt("ID");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (!Account.getAccountNaam().equals(accountNaam))
+		{
+				myTurn = true;
+		}
+		con.closeConnection();
+		return myTurn;
+	}
 
 	public void showSpellen() {
 		connect = new Connectie();
@@ -90,6 +115,8 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		try {
 			while (rs.next()) {
 
+				if( !myTurnActiveSpellen(rs.getInt("ID")))
+					continue;
 				idCompetitie = rs.getInt("Competitie_ID");
 				rs2 = connect
 						.voerSelectQueryUit("select * from Competitie where ID ='"
