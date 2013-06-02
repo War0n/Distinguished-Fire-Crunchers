@@ -30,11 +30,13 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 	private WFButton inviteButton;
 	private WFButton backButton;
 	private Connectie connect;
+	private Spel spel;
 
 	private HashMap<WFButton, String[]> playBtn = new HashMap<WFButton, String[]>();
 
 	public ActieveSpellenMenu(boolean observer) {
 		this.observer = observer;
+		spel = new Spel(5);
 		setMinimumSize(new Dimension(650, 750));
 		setPreferredSize(getMinimumSize());
 		setBackground(new Color(23, 26, 30));
@@ -117,7 +119,8 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 				Box vertBox = new Box(BoxLayout.PAGE_AXIS);
 				Box lineBoxText = new Box(BoxLayout.LINE_AXIS);
 				Box lineBoxControls = new Box(BoxLayout.LINE_AXIS);
-
+				// check of het jou beurt is moet hier.
+				// JLabel myTurn = new JLabel("Mijn beurt: ");
 				JLabel uitdagingTxt = new JLabel(tegenstander + " ["
 						+ comp_naam + "]");
 				uitdagingTxt.setForeground(Color.white);
@@ -138,6 +141,7 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 				spellen.add(comp);
 
 			}
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Error: " + e);
