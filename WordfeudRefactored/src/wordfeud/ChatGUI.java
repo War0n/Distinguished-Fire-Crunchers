@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -48,7 +50,7 @@ public class ChatGUI  extends JFrame implements Observer{
 		statusBar = new JPanel();
 		chatFrame = new JPanel();
 		sendPanel = new JPanel();
-		chatStatus = new JLabel("Chatten met: USERNAME");
+		chatStatus = new JLabel("Chatten met: "+getOpponent());
 		chatHistory = new JTextArea();
 		//chatHistory.setEditable(false);
 		chatHistory.setLineWrap(true);
@@ -98,6 +100,29 @@ public class ChatGUI  extends JFrame implements Observer{
 		setVisible(true);
 		
 		initActions();
+	}
+	
+	public String getOpponent() 
+	{
+		Connectie connect = new Connectie();
+		try
+		{
+			ResultSet rs;
+	        rs = connect.voerSelectQueryUit("SELECT * FROM Spel WHERE ID = " + game.getSpelId());
+			if(rs.next())
+			{
+	        		String p1 = rs.getString("Account_naam_uitdager");
+	        		String p2 = rs.getString("Account_naam_tegenstander");    
+				connect.closeConnection();
+		        	return (p1.equals(Account.getAccountNaam()) ? p2 : p1 );
+			}
+		}
+		catch(SQLException ex)
+		{
+			ex.printStackTrace();
+		}
+		connect.closeConnection();
+		return "";
 	}
 	
 	public void initActions(){
