@@ -36,7 +36,7 @@ public class SpelVerloop implements Runnable {
 		Thread checkBeurten = new Thread(this);
 		checkBeurten.start();
 
-		spelBord = spelBord;
+		spelBord = spel.getBord();
 		accountEersteBeurt = "";
 	}
 
