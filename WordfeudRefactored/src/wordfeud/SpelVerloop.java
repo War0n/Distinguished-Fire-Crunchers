@@ -421,7 +421,7 @@ public class SpelVerloop implements Runnable {
 				spel.getSpelPanel().getClearButton().setEnabled(false);
 				myResultSet = connect2
 						.voerSelectQueryUit("SELECT Aktie_type FROM beurt WHERE Spel_ID = "
-								+ spel.getSpelId() + " ORDER BY ID ASC LIMIT 3"); // kijken
+								+ spel.getSpelId() + " ORDER BY ID DESC LIMIT 3"); // kijken
 																					// of
 																					// winnaar
 																					// is
