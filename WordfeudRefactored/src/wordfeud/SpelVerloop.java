@@ -89,6 +89,29 @@ public class SpelVerloop implements Runnable {
 		con.closeConnection();
 		pakLetters();
 	}
+	
+	public void swapTurn() {
+		if (!myTurn()) {
+			return;
+		}
+		Connectie con = new Connectie();
+		ResultSet rs;
+		try {
+			rs = con.voerSelectQueryUit("SELECT MAX(ID) FROM beurt WHERE Spel_ID = "
+					+ spel.getSpelId());
+			if (rs.next()) {
+				int ID = rs.getInt(1);
+				con.doInsertUpdate(
+						"INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES ('%1$d', '%2$d', '%3$s', '%4$d', '%5$s')",
+						ID + 1, spel.getSpelId(), Account.getAccountNaam(), 0,
+						"Swap");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		con.closeConnection();
+		pakLetters();
+	}
 
 	private Integer puntenTeller() {
 		int score = 0;
