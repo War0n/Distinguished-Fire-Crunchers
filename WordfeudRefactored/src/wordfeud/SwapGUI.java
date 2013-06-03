@@ -2,11 +2,15 @@ package wordfeud;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -28,6 +32,8 @@ public class SwapGUI extends JFrame {
 	private JPanel trashPanel;
 	private ArrayList<Tile> swapTiles;
 	private DropTarget trashDroptarget;
+	
+	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");
 
 	public SwapGUI(Spel spel) {
 		this.letters = spel.getLetterBak();
@@ -46,9 +52,28 @@ public class SwapGUI extends JFrame {
 		trashDroptarget = new DropTarget(trashPanel,new DropTargetAdapter() {
 			
 			@Override
-			public void drop(DropTargetDropEvent dtde) {
-				
-				swapTiles.add(/*verlepen tiles toevoegen aan de arraylist*/ null);
+			public void drop(DropTargetDropEvent event) {
+				try 
+				{
+					Transferable tr = event.getTransferable();
+		            GUITile an = (GUITile) tr.getTransferData(flav);
+
+		            if (event.isDataFlavorSupported(flav))
+		            {
+		            	if(an.getTile().getStone() != null)
+		            	{
+		            		an.getTile().setStone(null);
+		            		an.repaint();
+		            		event.dropComplete(true);
+		            	}
+		            }
+		            event.rejectDrop();
+				}
+				catch (Exception e) 
+		        {
+		            e.printStackTrace();
+		            event.rejectDrop();
+		        }
 			}
 		});
 		
@@ -91,12 +116,15 @@ public class SwapGUI extends JFrame {
 		});
 	}
 
-	public void cancelFrame() {
+	public void cancelFrame() 
+	{
 		this.dispose();
 	}
 
-	public void commitAction() {
-		curSpel.getVerloop().skipTurn();
+	public void commitAction() 
+	{
+		curSpel.getVerloop().swapTurn();
+		curSpel.getSpelPanel().getLetterbakPanel().repaint();
 		
 		cancelFrame();
 	}

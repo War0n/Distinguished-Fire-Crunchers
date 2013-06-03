@@ -197,4 +197,9 @@ public class SpelPanel extends JPanel {
 		score.setText(text);
 		repaint();
 	}
+	
+	public LetterbakPanel getLetterbakPanel()
+	{
+		return letterbak;
+	}
 }
