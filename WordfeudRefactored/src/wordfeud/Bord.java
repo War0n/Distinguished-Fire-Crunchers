@@ -101,6 +101,10 @@ public class Bord {
 		return name;
 	}
 
+	public Spel getSpel(){
+		return spel;
+	}
+	
 	public Tile getTile(Point p) {
 		if (p.x < 0 || p.y < 0 || p.x > 15 || p.y > 15)
 			return null;

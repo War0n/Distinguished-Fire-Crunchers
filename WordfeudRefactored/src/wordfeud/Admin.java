@@ -85,7 +85,8 @@ public class Admin extends Observable {
 		connect.closeConnection();
 	}
 
-	public void changeRoles(ArrayList<String> selected, ArrayList<String> notSelected ,String username) {
+	public void changeRoles(ArrayList<String> selected,
+			ArrayList<String> notSelected, String username) {
 		Connectie roleInsertConn = new Connectie();
 		for (String selectedRole : selected) {
 			if (!checkUserRole(selectedRole, username)) {
@@ -95,11 +96,14 @@ public class Admin extends Observable {
 								+ username + "','" + selectedRole + "')");
 			}
 		}
-		for (String deSelectedRole : notSelected){
+		for (String deSelectedRole : notSelected) {
 			if (checkUserRole(deSelectedRole, username)) {
 
 				roleInsertConn
-						.voerInsertOrUpdateQueryUit("DELETE FROM accountrol WHERE Account_naam = '"+username+"' AND Rol_type = '"+deSelectedRole+"'");
+						.voerInsertOrUpdateQueryUit("DELETE FROM accountrol WHERE Account_naam = '"
+								+ username
+								+ "' AND Rol_type = '"
+								+ deSelectedRole + "'");
 			}
 		}
 		roleInsertConn.closeConnection();
