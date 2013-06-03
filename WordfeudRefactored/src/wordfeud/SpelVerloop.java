@@ -40,26 +40,50 @@ public class SpelVerloop implements Runnable {
 		accountEersteBeurt = "";
 	}
 
+	class letterSortStruct
+	{
+		int pos;
+		char val;
+		
+		public letterSortStruct(int p, char c)
+		{
+			pos = p;
+			val = c;
+		}
+	}
+	
+	public class letterCompare implements Comparator<letterSortStruct> {
+	    public int compare(letterSortStruct a, letterSortStruct b) {
+	        if (a.pos < b.pos) {
+	            return -1;
+	        }
+	        else if (a.pos > b.pos) {
+	            return 1;
+	        }
+	        else {
+	            return 0;
+	        }
+	    }
+	}
+
 	public void play() {
 		ArrayList<HashMap<Point, Stone>> myList = vindWoord();
 		if( myList != null )
 		{
 			ArrayList<String> woordenGevonden = new ArrayList<String>();
-			
-		
 			for(int i = 0; i < myList.size(); i++)
 			{
+				ArrayList<letterSortStruct> letters = new ArrayList<letterSortStruct>();
 				String tmp = "";
-				int lastPt = -1;
 				for(Point pt : myList.get(i).keySet())
 				{
-					int curPt = (pt.y * 15) + (pt.x);
-					System.out.println("Point: " + pt.x + ", " + pt.y + " = " + myList.get(i).get(pt).getLetter() + " CoordSom = " +curPt);
-					if(curPt > lastPt)
-						tmp += myList.get(i).get(pt).getLetter();
-					else
-						tmp = myList.get(i).get(pt).getLetter() + tmp;
-					lastPt = curPt;
+					int curPt = pt.y * 15 + pt.x;
+					letters.add(new letterSortStruct(curPt, myList.get(i).get(pt).getLetter()));
+				}
+				Collections.sort(letters, new letterCompare());
+				for(letterSortStruct ss : letters)
+				{
+					tmp += ss.val;
 				}
 				woordenGevonden.add(tmp);
 			}
