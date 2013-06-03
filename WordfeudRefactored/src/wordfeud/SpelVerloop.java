@@ -436,13 +436,13 @@ public class SpelVerloop implements Runnable {
 			int opScore = 0;
 			JFrame popup = null;
 			connect2.voerInsertOrUpdateQueryUit("UPDATE spel SET Toestand_type = 'Finished' WHERE ID = " + spel.getSpelId() + ";");
-			myResultSet = connect2.voerSelectQueryUit("SELECT SUM(score) FROM beurt WHERE Account_naam = '" + Account.getAccountNaam() + "' AND Spel_ID = " + spel.getSpelId() + ";");
+			myResultSet = connect2.voerSelectQueryUit("SELECT totaalscore FROM score WHERE Account_naam = '" + Account.getAccountNaam() + "' AND Spel_ID = " + spel.getSpelId() + ";");
 			try{
 				if(myResultSet.next()){
 					myScore = myResultSet.getInt(1);
 				}
 			}catch(SQLException e) {}
-			myResultSet = connect2.voerSelectQueryUit("SELECT SUM(score) FROM beurt WHERE NOT Account_naam = '" + Account.getAccountNaam() + "' AND Spel_ID = " + spel.getSpelId() + ";");
+			myResultSet = connect2.voerSelectQueryUit("SELECT totaalscore FROM score WHERE NOT Account_naam = '" + Account.getAccountNaam() + "' AND Spel_ID = " + spel.getSpelId() + ";");
 			try{
 				if(myResultSet.next()){
 					opScore = myResultSet.getInt(1);
@@ -466,6 +466,11 @@ public class SpelVerloop implements Runnable {
 					JOptionPane.WARNING_MESSAGE);
 				popup = null;
 			}
+			spel.getSpelPanel().getPlayButton().setEnabled(false);
+			spel.getSpelPanel().getShuffleButton().setEnabled(false);
+			spel.getSpelPanel().getSkipButton().setEnabled(false);
+			spel.getSpelPanel().getSwapButton().setEnabled(false);
+			spel.getSpelPanel().getClearButton().setEnabled(false);
 		}
 		connect2.closeConnection();
 	}
