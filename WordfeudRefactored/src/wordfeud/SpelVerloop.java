@@ -87,10 +87,22 @@ public class SpelVerloop implements Runnable {
 				}
 				woordenGevonden.add(tmp);
 			}
-			System.out.println("Gevonden woorden:");
+			System.out.println("Woorden gevonden: "+woordenGevonden.size());
+			int numWoorden = 0;
 			for(String str : woordenGevonden)
 			{
-				System.out.println(str);
+				if(checkWoordInDB(str) == true)
+				{
+					numWoorden++;
+					System.out.println(str + " is een woord.");
+				}
+				else
+					System.out.println(str + " is geen woord!");
+			}
+			if( numWoorden == woordenGevonden.size())
+			{
+				doTurn("Word", true);
+				spel.getBord().lockField();
 			}
 		}
 		//spel.getVerloop().doTurn("Word");
@@ -123,7 +135,7 @@ public class SpelVerloop implements Runnable {
 		return myTurn;
 	}
 	
-	public void doTurn(String moveType) {
+	public void doTurn(String moveType, boolean bUpdateScore) {
 		if (!myTurn()) {
 			return;
 		}
@@ -136,7 +148,7 @@ public class SpelVerloop implements Runnable {
 				int ID = rs.getInt(1);
 				con.doInsertUpdate(
 						"INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES ('%1$d', '%2$d', '%3$s', '%4$d', '%5$s')",
-						ID + 1, spel.getSpelId(), Account.getAccountNaam(), 0,
+						ID + 1, spel.getSpelId(), Account.getAccountNaam(), bUpdateScore ? puntenTeller() : 0,
 						moveType); // moet aangepast worden aan nieuwe versie met
 									// puntenteller ipv 0
 			}
