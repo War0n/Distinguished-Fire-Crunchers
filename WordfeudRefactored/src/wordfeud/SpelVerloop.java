@@ -52,12 +52,12 @@ public class SpelVerloop implements Runnable {
 		ResultSet rs;
 		String accountNaam = "";
 		String beurtType = "";
-		rs = con.doSelect("SELECT Account_naam, ID, Type FROM beurt WHERE Spel_ID = "
+		rs = con.doSelect("SELECT Account_naam, ID, Aktie_type FROM beurt WHERE Spel_ID = "
 				+ spel.getSpelId() + " ORDER BY ID DESC LIMIT 1");
 		try {
 			if (rs.next()) {
 				accountNaam = rs.getString("Account_naam");
-				beurtType = rs.getString("Type");
+				beurtType = rs.getString("Aktie_type");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
