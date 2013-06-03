@@ -57,25 +57,7 @@ public class Bord {
 		int x = 0;
 		int y = 0;
 		for (String type : soortArray) {
-			switch (type) {
-			case "*":
-				tiles[x][y].setType(TileType.TYPE_START);
-				break;
-			case "DL":
-				tiles[x][y].setType(TileType.TYPE_DL);
-				break;
-			case "TL":
-				tiles[x][y].setType(TileType.TYPE_TL);
-				break;
-			case "DW":
-				tiles[x][y].setType(TileType.TYPE_DW);
-				break;
-			case "TW":
-				tiles[x][y].setType(TileType.TYPE_TW);
-				break;
-			default:
-				break;
-			}
+			tiles[x][y].setType(TileType.fromValue(type));
 			if (x == 14) {
 				x = 0;
 				y++;

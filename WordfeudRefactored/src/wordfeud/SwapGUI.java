@@ -11,6 +11,8 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -30,7 +32,7 @@ public class SwapGUI extends JFrame {
 	private WFButton swapCancel;
 	private JPanel cp;
 	private JPanel trashPanel;
-	private ArrayList<Tile> swapTiles;
+	private int swapTiles = 0;
 	private DropTarget trashDroptarget;
 	
 	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");
@@ -39,7 +41,6 @@ public class SwapGUI extends JFrame {
 		this.letters = spel.getLetterBak();
 		this.curSpel = spel;
 		this.setTitle("Wissel letters in");
-		swapTiles = new ArrayList<Tile>();
 		
 		cp = (JPanel) this.getContentPane();
 		cp.setLayout(new BoxLayout(cp, BoxLayout.X_AXIS));
@@ -57,15 +58,19 @@ public class SwapGUI extends JFrame {
 				{
 					Transferable tr = event.getTransferable();
 		            GUITile an = (GUITile) tr.getTransferData(flav);
-
-		            if (event.isDataFlavorSupported(flav))
+		            
+		            if( swapTiles < getTilesLeftInPot())
 		            {
-		            	if(an.getTile().getStone() != null)
-		            	{
-		            		an.getTile().setStone(null);
-		            		an.repaint();
-		            		event.dropComplete(true);
-		            	}
+		            	if (event.isDataFlavorSupported(flav))
+			            {
+			            	if(an.getTile().getStone() != null)
+			            	{
+			            		an.getTile().setStone(null);
+			            		an.repaint();
+			            		swapTiles += 1;
+			            		event.dropComplete(true);
+			            	}
+			            }
 		            }
 		            event.rejectDrop();
 				}
@@ -94,6 +99,27 @@ public class SwapGUI extends JFrame {
 		this.setAlwaysOnTop(true);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+	}
+	
+	private int getTilesLeftInPot()
+	{
+		int numTiles = 0;
+		Connectie con = new Connectie();
+		try
+		{
+			ResultSet rs = con.voerSelectQueryUit("SELECT COUNT(*) FROM pot");
+		
+			if(rs.next())
+			{
+				numTiles = rs.getInt(1);
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		con.closeConnection();
+		return numTiles;
 	}
 
 	public void initButtons() {

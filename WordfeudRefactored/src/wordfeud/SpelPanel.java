@@ -119,15 +119,6 @@ public class SpelPanel extends JPanel {
 			}
 		});
 
-		placeButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				speelVeld.lockField();
-				// spel.getVerloop().play();
-			}
-		});
-
 		backButton.addActionListener(new ActionListener() {
 
 			@Override

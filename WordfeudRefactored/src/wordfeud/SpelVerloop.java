@@ -41,8 +41,35 @@ public class SpelVerloop implements Runnable {
 	}
 
 	public void play() {
-		vindWoord();
-		spel.getVerloop().doTurn("Word");
+		ArrayList<HashMap<Point, Stone>> myList = vindWoord();
+		if( myList != null )
+		{
+			ArrayList<String> woordenGevonden = new ArrayList<String>();
+			
+		
+			for(int i = 0; i < myList.size(); i++)
+			{
+				String tmp = "";
+				int lastPt = -1;
+				for(Point pt : myList.get(i).keySet())
+				{
+					int curPt = pt.y * 15 + pt.x;
+					System.out.println("Point: " + pt.x + ", " + pt.y + " = " + myList.get(i).get(pt).getLetter());
+					if(curPt > lastPt)
+						tmp += myList.get(i).get(pt).getLetter();
+					else
+						tmp = myList.get(i).get(pt).getLetter() + tmp;
+					lastPt = curPt;
+				}
+				woordenGevonden.add(tmp);
+			}
+			System.out.println("Gevonden woorden:");
+			for(String str : woordenGevonden)
+			{
+				System.out.println(str);
+			}
+		}
+		//spel.getVerloop().doTurn("Word");
 	}
 
 	@SuppressWarnings("static-access")
@@ -159,7 +186,7 @@ public class SpelVerloop implements Runnable {
 		 * Geeft: Woordenlijst[0]: 2.3 , E 3.3 , e 3.4 , N 3.5 , D
 		 * Woordenlijst[1]: 5.3 , D 5.4 , o 5.5 , m
 		 */
-		Stone[] newStones = (Stone[]) spelBord.getNewTiles().values().toArray();
+		Stone[] newStones = (Stone[]) spelBord.getNewTiles().values().toArray(new Stone[spelBord.getNewTiles().values().size()]);
 		Stone currentStone = null;
 		woordenLijst = new ArrayList<HashMap<Point, Stone>>();
 		woordenLijst.add(new HashMap<Point, Stone>());
@@ -295,7 +322,7 @@ public class SpelVerloop implements Runnable {
 		// controleer of er geen gaten zijn.
 		int count = 0;
 		for (HashMap<Point, Stone> woord : woordenLijst) {
-			Stone[] woordArray = (Stone[]) woord.values().toArray();
+			Stone[] woordArray = (Stone[]) woord.values().toArray(new Stone[woord.values().size()]);
 			for (Stone stone : woordArray) {
 				for (Stone newStone : newStones) {
 					if (newStone.equals(stone)) {
@@ -310,7 +337,7 @@ public class SpelVerloop implements Runnable {
 		// Kijk of er woorden in een hoek zijn gelegd
 		boolean xGelijk = false;
 		boolean yGelijk = false;
-		Point[] points = (Point[]) spelBord.getNewTiles().keySet().toArray();
+		Point[] points = (Point[]) spelBord.getNewTiles().keySet().toArray(new Point[spelBord.getNewTiles().keySet().size()]);
 		for(int teller = 0; teller < points.length -1 ; teller++ ){
 			if(points[index].x != points[index+1].x){
 				break;
@@ -334,14 +361,14 @@ public class SpelVerloop implements Runnable {
 		boolean check = false;
 		boolean start = false;
 		for (HashMap<Point, Stone> woord : woordenLijst) {
-			Stone[] woordArray = (Stone[]) woord.values().toArray();
+			Stone[] woordArray = (Stone[]) woord.values().toArray(new Stone[woord.values().size()]);
 			for (Stone stone : woordArray) {
 				if (stone.getLocked()) {
 					check = true;
 				} else {
 					if (spelBord
 							.getTile(spelBord.getCoordinat(stone))
-							.getType().equals("TYPE_START")) {
+							.getType() == TileType.TYPE_START) {
 						start = true;
 					}
 				}
@@ -505,6 +532,8 @@ public class SpelVerloop implements Runnable {
 			io.printStackTrace();
 		}
 		con.closeConnection();
+		
+		spel.getSpelPanel().getLetterbakPanel().repaint();
 	}
 
 	public int getBeurt() {
