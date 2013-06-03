@@ -179,7 +179,7 @@ public class SpelVerloop implements Runnable {
 		 * Geeft: Woordenlijst[0]: 2.3 , E 3.3 , e 3.4 , N 3.5 , D
 		 * Woordenlijst[1]: 5.3 , D 5.4 , o 5.5 , m
 		 */
-		Tile[] newTiles = (Tile[]) spelBord.getNewTiles().values().toArray();
+		Stone[] newStones = (Stone[]) spelBord.getNewTiles().values().toArray();
 		Stone currentStone = null;
 		woordenLijst = new ArrayList<HashMap<Point, Stone>>();
 		woordenLijst.add(new HashMap<Point, Stone>());
@@ -187,11 +187,11 @@ public class SpelVerloop implements Runnable {
 		int index = 0;
 
 		// Is er wel gelegd?
-		if (newTiles.length == 0) {
+		if (newStones.length == 0) {
 			// Er is niet gelegd
 			return null;
 		} else {
-			currentStone = newTiles[0].getStone();
+			currentStone = newStones[0];
 		}
 		// Woorden zoeken
 		// Scroll naarboven vanaf de meest linksboven nieuwe letter
@@ -208,7 +208,7 @@ public class SpelVerloop implements Runnable {
 			woordenLijst.get(index).put(
 					spelBord.getCoordinat(currentStone), currentStone);
 			if ((nextStone(spelBord.getCoordinat(currentStone), 'd') != null)) {
-				if (!currentStone.equals(newTiles[0])) {
+				if (!currentStone.equals(newStones[0])) {
 					if ((nextStone(spelBord.getCoordinat(currentStone),
 							'l') != null)
 							|| ((nextStone(
@@ -267,7 +267,7 @@ public class SpelVerloop implements Runnable {
 			woordenLijst.get(index).put(
 					spelBord.getCoordinat(currentStone), currentStone);
 			if ((nextStone(spelBord.getCoordinat(currentStone), 'r') != null)) {
-				if (!currentStone.equals(newTiles[0])) {
+				if (!currentStone.equals(newStones[0])) {
 					if ((nextStone(spelBord.getCoordinat(currentStone),
 							'u') != null)
 							|| (nextStone(
@@ -317,14 +317,14 @@ public class SpelVerloop implements Runnable {
 		for (HashMap<Point, Stone> woord : woordenLijst) {
 			Stone[] woordArray = (Stone[]) woord.values().toArray();
 			for (Stone stone : woordArray) {
-				for (Tile newTile : newTiles) {
-					if (newTile.equals(stone)) {
+				for (Stone newStone : newStones) {
+					if (newStone.equals(stone)) {
 						count++;
 					}
 				}
 			}
 		}
-		if (count != newTiles.length) {
+		if (count != newStones.length) {
 			return null;
 		}
 		// Kijk of er woorden in een hoek zijn gelegd
