@@ -140,12 +140,16 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		popupPanel.add(passwordField);
 		rolePanel = new JPanel();
 		rolePanel.setBackground(this.getBackground());
+		rolePanel.setLayout(new BoxLayout(rolePanel,BoxLayout.Y_AXIS));
 		roleArray = admin.getAvailableRoles();
 		for(JCheckBox role : roleArray){
-			if(Account.checkRol(role.getText())){
+			if(admin.checkUserRole(role.getText(), data[0])){
 				role.setSelected(true);
+			}else{
+				role.setSelected(false);
 			}
 			role.setBackground(this.getBackground());
+			role.setForeground(Color.white);
 			rolePanel.add(role);
 		}
 		popupPanel.add(roleLabel);
@@ -157,7 +161,7 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		
 		popup.setResizable(false);
 		popupPanel.setBackground(new Color(23,26,30));
-		popupPanel.setLayout(new GridLayout(3,2));			
+		popupPanel.setLayout(new GridLayout(4,2));			
 		popup.setContentPane(popupPanel);
 		popup.pack();
 		popup.setVisible(true);

@@ -98,5 +98,28 @@ public class Admin extends Observable {
 		connect.closeConnection();
 		return null;
 	}
+	
+	public boolean checkUserRole(String rol,String givenAccountnaam)
+	{
+		connect = new Connectie();
+		ResultSet myResultSet;
+		
+		myResultSet = connect.voerSelectQueryUit("SELECT Rol_type From accountrol WHERE Account_naam = '" + givenAccountnaam + "'");
+		
+		try {
+			while(myResultSet.next())
+			{
+				if(myResultSet.getString("Rol_type").equals(rol)){
+					connect.closeConnection();
+					return true;
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println("Error: " + e);
+		}
+		connect.closeConnection();
+		return false;
+	}
+	
 
 }

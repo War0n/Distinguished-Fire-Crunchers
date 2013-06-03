@@ -20,7 +20,7 @@ public class Account {
 	
 	public static boolean checkModerator()
 	{
-		if(checkRol("Moderator")){
+		if(checkRole("Moderator")){
 			return true;
 		}
 		else
@@ -31,7 +31,7 @@ public class Account {
 	
 	public static boolean checkAdmin()
 	{
-		if(checkRol("Administrator")){
+		if(checkRole("Administrator")){
 			return true;
 		}
 		else
@@ -42,7 +42,7 @@ public class Account {
 	
 	public static boolean checkPlayer()
 	{
-		if(checkRol("Player")){
+		if(checkRole("Player")){
 			return true;
 		}
 		else
@@ -53,7 +53,7 @@ public class Account {
 	
 	public static boolean checkObserver()
 	{
-		if(checkRol("Observer")){
+		if(checkRole("Observer")){
 			return true;
 		}
 		else
@@ -62,7 +62,7 @@ public class Account {
 		}
 	}
 	
-	public static boolean checkRol(String rol)
+	public static boolean checkRole(String rol)
 	{
 		Connectie connect = new Connectie();
 		ResultSet myResultSet;
