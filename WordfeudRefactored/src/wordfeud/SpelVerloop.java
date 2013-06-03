@@ -53,8 +53,8 @@ public class SpelVerloop implements Runnable {
 				int lastPt = -1;
 				for(Point pt : myList.get(i).keySet())
 				{
-					int curPt = pt.y * 15 + pt.x;
-					System.out.println("Point: " + pt.x + ", " + pt.y + " = " + myList.get(i).get(pt).getLetter());
+					int curPt = (pt.y * 15) + (pt.x);
+					System.out.println("Point: " + pt.x + ", " + pt.y + " = " + myList.get(i).get(pt).getLetter() + " CoordSom = " +curPt);
 					if(curPt > lastPt)
 						tmp += myList.get(i).get(pt).getLetter();
 					else
