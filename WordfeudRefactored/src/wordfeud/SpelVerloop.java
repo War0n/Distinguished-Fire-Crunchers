@@ -399,7 +399,6 @@ public class SpelVerloop implements Runnable {
 				spel.getSpelPanel().getSkipButton().setEnabled(false);
 				spel.getSpelPanel().getSwapButton().setEnabled(false);
 				spel.getSpelPanel().getClearButton().setEnabled(false);
-				winByPass(); //kijken of er 3x gepasst is
 			}
 			if (myTurn()) {
 				// zet alles op het bord waar nodig, update score moet nog
