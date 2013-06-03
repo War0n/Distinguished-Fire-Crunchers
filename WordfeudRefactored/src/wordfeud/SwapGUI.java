@@ -33,11 +33,13 @@ public class SwapGUI extends JFrame {
 	private JPanel cp;
 	private JPanel trashPanel;
 	private int swapTiles = 0;
+	private ArrayList<Stone> stenen;
 	private DropTarget trashDroptarget;
 	
 	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");
 
 	public SwapGUI(Spel spel) {
+		stenen = new ArrayList<Stone>();
 		this.letters = spel.getLetterBak();
 		this.curSpel = spel;
 		this.setTitle("Wissel letters in");
@@ -65,6 +67,7 @@ public class SwapGUI extends JFrame {
 			            {
 			            	if(an.getTile().getStone() != null)
 			            	{
+			            		stenen.add(an.getTile().getStone());
 			            		an.getTile().setStone(null);
 			            		an.repaint();
 			            		swapTiles += 1;
@@ -144,11 +147,13 @@ public class SwapGUI extends JFrame {
 
 	public void cancelFrame() 
 	{
+		lettersView.addLetters(stenen);
 		this.dispose();
 	}
 
 	public void commitAction() 
 	{
+		stenen.clear();
 		curSpel.getVerloop().doTurn("Swap", false);
 		curSpel.getSpelPanel().getLetterbakPanel().repaint();
 		
