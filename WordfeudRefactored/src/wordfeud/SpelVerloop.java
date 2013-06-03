@@ -211,6 +211,7 @@ public class SpelVerloop implements Runnable {
 				done = true;
 			}
 		}
+		
 		done = false;
 		while (!done) {
 			woordenLijst.get(index).put(
@@ -219,16 +220,16 @@ public class SpelVerloop implements Runnable {
 				if (!currentStone.equals(newStones[0])) {
 					if ((nextStone(spelBord.getCoordinat(currentStone),
 							'l') != null)
-							|| ((nextStone(
+							|| (nextStone(
 									spelBord.getCoordinat(currentStone),
-									'r') != null) && !currentStone.getLocked())) {
-						currentStone = (nextStone(
-								spelBord.getCoordinat(currentStone), 'l'));
+									'r') != null) && !currentStone.getLocked()) {
+						currentStone = nextStone(
+								spelBord.getCoordinat(currentStone), 'l');
 						boolean done2 = false;
 						while (!done2) {
-							if (!(nextStone(
+							if ((nextStone(
 									spelBord.getCoordinat(currentStone),
-									'l') == null)) {
+									'l') != null)) {
 								currentStone = nextStone(spelBord
 										.getCoordinat(currentStone), 'l');
 							} else {
@@ -236,8 +237,8 @@ public class SpelVerloop implements Runnable {
 							}
 							done2 = false;
 						}
-						woordenLijst
-								.addAll(new ArrayList<HashMap<Point, Stone>>());
+						woordenLijst.add(woordenLijst.size(),
+								new HashMap<Point, Stone>());
 						while (!done2) {
 							if ((nextStone(
 									spelBord.getCoordinat(currentStone),
@@ -260,16 +261,8 @@ public class SpelVerloop implements Runnable {
 			} else {
 				done = true;
 			}
-			done = false;
-			while (!done) {
-				if ((nextStone(spelBord.getCoordinat(currentStone), 'l') != null)) {
-					currentStone = nextStone(
-							spelBord.getCoordinat(currentStone), 'l');
-				} else {
-					done = true;
-				}
-			}
 		}
+		//Horizontaal woord kijken
 		done = false;
 		while (!done) {
 			woordenLijst.get(index).put(
