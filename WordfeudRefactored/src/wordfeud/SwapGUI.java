@@ -123,7 +123,7 @@ public class SwapGUI extends JFrame {
 
 	public void commitAction() 
 	{
-		curSpel.getVerloop().swapTurn();
+		curSpel.getVerloop().doTurn("Swap");
 		curSpel.getSpelPanel().getLetterbakPanel().repaint();
 		
 		cancelFrame();
