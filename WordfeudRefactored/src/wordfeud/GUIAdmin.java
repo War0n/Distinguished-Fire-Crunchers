@@ -184,6 +184,26 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		root.pack();
 	}
 
+	public ArrayList<String> getSelectedRoles(){
+		ArrayList<String> selectedRoles = new ArrayList<String>();
+		for(JCheckBox roleCheckBox : roleArray){
+			if(roleCheckBox.isSelected()){
+			selectedRoles.add(roleCheckBox.getText());
+			}
+		}
+		return selectedRoles;
+	}
+	
+	public ArrayList<String> getDeselectedRoles(){
+		ArrayList<String> deSelectedRoles = new ArrayList<String>();
+		for(JCheckBox roleCheckBox : roleArray){
+			if(!roleCheckBox.isSelected()){
+			deSelectedRoles.add(roleCheckBox.getText());
+			}
+		}
+		return deSelectedRoles;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource().equals(back)){
@@ -191,7 +211,7 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		}
 		else if(arg0.getSource().equals(updateButton)){
 			admin.chancePassword(usernameDataLabel.getText(), passwordField.getText());
-			admin.changeRoles(null);
+			admin.changeRoles(getSelectedRoles(), getDeselectedRoles(), usernameDataLabel.getText());
 			popup.dispose();
 			admin.getAccounts();
 		}
