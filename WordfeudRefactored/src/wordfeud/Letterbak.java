@@ -3,8 +3,8 @@
     package wordfeud;
      
     import java.sql.ResultSet;
-    import java.sql.SQLException;
-    import java.util.ArrayList;
+import java.sql.SQLException;
+import java.util.ArrayList;
      
     public class Letterbak
     {
@@ -40,7 +40,7 @@
                     }
                     con.closeConnection();
             }
-           
+          
             public ArrayList<Tile> getTiles()
             {
                     return stenen;
