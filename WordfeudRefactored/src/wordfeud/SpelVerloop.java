@@ -67,6 +67,7 @@ public class SpelVerloop implements Runnable {
 			if( !beurtType.equals("Win") )
 				myTurn = true;
 		}
+		winByPass(); //kijken of er 3x gepasst is
 		con.closeConnection();
 		return myTurn;
 	}
@@ -398,26 +399,7 @@ public class SpelVerloop implements Runnable {
 				spel.getSpelPanel().getSkipButton().setEnabled(false);
 				spel.getSpelPanel().getSwapButton().setEnabled(false);
 				spel.getSpelPanel().getClearButton().setEnabled(false);
-				myResultSet = connect2
-						.voerSelectQueryUit("SELECT Aktie_type FROM beurt WHERE Spel_ID = "
-								+ spel.getSpelId() + " ORDER BY ID DESC LIMIT 3"); // kijken
-																					// of
-																					// winnaar
-																					// is
-				try {
-					while (myResultSet.next()) {
-						if (myResultSet.getString("Aktie_type").equals("Pass")) {
-							gepasst++;
-						}
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (gepasst >= 3) {
-					spelOver = true;
-				}
-				gepasst = 0;
+				winByPass(); //kijken of er 3x gepasst is
 			}
 			if (myTurn()) {
 				// zet alles op het bord waar nodig, update score moet nog
@@ -546,5 +528,27 @@ public class SpelVerloop implements Runnable {
 		}
 		connect.closeConnection();
 		return false;
+	}
+	
+	public void winByPass(){
+		Connectie connect3 = new Connectie();
+		myResultSet = connect3
+				.voerSelectQueryUit("SELECT Aktie_type FROM beurt WHERE Spel_ID = "
+						+ spel.getSpelId() + " ORDER BY ID DESC LIMIT 3");
+		try {
+			while (myResultSet.next()) {
+				if (myResultSet.getString("Aktie_type").equals("Pass")) {
+					gepasst++;
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (gepasst >= 3) {
+			spelOver = true;
+		}
+		gepasst = 0;
+		connect3.closeConnection();
 	}
 }
