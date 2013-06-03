@@ -102,10 +102,23 @@ public class SpelVerloop implements Runnable {
 			if( numWoorden == woordenGevonden.size())
 			{
 				doTurn("Word", true);
+				pushLettersNaarDatabase();
 				spel.getBord().lockField();
 			}
 		}
 		//spel.getVerloop().doTurn("Word");
+	}
+	
+	public void pushLettersNaarDatabase()
+	{
+		Connectie con = new Connectie();
+		HashMap<Point, Stone> tiles = spelBord.getNewTiles();
+		for(Point pt : tiles.keySet())
+		{
+			System.out.println("LetterID "+tiles.get(pt).getLetterId()+"\nSpel ID: " + spel.getSpelId() + "\nX: " + pt.x + "\nY: " + pt.y + "\nBord naam: " + spelBord.getName() + "\nBlanco:" + (tiles.get(pt).isBlancoLetter() ? "Ja, " + tiles.get(pt).getBlancoLetter() + "\n" : "Nee. NULL\n") );
+			con.doInsertUpdate("INSERT INTO gelegdeletter (Letter_ID, Spel_ID, Beurt_ID, Tegel_X, Tegel_Y, Tegel_Bord_naam, BlancoLetterKarakter) VALUES (%1$d, %2$d, (SELECT MAX(ID) FROM beurt WHERE Spel_ID = %2$d), %3$d, %4$d, '%5$s', %6$s)", tiles.get(pt).getLetterId(), spel.getSpelId(), pt.x, pt.y, spelBord.getName(), tiles.get(pt).isBlancoLetter() ? tiles.get(pt).getBlancoLetter() : "NULL" );
+		}
+		con.closeConnection();
 	}
 
 	@SuppressWarnings("static-access")

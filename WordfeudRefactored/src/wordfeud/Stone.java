@@ -47,6 +47,10 @@ public class Stone
 		this.letterId = letterId;
 	}
 	
+	public boolean isBlancoLetter()
+	{
+		return letter == '?'; 
+	}
 	
 	public void setLetter(char letter)
 	{

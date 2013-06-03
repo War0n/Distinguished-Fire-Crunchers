@@ -13,7 +13,7 @@ public class Spel {
 	public Spel(SpelPanel panel, int clickedSpelID) {
 		letterSet = new LetterSet("NL"); // Nederlands? :)
 		spelID = clickedSpelID;//new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
-		bord = new Bord(this, "placeHolderName");
+		bord = new Bord(this, "Standard");
 		verloop = new SpelVerloop(this);
 		spelPanel = panel;
 		letterbak = new Letterbak(this);
@@ -22,7 +22,7 @@ public class Spel {
 	public Spel(int clickedSpelID) {
 		letterSet = new LetterSet("NL"); // Nederlands? :)
 		spelID = clickedSpelID;
-		bord = new Bord(this, "placeHolderName");
+		bord = new Bord(this, "Standard");
 		spelPanel = new SpelPanel(clickedSpelID);
 		verloop = new SpelVerloop(this);
 		letterbak = new Letterbak(this);

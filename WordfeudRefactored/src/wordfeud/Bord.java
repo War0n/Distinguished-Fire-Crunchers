@@ -65,6 +65,7 @@ public class Bord {
 				x++;
 			}
 		}
+		plaatsLetters();
 	}
 
 	public void plaatsLetters() {
@@ -127,12 +128,11 @@ public class Bord {
 	}
 	public HashMap<Point, Stone> getNewTiles(){
 		HashMap<Point ,Stone> newTiles = new HashMap<Point, Stone>();
-		Point p = new Point();
 		for (int y = 0; y < 15; y++) {
 			for (int x = 0; x < 15; x++) {
 				if (tiles[x][y].getStone() != null) {
 					if (!tiles[x][y].getStone().getLocked()) {
-						p.setLocation(x, y);
+						Point p = new Point(x, y);
 						newTiles.put(p ,tiles[x][y].getStone());
 					}
 				}
