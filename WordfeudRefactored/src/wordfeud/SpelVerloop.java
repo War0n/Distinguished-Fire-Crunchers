@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class SpelVerloop implements Runnable {
 	private Spel spel;
 	private ArrayList<HashMap<Point, Stone>> woordenLijst;
@@ -428,6 +431,44 @@ public class SpelVerloop implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		if(spelOver){
+			int myScore = 0;
+			int opScore = 0;
+			JFrame popup = null;
+			String firstAccount;
+			connect2.voerInsertOrUpdateQueryUit("UPDATE spel SET Toestand_type = Finished WHERE ID = " + spel.getSpelId() + ";");
+			myResultSet = connect2.voerSelectQueryUit("SELECT SUM(score) FROM beurt WHERE Account_naam = '" + Account.getAccountNaam() + "' AND Spel_ID = " + spel.getSpelId() + ";");
+			try{
+				if(myResultSet.next()){
+					myScore = myResultSet.getInt(1);
+				}
+			}catch(SQLException e) {}
+			myResultSet = connect2.voerSelectQueryUit("SELECT SUM(score) FROM beurt WHERE NOT Account_naam = '" + Account.getAccountNaam() + "' AND Spel_ID = " + spel.getSpelId() + ";");
+			try{
+				if(myResultSet.next()){
+					opScore = myResultSet.getInt(1);
+				}
+			}catch(SQLException e) {}
+			if(myScore > opScore){
+				JOptionPane.showMessageDialog(popup,
+					"Je hebt gewonnen met een score van " + myScore + " tegen " + opScore + "!", "Gewonnen",
+					JOptionPane.WARNING_MESSAGE);
+				popup = null;
+			}
+			if(myScore < opScore){
+				JOptionPane.showMessageDialog(popup,
+					"Je hebt verloren met een score van " + myScore + " tegen " + opScore + ".", "Verloren",
+					JOptionPane.WARNING_MESSAGE);
+				popup = null;
+			}
+			else{
+				JOptionPane.showMessageDialog(popup,
+					"Je hebt gelijk gespeeld met beide een score van " + myScore + ".", "Gelijkspel",
+					JOptionPane.WARNING_MESSAGE);
+				popup = null;
+			}
+		}
+
 		connect2.closeConnection();
 	}
 
