@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Bord {
 	private String name;
@@ -142,14 +143,15 @@ public class Bord {
 		}
 		return null;
 	}
-
-	public ArrayList<Tile> getNewTiles() {
-		ArrayList<Tile> newTiles = new ArrayList<Tile>();
+	public HashMap<Point, Stone> getNewTiles(){
+		HashMap<Point ,Stone> newTiles = new HashMap<Point, Stone>();
+		Point p = new Point();
 		for (int y = 0; y < 15; y++) {
 			for (int x = 0; x < 15; x++) {
 				if (tiles[x][y].getStone() != null) {
 					if (!tiles[x][y].getStone().getLocked()) {
-						 newTiles.add(tiles[x][y]);
+						p.setLocation(x, y);
+						newTiles.put(p ,tiles[x][y].getStone());
 					}
 				}
 			}
