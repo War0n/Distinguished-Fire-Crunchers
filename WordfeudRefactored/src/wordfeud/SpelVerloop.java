@@ -327,6 +327,7 @@ public class SpelVerloop implements Runnable {
 			for (Stone stone : woordArray) {
 				for (Stone newStone : newStones) {
 					if (newStone.equals(stone)) {
+						count++;
 					}
 				}
 			}
@@ -339,7 +340,7 @@ public class SpelVerloop implements Runnable {
 		// Kijk of er woorden in een hoek zijn gelegd
 		boolean xGelijk = false;
 		boolean yGelijk = false;
-		Point[] points = (Point[]) spelBord.getNewTiles().keySet().toArray();
+		Point[] points = spelBord.getNewTiles().keySet().toArray(new Point[spelBord.getNewTiles().size()]);
 		for(int teller = 0; teller < points.length -1 ; teller++ ){
 			if(points[index].x != points[index+1].x){
 				break;
@@ -370,18 +371,14 @@ public class SpelVerloop implements Runnable {
 				if (stone.getLocked()) {
 					check = true;
 				} else {
-					if (spelBord
-							.getTile(spelBord.getCoordinat(stone))
-							.getType().equals("TYPE_START")) {
+					if (!spelBord.getTile(spelBord.getCoordinat(stone)).getType().equals("TYPE_START")) {
 						start = true;
 					}
 				}
 			}
 		}
 		if (!check) {
-			if (start) {
-				return woordenLijst;
-			} else {
+			if (!start) {
 				//TestSYSO
 				System.out.println("startNULL");
 				return null;
