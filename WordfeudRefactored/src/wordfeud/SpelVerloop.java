@@ -459,7 +459,7 @@ public class SpelVerloop implements Runnable {
 			int opScore = 0;
 			JFrame popup = null;
 			String firstAccount;
-			connect2.voerInsertOrUpdateQueryUit("UPDATE spel SET Toestand_type = Finished WHERE ID = " + spel.getSpelId() + ";");
+			connect2.voerInsertOrUpdateQueryUit("UPDATE spel SET Toestand_type = 'Finished' WHERE ID = " + spel.getSpelId() + ";");
 			myResultSet = connect2.voerSelectQueryUit("SELECT SUM(score) FROM beurt WHERE Account_naam = '" + Account.getAccountNaam() + "' AND Spel_ID = " + spel.getSpelId() + ";");
 			try{
 				if(myResultSet.next()){
