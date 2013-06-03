@@ -51,24 +51,26 @@ public class SpelVerloop implements Runnable {
 		Connectie con = new Connectie();
 		ResultSet rs;
 		String accountNaam = "";
-		int beurt = 0;
-		rs = con.doSelect("SELECT Account_naam, ID FROM beurt WHERE Spel_ID = "
+		String beurtType = "";
+		rs = con.doSelect("SELECT Account_naam, ID, Type FROM beurt WHERE Spel_ID = "
 				+ spel.getSpelId() + " ORDER BY ID DESC LIMIT 1");
 		try {
 			if (rs.next()) {
 				accountNaam = rs.getString("Account_naam");
-				beurt = rs.getInt("ID");
+				beurtType = rs.getString("Type");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (!account.getAccountNaam().equals(accountNaam)) {
-			myTurn = true;
+		if (!account.getAccountNaam().equals(accountNaam)) 
+		{
+			if( !beurtType.equals("Win") )
+				myTurn = true;
 		}
 		con.closeConnection();
 		return myTurn;
 	}
-
+	
 	public void doTurn(String moveType) {
 		if (!myTurn()) {
 			return;
