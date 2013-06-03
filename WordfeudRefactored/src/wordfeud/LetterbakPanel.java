@@ -112,7 +112,6 @@ public class LetterbakPanel extends JPanel
 		                an.validate();
 		                an.repaint();
 		                event.dropComplete(true);
-		                if(letterbak.getTiles().size() == 7 && )
 		                this.tile.validate();
 		                this.tile.repaint();
 	            	}
