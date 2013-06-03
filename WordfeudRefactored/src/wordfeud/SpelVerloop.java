@@ -42,7 +42,7 @@ public class SpelVerloop implements Runnable {
 
 	public void play() {
 		vindWoord();
-		pakLetters();
+		spel.getVerloop().doTurn("Word");
 	}
 
 	@SuppressWarnings("static-access")
@@ -69,7 +69,7 @@ public class SpelVerloop implements Runnable {
 		return myTurn;
 	}
 
-	public void skipTurn() {
+	public void doTurn(String moveType) {
 		if (!myTurn()) {
 			return;
 		}
@@ -83,31 +83,8 @@ public class SpelVerloop implements Runnable {
 				con.doInsertUpdate(
 						"INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES ('%1$d', '%2$d', '%3$s', '%4$d', '%5$s')",
 						ID + 1, spel.getSpelId(), Account.getAccountNaam(), 0,
-						"Pass"); // moet aangepast worden aan nieuwe versie met
+						moveType); // moet aangepast worden aan nieuwe versie met
 									// puntenteller ipv 0
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		con.closeConnection();
-		pakLetters();
-	}
-	
-	public void swapTurn() {
-		if (!myTurn()) {
-			return;
-		}
-		Connectie con = new Connectie();
-		ResultSet rs;
-		try {
-			rs = con.voerSelectQueryUit("SELECT MAX(ID) FROM beurt WHERE Spel_ID = "
-					+ spel.getSpelId());
-			if (rs.next()) {
-				int ID = rs.getInt(1);
-				con.doInsertUpdate(
-						"INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES ('%1$d', '%2$d', '%3$s', '%4$d', '%5$s')",
-						ID + 1, spel.getSpelId(), Account.getAccountNaam(), 0,
-						"Swap");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -421,7 +398,7 @@ public class SpelVerloop implements Runnable {
 				spel.getSpelPanel().getClearButton().setEnabled(false);
 				myResultSet = connect2
 						.voerSelectQueryUit("SELECT Aktie_type FROM beurt WHERE Spel_ID = "
-								+ spel.getSpelId() + " ORDER BY ID ASC LIMIT 3"); // kijken
+								+ spel.getSpelId() + " ORDER BY ID DESC LIMIT 3"); // kijken
 																					// of
 																					// winnaar
 																					// is
@@ -458,8 +435,7 @@ public class SpelVerloop implements Runnable {
 			int myScore = 0;
 			int opScore = 0;
 			JFrame popup = null;
-			String firstAccount;
-			connect2.voerInsertOrUpdateQueryUit("UPDATE spel SET Toestand_type = Finished WHERE ID = " + spel.getSpelId() + ";");
+			connect2.voerInsertOrUpdateQueryUit("UPDATE spel SET Toestand_type = 'Finished' WHERE ID = " + spel.getSpelId() + ";");
 			myResultSet = connect2.voerSelectQueryUit("SELECT SUM(score) FROM beurt WHERE Account_naam = '" + Account.getAccountNaam() + "' AND Spel_ID = " + spel.getSpelId() + ";");
 			try{
 				if(myResultSet.next()){
