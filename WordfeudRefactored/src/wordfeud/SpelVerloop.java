@@ -169,7 +169,6 @@ public class SpelVerloop implements Runnable {
 		}
 		return score;
 	}
-
 	private ArrayList<HashMap<Point, Stone>> vindWoord() {
 		/*
 		 * De methode returnd een ArrayList met daarin alle woorden die deze
@@ -186,7 +185,7 @@ public class SpelVerloop implements Runnable {
 		 * Geeft: Woordenlijst[0]: 2.3 , E 3.3 , e 3.4 , N 3.5 , D
 		 * Woordenlijst[1]: 5.3 , D 5.4 , o 5.5 , m
 		 */
-		Stone[] newStones = (Stone[]) spelBord.getNewTiles().values().toArray(new Stone[spelBord.getNewTiles().values().size()]);
+		Stone[] newStones = spelBord.getNewTiles().values().toArray(new Stone[spelBord.getNewTiles().size()]);
 		Stone currentStone = null;
 		woordenLijst = new ArrayList<HashMap<Point, Stone>>();
 		woordenLijst.add(new HashMap<Point, Stone>());
@@ -196,6 +195,8 @@ public class SpelVerloop implements Runnable {
 		// Is er wel gelegd?
 		if (newStones.length == 0) {
 			// Er is niet gelegd
+			//TestSYSO
+			System.out.println("nietGelegdNULL");
 			return null;
 		} else {
 			currentStone = newStones[0];
@@ -322,22 +323,23 @@ public class SpelVerloop implements Runnable {
 		// controleer of er geen gaten zijn.
 		int count = 0;
 		for (HashMap<Point, Stone> woord : woordenLijst) {
-			Stone[] woordArray = (Stone[]) woord.values().toArray(new Stone[woord.values().size()]);
+			Stone[] woordArray = woord.values().toArray(new Stone[spelBord.getNewTiles().size()]);
 			for (Stone stone : woordArray) {
 				for (Stone newStone : newStones) {
 					if (newStone.equals(stone)) {
-						count++;
 					}
 				}
 			}
 		}
 		if (count != newStones.length) {
+			//TestSYSO
+			System.out.println("gatNULL");
 			return null;
 		}
 		// Kijk of er woorden in een hoek zijn gelegd
 		boolean xGelijk = false;
 		boolean yGelijk = false;
-		Point[] points = (Point[]) spelBord.getNewTiles().keySet().toArray(new Point[spelBord.getNewTiles().keySet().size()]);
+		Point[] points = (Point[]) spelBord.getNewTiles().keySet().toArray();
 		for(int teller = 0; teller < points.length -1 ; teller++ ){
 			if(points[index].x != points[index+1].x){
 				break;
@@ -355,20 +357,22 @@ public class SpelVerloop implements Runnable {
 			}
 		}
 		if(!xGelijk && !yGelijk){
+			//TestSYSO
+			System.out.println("hoekNULL");
 			return null;
 		}
 		// Is dit het eerste woord? En zoja ligt het op het startvak?
 		boolean check = false;
 		boolean start = false;
 		for (HashMap<Point, Stone> woord : woordenLijst) {
-			Stone[] woordArray = (Stone[]) woord.values().toArray(new Stone[woord.values().size()]);
+			Stone[] woordArray = woord.values().toArray(new Stone[spelBord.getNewTiles().size()]);
 			for (Stone stone : woordArray) {
 				if (stone.getLocked()) {
 					check = true;
 				} else {
 					if (spelBord
 							.getTile(spelBord.getCoordinat(stone))
-							.getType() == TileType.TYPE_START) {
+							.getType().equals("TYPE_START")) {
 						start = true;
 					}
 				}
@@ -378,12 +382,22 @@ public class SpelVerloop implements Runnable {
 			if (start) {
 				return woordenLijst;
 			} else {
+				//TestSYSO
+				System.out.println("startNULL");
 				return null;
 			}
 		}
+		//TESTLUS
+		for(HashMap<Point, Stone> woord : woordenLijst){
+			Stone[] woordArray = woord.values().toArray(new Stone[spelBord.getNewTiles().size()]);			
+			for(Stone stone : woordArray){
+				System.out.print(stone.getLetter() + " ");
+			}
+			System.out.print("\n");
+		}
 		return woordenLijst;
 	}
-
+	
 	private Stone nextStone(Point position, char direction) {
 		int x = (int) position.getX();
 		int y = (int) position.getY();
