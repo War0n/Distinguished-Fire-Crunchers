@@ -491,7 +491,6 @@ public class SpelVerloop implements Runnable {
 				popup = null;
 			}
 		}
-
 		connect2.closeConnection();
 	}
 
