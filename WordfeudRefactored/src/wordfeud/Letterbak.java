@@ -51,6 +51,27 @@ import java.util.ArrayList;
                     return stenen.get(i);
             }
            
+            public int getTilesLeftInPot()
+        	{
+        		int numTiles = 0;
+        		Connectie con = new Connectie();
+        		try
+        		{
+        			ResultSet rs = con.voerSelectQueryUit("SELECT COUNT(*) FROM pot");
+        		
+        			if(rs.next())
+        			{
+        				numTiles = rs.getInt(1);
+        			}
+        		} 
+        		catch (SQLException e) 
+        		{
+        			e.printStackTrace();
+        		}
+        		con.closeConnection();
+        		return numTiles;
+        	}
+            
             public int getNumberOfStones()
             {
                     int numStones = 0;
