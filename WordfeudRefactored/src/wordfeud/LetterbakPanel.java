@@ -125,6 +125,7 @@ public class LetterbakPanel extends JPanel
 			                an.validate();
 			                an.repaint();
 			                event.dropComplete(true);
+			                letterbak.lockButtons();
 			                this.tile.validate();
 			                this.tile.repaint();
 	            		}

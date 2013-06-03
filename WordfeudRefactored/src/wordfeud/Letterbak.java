@@ -85,6 +85,17 @@ import java.util.ArrayList;
                     return numStones;
             }
            
-            //public void
+            public void lockButtons(){
+            	//locked buttons als er nog tiles op het bord liggen die niet zijn gespeeld
+            	if(getNumberOfStones() <7 && getTilesLeftInPot() > 7){
+            		curSpel.getSpelPanel().getSwapButton().setEnabled(false);
+            		curSpel.getSpelPanel().getSkipButton().setEnabled(false);
+            		curSpel.getSpelPanel().getPlayButton().setEnabled(true);
+            	} else{
+            		curSpel.getSpelPanel().getSwapButton().setEnabled(true);
+            		curSpel.getSpelPanel().getSkipButton().setEnabled(true);
+            		curSpel.getSpelPanel().getPlayButton().setEnabled(false);
+            	}
+            }
     }
 

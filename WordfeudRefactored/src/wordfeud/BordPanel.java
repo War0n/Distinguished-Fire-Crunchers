@@ -138,8 +138,7 @@ public class BordPanel extends JPanel
 		                an.validate();
 		                an.repaint();
 		                event.dropComplete(true);
-		                speelVeld.getSpel().getSpelPanel().getSwapButton().setEnabled(false);
-		                speelVeld.getSpel().getSpelPanel().getSkipButton().setEnabled(false);		                
+		                speelVeld.getSpel().getLetterBak().lockButtons();
 		                this.tile.validate();
 		                this.tile.repaint();
 	            	}
