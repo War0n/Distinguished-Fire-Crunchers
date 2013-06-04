@@ -91,7 +91,7 @@ public class CompetitiesMenu extends JPanel  implements MouseListener, ActionLis
 		int idCompetitie = 0;
 		String eigenaar = null;
 		
-		//Haal alle competities op uit de db
+		//Haal alle competities op uit de database
 		rs = connect.voerSelectQueryUit("select * from Competitie");
 		try {
 			while(rs.next())
