@@ -7,12 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Formatter;
+
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -21,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 public class Changepassword extends JFrame {
 
@@ -31,7 +25,6 @@ public class Changepassword extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPasswordField passwordField;
 	private JPasswordField registerControle;
-	private JPanel content;
 	private JPanel changepwPanel;
 	private JPanel buttonpanel;
 	private JLabel passLabel;
@@ -45,7 +38,7 @@ public class Changepassword extends JFrame {
 		setBackground(new Color(23, 26, 30));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		activeFrame = this;
-		activeFrame.setMinimumSize(new Dimension(200, 200));
+		activeFrame.setMinimumSize(new Dimension(200, 100));
 		activeFrame.setResizable(false);
 		activeFrame.setLocationRelativeTo(null);
 		changepwPanel = (JPanel) activeFrame.getContentPane();
@@ -58,23 +51,22 @@ public class Changepassword extends JFrame {
 		buttonpanel.setLayout(new FlowLayout());
 		buttonpanel.setBackground(new Color(23, 26, 30));
 
-
-
-		changepwbutton = new WFButton("Register");
+		changepwbutton = new WFButton("Verander!");
 
 		passwordField = new JPasswordField();
+		passwordField.setAlignmentX(CENTER_ALIGNMENT);
 		passLabel = new JLabel("Nieuw wachtwoord:");
 		passLabel.setForeground(Color.white);
-		passLabel.setAlignmentX(RIGHT_ALIGNMENT);
+		passLabel.setAlignmentX(CENTER_ALIGNMENT);
 		passwordField.setMaximumSize(new Dimension(150, 20));
 		registerControle = new JPasswordField();
-		registerControle.setVisible(false);
-		registercontroleLabel = new JLabel("Nieuwe wachtwoord herhalen herhalen:");
+		registerControle.setVisible(true);
+		registerControle.setAlignmentX(CENTER_ALIGNMENT);
+		registercontroleLabel = new JLabel("Nieuwe wachtwoord herhalen:");
 		registercontroleLabel.setForeground(Color.white);
 		registercontroleLabel.setAlignmentX(CENTER_ALIGNMENT);
-		registercontroleLabel.setVisible(false);
+		registercontroleLabel.setVisible(true);
 		registerControle.setMaximumSize(new Dimension(150, 20));
-
 
 		changepwPanel.add(passLabel);
 		changepwPanel.add(Box.createVerticalStrut(2));
@@ -103,22 +95,19 @@ public class Changepassword extends JFrame {
 				System.out.println("1");
 				if (controlePassword.equals(password2)) {
 					Connectie connect = new Connectie();
-						String password = new String(passwordField.getPassword());
-							System.out.println("nars.getint");
-							connect.voerInsertOrUpdateQueryUit("UPDATE account SET wachtwoord = '"+password2+"' WHERE naam = '" + Account.getAccountNaam()+"'");
-							
-							connect.closeConnection();
-							JOptionPane
-									.showMessageDialog(
-											popup,
-											"Het wachtwoord is veranderd!",
-											"Voltooid",
-											JOptionPane.PLAIN_MESSAGE);
-							popup = null;
-							activeFrame.dispose();
-				} else if (registerControle.isVisible() == false) {
-					registerControle.setVisible(true);
-					registercontroleLabel.setVisible(true);
+					String password = new String(passwordField.getPassword());
+					System.out.println("nars.getint");
+					connect.voerInsertOrUpdateQueryUit("UPDATE account SET wachtwoord = '"
+							+ password
+							+ "' WHERE naam = '"
+							+ Account.getAccountNaam() + "'");
+
+					connect.closeConnection();
+					JOptionPane.showMessageDialog(popup,
+							"Het wachtwoord is veranderd!", "Voltooid",
+							JOptionPane.PLAIN_MESSAGE);
+					popup = null;
+					activeFrame.dispose();
 
 				} else if (!controlePassword.equals(password2)) {
 					JOptionPane.showMessageDialog(popup,
