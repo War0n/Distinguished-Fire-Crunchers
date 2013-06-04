@@ -445,18 +445,30 @@ public class SpelVerloop implements Runnable {
 
 		switch (direction) {
 		case 'u': {
+			if(y == 0){
+				return null;
+			}
 			p = new Point(x, y - 1);
 			break;
 		}
 		case 'r': {
+			if(x == 14){
+				return null;
+			}
 			p = new Point(x + 1, y);
 			break;
 		}
 		case 'd': {
+			if(y == 14){
+				return null;
+			}
 			p = new Point(x, y + 1);
 			break;
 		}
 		case 'l': {
+			if(x == 0){
+				return null;
+			}
 			p = new Point(x - 1, y);
 			break;
 		}
