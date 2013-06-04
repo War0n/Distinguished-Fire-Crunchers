@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -158,6 +159,7 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 	}
 
 	public void addUitdaging() {
+		
 		inviteButton.setVisible(false);
 		this.remove(scrollPane);
 
@@ -214,7 +216,8 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		String reaktie = "Unknown";
 		String letterset = "NL";
 		String bord = "Standard";
-		
+		final ImageIcon icon = new ImageIcon(
+				"src/images/conf.jpg");
 		
 		
 		String q = "INSERT INTO Spel (Competitie_ID, Toestand_type, Account_naam_uitdager, Account_naam_tegenstander, moment_uitdaging, Reaktie_type, moment_reaktie, Bord_naam, LetterSet_naam) VALUES("
@@ -307,7 +310,8 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		repaint();
 		JOptionPane.showMessageDialog(popup,
 				"Je hebt " + naam2 +" uitgedaagd!", "Uitdaging.",
-				JOptionPane.WARNING_MESSAGE);
+				JOptionPane.INFORMATION_MESSAGE,
+				icon);
 		popup = null;
 	}
 
