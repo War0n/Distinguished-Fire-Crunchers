@@ -174,8 +174,6 @@ public class SpelVerloop implements Runnable {
 
 	private Integer puntenTeller() {
 		int score = 0;
-		boolean doubleword = false;
-		boolean tripleword = false;
 		for (HashMap<Point, Stone> woordTiles : woordenLijst) { // nullpointer
 			int woordScore = 0;
 			String woord = "";
@@ -188,21 +186,23 @@ public class SpelVerloop implements Runnable {
 				int stonevalue = curStone.getValue(spel.getLetterSet());
 				Tile curTile = spelBord.getTile(xyPos);
 
-				switch (curTile.getTileType()) {
-				case TYPE_DL:
-					stonevalue = stonevalue * 2;
-					break;
-				case TYPE_TL:
-					stonevalue = stonevalue * 3;
-					break;
-				case TYPE_DW:
-					DW = true;
-					break;
-				case TYPE_TW:
-					TW = true;
-					break;
-				default:
-					break;
+				if(!curTile.getStone().getLocked()){
+					switch (curTile.getTileType()) {
+					case TYPE_DL:
+						stonevalue = stonevalue * 2;
+						break;
+					case TYPE_TL:
+						stonevalue = stonevalue * 3;
+						break;
+					case TYPE_DW:
+						DW = true;
+						break;
+					case TYPE_TW:
+						TW = true;
+						break;
+					default:
+						break;
+					}
 				}
 				woordScore = woordScore + stonevalue;
 				woord = woord + stoneChar;
