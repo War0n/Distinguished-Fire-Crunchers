@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -35,7 +36,7 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 
 	private JPanel challengePlayer;
 	private JTextField playerName;
-	private JTextField selectedCompetition;
+	private JComboBox<String> selectedCompetition;
 	private WFButton challengeButton;
 	private WFButton challengeCancelButton;
 
@@ -169,7 +170,7 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		challengeCancelButton = new WFButton("Annuleren");
 		challengeCancelButton.addActionListener(this);
 		playerName = new JTextField();
-		selectedCompetition = new JTextField();
+		selectedCompetition = new JComboBox<String>();
 		playerName.setMaximumSize(new Dimension(200, 20));
 		selectedCompetition.setMaximumSize(new Dimension(200, 20));
 
@@ -204,7 +205,7 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 
 	public void extendUitdaging() {
 		String naam = Account.getAccountNaam();
-		String compID = selectedCompetition.getText();
+		int compID = selectedCompetition.getSelectedIndex();
 		String naam2 = playerName.getText();
 		String toestand = "Request";
 		String reaktie = "Unknown";
@@ -213,9 +214,9 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		
 		
 		
-		String q = "INSERT INTO Spel (Competitie_ID, Toestand_type, Account_naam_uitdager, Account_naam_tegenstander, moment_uitdaging, Reaktie_type, moment_reaktie, Bord_naam, LetterSet_naam) VALUES('"
+		String q = "INSERT INTO Spel (Competitie_ID, Toestand_type, Account_naam_uitdager, Account_naam_tegenstander, moment_uitdaging, Reaktie_type, moment_reaktie, Bord_naam, LetterSet_naam) VALUES("
 				+ compID
-				+ "','"
+				+ ",'"
 				+ toestand
 				+ "','"
 				+ naam
@@ -389,6 +390,19 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 			declineUitdaging(a);
 		}
 
+	}
+	
+	public void addExistingCompetitions(){
+		connect = new Connectie();
+		ResultSet competitieRS = connect.voerSelectQueryUit("SELECT ID,omschrijving");
+		try {
+			while(competitieRS.next()){
+				selectedCompetition.insertItemAt(competitieRS.getString("omschrijving"), competitieRS.getInt("ID"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void setParentContentPane(JPanel contentPane) {
