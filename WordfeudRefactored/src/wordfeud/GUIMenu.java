@@ -37,6 +37,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 	private WFButton uitnodigingButton;
 	private WFButton adminButton;
 	private WFButton modButton;
+	private WFButton logoutButton;
 	private WFButton stopButton;
 	private ArrayList<WFButton> myButtons;
 	private GridLayout myGridLayout;
@@ -74,6 +75,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		uitnodigingButton = new WFButton("Uitnodigingen bekijken");
 		observerButton = new WFButton("Observeren");
 		wachtwoordWijzigen = new WFButton("Wachtwoord wijzigen");
+		logoutButton = new WFButton("Log Uit");
 		stopButton = new WFButton("Spel Stoppen");
 		adminButton = new WFButton("Administrator scherm bekijken");
 		modButton = new WFButton("Moderator scherm bekijken");
@@ -87,6 +89,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		myButtons.add(adminButton);
 		myButtons.add(modButton);
 		myButtons.add(wachtwoordWijzigen);
+		myButtons.add(logoutButton);
 		myButtons.add(stopButton);
 
 		for(int i = 0; i < myButtons.size(); i++)
@@ -153,6 +156,9 @@ public class GUIMenu extends JPanel implements ActionListener{
 		}
 		if(arg0.getSource().equals(uitnodigingButton)){
 			setParentContentPane(new UitdagingMenu());
+		}
+		if(arg0.getSource().equals(logoutButton)){
+			setParentContentPane(new LoginScreen());
 		}
 		if(arg0.getSource().equals(stopButton)){
 			System.exit(0);

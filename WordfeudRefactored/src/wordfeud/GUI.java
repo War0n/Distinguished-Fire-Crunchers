@@ -1,5 +1,7 @@
 package wordfeud;
 
+import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -17,7 +19,8 @@ public class GUI extends JFrame {
 	
 	public GUI()
 	{
-		loginScreen = new LoginScreen(this);
+		this.setMinimumSize(new Dimension(200,200));
+		loginScreen = new LoginScreen();
 		setCompetitieView(new CompetitiesMenu(true));
 		image = new ImageIcon("src/images/wordfeud.png");
 		setIconImage(image.getImage());
