@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class LoginScreen extends JPanel {
 
@@ -40,16 +41,12 @@ public class LoginScreen extends JPanel {
 	private JLabel registercontroleLabel;
 	private WFButton loginButton;
 	private WFButton registerButton;
-	private JFrame activeFrame;
 	private String curUser;
 	JFrame popup = null;
 
-	public LoginScreen(JFrame frame) {
+	public LoginScreen() {
 		setBackground(new Color(23, 26, 30));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		activeFrame = frame;
-		activeFrame.setMinimumSize(new Dimension(200, 200));
-
 		loginpanel = new JPanel();
 		loginpanel.setLayout(new BoxLayout(loginpanel, BoxLayout.Y_AXIS));
 		loginpanel.setBackground(new Color(23, 26, 30));
@@ -102,23 +99,22 @@ public class LoginScreen extends JPanel {
 		loginpanel.add(buttonpanel);
 		content.add(loginpanel);
 		add(content);
-		activeFrame.pack();
 		usernameField.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				passwordField.requestFocus();
 			}
 		});
-		
+
 		passwordField.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				loginButton.doClick();
 			}
 		});
-		
+
 		registerButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -154,7 +150,7 @@ public class LoginScreen extends JPanel {
 								connect.voerInsertOrUpdateQueryUit("INSERT INTO `accountrol` (`Account_naam`, `Rol_type`) VALUES ('"
 										+ usernameField.getText()
 										+ "', 'Player');");
-								
+
 								connect.voerInsertOrUpdateQueryUit("INSERT INTO `accountrol` (`Account_naam`, `Rol_type`) VALUES ('"
 										+ usernameField.getText()
 										+ "', 'Observer');");
@@ -221,9 +217,7 @@ public class LoginScreen extends JPanel {
 							Account.setAccountNaam(curUser);
 							// menuView = new GUIMenu();
 							new GUIMenu();
-							activeFrame.setContentPane(new GUIMenu());
-							activeFrame.pack();
-							activeFrame.setLocationRelativeTo(null);
+							setParentContentPane(new GUIMenu());
 						} else {
 							JOptionPane.showMessageDialog(popup,
 									"Onjuiste inlognaam of wachtwoord",
@@ -241,4 +235,10 @@ public class LoginScreen extends JPanel {
 
 	}
 
+	public void setParentContentPane(JPanel contentPane) {
+		JFrame root = (JFrame) SwingUtilities.getWindowAncestor(this);
+		root.setContentPane(contentPane);
+		root.pack();
+		root.setLocationRelativeTo(null);
+	}
 }
