@@ -305,7 +305,7 @@ public class SpelVerloop implements Runnable {
 	private HashMap<Point, Stone> vindWoord(Point p, boolean horizontaal) 
 	{
 		HashMap<Point, Stone> myWord = new HashMap<Point, Stone>();
-		Point tmp = p;
+		Point tmp = new Point(p.x, p.y);
 		if(horizontaal)
 		{
 			boolean hasTwoOrMore = false;
