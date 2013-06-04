@@ -257,7 +257,6 @@ public class SpelVerloop implements Runnable {
 		}
 		// Woorden zoeken
 		// Scroll naarboven vanaf de meest linksboven nieuwe letter
-		System.out.println(currentStone.getLetter());
 		while (!done) {
 			if ((nextStone(spelBord.getCoordinat(currentStone), 'u') != null)) {
 				currentStone = nextStone(
@@ -276,22 +275,14 @@ public class SpelVerloop implements Runnable {
 				done = true;
 			}
 		}
-		//TestSyso
-		System.out.println(currentStone.getLetter());
+		done = false;
 		//Verticaal woord kijken
 		done = false;
-		while(!done){
-			if(!currentStone.getLocked()){
-				
-			}
-		}
 		while (!done) {
-			woordenLijst.get(index).put(
-					spelBord.getCoordinat(currentStone), currentStone);
+			woordenLijst.get(index).put(spelBord.getCoordinat(currentStone), currentStone);
 			if ((nextStone(spelBord.getCoordinat(currentStone), 'd') != null)) {
 				if (!currentStone.equals(newStones[0])) {
-					if ((nextStone(spelBord.getCoordinat(currentStone),
-							'l') != null)
+					if ((nextStone(spelBord.getCoordinat(currentStone), 'l') != null)  && !currentStone.getLocked()
 							|| (nextStone(
 									spelBord.getCoordinat(currentStone),
 									'r') != null) && !currentStone.getLocked()) {
@@ -325,9 +316,9 @@ public class SpelVerloop implements Runnable {
 						currentStone = woordenLijst.get(index).get(
 								spelBord.getCoordinat(currentStone));
 					}
-				}
 				currentStone = nextStone(
 						spelBord.getCoordinat(currentStone), 'd');
+				}
 			} else {
 				done = true;
 			}
@@ -340,7 +331,7 @@ public class SpelVerloop implements Runnable {
 			if ((nextStone(spelBord.getCoordinat(currentStone), 'r') != null)) {
 				if (!currentStone.equals(newStones[0])) {
 					if ((nextStone(spelBord.getCoordinat(currentStone),
-							'u') != null)
+							'u') != null) && !currentStone.getLocked()
 							|| (nextStone(
 									spelBord.getCoordinat(currentStone),
 									'd') != null) && !currentStone.getLocked()) {
