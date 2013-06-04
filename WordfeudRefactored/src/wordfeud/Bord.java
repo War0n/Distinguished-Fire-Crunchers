@@ -106,8 +106,9 @@ public class Bord {
 	}
 	
 	public Tile getTile(Point p) {
-		if (p.x < 0 || p.y < 0 || p.x > 15 || p.y > 15)
+		if (p.x < 0 || p.y < 0 || p.x > 14 || p.y > 14){
 			return null;
+		}
 		return tiles[p.x][p.y];
 	}
 

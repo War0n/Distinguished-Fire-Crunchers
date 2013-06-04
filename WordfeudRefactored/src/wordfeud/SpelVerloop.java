@@ -283,7 +283,6 @@ public class SpelVerloop implements Runnable {
 		if(hor){
 			System.out.println("HORIZONTAAL");
 			while(nextStone(spelBord.getCoordinat(currentStone) ,'r') != null){
-				System.out.println("LusLetter:" + currentStone.getLetter());
 				woordenLijst.get(0).put(spelBord.getCoordinat(currentStone), currentStone);
 				Point lastPoint = spelBord.getCoordinat(currentStone);
 				//Heeft de nieuwgelegde tegel iets er links van?
@@ -292,7 +291,6 @@ public class SpelVerloop implements Runnable {
 						currentStone = nextStone(spelBord.getCoordinat(currentStone), 'u');
 					}
 				}
-				System.out.println("CurrentStone:" + currentStone.getLetter());
 				//Heeft de nieuwgelegde tegel iets er rechts van?
 				if(!spelBord.getTile(lastPoint).getLocked() && nextStone(spelBord.getCoordinat(currentStone), 'd') != null){
 					index++;
@@ -340,8 +338,8 @@ public class SpelVerloop implements Runnable {
 		else if(ver){
 			System.out.println("VERTICAAL");
 			while(nextStone(spelBord.getCoordinat(currentStone) ,'d') != null){
-				System.out.println("LusLetter:" + currentStone.getLetter());
 				woordenLijst.get(0).put(spelBord.getCoordinat(currentStone), currentStone);
+				System.out.println("HURRSDFOJDNJKFDNKF:" + currentStone.getLetter());
 				Point lastPoint = spelBord.getCoordinat(currentStone);
 				//Heeft de nieuwgelegde tegel iets er links van?
 				if(!spelBord.getTile(lastPoint).getLocked() && nextStone(spelBord.getCoordinat(currentStone), 'l') != null){
@@ -349,7 +347,6 @@ public class SpelVerloop implements Runnable {
 						currentStone = nextStone(spelBord.getCoordinat(currentStone), 'l');
 					}
 				}
-				System.out.println("CurrentStone:" + currentStone.getLetter());
 				//Heeft de nieuwgelegde tegel iets er rechts van?
 				if(!spelBord.getTile(lastPoint).getLocked() && nextStone(spelBord.getCoordinat(currentStone), 'r') != null){
 					index++;
