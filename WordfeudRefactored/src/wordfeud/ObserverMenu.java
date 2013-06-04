@@ -6,56 +6,53 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-public class ActieveSpellenMenu extends JPanel implements ActionListener {
+public class ObserverMenu extends JPanel implements ActionListener, ItemListener {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel titel;
 	private JPanel head;
 	private JPanel functies;
 	private JPanel spellen;
-	private JPanel myTurns;
-	private JPanel notMyTurns;
-	private JPanel myTurnLabelPanel;
-	private JPanel notMyTurnLabelPanel;
-	private JLabel myTurnLabel;
-	private JLabel notMyTurnLabel;
 
 	private boolean observer;
-	private boolean doNotCheckBeurten;
 	private JScrollPane scrollPane;
 	private WFButton inviteButton;
 	private WFButton backButton;
 	private Connectie connect;
-	private Thread checkBeurtThread;
 
+	private JComboBox<String> selectedCompetition = new JComboBox<String>();
+	
+	private int selectedCompetitionID;
+	
 	private HashMap<WFButton, String[]> playBtn = new HashMap<WFButton, String[]>();
 
-	public ActieveSpellenMenu(boolean observer) {
-		this.observer = observer;
-		doNotCheckBeurten = false;
+	public ObserverMenu() {
+		selectedCompetition.addItemListener(this);
+		selectedCompetitionID = 1;
 		setMinimumSize(new Dimension(630, 700));
 		setPreferredSize(getMinimumSize());
 		setBackground(new Color(23, 26, 30));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		backButton = new WFButton("< Terug naar menu");
 		backButton.addActionListener(this);
-		if(!observer){
 		inviteButton = new WFButton("Speler uitdagen");
 		inviteButton.addActionListener(this);
 		titel = new JLabel("Actieve spellen");
-		}
 		titel.setForeground(Color.white);
 		titel.setFont(new Font("Arial", Font.BOLD, 30));
 		head = new JPanel();
@@ -69,76 +66,14 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		functies.setPreferredSize(functies.getMaximumSize());
 		functies.setLayout(new FlowLayout());
 		functies.add(backButton);
+		functies.add(selectedCompetition);
 		// functies.add(inviteButton);
 		add(head);
 		add(functies);
-
-		spellen = new JPanel();
-		spellen.setLayout(new BoxLayout(spellen, BoxLayout.Y_AXIS));
-		spellen.setBackground(this.getBackground());
-		myTurns = new JPanel();
-		myTurns.setLayout(new BoxLayout(myTurns, BoxLayout.Y_AXIS));
-		myTurns.setBackground(this.getBackground());
-		notMyTurns = new JPanel();
-		notMyTurns.setLayout(new BoxLayout(notMyTurns, BoxLayout.Y_AXIS));
-		notMyTurns.setBackground(this.getBackground());
+		initSpellen();
 		
-		//Verdeling in myTurn en notMyTurn
-		myTurnLabelPanel = new JPanel();
-		myTurnLabelPanel.setBackground(new Color(44,47,53));
-		myTurnLabel = new JLabel("Jouw beurt");
-		myTurnLabel.setForeground(Color.white);
-		myTurnLabelPanel.setMaximumSize(new Dimension(650,25));
-		myTurnLabelPanel.setPreferredSize(myTurnLabelPanel.getMaximumSize());
-		myTurnLabelPanel.add(myTurnLabel);
-		myTurns.add(myTurnLabelPanel);
-		myTurns.add(Box.createVerticalStrut(5));
-		
-		notMyTurnLabelPanel = new JPanel();
-		notMyTurnLabelPanel.setBackground(new Color(44,47,53));
-		notMyTurnLabel = new JLabel("Niet jouw beurt");
-		notMyTurnLabel.setForeground(Color.white);
-		notMyTurnLabelPanel.setMaximumSize(new Dimension(650,25));
-		notMyTurnLabelPanel.setPreferredSize(notMyTurnLabelPanel.getMaximumSize());
-		notMyTurnLabelPanel.add(notMyTurnLabel);
-		notMyTurns.add(notMyTurnLabelPanel);
-		notMyTurns.add(Box.createVerticalStrut(5));
-		
-		spellen.add(myTurns);
-		spellen.add(notMyTurns);
-		
-		scrollPane = new JScrollPane(spellen);
-		scrollPane
-				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		add(scrollPane);
-		checkBeurtThread = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				while(!doNotCheckBeurten){
-					try {
-						Thread.sleep(5000);
-						myTurns.removeAll();
-						myTurns.add(myTurnLabelPanel);
-						myTurns.add(Box.createVerticalStrut(5));
-						
-						notMyTurns.removeAll();
-						notMyTurns.add(notMyTurnLabelPanel);
-						notMyTurns.add(Box.createVerticalStrut(5));
-						showSpellen();
-						System.out.println("in Thread");
-						spellen.revalidate();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}	
-				}
-				
-			}
-		});
-		checkBeurtThread.start();
 		showSpellen();
+		addExistingCompetitions();
 	}
 
 	@SuppressWarnings("static-access")
@@ -165,26 +100,36 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		return myTurn;
 	}
 
+	/**
+	 * 
+	 */
+	
+	public void initSpellen(){
+		spellen = new JPanel();
+		spellen.setLayout(new BoxLayout(spellen, BoxLayout.Y_AXIS));
+		spellen.setBackground(this.getBackground());
+						
+		scrollPane = new JScrollPane(spellen);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		add(scrollPane);
+	}
 	public void showSpellen() {
+		System.out.println("fetching games.. compID: "+selectedCompetitionID);
 		connect = new Connectie();
 		ResultSet rs;
 		ResultSet rs2;
 		int idCompetitie = 0;
 		String comp_naam = null;
 
-		// Haal alle uitdagingen op uit de db
+		// Haal alle spellen op uit de db voor de geselecteerde competitie
 		rs = connect
-				.voerSelectQueryUit("select * from Spel where (Account_naam_tegenstander ='"
-						+ Account.getAccountNaam()
-						+ "' OR Account_naam_uitdager='"
-						+ Account.getAccountNaam()
-						+ "') AND Toestand_type = 'Playing'");
+				.voerSelectQueryUit("select * from Spel where Competitie_ID ='"+ selectedCompetitionID+"'");
 		try {
 			while (rs.next()) {
+				/*
 				idCompetitie = rs.getInt("Competitie_ID");
 				rs2 = connect
-						.voerSelectQueryUit("select * from Competitie where ID ='"
-								+ idCompetitie + "'");
+						.voerSelectQueryUit("select * from Competitie where ID ='"	+ idCompetitie + "'");
 				try {
 					rs2.next();
 					comp_naam = rs2.getString("omschrijving");
@@ -192,13 +137,11 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 					// TODO Auto-generated catch block
 					System.out.println("Error: " + e);
 				}
+				*/
 				// Wie is de tegenstander in het spel? Degene die je niet zelf
 				// bent ofcourse
 				String p1 = rs.getString("Account_naam_uitdager");
 				String p2 = rs.getString("Account_naam_tegenstander");
-				String tegenstander = (p1.equals(Account.getAccountNaam())) ? p2
-						: p1;
-
 				String spelID = rs.getString("ID");
 				JPanel comp = new JPanel();
 				comp.setMaximumSize(new Dimension(650, 80));
@@ -209,8 +152,7 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 				Box lineBoxText = new Box(BoxLayout.LINE_AXIS);
 				Box lineBoxControls = new Box(BoxLayout.LINE_AXIS);
 
-				JLabel uitdagingTxt = new JLabel(tegenstander + " ["
-						+ comp_naam + "]");
+				JLabel uitdagingTxt = new JLabel(p1 + " VERSUS " + p2);
 				uitdagingTxt.setForeground(Color.white);
 				lineBoxText.add(uitdagingTxt);
 
@@ -225,15 +167,8 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 				vertBox.add(Box.createVerticalStrut(5));
 				vertBox.add(lineBoxControls);
 				comp.add(vertBox);
-				if (myTurnActiveSpellen(Integer.parseInt(spelID))) {
-					comp.setBackground(new Color(122, 162, 113));
-					myTurns.add(comp);
-					myTurns.add(Box.createVerticalStrut(5));
-				} else {
-					comp.setBackground(new Color(156, 71, 26));
-					notMyTurns.add(comp);
-					notMyTurns.add(Box.createVerticalStrut(5));
-				}
+				spellen.add(comp);
+				spellen.add(Box.createVerticalStrut(5));
 
 			}
 		} catch (SQLException e) {
@@ -247,17 +182,10 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		if (arg0.getActionCommand().equals("open spel")) {
-			// addCompetition();
 			String[] a = playBtn.get(arg0.getSource());
 			System.out.println("Open spel [id: " + a[0] + "]");
-			if (!observer) {
-				setParentContentPane(new SpelPanel(Integer.parseInt(a[0])));
-			} else {
-				setParentContentPane(new ObserverGUI(Integer.parseInt(a[0])));
-			}
-			doNotCheckBeurten = true;
+			setParentContentPane(new ObserverGUI(Integer.parseInt(a[0])));
 		} else if (arg0.getSource().equals(backButton)) {
-			doNotCheckBeurten = true;
 			setParentContentPane(new GUIMenu());
 		}
 	}
@@ -266,6 +194,31 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		JFrame root = (JFrame) SwingUtilities.getWindowAncestor(this);
 		root.setContentPane(contentPane);
 		root.pack();
+	}
+	
+	public void addExistingCompetitions(){
+		connect = new Connectie();
+		ResultSet competitieRS = connect.voerSelectQueryUit("SELECT ID,omschrijving FROM competitie");
+		try {
+			while(competitieRS.next()){
+				selectedCompetition.insertItemAt(competitieRS.getString("omschrijving"), competitieRS.getInt("ID")-1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		selectedCompetition.setSelectedIndex(0);
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		selectedCompetitionID = selectedCompetition.getSelectedIndex()+1;
+		System.out.println(selectedCompetition.getSelectedIndex()+1);
+		remove(scrollPane);
+		initSpellen();
+		showSpellen();
+		revalidate();
+		repaint();
 	}
 
 }

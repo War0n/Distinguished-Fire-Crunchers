@@ -143,7 +143,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 			setParentContentPane(myCompetitiesMenu);
 		}
 		if(arg0.getSource().equals(observerButton)){
-			setParentContentPane(new ActieveSpellenMenu(true));
+			setParentContentPane(new ObserverMenu());
 		}
 		if(arg0.getSource().equals(modButton)){
             GUIModerator myGUIModerator = new GUIModerator();

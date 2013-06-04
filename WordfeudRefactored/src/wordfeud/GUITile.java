@@ -4,6 +4,22 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.DataLine.Info;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -71,6 +87,44 @@ public class GUITile extends JPanel{
 		setMinimumSize(new Dimension(40,40));
 		setPreferredSize(getMaximumSize());
 		setBackground(bgColor);
+		this.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mousePressed(e);
+				if(getStone() != null){
+				try {
+					AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/sounds/click.wav"));
+				    AudioFormat format = stream.getFormat();
+				    Info info = new DataLine.Info(Clip.class, format);
+				    Clip clip = (Clip) AudioSystem.getLine(info);
+				    clip.open(stream);
+				    clip.start();
+				} catch (MalformedURLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (UnsupportedAudioFileException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (LineUnavailableException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				}
+				
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				super.mouseReleased(arg0);
+			}
+			
+		});
 		add(tileLabel);
 	}
 	
