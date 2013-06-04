@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -89,8 +91,8 @@ public class CompetitiesMenu extends JPanel  implements ActionListener{
 		int idCompetitie = 0;
 		String eigenaar = null;
 		
-		//Haal alle competities op uit de db
-		rs = connect.voerSelectQueryUit("select * from Competitie");
+		//Haal alle competities op uit de database
+		rs = connect.voerSelectQueryUit("SELECT * FROM Competitie");
 		try {
 			while(rs.next())
 			{
@@ -98,15 +100,10 @@ public class CompetitiesMenu extends JPanel  implements ActionListener{
 				idCompetitie = rs.getInt("ID");
 				eigenaar = rs.getString("Account_naam_eigenaar");
 				
-				JPanel comp = new JPanel();
-				comp.setMaximumSize(new Dimension(650,80));
-				comp.setPreferredSize(comp.getMaximumSize());
-				comp.setBackground(new Color(44,47,53));
-				JLabel compTxt = new JLabel("Competitie " + idCompetitie + " Eigenaar: " + eigenaar);
-				compTxt.setForeground(Color.white);
-				comp.add(compTxt);
+				CompetitieItem compItem = new CompetitieItem(idCompetitie, eigenaar);
+	
 				competities.add(Box.createVerticalStrut(5));
-				competities.add(comp);
+				competities.add(compItem);
 								
 			}
 		}
@@ -206,7 +203,6 @@ public class CompetitiesMenu extends JPanel  implements ActionListener{
 			revalidate();
 			repaint();
 		}
-		
 	}
 
 }

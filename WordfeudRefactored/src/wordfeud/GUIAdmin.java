@@ -15,12 +15,11 @@ import java.util.Observer;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -131,11 +130,14 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 		usernameLabel.setForeground(Color.white);
 		usernameDataLabel.setForeground(Color.white);
 		passwordLabel.setForeground(Color.white);
+		passwordField.setForeground(Color.white);
 		roleLabel.setForeground(Color.white);
 		
 		popupPanel.add(usernameLabel);
 		popupPanel.add(usernameDataLabel);
 		passwordField.setText(data[1]);
+		passwordField.setBackground(new Color(23,26,30));
+		passwordField.setFont(new Font("Arial",Font.BOLD,20));
 		popupPanel.add(passwordLabel);
 		popupPanel.add(passwordField);
 		rolePanel = new JPanel();
