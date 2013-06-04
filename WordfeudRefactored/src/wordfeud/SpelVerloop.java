@@ -308,10 +308,12 @@ public class SpelVerloop implements Runnable {
 			}
 			woordenLijst.get(0).put(spelBord.getCoordinat(currentStone), currentStone);
 		}
+
 		//Controleren op verticale woorden
 		else if(ver){
 			System.out.println("VERTICAAL");
 			while(nextStone(spelBord.getCoordinat(currentStone) ,'d') != null){
+				System.out.print(currentStone.getLetter());
 				woordenLijst.get(0).put(spelBord.getCoordinat(currentStone), currentStone);
 				Point lastPoint = spelBord.getCoordinat(currentStone);
 				//Heeft de nieuwgelegde tegel iets er boven?
@@ -328,12 +330,15 @@ public class SpelVerloop implements Runnable {
 						woordenLijst.add(new HashMap<Point, Stone>());
 						woordenLijst.get(index).put(spelBord.getCoordinat(currentStone), currentStone);
 						currentStone = nextStone(spelBord.getCoordinat(currentStone), 'r');
+						System.out.print(currentStone.getLetter());
 					}
 					woordenLijst.get(index).put(spelBord.getCoordinat(currentStone), currentStone);
 
 					currentStone = spelBord.getTile(lastPoint).getStone();
 				}
+				if(nextStone(spelBord.getCoordinat(currentStone), 'd') != null){
 				currentStone = nextStone(spelBord.getCoordinat(currentStone), 'd');
+				}
 			}
 			woordenLijst.get(0).put(spelBord.getCoordinat(currentStone), currentStone);
 		}
@@ -426,7 +431,6 @@ public class SpelVerloop implements Runnable {
 				spel.getSpelPanel().getShuffleButton().setEnabled(false);
 				spel.getSpelPanel().getSkipButton().setEnabled(false);
 				spel.getSpelPanel().getSwapButton().setEnabled(false);
-				spel.getSpelPanel().getClearButton().setEnabled(false);
 			} else {
 				// zet alles op het bord waar nodig, update score moet nog
 				spel.getSpelPanel().getPlayButton().setEnabled(true);
