@@ -3,6 +3,7 @@ package wordfeud;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -23,8 +24,11 @@ public class GUIModerator extends JPanel implements Observer{
 	
 	private WFButton acceptWord;
 	private WFButton declineWord;
+	private JPanel headPanel;
 	private JPanel woordenPanel;
 	private JPanel myButtonPanel;
+	private JPanel functies;
+	private JPanel bottomPanel;
 	private JLabel titel;
 	private WFButton backToMenu;
 	private ArrayList<JCheckBox> reviewWoorden;
@@ -40,10 +44,18 @@ public class GUIModerator extends JPanel implements Observer{
 		
 		reviewWoorden = new ArrayList<JCheckBox>();
 		
-		titel = new JLabel("Moderator scherm");
+		headPanel = new JPanel();
+		headPanel.setForeground(Color.white);
+		headPanel.setBackground(new Color(23,26,30));
+		titel = new JLabel("Ranking");
 		titel.setForeground(Color.white);
 		titel.setFont(new Font("Arial",Font.BOLD,30));
-		titel.setPreferredSize(new Dimension(630,100));
+		functies = new JPanel();
+		functies.setBackground(new Color(29,144,160));
+		functies.setMaximumSize(new Dimension(650,40));
+		functies.setPreferredSize(functies.getMaximumSize());
+		functies.setLayout(new FlowLayout());
+		
 		acceptWord = new WFButton("Accepteer");
 		declineWord = new WFButton("Verwerp");
 		woordenPanel = new JPanel();
@@ -59,7 +71,9 @@ public class GUIModerator extends JPanel implements Observer{
 		woordenPanel.setBackground(new Color(23,26,30));
 		myButtonPanel.setBackground(new Color(23,26,30));
 		
-		this.add(titel, BorderLayout.NORTH);
+		headPanel.add(titel);
+		headPanel.add(functies);
+		this.add(headPanel, BorderLayout.NORTH);
 		this.add(wordScrollPane, BorderLayout.CENTER);
 		myButtonPanel.add(acceptWord);
 		myButtonPanel.add(declineWord);
