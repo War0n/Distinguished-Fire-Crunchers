@@ -173,7 +173,8 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		selectedCompetition = new JComboBox<String>();
 		playerName.setMaximumSize(new Dimension(200, 20));
 		selectedCompetition.setMaximumSize(new Dimension(200, 20));
-
+		addExistingCompetitions();
+		
 		challengePlayer = new JPanel();
 		challengePlayer.setMaximumSize(new Dimension(650, 140));
 		challengePlayer.setPreferredSize(challengePlayer.getMaximumSize());
