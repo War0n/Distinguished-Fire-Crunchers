@@ -8,9 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -89,35 +89,43 @@ public class Changepassword extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				final ImageIcon icon = new ImageIcon("src/images/conf.jpg");
 				String controlePassword = new String(registerControle
 						.getPassword());
-				String password2 = new String(passwordField.getPassword());
-				System.out.println("1");
-				if (controlePassword.equals(password2)) {
-					Connectie connect = new Connectie();
-					String password = new String(passwordField.getPassword());
-					System.out.println("nars.getint");
-					connect.voerInsertOrUpdateQueryUit("UPDATE account SET wachtwoord = '"
-							+ password
-							+ "' WHERE naam = '"
-							+ Account.getAccountNaam() + "'");
-
-					connect.closeConnection();
+				String controlePasswordAgain = new String(passwordField.getPassword());
+				
+				if (controlePassword.equals("") && controlePasswordAgain.equals("")) {
 					JOptionPane.showMessageDialog(popup,
-							"Het wachtwoord is veranderd!", "Voltooid",
-							JOptionPane.PLAIN_MESSAGE);
+							"Je hebt niks ingevoerd!", "fout",
+							JOptionPane.ERROR_MESSAGE);
 					popup = null;
-					activeFrame.dispose();
+				} else { 
+					if (controlePassword.equals(controlePasswordAgain)) {
+						Connectie connect = new Connectie();
+						String password = new String(passwordField
+								.getPassword());
+						System.out.println("nars.getint");
+						connect.voerInsertOrUpdateQueryUit("UPDATE account SET wachtwoord = '"
+								+ password
+								+ "' WHERE naam = '"
+								+ Account.getAccountNaam() + "'");
+						connect.closeConnection();
+						JOptionPane.showMessageDialog(popup,
+								"Het wachtwoord is veranderd!", "Voltooid",
+								JOptionPane.INFORMATION_MESSAGE, icon);
+						popup = null;
+						activeFrame.dispose();
+					}					
 
-				} else if (!controlePassword.equals(password2)) {
+				 else if (!controlePassword.equals(controlePasswordAgain)) {
 					JOptionPane.showMessageDialog(popup,
 							"De wachtwoorden komen niet overeen!", "Foutje!",
-							JOptionPane.WARNING_MESSAGE);
+							JOptionPane.ERROR_MESSAGE);
 					popup = null;
 				}
 			}
-		});
+		};
 
-	}
+	});
 
-}
+}}
