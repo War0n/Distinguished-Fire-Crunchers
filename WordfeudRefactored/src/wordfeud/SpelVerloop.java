@@ -218,7 +218,8 @@ public class SpelVerloop implements Runnable {
 		}
 		return score;
 	}
-	private ArrayList<HashMap<Point, Stone>> vindWoord() {
+	private ArrayList<HashMap<Point, Stone>> vindWoord() 
+	{
 		/*
 		 * De methode returnd een ArrayList met daarin alle woorden die deze
 		 * beurt gelegd zijn. In een hashmap worden de stenen zelf meegegeven.
@@ -234,207 +235,117 @@ public class SpelVerloop implements Runnable {
 		 * Geeft: Woordenlijst[0]: 2.3 , E 3.3 , e 3.4 , N 3.5 , D
 		 * Woordenlijst[1]: 5.3 , D 5.4 , o 5.5 , m
 		 */
+		if(spelBord.getStoneAt(new Point(7,7))==null)
+			return null;
+		
 		Stone[] newStones = spelBord.getNewTiles().values().toArray(new Stone[spelBord.getNewTiles().size()]);
-		Stone currentStone = null;
-		woordenLijst = new ArrayList<HashMap<Point, Stone>>();
-		woordenLijst.add(new HashMap<Point, Stone>());
-		boolean hor = false;
-		boolean ver = false;
-		int index = 0;
-		//TestStones
-		System.out.print("Nieuwgelegde tegels: ");
-		for(Stone stone : newStones){
-			System.out.print(stone.getLetter());
+		ArrayList<HashMap<Point, Stone>> wordlist = new ArrayList<HashMap<Point, Stone>>();
+		Point[] newTiles = new Point[newStones.length];
+		for(int i = 0; i < newStones.length; i++)
+		{
+			newTiles[i] = spelBord.getCoordinate(newStones[i]);
 		}
-		System.out.print("\n");
-
-		// Is er wel gelegd?
-		if (newStones.length == 0) {
-			// Er is niet gelegd
-			//TestSYSO
-			System.out.println("nietGelegdNULL");
-			return null;
-		} else {
-			currentStone = newStones[0];
-		}
-		if(spelBord.getCoordinat(newStones[0]).y == spelBord.getCoordinat(newStones[newStones.length -1]).y){
-			while(nextStone(spelBord.getCoordinat(currentStone), 'l') != null){
-				currentStone = nextStone(spelBord.getCoordinat(currentStone), 'l');
+		if(newStones.length > 1)
+		{			
+			boolean horiz = false;
+			if(newTiles[0].y == newTiles[1].y)
+			{
+				horiz = true;
 			}
-			hor = true;
-		}
-		else if(spelBord.getCoordinat(newStones[0]).x == spelBord.getCoordinat(newStones[newStones.length -1]).x){
-			while(nextStone(spelBord.getCoordinat(currentStone), 'u') != null){
-				currentStone = nextStone(spelBord.getCoordinat(currentStone), 'u');
-			}
-			ver = true;
-		}
-		if(hor == false && ver == false){
-			System.out.println("hoekNULL");
-			return null;
-		}
-		//Controleren op Horizontale woorden
-		if(hor){
-			System.out.println("HORIZONTAAL");
-			while(nextStone(spelBord.getCoordinat(currentStone) ,'r') != null){
-				woordenLijst.get(0).put(spelBord.getCoordinat(currentStone), currentStone);
-				Point lastPoint = spelBord.getCoordinat(currentStone);
-				//Heeft de nieuwgelegde tegel iets er links van?
-				if(!spelBord.getTile(lastPoint).getLocked() && nextStone(spelBord.getCoordinat(currentStone), 'u') != null){
-					while(nextStone(spelBord.getCoordinat(currentStone), 'u') != null){
-						currentStone = nextStone(spelBord.getCoordinat(currentStone), 'u');
-					}
-				}
-				//Heeft de nieuwgelegde tegel iets er rechts van?
-				if(!spelBord.getTile(lastPoint).getLocked() && nextStone(spelBord.getCoordinat(currentStone), 'd') != null){
-					index++;
-					woordenLijst.add(new HashMap<Point, Stone>());
-					while(nextStone(spelBord.getCoordinat(currentStone), 'd') != null){
-						woordenLijst.get(index).put(spelBord.getCoordinat(currentStone), currentStone);
-						currentStone = nextStone(spelBord.getCoordinat(currentStone), 'd');
-						System.out.print(currentStone.getLetter());
-					}
-					woordenLijst.get(index).put(spelBord.getCoordinat(currentStone), currentStone);
-
-					currentStone = spelBord.getTile(lastPoint).getStone();
-				}
-				if(nextStone(spelBord.getCoordinat(currentStone), 'r') != null){
-					currentStone = nextStone(spelBord.getCoordinat(currentStone), 'r');
-				}
-			}
-			//Laatste check
-			//DIT MOET HADNIGER, IN DE MAIN LOOP! REMINDER VOOR WANEER ER WORDT GEREFRACTORD
-			woordenLijst.get(0).put(spelBord.getCoordinat(currentStone), currentStone);
-			Point lastPoint = spelBord.getCoordinat(currentStone);
-			if(!spelBord.getTile(lastPoint).getLocked() && nextStone(spelBord.getCoordinat(currentStone), 'u') != null){
-				while(nextStone(spelBord.getCoordinat(currentStone), 'u') != null){
-					currentStone = nextStone(spelBord.getCoordinat(currentStone), 'u');
-				}
-			}
-			if(!spelBord.getTile(lastPoint).getLocked() && nextStone(spelBord.getCoordinat(currentStone), 'd') != null){
-				index++;
-				woordenLijst.add(new HashMap<Point, Stone>());
-				while(nextStone(spelBord.getCoordinat(currentStone), 'd') != null){;
-					woordenLijst.get(index).put(spelBord.getCoordinat(currentStone), currentStone);
-					currentStone = nextStone(spelBord.getCoordinat(currentStone), 'd');
-					System.out.print(currentStone.getLetter());
-				}
-				woordenLijst.get(index).put(spelBord.getCoordinat(currentStone), currentStone);
-
-				currentStone = spelBord.getTile(lastPoint).getStone();
-			}
-			if(nextStone(spelBord.getCoordinat(currentStone), 'r') != null){
-				currentStone = nextStone(spelBord.getCoordinat(currentStone), 'r');
-			}
-		}
-
-		//Controleren op verticale woorden
-		else if(ver){
-			System.out.println("VERTICAAL");
-			while(nextStone(spelBord.getCoordinat(currentStone) ,'d') != null){
-				woordenLijst.get(0).put(spelBord.getCoordinat(currentStone), currentStone);
-				System.out.println("HURRSDFOJDNJKFDNKF:" + currentStone.getLetter());
-				Point lastPoint = spelBord.getCoordinat(currentStone);
-				//Heeft de nieuwgelegde tegel iets er links van?
-				if(!spelBord.getTile(lastPoint).getLocked() && nextStone(spelBord.getCoordinat(currentStone), 'l') != null){
-					while(nextStone(spelBord.getCoordinat(currentStone), 'l') != null){
-						currentStone = nextStone(spelBord.getCoordinat(currentStone), 'l');
-					}
-				}
-				//Heeft de nieuwgelegde tegel iets er rechts van?
-				if(!spelBord.getTile(lastPoint).getLocked() && nextStone(spelBord.getCoordinat(currentStone), 'r') != null){
-					index++;
-					woordenLijst.add(new HashMap<Point, Stone>());
-					while(nextStone(spelBord.getCoordinat(currentStone), 'r') != null){
-						woordenLijst.get(index).put(spelBord.getCoordinat(currentStone), currentStone);
-						currentStone = nextStone(spelBord.getCoordinat(currentStone), 'r');
-						System.out.print(currentStone.getLetter());
-					}
-					woordenLijst.get(index).put(spelBord.getCoordinat(currentStone), currentStone);
-
-					currentStone = spelBord.getTile(lastPoint).getStone();
-				}
-				if(nextStone(spelBord.getCoordinat(currentStone), 'd') != null){
-					currentStone = nextStone(spelBord.getCoordinat(currentStone), 'd');
-				}
-			}
-			//Laatste check
-			//DIT MOET HADNIGER, IN DE MAIN LOOP! REMINDER VOOR WANEER ER WORDT GEREFRACTORD
-			woordenLijst.get(0).put(spelBord.getCoordinat(currentStone), currentStone);
-			Point lastPoint = spelBord.getCoordinat(currentStone);
-			if(!spelBord.getTile(lastPoint).getLocked() && nextStone(spelBord.getCoordinat(currentStone), 'l') != null){
-				while(nextStone(spelBord.getCoordinat(currentStone), 'l') != null){
-					currentStone = nextStone(spelBord.getCoordinat(currentStone), 'l');
-				}
-			}
-			if(!spelBord.getTile(lastPoint).getLocked() && nextStone(spelBord.getCoordinat(currentStone), 'r') != null){
-				index++;
-				woordenLijst.add(new HashMap<Point, Stone>());
-				while(nextStone(spelBord.getCoordinat(currentStone), 'r') != null){;
-					woordenLijst.get(index).put(spelBord.getCoordinat(currentStone), currentStone);
-					currentStone = nextStone(spelBord.getCoordinat(currentStone), 'r');
-					System.out.print(currentStone.getLetter());
-				}
-				woordenLijst.get(index).put(spelBord.getCoordinat(currentStone), currentStone);
-
-				currentStone = spelBord.getTile(lastPoint).getStone();
-			}
-			if(nextStone(spelBord.getCoordinat(currentStone), 'd') != null){
-				currentStone = nextStone(spelBord.getCoordinat(currentStone), 'd');
-			}
-		}
-		// controleer of er geen gaten zijn.
-		int count = 0;
-		for (HashMap<Point, Stone> woord : woordenLijst) {
-			Stone[] woordArray = woord.values().toArray(new Stone[spelBord.getNewTiles().size()]);
-			for (Stone stone : woordArray) {
-				for (Stone newStone : newStones) {
-					if (newStone.equals(stone)) {
-						count++;
-					}
-				}
-			}
-		}
-		if (count < newStones.length) {
-			//TestSYSO
-			System.out.println("gatNULL");
-			System.out.println("Er zijn " + woordenLijst.size() + " woorden gevonden.");
-			for(HashMap<Point, Stone> woord : woordenLijst){
-				Stone[] woordArray = woord.values().toArray(new Stone[woord.size()]);			
-				System.out.println("Dit woord heeft " + woordArray.length + " letters.");
-				for(Stone stone : woordArray){
-					System.out.print(stone.getLetter() + " ");
-				}
-				System.out.print("\n");
-			}
-			return null;
-		}
-		// Is dit het eerste woord? En zoja ligt het op het startvak?
-		if(woordenLijst.size() == 1 && woordenLijst.get(0).size() == newStones.length){
-			if(spelBord.getTile(new Point(7, 7)).getStone() == null){
-				System.out.println("startNULL");
+			else if(newTiles[0].x != newTiles[1].x)
+			{
 				return null;
 			}
-			if(spelBord.getTile(new Point(7, 7)).getStone().getLocked() == true){
-				System.out.println("eenzaamWoordNULL");
-				return null;
+			
+			for(int i = 0; i < newTiles.length-1; i++)
+			{
+				if(horiz == true)
+				{
+					if(newTiles[i].y != newTiles[i+1].y)
+						return null;
+				}
+				else
+				{
+					if(newTiles[i].x != newTiles[i+1].x)
+						return null;
+				}
+			}
+			
+			HashMap<Point, Stone> pt = vindWoord(newTiles[0], horiz);
+			if(pt != null)
+			{
+				wordlist.add(pt);
+			}
+			for(int i = 0; i < newTiles.length; i++)
+			{
+				pt = vindWoord(newTiles[i], !horiz);
+				if(pt != null)
+				{
+					wordlist.add(pt);
+				}
 			}
 		}
-
-
-		System.out.println("L4 " + woordenLijst.get(index).size());
-		//TESTLUS
-		for(HashMap<Point, Stone> woord : woordenLijst){
-			Stone[] woordArray = woord.values().toArray(new Stone[woord.size()]);			
-			System.out.println("Dit woord heeft " + woordArray.length + " letters.");
-			for(Stone stone : woordArray){
-				System.out.print(stone.getLetter() + " ");
+		else
+		{
+			HashMap<Point, Stone> pt = vindWoord(newTiles[0], true);
+			if(pt != null)
+			{
+				wordlist.add(pt);
 			}
-			System.out.print("\n");
+			pt = vindWoord(newTiles[0], false);
+			if(pt != null)
+			{
+				wordlist.add(pt);
+			}
 		}
-		return woordenLijst;
+		woordenLijst = wordlist;
+		return wordlist;
 	}
 	
+	private HashMap<Point, Stone> vindWoord(Point p, boolean horizontaal) 
+	{
+		HashMap<Point, Stone> myWord = new HashMap<Point, Stone>();
+		Point tmp = p;
+		if(horizontaal)
+		{
+			boolean hasTwoOrMore = false;
+			while(nextStone(tmp,'l') != null)
+			{
+				tmp.x -= 1;
+				hasTwoOrMore = true;
+			}
+			do
+			{
+				myWord.put(new Point(tmp.x, tmp.y), spelBord.getStoneAt(tmp));
+				tmp.x += 1;
+			} while(nextStone(tmp,'r') != null);
+			if(hasTwoOrMore == true)
+				myWord.put(new Point(tmp.x, tmp.y), spelBord.getStoneAt(tmp));
+		}
+		else
+		{
+			boolean hasTwoOrMore = false;
+			while(nextStone(tmp,'u') != null)
+			{
+				tmp.y -= 1;
+				hasTwoOrMore = true;
+			}
+			do
+			{
+				myWord.put(new Point(tmp.x, tmp.y), spelBord.getStoneAt(tmp));
+				tmp.y += 1;
+			} while(nextStone(tmp,'d') != null);
+			if(hasTwoOrMore == true)
+				myWord.put(new Point(tmp.x, tmp.y), spelBord.getStoneAt(tmp));
+		}
+		
+		if(myWord.size() <= 1)
+			return null;
+		
+		return myWord;
+	}
+	
+
 	private Stone nextStone(Point position, char direction) {
 		int x = (int) position.getX();
 		int y = (int) position.getY();
@@ -442,40 +353,28 @@ public class SpelVerloop implements Runnable {
 
 		switch (direction) {
 		case 'u': {
-			if(y == 0){
-				return null;
-			}
 			p = new Point(x, y - 1);
 			break;
 		}
 		case 'r': {
-			if(x == 14){
-				return null;
-			}
 			p = new Point(x + 1, y);
 			break;
 		}
 		case 'd': {
-			if(y == 14){
-				return null;
-			}
 			p = new Point(x, y + 1);
 			break;
 		}
 		case 'l': {
-			if(x == 0){
-				return null;
-			}
 			p = new Point(x - 1, y);
 			break;
 		}
 		default:
 			return null;
 		}
-		if (spelBord.getTile(position).getStone() != null) {
-			return spelBord.getTile(p).getStone();
-		}
-		return null;
+		if(p.x < 0 || p.x > 14 || p.y < 0 || p.y > 14 || spelBord.getStoneAt(p) == null)
+			return null;
+		
+		return spelBord.getStoneAt(p);
 	}
 
 	@Override

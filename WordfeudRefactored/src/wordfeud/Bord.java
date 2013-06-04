@@ -112,11 +112,19 @@ public class Bord {
 		return tiles[p.x][p.y];
 	}
 
+	public Stone getStoneAt(Point p) 
+	{
+		if (p.x < 0 || p.y < 0 || p.x > 14 || p.y > 14 || tiles[p.x][p.y].getStone()==null){
+			return null;
+		}
+		return tiles[p.x][p.y].getStone();
+	}
+
 	public Tile[][] getTiles() {
 		return tiles;
 	}
 
-	public Point getCoordinat(Stone stoneInput) {
+	public Point getCoordinate(Stone stoneInput) {
 		Point coor = new Point();
 		for (int x = 0; x < 15; x++) {
 			for (int y = 0; y < 15; y++) {
