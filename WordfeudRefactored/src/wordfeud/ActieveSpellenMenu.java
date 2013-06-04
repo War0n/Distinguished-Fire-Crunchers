@@ -25,6 +25,8 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 	private JPanel head;
 	private JPanel functies;
 	private JPanel spellen;
+	private JPanel myTurns;
+	private JPanel notMyTurns;
 	private boolean observer;
 	private JScrollPane scrollPane;
 	private WFButton inviteButton;
@@ -65,6 +67,36 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		spellen = new JPanel();
 		spellen.setLayout(new BoxLayout(spellen, BoxLayout.Y_AXIS));
 		spellen.setBackground(this.getBackground());
+		myTurns = new JPanel();
+		myTurns.setLayout(new BoxLayout(myTurns, BoxLayout.Y_AXIS));
+		myTurns.setBackground(this.getBackground());
+		notMyTurns = new JPanel();
+		notMyTurns.setLayout(new BoxLayout(notMyTurns, BoxLayout.Y_AXIS));
+		notMyTurns.setBackground(this.getBackground());
+		spellen.add(myTurns);
+		spellen.add(notMyTurns);
+		
+		//Verdeling in myTurn en notMyTurn
+		JPanel myTurnLabelPanel = new JPanel();
+		myTurnLabelPanel.setBackground(new Color(44,47,53));
+		JLabel myTurnLabel = new JLabel("Jouw beurt");
+		myTurnLabel.setForeground(Color.white);
+		myTurnLabelPanel.setMaximumSize(new Dimension(650,25));
+		myTurnLabelPanel.setPreferredSize(myTurnLabelPanel.getMaximumSize());
+		myTurnLabelPanel.add(myTurnLabel);
+		myTurns.add(myTurnLabelPanel);
+		myTurns.add(Box.createVerticalStrut(5));
+		
+		JPanel notMyTurnLabelPanel = new JPanel();
+		notMyTurnLabelPanel.setBackground(new Color(44,47,53));
+		JLabel notMyTurnLabel = new JLabel("Niet jouw beurt");
+		notMyTurnLabel.setForeground(Color.white);
+		notMyTurnLabelPanel.setMaximumSize(new Dimension(650,25));
+		notMyTurnLabelPanel.setPreferredSize(notMyTurnLabelPanel.getMaximumSize());
+		notMyTurnLabelPanel.add(notMyTurnLabel);
+		notMyTurns.add(notMyTurnLabelPanel);
+		notMyTurns.add(Box.createVerticalStrut(5));
+		
 		scrollPane = new JScrollPane(spellen);
 		scrollPane
 				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -114,9 +146,6 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 						+ "') AND Toestand_type = 'Playing'");
 		try {
 			while (rs.next()) {
-
-				if( !myTurnActiveSpellen(rs.getInt("ID")))
-					continue;
 				idCompetitie = rs.getInt("Competitie_ID");
 				rs2 = connect
 						.voerSelectQueryUit("select * from Competitie where ID ='"
@@ -155,14 +184,22 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 				WFButton accept = new WFButton("open spel");
 				accept.addActionListener(this);
 				playBtn.put(accept, challengeSpecs);
-
+				
 				lineBoxControls.add(accept);
 				vertBox.add(lineBoxText);
 				vertBox.add(Box.createVerticalStrut(5));
 				vertBox.add(lineBoxControls);
 				comp.add(vertBox);
-				spellen.add(Box.createVerticalStrut(5));
-				spellen.add(comp);
+				if( myTurnActiveSpellen(Integer.parseInt(spelID))){
+					comp.setBackground(new Color(122,162,113));
+					myTurns.add(comp);
+					myTurns.add(Box.createVerticalStrut(5));
+				} else {
+					comp.setBackground(new Color(156,71,26));
+					notMyTurns.add(comp);
+					notMyTurns.add(Box.createVerticalStrut(5));
+				}
+				
 
 			}
 		} catch (SQLException e) {
