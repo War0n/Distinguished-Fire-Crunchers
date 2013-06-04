@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -19,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 
-public class CompetitiesMenu extends JPanel  implements ActionListener{
+public class CompetitiesMenu extends JPanel  implements MouseListener, ActionListener{
 	
 	/**
 	 * 
@@ -89,7 +91,7 @@ public class CompetitiesMenu extends JPanel  implements ActionListener{
 		int idCompetitie = 0;
 		String eigenaar = null;
 		
-		//Haal alle competities op uit de db
+		//Haal alle competities op uit de database
 		rs = connect.voerSelectQueryUit("select * from Competitie");
 		try {
 			while(rs.next())
@@ -107,6 +109,7 @@ public class CompetitiesMenu extends JPanel  implements ActionListener{
 				comp.add(compTxt);
 				competities.add(Box.createVerticalStrut(5));
 				competities.add(comp);
+				comp.addMouseListener(this);
 								
 			}
 		}
@@ -206,6 +209,36 @@ public class CompetitiesMenu extends JPanel  implements ActionListener{
 			revalidate();
 			repaint();
 		}
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		setParentContentPane(new CompetitieRanking());
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 
