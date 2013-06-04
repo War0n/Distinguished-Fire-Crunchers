@@ -14,6 +14,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -30,6 +31,7 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 	private WFButton inviteButton;
 	private WFButton backButton;
 	private Connectie connect;
+	private JFrame popup = null;
 
 	private JPanel challengePlayer;
 	private JTextField playerName;
@@ -208,6 +210,9 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		String reaktie = "Unknown";
 		String letterset = "NL";
 		String bord = "Standard";
+		
+		
+		
 		String q = "INSERT INTO Spel (Competitie_ID, Toestand_type, Account_naam_uitdager, Account_naam_tegenstander, moment_uitdaging, Reaktie_type, moment_reaktie, Bord_naam, LetterSet_naam) VALUES('"
 				+ compID
 				+ "','"
@@ -225,6 +230,35 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 				+ "')";
 		System.out.println(q);
 		connect = new Connectie();
+		
+		try 
+		{
+			ResultSet rss = connect.doSelect("SELECT COUNT(*) FROM Account WHERE naam = '%1$s'", naam2);
+			if(rss.next())
+			{
+				if(rss.getInt(1) == 0)
+				{
+					connect.closeConnection();
+					return;
+				}
+					
+			}
+			rss = connect.doSelect("SELECT COUNT(*) FROM Competitie WHERE ID = %1$s", compID);
+			if(rss.next())
+			{
+				if(rss.getInt(1) == 0)
+				{
+					connect.closeConnection();
+					return;
+				}
+			}
+		} 
+		catch (SQLException e2) 
+		{
+			e2.printStackTrace();
+		}
+		
+		
 		connect.voerInsertOrUpdateQueryUit(q);
 		connect.doInsertUpdate(
 				"INSERT INTO beurt (ID, Spel_ID, Account_naam, score, Aktie_type) VALUES (1, (SELECT MAX(ID) FROM Spel), '%1$s', 0, 'Begin')",
@@ -267,6 +301,10 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		showUitdagingen();
 		this.validate();
 		repaint();
+		JOptionPane.showMessageDialog(popup,
+				"Je hebt " + naam2 +" uitgedaagd!", "Uitdaging.",
+				JOptionPane.WARNING_MESSAGE);
+		popup = null;
 	}
 
 	public void acceptUitdaging(String[] a) {
