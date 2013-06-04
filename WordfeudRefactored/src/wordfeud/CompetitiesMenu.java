@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 
-public class CompetitiesMenu extends JPanel  implements MouseListener, ActionListener{
+public class CompetitiesMenu extends JPanel  implements ActionListener{
 	
 	/**
 	 * 
@@ -92,7 +92,7 @@ public class CompetitiesMenu extends JPanel  implements MouseListener, ActionLis
 		String eigenaar = null;
 		
 		//Haal alle competities op uit de database
-		rs = connect.voerSelectQueryUit("select * from Competitie");
+		rs = connect.voerSelectQueryUit("SELECT * FROM Competitie");
 		try {
 			while(rs.next())
 			{
@@ -100,16 +100,10 @@ public class CompetitiesMenu extends JPanel  implements MouseListener, ActionLis
 				idCompetitie = rs.getInt("ID");
 				eigenaar = rs.getString("Account_naam_eigenaar");
 				
-				JPanel comp = new JPanel();
-				comp.setMaximumSize(new Dimension(650,80));
-				comp.setPreferredSize(comp.getMaximumSize());
-				comp.setBackground(new Color(44,47,53));
-				JLabel compTxt = new JLabel("Competitie " + idCompetitie + " Eigenaar: " + eigenaar);
-				compTxt.setForeground(Color.white);
-				comp.add(compTxt);
+				CompetitieItem compItem = new CompetitieItem(idCompetitie, eigenaar);
+	
 				competities.add(Box.createVerticalStrut(5));
-				competities.add(comp);
-				comp.addMouseListener(this);
+				competities.add(compItem);
 								
 			}
 		}
@@ -209,37 +203,6 @@ public class CompetitiesMenu extends JPanel  implements MouseListener, ActionLis
 			revalidate();
 			repaint();
 		}
-		
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		setParentContentPane(new CompetitieRanking());
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
