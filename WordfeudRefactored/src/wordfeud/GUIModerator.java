@@ -47,7 +47,7 @@ public class GUIModerator extends JPanel implements Observer{
 		headPanel = new JPanel();
 		headPanel.setForeground(Color.white);
 		headPanel.setBackground(new Color(23,26,30));
-		titel = new JLabel("Ranking");
+		titel = new JLabel("Moderatorscherm");
 		titel.setForeground(Color.white);
 		titel.setFont(new Font("Arial",Font.BOLD,30));
 		functies = new JPanel();
