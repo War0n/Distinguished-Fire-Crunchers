@@ -14,6 +14,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -30,6 +31,7 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 	private WFButton inviteButton;
 	private WFButton backButton;
 	private Connectie connect;
+	private JFrame popup = null;
 
 	private JPanel challengePlayer;
 	private JTextField playerName;
@@ -267,6 +269,10 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		showUitdagingen();
 		this.validate();
 		repaint();
+		JOptionPane.showMessageDialog(popup,
+				"Je hebt " + naam2 +" uitgedaagd!", "Uitdaging.",
+				JOptionPane.WARNING_MESSAGE);
+		popup = null;
 	}
 
 	public void acceptUitdaging(String[] a) {
