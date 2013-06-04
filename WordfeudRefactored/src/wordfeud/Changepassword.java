@@ -3,14 +3,17 @@ package wordfeud;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,15 +22,14 @@ import javax.swing.JPasswordField;
 
 public class Changepassword extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPasswordField passwordField;
 	private JPasswordField registerControle;
+	private JPasswordField currentPassword;
 	private JPanel changepwPanel;
 	private JPanel buttonpanel;
 	private JLabel passLabel;
+	private JLabel currentPasslabel;
 	private JLabel registercontroleLabel;
 	private WFButton changepwbutton;
 	private JFrame activeFrame;
@@ -38,13 +40,13 @@ public class Changepassword extends JFrame {
 		setBackground(new Color(23, 26, 30));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		activeFrame = this;
-		activeFrame.setMinimumSize(new Dimension(200, 100));
+		activeFrame.setMinimumSize(new Dimension(200, 150));
 		activeFrame.setResizable(false);
 		activeFrame.setLocationRelativeTo(null);
 		changepwPanel = (JPanel) activeFrame.getContentPane();
 		changepwPanel.setLayout(new BoxLayout(changepwPanel, BoxLayout.Y_AXIS));
 		changepwPanel.setBackground(new Color(23, 26, 30));
-		changepwPanel.setPreferredSize(new Dimension(150, 150));
+		changepwPanel.setPreferredSize(new Dimension(200, 175));
 		changepwPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 
 		buttonpanel = new JPanel();
@@ -52,7 +54,14 @@ public class Changepassword extends JFrame {
 		buttonpanel.setBackground(new Color(23, 26, 30));
 
 		changepwbutton = new WFButton("Verander!");
-
+		currentPasslabel = new JLabel("huidig wachtwoord:");
+		currentPasslabel.setForeground(Color.white);
+		currentPasslabel.setAlignmentX(CENTER_ALIGNMENT);
+		currentPasslabel.setVisible(true);
+		currentPassword = new JPasswordField();
+		currentPassword.setVisible(true);
+		currentPassword.setAlignmentX(CENTER_ALIGNMENT);
+		currentPassword.setMaximumSize(new Dimension(150, 20));
 		passwordField = new JPasswordField();
 		passwordField.setAlignmentX(CENTER_ALIGNMENT);
 		passLabel = new JLabel("Nieuw wachtwoord:");
@@ -68,10 +77,17 @@ public class Changepassword extends JFrame {
 		registercontroleLabel.setVisible(true);
 		registerControle.setMaximumSize(new Dimension(150, 20));
 
+		changepwPanel.add(Box.createVerticalStrut(5));
+		changepwPanel.add(currentPasslabel);
+		changepwPanel.add(Box.createVerticalStrut(2));
+		changepwPanel.add(currentPassword);
+		changepwPanel.add(Box.createVerticalStrut(2));
 		changepwPanel.add(passLabel);
 		changepwPanel.add(Box.createVerticalStrut(2));
 		changepwPanel.add(passwordField);
+		changepwPanel.add(Box.createVerticalStrut(2));
 		changepwPanel.add(registercontroleLabel);
+		changepwPanel.add(Box.createVerticalStrut(2));
 		changepwPanel.add(registerControle);
 		changepwPanel.add(Box.createVerticalStrut(5));
 		buttonpanel.add(changepwbutton);
@@ -89,35 +105,86 @@ public class Changepassword extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String controlePassword = new String(registerControle
+				String checkcurrentpassword = new String(currentPassword
 						.getPassword());
-				String password2 = new String(passwordField.getPassword());
-				System.out.println("1");
-				if (controlePassword.equals(password2)) {
-					Connectie connect = new Connectie();
-					String password = new String(passwordField.getPassword());
-					System.out.println("nars.getint");
-					connect.voerInsertOrUpdateQueryUit("UPDATE account SET wachtwoord = '"
-							+ password
-							+ "' WHERE naam = '"
-							+ Account.getAccountNaam() + "'");
+				Connectie con2 = new Connectie();
+				ResultSet rs;
+				rs = con2
+						.voerSelectQueryUit("SELECT COUNT(naam) AS aantal FROM account WHERE naam = '"
+								+ Account.getAccountNaam()
+								+ "' AND wachtwoord ='"
+								+ checkcurrentpassword
+								+ "' ");
+				try {
+					if (rs.next()) {
+						if (rs.getInt("aantal") == 1) {
+							final ImageIcon icon = new ImageIcon(
+									"src/images/conf.jpg");
+							String controlePassword = new String(
+									registerControle.getPassword());
+							String controlePasswordAgain = new String(
+									passwordField.getPassword());
 
-					connect.closeConnection();
-					JOptionPane.showMessageDialog(popup,
-							"Het wachtwoord is veranderd!", "Voltooid",
-							JOptionPane.PLAIN_MESSAGE);
-					popup = null;
-					activeFrame.dispose();
+							if (controlePassword.equals("")
+									&& controlePasswordAgain.equals("")) {
+								JOptionPane.showMessageDialog(popup,
+										"Je hebt niks ingevoerd!", "fout",
+										JOptionPane.ERROR_MESSAGE);
+								popup = null;
+							} else {
+								if (controlePassword
+										.equals(controlePasswordAgain)) {
+									Connectie connect = new Connectie();
+									String password = new String(passwordField
+											.getPassword());
+									System.out.println("nars.getint");
+									connect.voerInsertOrUpdateQueryUit("UPDATE account SET wachtwoord = '"
+											+ password
+											+ "' WHERE naam = '"
+											+ Account.getAccountNaam() + "'");
+									connect.closeConnection();
+									JOptionPane.showMessageDialog(popup,
+											"Het wachtwoord is veranderd!",
+											"Voltooid",
+											JOptionPane.INFORMATION_MESSAGE,
+											icon);
+									popup = null;
+									activeFrame.dispose();
+								}
 
-				} else if (!controlePassword.equals(password2)) {
-					JOptionPane.showMessageDialog(popup,
-							"De wachtwoorden komen niet overeen!", "Foutje!",
-							JOptionPane.WARNING_MESSAGE);
+								else if (!controlePassword
+										.equals(controlePasswordAgain)) {
+									JOptionPane
+											.showMessageDialog(
+													popup,
+													"De wachtwoorden komen niet overeen!",
+													"Foutje!",
+													JOptionPane.ERROR_MESSAGE);
+									popup = null;
+								}
+
+							}
+
+						} else {
+							JOptionPane
+							.showMessageDialog(
+									popup,
+									"Je oude wachtwoord klopt niet!",
+									"Foutje!",
+									JOptionPane.ERROR_MESSAGE);
 					popup = null;
+							
+						}
+					}
+
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			}
+				;
+
+			};
+
 		});
-
 	}
-
 }
