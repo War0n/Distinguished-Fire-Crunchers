@@ -308,30 +308,24 @@ public class SpelVerloop implements Runnable {
 	{
 		HashMap<Point, Stone> myWord = new HashMap<Point, Stone>();
 		Point tmp = new Point(p.x, p.y);
-		Point beginp = new Point(p.x, p.y);
 		if(horizontaal)
 		{
 			while(nextStone(tmp,'l') != null)
 			{
 				tmp.x -= 1;
-				beginp = new Point(tmp.x, tmp.y);
 			}
 			tmp.x -= 1;
 			do
 			{
 				tmp.x += 1;
 				myWord.put(new Point(tmp.x, tmp.y), spelBord.getStoneAt(tmp));
-				//tmp.x += 1;
 			} while(nextStone(tmp,'r') != null);
-			/*if(tmp.x - beginp.x > 1)
-				myWord.put(new Point(tmp.x, tmp.y), spelBord.getStoneAt(tmp));*/
 		}
 		else
 		{
 			while(nextStone(tmp,'u') != null)
 			{
 				tmp.y -= 1;
-				beginp = new Point(tmp.x, tmp.y);
 			}
 			tmp.y -= 1;
 			do
@@ -339,8 +333,6 @@ public class SpelVerloop implements Runnable {
 				tmp.y += 1;
 				myWord.put(new Point(tmp.x, tmp.y), spelBord.getStoneAt(tmp));
 			} while(nextStone(tmp,'d') != null);
-			/*if(tmp.y - beginp.y > 1)
-				myWord.put(new Point(tmp.x, tmp.y), spelBord.getStoneAt(tmp));*/
 		}
 		
 		if(myWord.size() <= 1)
