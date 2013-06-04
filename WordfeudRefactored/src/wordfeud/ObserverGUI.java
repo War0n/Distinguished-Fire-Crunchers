@@ -65,7 +65,7 @@ public class ObserverGUI extends JPanel{
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO Auto-generated method stub
-					setParentContentPane(new CompetitiesMenu(true));
+					setParentContentPane(new ActieveSpellenMenu(true));
 				}
 			});
 		}
