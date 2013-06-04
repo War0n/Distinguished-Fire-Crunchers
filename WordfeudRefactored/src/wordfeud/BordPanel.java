@@ -82,6 +82,11 @@ public class BordPanel extends JPanel
 		speelVeld.lockField();
 	}
 	
+	public void repaitTile(int x, int y)
+	{
+		tiles[x][y].repaint();
+	}
+	
 	public ArrayList<Stone> clearField() //
 	{
 		ArrayList<Stone> stenen = new ArrayList<Stone>();

@@ -77,6 +77,8 @@ public class Bord {
 			while (result.next()) {
 				int xSQL = result.getInt("Tegel_X");
 				int ySQL = result.getInt("Tegel_Y");
+				if(tiles[xSQL][ySQL].getStone() != null && tiles[xSQL][ySQL].getStone().getLocked() == true)
+					continue;
 				int idSQL = result.getInt("letter_ID");
 				String bString = result.getString("BlancoLetterKarakter");
 				String kString = result.getString("LetterType_karakter");
@@ -88,6 +90,8 @@ public class Bord {
 					tiles[xSQL][ySQL].setStone(new Stone(kString.toCharArray()[0], idSQL));
 				}
 				tiles[xSQL][ySQL].getStone().setLocked(true);
+				if( panel != null )
+					panel.repaitTile(xSQL, ySQL);
 			}
 
 		} catch (SQLException e) {

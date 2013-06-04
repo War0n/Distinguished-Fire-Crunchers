@@ -383,7 +383,6 @@ public class SpelVerloop implements Runnable {
 
 		while (!spelOver) {
 			spelBord.plaatsLetters();
-			spelBord.getPanel().repaint();
 			if (!myTurn()) {
 				spel.getSpelPanel().getPlayButton().setEnabled(false);
 				spel.getSpelPanel().getShuffleButton().setEnabled(false);
