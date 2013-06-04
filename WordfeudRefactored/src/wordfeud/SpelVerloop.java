@@ -240,7 +240,6 @@ public class SpelVerloop implements Runnable {
 		woordenLijst.add(new HashMap<Point, Stone>());
 		boolean hor = false;
 		boolean ver = false;
-		boolean eenLetter = false;
 		int index = 0;
 		//TestStones
 		System.out.print("Nieuwgelegde tegels: ");
@@ -258,11 +257,6 @@ public class SpelVerloop implements Runnable {
 		} else {
 			currentStone = newStones[0];
 		}
-		// Woorden zoeken
-		if(newStones.length == 1){
-			eenLetter = true;
-		}
-		// Scroll naarboven vanaf de meest linksboven nieuwe letter
 		if(spelBord.getCoordinat(newStones[0]).y == spelBord.getCoordinat(newStones[newStones.length -1]).y){
 			while(nextStone(spelBord.getCoordinat(currentStone), 'l') != null){
 				currentStone = nextStone(spelBord.getCoordinat(currentStone), 'l');
@@ -389,11 +383,6 @@ public class SpelVerloop implements Runnable {
 				currentStone = nextStone(spelBord.getCoordinat(currentStone), 'd');
 			}
 		}
-		else if(eenLetter){
-			
-		}
-		
-		
 		// controleer of er geen gaten zijn.
 		int count = 0;
 		for (HashMap<Point, Stone> woord : woordenLijst) {
@@ -421,10 +410,18 @@ public class SpelVerloop implements Runnable {
 			return null;
 		}
 		// Is dit het eerste woord? En zoja ligt het op het startvak?
-		if(spelBord.getTile(new Point(7, 7)).getStone() == null){
-			System.out.println("startNULL");
-			return null;
+		if(woordenLijst.size() == 1 && woordenLijst.get(0).size() == newStones.length){
+			if(spelBord.getTile(new Point(7, 7)).getStone() == null){
+				System.out.println("startNULL");
+				return null;
+			}
+			if(spelBord.getTile(new Point(7, 7)).getStone().getLocked() == true){
+				System.out.println("eenzaamWoordNULL");
+				return null;
+			}
 		}
+
+
 		System.out.println("L4 " + woordenLijst.get(index).size());
 		//TESTLUS
 		for(HashMap<Point, Stone> woord : woordenLijst){
