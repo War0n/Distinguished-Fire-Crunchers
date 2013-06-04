@@ -21,6 +21,8 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		backButton = new WFButton("< terug naar competities");
 		backButton.addActionListener(this);
 		
+		//iets met ranking
+		
 		this.add(backButton);
 	}
 	
