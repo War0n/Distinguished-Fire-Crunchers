@@ -76,7 +76,7 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		root.pack();
 	}
 	
-	public void showRanking(){
+	public void showRanking(){ //Haal de ranking uit de db en maak er een panel van
 		
 		int index = 1;
 		Connectie connect = new Connectie();
