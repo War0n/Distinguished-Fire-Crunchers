@@ -183,6 +183,8 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		Box superBox = new Box(BoxLayout.PAGE_AXIS);
 
 		Box inputBox = new Box(BoxLayout.PAGE_AXIS);
+		chalName.setAlignmentX(RIGHT_ALIGNMENT);
+		chalComp.setAlignmentX(RIGHT_ALIGNMENT);
 		inputBox.add(chalName);
 		inputBox.add(playerName);
 
