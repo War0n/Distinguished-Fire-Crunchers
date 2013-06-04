@@ -5,7 +5,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,7 +24,7 @@ public class ObserverGUI extends JPanel {
 	private JPanel filler;
 	private JLabel score;
 	private WFButton backButton;
-
+	
 	public ObserverGUI(int observableSpelId) {
 		spel = new Spel(observableSpelId); // TODO verander in logisch nummer
 		setMinimumSize(new Dimension(630, 700));
@@ -69,4 +73,6 @@ public class ObserverGUI extends JPanel {
 			}
 		});
 	}
+	
+	
 }
