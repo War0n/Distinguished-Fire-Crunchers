@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 
-public class CompetitiesMenu extends JPanel  implements ActionListener{
+public class CompetitiesMenu extends JPanel  implements ActionListener {
 	
 	/**
 	 * 
@@ -204,5 +204,4 @@ public class CompetitiesMenu extends JPanel  implements ActionListener{
 			repaint();
 		}
 	}
-
 }

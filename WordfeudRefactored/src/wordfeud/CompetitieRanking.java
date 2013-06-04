@@ -35,21 +35,23 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		head.setMaximumSize(new Dimension(650,50));
 		head.setPreferredSize(head.getMaximumSize());
 		head.add(titel);
+		backButton = new WFButton("< terug naar competities");
+		backButton.addActionListener(this);
 		functies = new JPanel();
 		functies.setBackground(new Color(29,144,160));
 		functies.setMaximumSize(new Dimension(650,40));
 		functies.setPreferredSize(functies.getMaximumSize());
 		functies.setLayout(new FlowLayout());
-		functies.add(backButton);
 		
 		this.idCompetitie = idCompetitie;
-		backButton = new WFButton("< terug naar competities");
-		backButton.addActionListener(this);
+
 		
 		showRanking();
 		
-		this.add(titel);
-		this.add(backButton);
+		this.add(head);
+		this.add(functies);
+		head.add(titel);
+		functies.add(backButton);
 	}
 	
 	public void setParentContentPane(JPanel contentPane){
