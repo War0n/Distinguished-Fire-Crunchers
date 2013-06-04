@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.DropMode;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
