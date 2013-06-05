@@ -107,7 +107,7 @@ public class SpelVerloop implements Runnable, ActionListener{
 					woordCheck = str; // Moderator voor goedkeuring vragen
 					int selection = JOptionPane.showConfirmDialog(
                             null
-                    , "Het gelegde woord is geen geldig woord, wil je dit woord naar de moderator sturen voor goedkeuring?"
+                    , "" + woordCheck + " is geen geldig woord, wil je dit woord naar de moderator sturen voor goedkeuring?"
                     , "Ongeldig woord"
                     , JOptionPane.OK_CANCEL_OPTION
                     , JOptionPane.INFORMATION_MESSAGE);     
@@ -589,17 +589,24 @@ public class SpelVerloop implements Runnable, ActionListener{
 	
 	public void askModerator(String str){
 		Connectie connecteer = new Connectie();
+		JFrame popup = null;
 		ResultSet rs = connecteer.voerSelectQueryUit("SELECT COUNT(*), status FROM woordenboek WHERE woord = '" + str + "'");
 		try {
 			if(rs.next()){
 				if(rs.getInt(1) == 0){
 					connecteer.voerInsertOrUpdateQueryUit("INSERT INTO woordenboek (woord,status) VALUES ('" + str + "', 'Pending')");
 				}
-				if(rs.getString(2).equals("Pending")){
-					System.out.println(str + " wacht al op een actie van de moderator");
+				if(rs.getString("status").equals("Pending")){
+					JOptionPane.showMessageDialog(popup,
+						"" + woordCheck + " wacht al op een actie van de moderator.", "Al ingestuurd",
+						JOptionPane.WARNING_MESSAGE);
+					popup = null;
 				}
-				if(rs.getString(2).equals("Denied")){
-					System.out.println(str + " is al een keer verworpen");
+				if(rs.getString("status").equals("Denied")){
+					JOptionPane.showMessageDialog(popup,
+						"" + woordCheck + " is al een keer verworpen.", "Al verworpen",
+						JOptionPane.WARNING_MESSAGE);
+					popup = null;
 				}
 			}
 		} catch (SQLException e) {
