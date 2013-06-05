@@ -34,6 +34,7 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 	private WFButton backButton;
 	private Connectie connect;
 	private JFrame popup = null;
+	private HashMap<Integer,Integer> existingCompetitions;
 
 	private JPanel challengePlayer;
 	private JTextField playerName;
@@ -210,7 +211,7 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 
 	public void extendUitdaging() {
 		String naam = Account.getAccountNaam();
-		int compID = selectedCompetition.getSelectedIndex() + 1;
+		int compID = existingCompetitions.get(selectedCompetition.getSelectedItem());
 		String naam2 = playerName.getText();
 		String toestand = "Request";
 		String reaktie = "Unknown";
@@ -397,13 +398,17 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 
 	public void addExistingCompetitions() {
 		connect = new Connectie();
+		existingCompetitions =new HashMap<Integer,Integer>();
 		ResultSet competitieRS = connect
 				.voerSelectQueryUit("SELECT ID,omschrijving FROM competitie");
 		try {
+			int i = 0;
 			while (competitieRS.next()) {
-				selectedCompetition.insertItemAt(
-						competitieRS.getString("omschrijving"),
-						competitieRS.getInt("ID") - 1);
+				existingCompetitions.put(
+						i,
+						competitieRS.getInt("ID"));
+				selectedCompetition.insertItemAt(competitieRS.getString("omschrijving"), i);
+				i++;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
