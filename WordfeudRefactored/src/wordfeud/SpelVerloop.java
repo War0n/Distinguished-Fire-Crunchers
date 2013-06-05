@@ -596,18 +596,6 @@ public class SpelVerloop implements Runnable, ActionListener{
 				if(rs.getString("woord").equals(null) || !(rs.getString("status").equals("Denied"))){
 					connecteer.voerInsertOrUpdateQueryUit("INSERT INTO woordenboek (woord,status) VALUES ('" + str + "', 'Pending')");
 				}
-				if(rs.getString("status").equals("Denied")){
-					JOptionPane.showMessageDialog(popup,
-						"Het verstuurde woord is al een keer verworpen", "Al verworpen",
-						JOptionPane.WARNING_MESSAGE);
-					popup = null;
-				}
-				if(rs.getString("status").equals("Pending")){
-					JOptionPane.showMessageDialog(popup,
-						"Het woord is al een keer aangevraagd bij de moderator en heeft nog geen definitieve status.", "Al verstuurd",
-						JOptionPane.WARNING_MESSAGE);
-					popup = null;
-				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
