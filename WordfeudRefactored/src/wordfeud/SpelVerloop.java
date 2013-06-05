@@ -22,6 +22,7 @@ public class SpelVerloop implements Runnable, ActionListener{
 	private ResultSet myResultSet;
 	private Connectie connect;
 	private int beurt;
+	private int lastScore;
 	private Bord spelBord;
 	private String woordCheck;
 	
@@ -134,6 +135,7 @@ public class SpelVerloop implements Runnable, ActionListener{
 		for(String str : gelegdeWoordenInBeurt){
 			bericht += str + " ";
 		}
+		bericht += "voor " + lastScore + " Punten";
 		
 		String q = "INSERT INTO chatregel VALUES('" + Account.getAccountNaam() + "',"+ spel.getSpelId() +",NOW(),'"+ bericht +"')";
 		con.doInsertUpdate(q);
@@ -186,12 +188,19 @@ public class SpelVerloop implements Runnable, ActionListener{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		con.closeConnection();
-		pakLetters();
-		if( moveType.equals("Pass") == true)
+		if( moveType.equals("Pass"))
 		{
+			String q = "INSERT INTO chatregel VALUES('" + Account.getAccountNaam() + "',"+ spel.getSpelId() +",NOW(),'[PASST] deze beurt')";
+			con.doInsertUpdate(q);
 			winByPass();
 		}
+		
+		if(moveType.equals("Swap")){
+			String q = "INSERT INTO chatregel VALUES('" + Account.getAccountNaam() + "',"+ spel.getSpelId() +",NOW(),'[SWAPT] Letter(s)')";
+			con.doInsertUpdate(q);
+		}
+		con.closeConnection();
+		pakLetters();
 	}
 
 	public Integer puntenTeller() {
@@ -238,6 +247,7 @@ public class SpelVerloop implements Runnable, ActionListener{
 			System.out.println(woord);
 			score = score + woordScore;
 		}
+		lastScore = score;
 		return score;
 	}
 	
