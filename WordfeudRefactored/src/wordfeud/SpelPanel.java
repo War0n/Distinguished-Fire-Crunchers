@@ -168,7 +168,6 @@ public class SpelPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				spel.getVerloop().play();
-				System.out.println(spel.getVerloop().puntenTeller());
 			}
 		});
 	}
