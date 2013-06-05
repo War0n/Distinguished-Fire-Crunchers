@@ -172,5 +172,6 @@ public class GUIMenu extends JPanel implements ActionListener{
 		JFrame root = (JFrame) SwingUtilities.getWindowAncestor(this);
 		root.setContentPane(contentPane);
 		root.pack();
+		root.setLocationRelativeTo(null);
 	}
 }
