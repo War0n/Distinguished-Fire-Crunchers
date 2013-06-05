@@ -251,6 +251,7 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 			String[] a = playBtn.get(arg0.getSource());
 			System.out.println("Open spel [id: " + a[0] + "]");
 			if (!observer) {
+				System.out.println(Integer.parseInt(a[0]));
 				setParentContentPane(new SpelPanel(Integer.parseInt(a[0])));
 			} else {
 				setParentContentPane(new ObserverGUI(Integer.parseInt(a[0])));

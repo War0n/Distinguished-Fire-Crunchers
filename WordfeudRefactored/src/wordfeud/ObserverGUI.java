@@ -5,17 +5,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public class ObserverGUI extends JPanel {
+public class ObserverGUI extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private Spel spel;
 	private BordPanel speelVeld;
@@ -50,7 +47,7 @@ public class ObserverGUI extends JPanel {
 		scores.add(backButton, BorderLayout.WEST);
 		scores.add(score, BorderLayout.EAST);
 		leftBottomContainer.add(scores);
-		initButtons();
+		backButton.addActionListener(this);
 
 		add(filler);
 		add(leftBottomContainer);
@@ -62,16 +59,8 @@ public class ObserverGUI extends JPanel {
 		root.pack();
 	}
 
-	public void initButtons() {
-
-		backButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				setParentContentPane(new ActieveSpellenMenu(true));
-			}
-		});
+	public void actionPerformed(ActionEvent arg0) {
+		setParentContentPane(new ObserverMenu());
 	}
 	
 	
