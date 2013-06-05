@@ -53,7 +53,7 @@ import java.util.ArrayList;
         		Connectie con = new Connectie();
         		try
         		{
-        			ResultSet rs = con.voerSelectQueryUit("SELECT COUNT(*) FROM letterbakjeletter WHERE Spel_ID = " + curSpel.getSpelId() + " AND Beurt_ID = (SELECT MAX(ID) FROM beurt WHERE Account_naam = '"+ Account.getAccountNaam() + "')" );
+        			ResultSet rs = con.doSelect("SELECT COUNT(*) FROM letterbakjeletter WHERE Spel_ID = %1$d AND Beurt_ID = (SELECT MAX(ID) FROM beurt WHERE Account_naam = '%2$s' AND Spel_ID = %1$d);", curSpel.getSpelId(), Account.getAccountNaam());
         		
         			if(rs.next())
         			{

@@ -434,12 +434,14 @@ public class SpelVerloop implements Runnable, ActionListener{
 				spel.getSpelPanel().getShuffleButton().setEnabled(false);
 				spel.getSpelPanel().getSkipButton().setEnabled(false);
 				spel.getSpelPanel().getSwapButton().setEnabled(false);
+				spel.getSpelPanel().getClearButton().setEnabled(false);
 			} else {
 				// zet alles op het bord waar nodig, update score moet nog
-				spel.getSpelPanel().getPlayButton().setEnabled(true);
 				spel.getSpelPanel().getShuffleButton().setEnabled(true);
-				spel.getSpelPanel().getClearButton().setEnabled(true);
-				spel.getLetterBak().lockButtons();
+				if(spel.getLetterBak() != null)
+				{
+					spel.getLetterBak().lockButtons();
+				}
 			}
 			try {
 				Thread.sleep(2000);

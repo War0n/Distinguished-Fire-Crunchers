@@ -84,7 +84,7 @@ public class Bord {
 				String kString = result.getString("LetterType_karakter");
 
 				if (kString.equals("?")) {
-					tiles[xSQL][ySQL].setStone(new Stone(bString.toCharArray()[0], idSQL));
+					tiles[xSQL][ySQL].setStone(new Stone(kString.toCharArray()[0], idSQL));
 					tiles[xSQL][ySQL].getStone().setBlancoLetter(bString.toCharArray()[0]);
 				} else {
 					tiles[xSQL][ySQL].setStone(new Stone(kString.toCharArray()[0], idSQL));

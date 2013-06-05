@@ -138,7 +138,7 @@ public class SpelPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				letterbak.addLetters(speelVeld.clearField());//
-
+				spel.getLetterBak().lockButtons();
 			}
 		});
 
@@ -227,7 +227,6 @@ public class SpelPanel extends JPanel {
 			e.printStackTrace();
 		}
 		connect.closeConnection();
-		score.setText(Account.getAccountNaam() + ": "+scores[0] + "            "+opName+": "+scores[1]);
-		score.repaint();
+		setScore(Account.getAccountNaam() + ": "+scores[0] + "            "+opName+": "+scores[1]);
 	}
 }
