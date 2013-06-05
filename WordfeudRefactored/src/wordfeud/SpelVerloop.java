@@ -431,7 +431,7 @@ public class SpelVerloop implements Runnable {
 					JOptionPane.WARNING_MESSAGE);
 				popup = null;
 			}
-			else{
+			if(myScore == opScore){
 				JOptionPane.showMessageDialog(popup,
 					"Je hebt gelijk gespeeld met beide een score van " + myScore + ".", "Gelijkspel",
 					JOptionPane.WARNING_MESSAGE);
