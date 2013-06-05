@@ -166,7 +166,7 @@ public class SpelPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				spel.getVerloop().play();
+				spel.getVerloop().play();//
 			}
 		});
 	}
