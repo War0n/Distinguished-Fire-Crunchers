@@ -144,10 +144,11 @@ public class CompetitiesMenu extends JPanel implements ActionListener {
 		inputBox.add(Box.createVerticalStrut(5));
 		inputBox.add(compStart);
 
-		startDate.setText(now());
+		startDate.setText(startDate());
 		inputBox.add(startDate);
 		inputBox.add(Box.createVerticalStrut(5));
 		inputBox.add(compEind);
+		endDate.setText(endDate());
 		inputBox.add(endDate);
 		inputBox.add(Box.createVerticalStrut(10));
 		superBox.add(inputBox);
@@ -163,8 +164,15 @@ public class CompetitiesMenu extends JPanel implements ActionListener {
 		repaint();
 	}
 
-	public String now() {
+	public String startDate() {
 		java.sql.Date dt1 = new java.sql.Date(System.currentTimeMillis());
+		String dt1Text = dt1.toString();
+		return dt1Text;
+	}
+
+	public String endDate() {
+		java.sql.Date dt1 = new java.sql.Date(
+				System.currentTimeMillis() + 604800000);
 		String dt1Text = dt1.toString();
 		return dt1Text;
 	}
