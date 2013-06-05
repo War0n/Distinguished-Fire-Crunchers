@@ -168,7 +168,7 @@ public class SpelVerloop implements Runnable, ActionListener{
 	}
 	
 	public void doTurn(String moveType, boolean bUpdateScore) {
-		if (!myTurn()) {
+		if (!myTurn() && (moveType.equals("Word")||moveType.equals("Pass")||moveType.equals("Swap"))) {
 			return;
 		}
 		Connectie con = new Connectie();
@@ -593,7 +593,7 @@ public class SpelVerloop implements Runnable, ActionListener{
 			e.printStackTrace();
 		}
 		if (gepasst >= 3) {
-			connect3.voerInsertOrUpdateQueryUit("INSERT INTO beurt VALUES(,"+spel.getSpelId()+",'"+Account.getAccountNaam()+"',0,'End'");
+			doTurn("End", false);
 		}
 		gepasst = 0;
 		connect3.closeConnection();
