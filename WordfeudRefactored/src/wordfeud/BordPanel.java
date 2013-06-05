@@ -28,11 +28,14 @@ public class BordPanel extends JPanel
 	private GUITile[][] tiles;
 	private Spel mySpel;
 	
+	private boolean bObserver;
+	
 	
 	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");
 	
-	public BordPanel(Spel spel) {
+	public BordPanel(Spel spel, boolean observer) {
 		mySpel = spel;
+		bObserver = observer;
 		this.setSpeelVeld(spel.getBord());
 		speelVeld.setPanel(this);
 		setLayout(new GridLayout(15,15,2,2));
@@ -48,10 +51,13 @@ public class BordPanel extends JPanel
 				tiles[x][y] = new GUITile(speelVeld.getTile(new Point(x,y)), mySpel);
 				add(tiles[x][y]);
 				
-				DragSource ds = new DragSource();
-			    ds.createDefaultDragGestureRecognizer(tiles[x][y], DnDConstants.ACTION_MOVE, new MyDragGestureListener());
-
-			    new MyDropTargetListener(tiles[x][y]);
+				if(!bObserver) // observer heeft geen drag en drop nodig
+				{
+					DragSource ds = new DragSource();
+				    ds.createDefaultDragGestureRecognizer(tiles[x][y], DnDConstants.ACTION_MOVE, new MyDragGestureListener());
+	
+				    new MyDropTargetListener(tiles[x][y]);
+				}
 			}
 		}	
 	}

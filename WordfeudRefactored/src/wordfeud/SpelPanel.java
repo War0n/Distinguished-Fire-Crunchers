@@ -38,9 +38,8 @@ public class SpelPanel extends JPanel {
 	private WFButton clearButton;
 	private WFButton shuffleButton;
 
-
-	public SpelPanel(int spelID) {
-
+	public SpelPanel(int spelID) 
+	{
 		setMaximumSize(new Dimension(630, 700));
 		setPreferredSize(getMaximumSize());
 		swapButton = new WFButton("Swap");
@@ -75,7 +74,7 @@ public class SpelPanel extends JPanel {
 		initButtons();
 		setBackground(new Color(23, 26, 30));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		speelVeld = new BordPanel(spel);
+		speelVeld = new BordPanel(spel, false);
 		functiepanel = new FunctionPanel();
 		functiepanel.setLayout(new BoxLayout(functiepanel, BoxLayout.X_AXIS));
 		leftBottomContainer = new JPanel();

@@ -29,7 +29,6 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 	private JPanel functies;
 	private JPanel spellen;
 	private JScrollPane scrollPane;
-	private WFButton inviteButton;
 	private WFButton backButton;
 	private Connectie connect;
 
@@ -48,8 +47,6 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		backButton = new WFButton("< Terug naar menu");
 		backButton.addActionListener(this);
-		inviteButton = new WFButton("Speler uitdagen");
-		inviteButton.addActionListener(this);
 		titel = new JLabel("Actieve spellen");
 		titel.setForeground(Color.white);
 		titel.setFont(new Font("Arial", Font.BOLD, 30));
@@ -65,7 +62,7 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 		functies.setLayout(new FlowLayout());
 		functies.add(backButton);
 		functies.add(selectedCompetition);
-		// functies.add(inviteButton);
+		
 		add(head);
 		add(functies);
 		initSpellen();

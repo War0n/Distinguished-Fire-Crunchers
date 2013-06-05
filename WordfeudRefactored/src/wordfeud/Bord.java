@@ -13,9 +13,11 @@ public class Bord {
 	private Spel spel;
 	private ResultSet result;
 	private BordPanel panel;
+	private boolean bObserver;
 
-	public Bord(Spel spel, String name) {
+	public Bord(Spel spel, String name, boolean observer) {
 		this.name = name;
+		bObserver = observer;
 		connectie = new Connectie();
 		this.spel = spel;
 		setupTiles();
@@ -65,7 +67,10 @@ public class Bord {
 				x++;
 			}
 		}
-		plaatsLetters();
+		if( !bObserver )
+			plaatsLetters();
+		else
+			plaatsLetters(2);
 	}
 
 	public void plaatsLetters() {
@@ -73,6 +78,48 @@ public class Bord {
 			ResultSet result = connectie
 					.voerSelectQueryUit("SELECT letter_ID, Tegel_X, Tegel_Y, BlancoLetterKarakter ,LetterType_karakter FROM gelegdeletter AS g LEFT JOIN letter AS l ON g.Letter_ID = l.ID AND l.Spel_ID = g.Spel_ID WHERE l.Spel_ID = "
 							+ spel.getSpelId());
+
+			while (result.next()) {
+				int xSQL = result.getInt("Tegel_X")-1;
+				int ySQL = result.getInt("Tegel_Y")-1;
+				if(tiles[xSQL][ySQL].getStone() != null && tiles[xSQL][ySQL].getStone().getLocked() == true)
+					continue;
+				int idSQL = result.getInt("letter_ID");
+				String bString = result.getString("BlancoLetterKarakter");
+				String kString = result.getString("LetterType_karakter");
+
+				if (kString.equals("?")) {
+					tiles[xSQL][ySQL].setStone(new Stone(kString.toCharArray()[0], idSQL));
+					tiles[xSQL][ySQL].getStone().setBlancoLetter(bString.toCharArray()[0]);
+				} else {
+					tiles[xSQL][ySQL].setStone(new Stone(kString.toCharArray()[0], idSQL));
+				}
+				tiles[xSQL][ySQL].getStone().setLocked(true);
+				if( panel != null )
+					panel.repaitTile(xSQL, ySQL);
+			}
+
+		} catch (SQLException e) {
+			System.out
+					.println("Er is iets verkeerd gegaam, start het programma opnieuw op, controleer de internetverbinding en probeer het nog eens.");
+			e.printStackTrace();
+		}
+	}
+	
+	public void plaatsLetters(int beurt) {
+		for(int y = 0; y < 15; y++)
+		{
+			for(int x = 0; x < 15; x++)
+			{
+				tiles[x][y].setStone(null);
+			}
+		}
+		if(panel != null)
+			panel.repaint();
+		try {
+			ResultSet result = connectie
+					.voerSelectQueryUit("SELECT letter_ID, Tegel_X, Tegel_Y, BlancoLetterKarakter ,LetterType_karakter FROM gelegdeletter AS g LEFT JOIN letter AS l ON g.Letter_ID = l.ID AND l.Spel_ID = g.Spel_ID WHERE l.Spel_ID = "
+							+ spel.getSpelId() + " AND Beurt_ID <= " + beurt);
 
 			while (result.next()) {
 				int xSQL = result.getInt("Tegel_X")-1;

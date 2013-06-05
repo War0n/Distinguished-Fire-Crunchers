@@ -29,7 +29,7 @@ public class LetterbakPanel extends JPanel
 	private ArrayList<GUITile> tiles;
 	private Spel spel;
 	
-	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");//
+	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");
 	
 	public LetterbakPanel(Spel spel) 
 	{
@@ -42,10 +42,13 @@ public class LetterbakPanel extends JPanel
 			add(tiles.get(i));
 			tiles.get(i).setOverride(true);
 			
-			DragSource ds = new DragSource();
-		    ds.createDefaultDragGestureRecognizer(tiles.get(i), DnDConstants.ACTION_MOVE, new MyDragGestureListener());
-
-		    new MyDropTargetListener(tiles.get(i));
+			if(!letterbak.isObserver())
+			{
+				DragSource ds = new DragSource();
+			    ds.createDefaultDragGestureRecognizer(tiles.get(i), DnDConstants.ACTION_MOVE, new MyDragGestureListener());
+	
+			    new MyDropTargetListener(tiles.get(i));
+			}
 		}
 		setBackground(new Color(23,26,30));
 		repaint();

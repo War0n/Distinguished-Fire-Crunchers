@@ -11,19 +11,19 @@ public class Spel {
 	public Spel(SpelPanel panel, int clickedSpelID) {
 		letterSet = new LetterSet("NL"); // Nederlands? :)
 		spelID = clickedSpelID;//new Integer(new Random().nextInt(20)); // ALLEEN VOOR TESTEN!!
-		bord = new Bord(this, "Standard");
+		bord = new Bord(this, "Standard", false);
 		verloop = new SpelVerloop(this);
 		spelPanel = panel;
-		letterbak = new Letterbak(this);
+		letterbak = new Letterbak(this, false);
 	}
 	
 	public Spel(int clickedSpelID) {
 		letterSet = new LetterSet("NL"); // Nederlands? :)
 		spelID = clickedSpelID;
-		bord = new Bord(this, "Standard");
-		spelPanel = new SpelPanel(clickedSpelID);
-		verloop = new SpelVerloop(this);
-		letterbak = new Letterbak(this);
+		bord = new Bord(this, "Standard", true);
+		letterbak = new Letterbak(this, true);
+		//spelPanel = new SpelPanel(this, clickedSpelID, true);
+		//verloop = new SpelVerloop(this);
 	}
 
 	public LetterSet getLetterSet() {
