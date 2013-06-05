@@ -14,11 +14,9 @@ public class Moderator extends Observable implements ActionListener {
 
 	private Connectie connect;
 	private ResultSet myResultSet;
-	private ResultSet prevResultSet;
-	private ArrayList<JCheckBox> reviewWoorden;
 	private GUIModerator myGUIModerator;
 	private GUIMenu myGuiMenu;
-	private Thread checkReviewWoorden;
+	private ArrayList<JCheckBox> reviewWoorden;
 
 	private boolean refresh;
 
@@ -74,6 +72,7 @@ public class Moderator extends Observable implements ActionListener {
 		myResultSet = connect
 				.voerSelectQueryUit("SELECT * FROM woordenboek WHERE status = 'Pending'");
 		myGUIModerator.clearWoordenPanel();
+		reviewWoorden = new ArrayList<JCheckBox>();
 		try {
 			while (myResultSet.next()) {
 				reviewWoorden
