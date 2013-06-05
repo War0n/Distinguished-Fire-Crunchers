@@ -5,14 +5,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Formatter;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -128,7 +122,7 @@ public class LoginScreen extends JPanel {
 					Connectie connect = new Connectie();
 					ResultSet rs;
 					rs = connect
-							.voerSelectQueryUit("SELECT COUNT(naam) FROM Account WHERE naam = '"
+							.voerSelectQueryUit("SELECT COUNT(*) FROM Account WHERE naam = '"
 									+ usernameField.getText() + "'");
 					try {
 						rs.next();
@@ -179,7 +173,6 @@ public class LoginScreen extends JPanel {
 							}
 						}
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
@@ -206,7 +199,7 @@ public class LoginScreen extends JPanel {
 				ResultSet rs;
 				String password = new String(passwordField.getPassword());
 				rs = connect
-						.voerSelectQueryUit("SELECT COUNT(naam) FROM account WHERE naam = '"
+						.voerSelectQueryUit("SELECT COUNT(*) FROM account WHERE naam = '"
 								+ usernameField.getText()
 								+ "' AND wachtwoord ='" + password + "' ");
 				try {
@@ -226,7 +219,6 @@ public class LoginScreen extends JPanel {
 						}
 					}
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				connect.closeConnection();

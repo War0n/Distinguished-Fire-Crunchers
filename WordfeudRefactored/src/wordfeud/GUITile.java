@@ -8,9 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -31,19 +29,21 @@ public class GUITile extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private JLabel tileLabel;
 	private Tile tile;
+	private Spel spel;
 	
 	private boolean bOverrideLock;
 	
-	public GUITile(Tile tile) {
-		initTile(tile);
+	public GUITile(Tile tile, Spel spel) {
+		initTile(tile, spel);
 	}
 	
-	public GUITile(TileType type) {
-		initTile(new Tile(type));
+	public GUITile(TileType type, Spel spel) {
+		initTile(new Tile(type), spel);
 	}
 	
-	public void initTile(Tile tile)
+	public void initTile(Tile tile, Spel spel)
 	{
+		this.spel = spel;
 		this.tile = tile;
 		String label = "";
 		Color bgColor = new Color(0,0,150);
@@ -91,7 +91,6 @@ public class GUITile extends JPanel{
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
 				super.mousePressed(e);
 				if(getStone() != null){
 				try {
@@ -102,16 +101,12 @@ public class GUITile extends JPanel{
 				    clip.open(stream);
 				    clip.start();
 				} catch (MalformedURLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (UnsupportedAudioFileException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (LineUnavailableException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				}
@@ -120,7 +115,6 @@ public class GUITile extends JPanel{
 			
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				super.mouseReleased(arg0);
 			}
 			
@@ -138,14 +132,13 @@ public class GUITile extends JPanel{
 	
 	@Override
 	protected void paintComponent(Graphics g) {
-		// TODO Auto-generated method stub
 		super.paintComponent(g);
 		if( tile.getStone() != null )
 		{
 			g.drawImage(tile.getStone().getImage(isOverride()), 0, 0, this);
 			
 			Font tmp = g.getFont();
-			LetterSet letterSet = new LetterSet("NL");
+			LetterSet letterSet = spel.getLetterSet();
 			
 			//g.drawImage(img, 0, 0, this);
 			

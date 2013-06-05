@@ -3,11 +3,8 @@ package wordfeud;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -33,7 +30,6 @@ public class Changepassword extends JFrame {
 	private JLabel registercontroleLabel;
 	private WFButton changepwbutton;
 	private JFrame activeFrame;
-	private String curUser;
 	JFrame popup = null;
 
 	public Changepassword() {
@@ -94,13 +90,13 @@ public class Changepassword extends JFrame {
 		changepwPanel.add(buttonpanel);
 		activeFrame.pack();
 		this.setVisible(true);
-		passwordField.addKeyListener(new KeyAdapter() {
+		/*passwordField.addKeyListener(new KeyAdapter() {
 			public void KeyPressed(KeyEvent e) {
 				if (e.getKeyCode() == (KeyEvent.VK_ENTER)) {
 					System.out.println("het werkt ongeveer");
 				}
 			}
-		});
+		});*/
 		changepwbutton.addActionListener(new ActionListener() {
 
 			@Override
@@ -178,7 +174,6 @@ public class Changepassword extends JFrame {
 					}
 
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				;

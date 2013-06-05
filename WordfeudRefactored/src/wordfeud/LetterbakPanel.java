@@ -27,16 +27,18 @@ public class LetterbakPanel extends JPanel
 	
 	private Letterbak letterbak;
 	private ArrayList<GUITile> tiles;
+	private Spel spel;
 	
 	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");//
 	
-	public LetterbakPanel(Letterbak letterbak) 
+	public LetterbakPanel(Spel spel) 
 	{
-		this.setLetterbak(letterbak);
+		this.setSpel(spel);
+		this.setLetterbak(spel.getLetterBak());
 		tiles = new ArrayList<GUITile>();
 		for(int i = 0; i < 7; i++)
 		{
-			tiles.add(new GUITile(letterbak.getTile(i)));
+			tiles.add(new GUITile(letterbak.getTile(i), spel));
 			add(tiles.get(i));
 			tiles.get(i).setOverride(true);
 			
@@ -184,6 +186,14 @@ public class LetterbakPanel extends JPanel
 				}
 			}
 		}	
+	}
+
+	public Spel getSpel() {
+		return spel;
+	}
+
+	public void setSpel(Spel spel) {
+		this.spel = spel;
 	}
 }
 

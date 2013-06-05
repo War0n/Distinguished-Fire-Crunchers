@@ -6,8 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -44,7 +42,6 @@ public class CompetitiesMenu extends JPanel  implements ActionListener {
 	private WFButton cancelButton;
 	
 	public CompetitiesMenu(boolean observerMode) {
-		// TODO Auto-generated constructor stub
 		setMinimumSize(new Dimension(650,750));
 		setPreferredSize(getMinimumSize());
 		setBackground(new Color(23,26,30));
@@ -108,7 +105,6 @@ public class CompetitiesMenu extends JPanel  implements ActionListener {
 			}
 		}
 		catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Error: " + e);
 		}
 		connect.closeConnection();
@@ -184,7 +180,6 @@ public class CompetitiesMenu extends JPanel  implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 		if(arg0.getSource().equals(inviteButton)){
 			newCompetition();
 		} else if(arg0.getSource().equals(backButton)){

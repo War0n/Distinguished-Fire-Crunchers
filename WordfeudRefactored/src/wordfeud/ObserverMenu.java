@@ -28,8 +28,6 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 	private JPanel head;
 	private JPanel functies;
 	private JPanel spellen;
-
-	private boolean observer;
 	private JScrollPane scrollPane;
 	private WFButton inviteButton;
 	private WFButton backButton;
@@ -76,19 +74,16 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 		addExistingCompetitions();
 	}
 
-	@SuppressWarnings("static-access")
 	public boolean myTurnActiveSpellen(int spelId) {
 		boolean myTurn = false;
 		Connectie con = new Connectie();
 		ResultSet rs;
 		String accountNaam = "";
-		int beurt = 0;
-		rs = con.doSelect("SELECT Account_naam, ID FROM beurt WHERE Spel_ID = "
+		rs = con.doSelect("SELECT Account_naam FROM beurt WHERE Spel_ID = "
 				+ spelId + " ORDER BY ID DESC LIMIT 1");
 		try {
 			if (rs.next()) {
 				accountNaam = rs.getString("Account_naam");
-				beurt = rs.getInt("ID");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -117,13 +112,11 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 		System.out.println("fetching games.. compID: "+selectedCompetitionID);
 		connect = new Connectie();
 		ResultSet rs;
-		ResultSet rs2;
-		int idCompetitie = 0;
 		String comp_naam = null;
 
 		// Haal alle spellen op uit de db voor de geselecteerde competitie
 		rs = connect
-				.voerSelectQueryUit("select * from Spel where Competitie_ID ='"+ selectedCompetitionID+"'");
+				.voerSelectQueryUit("select Account_naam_uitdager, Account_naam_tegenstander from Spel where Competitie_ID ='"+ selectedCompetitionID+"'");
 		try {
 			while (rs.next()) {
 				/*
@@ -134,7 +127,6 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 					rs2.next();
 					comp_naam = rs2.getString("omschrijving");
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					System.out.println("Error: " + e);
 				}
 				*/
@@ -172,7 +164,6 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Error: " + e);
 		}
 		connect.closeConnection();
@@ -180,7 +171,6 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 		if (arg0.getActionCommand().equals("open spel")) {
 			String[] a = playBtn.get(arg0.getSource());
 			System.out.println("Open spel [id: " + a[0] + "]");
@@ -204,10 +194,10 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 				selectedCompetition.insertItemAt(competitieRS.getString("omschrijving"), competitieRS.getInt("ID")-1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		selectedCompetition.setSelectedIndex(0);
+		connect.closeConnection();
 	}
 
 	@Override

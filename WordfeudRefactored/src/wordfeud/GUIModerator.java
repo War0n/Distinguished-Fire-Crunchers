@@ -11,7 +11,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,7 +27,6 @@ public class GUIModerator extends JPanel implements Observer{
 	private JPanel woordenPanel;
 	private JPanel myButtonPanel;
 	private JPanel functies;
-	private JPanel bottomPanel;
 	private JLabel titel;
 	private WFButton backToMenu;
 	private ArrayList<JCheckBox> reviewWoorden;

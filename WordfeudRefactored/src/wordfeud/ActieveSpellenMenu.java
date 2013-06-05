@@ -115,7 +115,6 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 			
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				while(!doNotCheckBeurten){
 					try {
 						Thread.sleep(5000);
@@ -130,7 +129,6 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 						System.out.println("in Thread");
 						spellen.revalidate();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}	
 				}
@@ -141,19 +139,16 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		showSpellen();
 	}
 
-	@SuppressWarnings("static-access")
 	public boolean myTurnActiveSpellen(int spelId) {
 		boolean myTurn = false;
 		Connectie con = new Connectie();
 		ResultSet rs;
 		String accountNaam = "";
-		int beurt = 0;
-		rs = con.doSelect("SELECT Account_naam, ID FROM beurt WHERE Spel_ID = "
+		rs = con.doSelect("SELECT Account_naam FROM beurt WHERE Spel_ID = "
 				+ spelId + " ORDER BY ID DESC LIMIT 1");
 		try {
 			if (rs.next()) {
 				accountNaam = rs.getString("Account_naam");
-				beurt = rs.getInt("ID");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -189,7 +184,6 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 					rs2.next();
 					comp_naam = rs2.getString("omschrijving");
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					System.out.println("Error: " + e);
 				}
 				// Wie is de tegenstander in het spel? Degene die je niet zelf
@@ -237,15 +231,12 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Error: " + e);
 		}
 		connect.closeConnection();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 		if (arg0.getActionCommand().equals("open spel")) {
 			// addCompetition();
 			String[] a = playBtn.get(arg0.getSource());

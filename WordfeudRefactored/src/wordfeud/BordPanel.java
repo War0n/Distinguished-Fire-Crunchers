@@ -15,21 +15,7 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetListener;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.sound.sampled.DataLine.Info;
 import javax.swing.JPanel;
 
 public class BordPanel extends JPanel
@@ -40,12 +26,14 @@ public class BordPanel extends JPanel
 	private static final long serialVersionUID = 1L;
 	private Bord speelVeld;
 	private GUITile[][] tiles;
+	private Spel mySpel;
 	
 	
 	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");
 	
-	public BordPanel(Bord speelVeld) {
-		this.setSpeelVeld(speelVeld);
+	public BordPanel(Spel spel) {
+		mySpel = spel;
+		this.setSpeelVeld(spel.getBord());
 		speelVeld.setPanel(this);
 		setLayout(new GridLayout(15,15,2,2));
 		setBackground(new Color(23,26,30));
@@ -57,7 +45,7 @@ public class BordPanel extends JPanel
 		{
 			for(int x = 0; x < 15; x++)
 			{
-				tiles[x][y] = new GUITile(speelVeld.getTile(new Point(x,y)));
+				tiles[x][y] = new GUITile(speelVeld.getTile(new Point(x,y)), mySpel);
 				add(tiles[x][y]);
 				
 				DragSource ds = new DragSource();
@@ -152,7 +140,7 @@ public class BordPanel extends JPanel
 		                event.acceptDrop(DnDConstants.ACTION_MOVE);
 		                this.tile.getTile().setStone(an.getTile().getStone());
 		                if(an.getStone().getLetter() == '?'){
-		                	QuestionMarkChooser qmc = new QuestionMarkChooser(an.getStone());
+		                	new QuestionMarkChooser(an.getStone());
 		                }
 		                an.getTile().setStone(null);
 		                an.validate();

@@ -4,15 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -87,7 +83,7 @@ public class SwapGUI extends JFrame {
 		
 		trashPanel.setDropTarget(trashDroptarget);
 		
-		lettersView = new LetterbakPanel(this.letters);
+		lettersView = new LetterbakPanel(spel);
 		swapCommit = new WFButton("Swap them!");
 		swapCancel = new WFButton("Cancel");
 		cp.add(lettersView);
@@ -109,7 +105,6 @@ public class SwapGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				commitAction();
 			}
 		});
@@ -118,7 +113,6 @@ public class SwapGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				cancelFrame();
 			}
 		});

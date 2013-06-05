@@ -147,11 +147,11 @@ public class GUIMenu extends JPanel implements ActionListener{
 		}
 		if(arg0.getSource().equals(modButton)){
             GUIModerator myGUIModerator = new GUIModerator();
-			Moderator myModerator = new Moderator(myGUIModerator);
+			new Moderator(myGUIModerator);
 			setParentContentPane(myGUIModerator);
 		}
 		if(arg0.getSource().equals(wachtwoordWijzigen)){
-			Changepassword cp = new Changepassword();
+			new Changepassword();
 	
 		}
 		if(arg0.getSource().equals(uitnodigingButton)){

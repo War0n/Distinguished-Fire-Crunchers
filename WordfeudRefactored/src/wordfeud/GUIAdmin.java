@@ -15,7 +15,6 @@ import java.util.Observer;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,7 +29,6 @@ public class GUIAdmin extends JPanel implements Observer, ActionListener{
 	private JPanel head;
 	private JPanel functies; 
 	private JPanel menu;
-	private JPanel blankSpace;
 	private GridLayout myGridLayout;
 	private JScrollPane myScroller;
 	private WFButton back;

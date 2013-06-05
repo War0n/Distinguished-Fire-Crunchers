@@ -1,6 +1,5 @@
 package wordfeud;
 
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,10 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -27,9 +23,6 @@ public class SpelVerloop implements Runnable, ActionListener{
 	private Connectie connect;
 	private int beurt;
 	private Bord spelBord;
-	private ArrayList<String> woordenboek;
-	private int beurtVerdelen;
-	private String accountEersteBeurt;
 	private String woordCheck;
 	
 	private ArrayList<String> gelegdeWoordenInBeurt;
@@ -38,12 +31,10 @@ public class SpelVerloop implements Runnable, ActionListener{
 		spelOver = false;
 		this.spel = spel;
 		account = new Account();
-		woordenboek = new ArrayList<String>();
 		Thread checkBeurten = new Thread(this);
 		checkBeurten.start();
 
 		spelBord = spel.getBord();
-		accountEersteBeurt = "";
 		woordCheck = "";
 	}
 
@@ -74,7 +65,6 @@ public class SpelVerloop implements Runnable, ActionListener{
 	}
 
 	public void play() {
-		JFrame popup = null;
 		ArrayList<HashMap<Point, Stone>> myList = vindWoord();
 		if( myList != null && myList.size() > 0)
 		{
@@ -118,9 +108,6 @@ public class SpelVerloop implements Runnable, ActionListener{
 					if (selection == JOptionPane.OK_OPTION){
 						askModerator(woordCheck);
 		            }
-		            else if (selection == JOptionPane.CANCEL_OPTION){
-		                popup = null;
-		            }
 				}
 			}
 			if( numWoorden == woordenGevonden.size() && woordenGevonden.size() > 0)
@@ -140,7 +127,7 @@ public class SpelVerloop implements Runnable, ActionListener{
 		for(Point pt : tiles.keySet())
 		{
 			System.out.println("LetterID "+tiles.get(pt).getLetterId()+"\nSpel ID: " + spel.getSpelId() + "\nX: " + pt.x + "\nY: " + pt.y + "\nBord naam: " + spelBord.getName() + "\nBlanco:" + (tiles.get(pt).isBlancoLetter() ? "Ja, " + tiles.get(pt).getBlancoLetter() + "\n" : "Nee. NULL\n") );
-			con.doInsertUpdate("INSERT INTO gelegdeletter (Letter_ID, Spel_ID, Beurt_ID, Tegel_X, Tegel_Y, Tegel_Bord_naam, BlancoLetterKarakter) VALUES (%1$d, %2$d, (SELECT MAX(ID) FROM beurt WHERE Spel_ID = %2$d), %3$d, %4$d, '%5$s', %6$s)", tiles.get(pt).getLetterId(), spel.getSpelId(), pt.x, pt.y, spelBord.getName(), tiles.get(pt).isBlancoLetter() ? tiles.get(pt).getBlancoLetter() : "NULL" );
+			con.doInsertUpdate("INSERT INTO gelegdeletter (Letter_ID, Spel_ID, Beurt_ID, Tegel_X, Tegel_Y, Tegel_Bord_naam, BlancoLetterKarakter) VALUES (%1$d, %2$d, (SELECT MAX(ID) FROM beurt WHERE Spel_ID = %2$d), %3$d, %4$d, '%5$s', %6$s)", tiles.get(pt).getLetterId(), spel.getSpelId(), pt.x, pt.y, spelBord.getName(), tiles.get(pt).isBlancoLetter() ? "'"+tiles.get(pt).getBlancoLetter()+"'" : "NULL" );
 		}
 		
 		String bericht = "[LEGT] ";
@@ -460,9 +447,7 @@ public class SpelVerloop implements Runnable, ActionListener{
 				e.printStackTrace();
 			}
 
-			spel.getSpelPanel().getMyScore();
-			spel.getSpelPanel().getOppScore();
-			spel.getSpelPanel().repaint();
+			spel.getSpelPanel().updateScoreLabel();
 		}
 		if(spelOver){
 			int myScore = 0;

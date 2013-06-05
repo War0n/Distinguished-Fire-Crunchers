@@ -31,7 +31,7 @@ public class ObserverGUI extends JPanel implements ActionListener {
 
 		setBackground(Color.blue);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		speelVeld = new BordPanel(spel.getBord());
+		speelVeld = new BordPanel(spel);
 		leftBottomContainer = new JPanel();
 		backButton = new WFButton("< Terug");
 		scores = new JPanel();

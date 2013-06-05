@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -18,12 +17,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.plaf.ScrollBarUI;
 import javax.swing.text.DefaultCaret;
 
 public class ChatGUI  extends JFrame implements Observer{
@@ -130,7 +126,6 @@ public class ChatGUI  extends JFrame implements Observer{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				chat.addChatLine(game.getSpelId(), Account.getAccountNaam(), tekstVeld.getText());
 				tekstVeld.setText("");
 			}
@@ -140,7 +135,6 @@ public class ChatGUI  extends JFrame implements Observer{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				chat.addChatLine(game.getSpelId(), Account.getAccountNaam(), tekstVeld.getText());	
 				tekstVeld.setText("");
 			}
@@ -150,7 +144,6 @@ public class ChatGUI  extends JFrame implements Observer{
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
 		if(!chatHistory.getText().equals((String) arg1)){
 			chatHistory.setText((String) arg1);
 		}

@@ -1,7 +1,5 @@
 package wordfeud;
 
-import java.util.Random;
-
 public class Spel {
 	private Bord bord;
 	private Letterbak letterbak;

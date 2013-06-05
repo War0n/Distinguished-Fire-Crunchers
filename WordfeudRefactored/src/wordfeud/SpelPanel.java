@@ -7,10 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
-import javax.swing.DropMode;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -39,8 +37,6 @@ public class SpelPanel extends JPanel {
 	private WFButton backButton;
 	private WFButton clearButton;
 	private WFButton shuffleButton;
-	private Connectie connect;
-	private ResultSet rs;
 
 
 	public SpelPanel(int spelID) {
@@ -59,14 +55,14 @@ public class SpelPanel extends JPanel {
 		chat = new Chat(spel.getSpelId());
 
 		score = new JLabel();
-		getMyScore();
+		updateScoreLabel();
 		score.setForeground(Color.white);
 
 		cg = new ChatGUI(spel);
 		cg.setVisible(false);
 		chat.addObserver(cg);
 
-		letterbak = new LetterbakPanel(spel.getLetterBak());
+		letterbak = new LetterbakPanel(spel);
 		buttons = new ButtonPanel();
 
 		buttons.add(placeButton);
@@ -79,7 +75,7 @@ public class SpelPanel extends JPanel {
 		initButtons();
 		setBackground(new Color(23, 26, 30));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		speelVeld = new BordPanel(spel.getBord());
+		speelVeld = new BordPanel(spel);
 		functiepanel = new FunctionPanel();
 		functiepanel.setLayout(new BoxLayout(functiepanel, BoxLayout.X_AXIS));
 		leftBottomContainer = new JPanel();
@@ -206,36 +202,32 @@ public class SpelPanel extends JPanel {
 	public LetterbakPanel getLetterbakPanel() {
 		return letterbak;
 	}
-	public String getMyScore(){
-		String punten = "";
-		connect = new Connectie();
-		rs = connect.voerSelectQueryUit("SELECT * FROM score WHERE Spel_ID = '"+spel.getSpelId()+"' AND Account_naam = '"+Account.getAccountNaam()+"'");
+	public void updateScoreLabel(){
+		int scores[] = new int[2];
+		scores[0] = scores[1] = 0;
+		String opName = "";
 		
-		try {
-			rs.next();
-			punten = rs.getString("totaalscore");
+		Connectie connect = new Connectie();		
+		try 
+		{
+			ResultSet rs = connect.voerSelectQueryUit("SELECT Account_naam, totaalscore FROM score WHERE Spel_ID = "+spel.getSpelId());
+			while( rs.next() )
+			{
+				if(rs.getString(1).equals(Account.getAccountNaam()))
+				{
+					scores[0] = rs.getInt(2);
+				}
+				else
+				{
+					scores[1] = rs.getInt(2);
+					opName = rs.getString(1);
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		connect.closeConnection();
-		score.setText(Account.getAccountNaam() + ": "+punten + "            "+getOppScore());
-		return Account.getAccountNaam() + ": "+punten;
-	}
-	
-	public String getOppScore(){
-		String opponentName="";
-		String punten = "";
-		connect = new Connectie();
-		rs = connect.voerSelectQueryUit("SELECT * FROM score WHERE Spel_ID = '"+spel.getSpelId()+"' AND Account_naam != '"+Account.getAccountNaam()+"'");
-	
-		try {
-			rs.next();
-			opponentName = rs.getString("Account_naam");
-			punten = rs.getString("totaalscore");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return opponentName+": "+punten;
+		score.setText(Account.getAccountNaam() + ": "+scores[0] + "            "+opName+": "+scores[1]);
+		score.repaint();
 	}
 }

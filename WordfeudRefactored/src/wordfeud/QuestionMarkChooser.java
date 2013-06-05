@@ -10,7 +10,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class QuestionMarkChooser extends JFrame{
-	private JPanel cp;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField charField;
 	private WFButton submitButton;
 	private Stone veranderSteen;

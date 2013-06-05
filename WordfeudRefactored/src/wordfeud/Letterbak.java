@@ -1,8 +1,6 @@
-	
-
-    package wordfeud;
+package wordfeud;
      
-    import java.sql.ResultSet;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
      
@@ -10,14 +8,12 @@ import java.util.ArrayList;
     {
             private ArrayList<Tile> stenen;
             private Spel curSpel;
-            private int beurt;
            
             public Letterbak(Spel currentSpel)
             {
                     stenen = new ArrayList<Tile>();
                     curSpel = currentSpel;
                     int spelId = curSpel.getSpelId();
-                    beurt = curSpel.getVerloop().getBeurt();
                     for(int i = 0; i < 7; i++)
                     {
                             stenen.add(new Tile());
@@ -49,6 +45,27 @@ import java.util.ArrayList;
             public Tile getTile(int i)
             {
                     return stenen.get(i);
+            }
+            
+            public int getTilesInLetterbak()
+            {
+            	int numTiles = 0;
+        		Connectie con = new Connectie();
+        		try
+        		{
+        			ResultSet rs = con.voerSelectQueryUit("SELECT COUNT(*) FROM letterbakjeletter WHERE Spel_ID = " + curSpel.getSpelId() + " AND Beurt_ID = (SELECT MAX(ID) FROM beurt WHERE Account_naam = '"+ Account.getAccountNaam() + "')" );
+        		
+        			if(rs.next())
+        			{
+        				numTiles = rs.getInt(1);
+        			}
+        		} 
+        		catch (SQLException e) 
+        		{
+        			e.printStackTrace();
+        		}
+        		con.closeConnection();
+        		return numTiles;
             }
            
             public int getTilesLeftInPot()
@@ -87,7 +104,7 @@ import java.util.ArrayList;
            
             public void lockButtons(){
             	//locked buttons als er nog tiles op het bord liggen die niet zijn gespeeld
-            	if(getNumberOfStones() <7 && getTilesLeftInPot() > 7){
+            	if(getNumberOfStones() < getTilesInLetterbak()){
             		curSpel.getSpelPanel().getSwapButton().setEnabled(false);
             		curSpel.getSpelPanel().getSkipButton().setEnabled(false);
             		curSpel.getSpelPanel().getPlayButton().setEnabled(true);
