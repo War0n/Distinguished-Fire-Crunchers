@@ -41,6 +41,12 @@ public class QuestionMarkChooser extends JFrame{
 			}
 		});
 		
+		add(charField);
+		add(submitButton);
+		
+		this.pack();
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
 	}
 
 }

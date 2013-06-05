@@ -150,11 +150,16 @@ public class GUITile extends JPanel{
 			//g.drawImage(img, 0, 0, this);
 			
 			char[] c = new char[1];
-			c[0] = tile.getStone().getLetter();
+			if(tile.getStone().getLetter() == '?' && !isOverride()){
+				c[0] = tile.getStone().getBlancoLetter();
+				repaint();
+			}else{
+				c[0] = tile.getStone().getLetter();
+			}
 			g.setFont(tmp.deriveFont(32.0f));
 			g.drawChars(c, 0, 1, 8, 34);
 			g.setFont(tmp);
-			g.drawString(""+letterSet.getLetter(c[0]).getWaarde(), 28, 13);
+			g.drawString(""+letterSet.getLetter(tile.getStone().getLetter()).getWaarde(), 28, 13);
 			this.tileLabel.setVisible(false);
 		}
 		else

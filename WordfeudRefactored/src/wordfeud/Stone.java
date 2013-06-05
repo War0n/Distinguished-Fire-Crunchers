@@ -21,6 +21,7 @@ public class Stone
 		this.letter = letter;
 		File imageFile = new File("src/images/tile.png");
 		File imageFile2 = new File("src/images/unlockedtile.png");
+		blancoLetter = '?';
 		bLocked = false;
 		this.letterId = letterId;
 		try {

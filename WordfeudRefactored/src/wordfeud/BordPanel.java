@@ -151,6 +151,9 @@ public class BordPanel extends JPanel
 	            	{
 		                event.acceptDrop(DnDConstants.ACTION_MOVE);
 		                this.tile.getTile().setStone(an.getTile().getStone());
+		                if(an.getStone().getLetter() == '?'){
+		                	QuestionMarkChooser qmc = new QuestionMarkChooser(an.getStone());
+		                }
 		                an.getTile().setStone(null);
 		                an.validate();
 		                an.repaint();
