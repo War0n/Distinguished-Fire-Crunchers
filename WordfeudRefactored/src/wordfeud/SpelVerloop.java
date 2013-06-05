@@ -459,6 +459,10 @@ public class SpelVerloop implements Runnable, ActionListener{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+
+			spel.getSpelPanel().getMyScore();
+			spel.getSpelPanel().getOppScore();
+			spel.getSpelPanel().repaint();
 		}
 		if(spelOver){
 			int myScore = 0;
