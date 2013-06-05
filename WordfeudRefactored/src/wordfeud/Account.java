@@ -15,7 +15,7 @@ public class Account {
 	}
 	
 	public static void setAccountNaam(String loginNaam){
-		accountNaam = loginNaam;
+		accountNaam = loginNaam.toLowerCase();
 	}
 	
 	public static boolean checkModerator()
