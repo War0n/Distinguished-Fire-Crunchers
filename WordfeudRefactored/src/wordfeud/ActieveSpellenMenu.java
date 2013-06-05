@@ -126,7 +126,6 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 						notMyTurns.add(notMyTurnLabelPanel);
 						notMyTurns.add(Box.createVerticalStrut(5));
 						showSpellen();
-						System.out.println("in Thread");
 						spellen.revalidate();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -240,9 +239,7 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		if (arg0.getActionCommand().equals("open spel")) {
 			// addCompetition();
 			String[] a = playBtn.get(arg0.getSource());
-			System.out.println("Open spel [id: " + a[0] + "]");
 			if (!observer) {
-				System.out.println(Integer.parseInt(a[0]));
 				setParentContentPane(new SpelPanel(Integer.parseInt(a[0])));
 			} else {
 				setParentContentPane(new ObserverGUI(Integer.parseInt(a[0])));

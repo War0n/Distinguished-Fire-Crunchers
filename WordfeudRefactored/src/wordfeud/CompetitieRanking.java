@@ -122,7 +122,6 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		try{
 			while(rs.next()){
 				if(rs.getString("Account_naam").equals(Account.getAccountNaam())){
-					System.out.println("al in competitie");
 					joinButton.setEnabled(false);
 					joinButton.setText("Al gejoint");
 				}
@@ -138,7 +137,6 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		if(e.getSource().equals(backButton)){
 			setParentContentPane(new CompetitiesMenu(true));
 		}else if(e.getSource().equals(joinButton)){
-			System.out.println("Joinen..");
 			Connectie connect = new Connectie();
 			String q = "INSERT INTO Deelnemer (Account_naam, Competitie_ID) VALUES ('"+Account.getAccountNaam()+"', '"+idCompetitie+"')";
 			

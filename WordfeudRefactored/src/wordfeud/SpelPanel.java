@@ -105,7 +105,6 @@ public class SpelPanel extends JPanel {
 		functiepanel.add(leftBottomContainer);
 		functiepanel.add(buttons);
 		this.add(functiepanel);
-		// System.out.println("Spel Compiler Done!");
 	}
 
 	public void setParentContentPane(JPanel contentPane) {

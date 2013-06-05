@@ -94,13 +94,7 @@ public class Changepassword extends JFrame {
 		changepwPanel.add(buttonpanel);
 		activeFrame.pack();
 		this.setVisible(true);
-		/*passwordField.addKeyListener(new KeyAdapter() {
-			public void KeyPressed(KeyEvent e) {
-				if (e.getKeyCode() == (KeyEvent.VK_ENTER)) {
-					System.out.println("het werkt ongeveer");
-				}
-			}
-		});*/
+
 		changepwbutton.addActionListener(new ActionListener() {
 
 			@Override
@@ -135,9 +129,7 @@ public class Changepassword extends JFrame {
 								if (controlePassword
 										.equals(controlePasswordAgain)) {
 									Connectie connect = new Connectie();
-									String password = new String(passwordField
-											.getPassword());
-									System.out.println("nars.getint");
+									String password = new String(passwordField.getPassword());
 									connect.voerInsertOrUpdateQueryUit("UPDATE account SET wachtwoord = '"
 											+ password
 											+ "' WHERE naam = '"

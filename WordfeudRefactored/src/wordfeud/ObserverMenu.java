@@ -107,7 +107,6 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 		add(scrollPane);
 	}
 	public void showSpellen() {
-		System.out.println("fetching games.. compID: "+selectedCompetitionID);
 		connect = new Connectie();
 		ResultSet rs;
 		String comp_naam = null;
@@ -117,17 +116,6 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 				.voerSelectQueryUit("select Account_naam_uitdager, Account_naam_tegenstander, ID from Spel where Competitie_ID = (SELECT ID FROM competitie WHERE omschrijving = '"+ selectedCompetitionID + "')");
 		try {
 			while (rs.next()) {
-				/*
-				idCompetitie = rs.getInt("Competitie_ID");
-				rs2 = connect
-						.voerSelectQueryUit("select * from Competitie where ID ='"	+ idCompetitie + "'");
-				try {
-					rs2.next();
-					comp_naam = rs2.getString("omschrijving");
-				} catch (SQLException e) {
-					System.out.println("Error: " + e);
-				}
-				*/
 				// Wie is de tegenstander in het spel? Degene die je niet zelf
 				// bent ofcourse
 				String p1 = rs.getString("Account_naam_uitdager");
@@ -171,7 +159,6 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getActionCommand().equals("open spel")) {
 			String[] a = playBtn.get(arg0.getSource());
-			System.out.println("Open spel [id: " + a[0] + "]");
 			setParentContentPane(new ObserverGUI(Integer.parseInt(a[0])));
 		} else if (arg0.getSource().equals(backButton)) {
 			setParentContentPane(new GUIMenu());
@@ -201,7 +188,6 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		selectedCompetitionID = selectedCompetition.getSelectedItem().toString();
-		System.out.println("comp: " + selectedCompetition.getSelectedItem().toString());
 		remove(scrollPane);
 		initSpellen();
 		showSpellen();

@@ -101,7 +101,7 @@ public class Bord {
 
 		} catch (SQLException e) {
 			System.out
-					.println("Er is iets verkeerd gegaam, start het programma opnieuw op, controleer de internetverbinding en probeer het nog eens.");
+					.println("Er is iets verkeerd gegaan, start het programma opnieuw op, controleer de internetverbinding en probeer het nog eens.");
 			e.printStackTrace();
 		}
 	}
@@ -143,7 +143,7 @@ public class Bord {
 
 		} catch (SQLException e) {
 			System.out
-					.println("Er is iets verkeerd gegaam, start het programma opnieuw op, controleer de internetverbinding en probeer het nog eens.");
+					.println("Er is iets verkeerd gegaan, start het programma opnieuw op, controleer de internetverbinding en probeer het nog eens.");
 			e.printStackTrace();
 		}
 	}

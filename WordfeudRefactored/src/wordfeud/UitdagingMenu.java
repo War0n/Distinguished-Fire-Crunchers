@@ -215,7 +215,6 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 		challengePlayer.add(superBox);
 
 		this.add(challengePlayer);
-		System.out.println("Speler uitdagen2");
 		this.validate();
 		repaint();
 	}
@@ -246,7 +245,6 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 				+ "','"
 				+ letterset
 				+ "')";
-		System.out.println(q);
 		connect = new Connectie();
 
 		try {
@@ -325,7 +323,6 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 	}
 
 	public void acceptUitdaging(String[] a) {
-		System.out.println("ACCEPTING > game_id: " + a[2]);
 		String q = "UPDATE Spel SET Toestand_type = 'Playing', Reaktie_type = 'Accepted', moment_reaktie = now() WHERE ID='"
 				+ a[2] + "'";
 
@@ -362,7 +359,6 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 	}
 
 	public void declineUitdaging(String[] a) {
-		System.out.println("DECLINING > game_id: " + a[2]);
 		String q = "UPDATE Spel SET Reaktie_type = 'Rejected', moment_reaktie = now() WHERE ID='"
 				+ a[2] + "'";
 
@@ -381,9 +377,7 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		if (arg0.getSource().equals(inviteButton)) {
-			// addCompetition();
 			addUitdaging();
-			System.out.println("Speler uitdagen");
 		} else if (arg0.getSource().equals(backButton)) {
 			setParentContentPane(new GUIMenu());
 		} else if (arg0.getSource().equals(challengeCancelButton)) {

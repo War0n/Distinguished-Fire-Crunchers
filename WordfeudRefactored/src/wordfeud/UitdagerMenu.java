@@ -134,7 +134,6 @@ public class UitdagerMenu extends JPanel implements ActionListener {
 	}
 
 	public void declineUitdaging(String[] a) {
-		System.out.println("DECLINING > game_id: " + a[2]);
 		String q = "UPDATE Spel SET Reaktie_type = 'Rejected', moment_reaktie = now() WHERE ID='"
 				+ a[2] + "'";
 
