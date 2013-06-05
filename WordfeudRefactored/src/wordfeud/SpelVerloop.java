@@ -2,6 +2,8 @@ package wordfeud;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,10 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class SpelVerloop implements Runnable {
+public class SpelVerloop implements Runnable, ActionListener{
 	private Spel spel;
 	private ArrayList<HashMap<Point, Stone>> woordenLijst;
 	private int gepasst;
@@ -27,6 +30,7 @@ public class SpelVerloop implements Runnable {
 	private ArrayList<String> woordenboek;
 	private int beurtVerdelen;
 	private String accountEersteBeurt;
+	private String woordCheck;
 
 	public SpelVerloop(Spel spel) {
 		spelOver = false;
@@ -38,6 +42,7 @@ public class SpelVerloop implements Runnable {
 
 		spelBord = spel.getBord();
 		accountEersteBeurt = "";
+		woordCheck = "";
 	}
 
 	class letterSortStruct
@@ -99,11 +104,19 @@ public class SpelVerloop implements Runnable {
 				}
 				else
 				{
-					System.out.println(str + " is geen woord!");
-					JOptionPane.showMessageDialog(popup,
-							str + " is geen woord", "Foutje!",
-							JOptionPane.WARNING_MESSAGE);
-						popup = null;
+					woordCheck = str;
+					int selection = JOptionPane.showConfirmDialog(
+                            null
+                    , "Het gelegde woord is geen geldig woord, wil je dit woord naar de moderator sturen voor goedkeuring?"
+                    , "Ongeldig woord"
+                    , JOptionPane.OK_CANCEL_OPTION
+                    , JOptionPane.INFORMATION_MESSAGE);     
+					if (selection == JOptionPane.OK_OPTION){
+						askModerator(woordCheck);
+		            }
+		            else if (selection == JOptionPane.CANCEL_OPTION){
+		                popup = null;
+		            }
 				}
 			}
 			if( numWoorden == woordenGevonden.size() && woordenGevonden.size() > 0)
@@ -572,5 +585,17 @@ public class SpelVerloop implements Runnable {
 		}
 		gepasst = 0;
 		connect3.closeConnection();
+	}
+	
+	public void askModerator(String str){
+		Connectie connecteer = new Connectie();
+		connecteer.voerInsertOrUpdateQueryUit("INSERT INTO woordenboek (woord,status) VALUES ('" + str + "', 'Pending')");
+		connecteer.closeConnection();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
