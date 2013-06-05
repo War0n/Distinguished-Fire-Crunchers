@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 import javax.swing.JCheckBox;
 
-import com.mysql.jdbc.UpdatableResultSet;
-
 public class Moderator extends Observable implements ActionListener {
 
 	private Connectie connect;

@@ -8,9 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -33,6 +30,7 @@ public class CompetitiesMenu extends JPanel implements ActionListener {
 	private JScrollPane scrollPane;
 	private WFButton inviteButton;
 	private WFButton backButton;
+	private WFButton deleteButton;
 	private Connectie connect;
 
 	private JPanel newCompPanel;
@@ -49,6 +47,8 @@ public class CompetitiesMenu extends JPanel implements ActionListener {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		backButton = new WFButton("< Terug naar menu");
 		backButton.addActionListener(this);
+		deleteButton = new WFButton("Delete");
+		deleteButton.addActionListener(this);
 		inviteButton = new WFButton("Competitie aanmaken");
 		inviteButton.addActionListener(this);
 		titel = new JLabel("Competitieoverzicht");
@@ -191,6 +191,10 @@ public class CompetitiesMenu extends JPanel implements ActionListener {
 		connect.voerInsertOrUpdateQueryUit(q);
 		connect.closeConnection();
 	}
+	
+	public void deleteCompetition(){
+		//connect.voerInsertOrUpdateQueryUit("DELETE FROM deelnemer WHERE Competitie_ID = "+ +");
+	}
 
 	public void setParentContentPane(JPanel contentPane) {
 		JFrame root = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -216,6 +220,8 @@ public class CompetitiesMenu extends JPanel implements ActionListener {
 			showCompetitions();
 			revalidate();
 			repaint();
+		} else if (arg0.getSource().equals(deleteButton)){
+						
 		}
 	}
 }
