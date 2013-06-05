@@ -159,7 +159,7 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 	}
 
 	public void addUitdaging() {
-		
+
 		inviteButton.setVisible(false);
 		this.remove(scrollPane);
 
@@ -176,7 +176,7 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		playerName.setMaximumSize(new Dimension(200, 20));
 		selectedCompetition.setMaximumSize(new Dimension(200, 20));
 		addExistingCompetitions();
-		
+
 		challengePlayer = new JPanel();
 		challengePlayer.setMaximumSize(new Dimension(650, 140));
 		challengePlayer.setPreferredSize(challengePlayer.getMaximumSize());
@@ -216,10 +216,8 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		String reaktie = "Unknown";
 		String letterset = "NL";
 		String bord = "Standard";
-		final ImageIcon icon = new ImageIcon(
-				"src/images/conf.jpg");
-		
-		
+		final ImageIcon icon = new ImageIcon("src/images/conf.jpg");
+
 		String q = "INSERT INTO Spel (Competitie_ID, Toestand_type, Account_naam_uitdager, Account_naam_tegenstander, moment_uitdaging, Reaktie_type, moment_reaktie, Bord_naam, LetterSet_naam) VALUES("
 				+ compID
 				+ ",'"
@@ -237,35 +235,33 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 				+ "')";
 		System.out.println(q);
 		connect = new Connectie();
-		
-		try 
-		{
-			ResultSet rss = connect.doSelect("SELECT COUNT(*) FROM Account WHERE naam = '%1$s'", naam2);
-			if(rss.next())
-			{
-				if(rss.getInt(1) == 0)
-				{
+
+		try {
+			ResultSet rss = connect.doSelect(
+					"SELECT COUNT(*) FROM Account WHERE naam = '%1$s'", naam2);
+			if (rss.next()) {
+				if (rss.getInt(1) == 0) {
+					connect.closeConnection();
+					JOptionPane.showMessageDialog(popup, naam2
+							+ " bestaat niet", "Foutje!",
+							JOptionPane.WARNING_MESSAGE);
+					popup = null;
+					return;
+				}
+
+			}
+			rss = connect.doSelect(
+					"SELECT COUNT(*) FROM Competitie WHERE ID = %1$s", compID);
+			if (rss.next()) {
+				if (rss.getInt(1) == 0) {
 					connect.closeConnection();
 					return;
 				}
-					
 			}
-			rss = connect.doSelect("SELECT COUNT(*) FROM Competitie WHERE ID = %1$s", compID);
-			if(rss.next())
-			{
-				if(rss.getInt(1) == 0)
-				{
-					connect.closeConnection();
-					return;
-				}
-			}
-		} 
-		catch (SQLException e2) 
-		{
+		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
-		
-		
+
 		connect.voerInsertOrUpdateQueryUit(q);
 		connect.doInsertUpdate(
 				"INSERT INTO beurt (ID, Spel_ID, Account_naam, score, Aktie_type) VALUES (1, (SELECT MAX(ID) FROM Spel), '%1$s', 0, 'Begin')",
@@ -308,11 +304,11 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		showUitdagingen();
 		this.validate();
 		repaint();
-		JOptionPane.showMessageDialog(popup,
-				"Je hebt " + naam2 +" uitgedaagd!", "Uitdaging.",
-				JOptionPane.INFORMATION_MESSAGE,
-				icon);
+		JOptionPane.showMessageDialog(popup, "Je hebt " + naam2
+				+ " uitgedaagd!", "Uitdaging.",
+				JOptionPane.INFORMATION_MESSAGE, icon);
 		popup = null;
+
 	}
 
 	public void acceptUitdaging(String[] a) {
@@ -398,13 +394,16 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		}
 
 	}
-	
-	public void addExistingCompetitions(){
+
+	public void addExistingCompetitions() {
 		connect = new Connectie();
-		ResultSet competitieRS = connect.voerSelectQueryUit("SELECT ID,omschrijving FROM competitie");
+		ResultSet competitieRS = connect
+				.voerSelectQueryUit("SELECT ID,omschrijving FROM competitie");
 		try {
-			while(competitieRS.next()){
-				selectedCompetition.insertItemAt(competitieRS.getString("omschrijving"), competitieRS.getInt("ID")-1);
+			while (competitieRS.next()) {
+				selectedCompetition.insertItemAt(
+						competitieRS.getString("omschrijving"),
+						competitieRS.getInt("ID") - 1);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
