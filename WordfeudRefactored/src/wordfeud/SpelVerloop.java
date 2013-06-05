@@ -67,6 +67,7 @@ public class SpelVerloop implements Runnable {
 	}
 
 	public void play() {
+		JFrame popup = null;
 		ArrayList<HashMap<Point, Stone>> myList = vindWoord();
 		if( myList != null )
 		{
@@ -99,6 +100,10 @@ public class SpelVerloop implements Runnable {
 				else
 				{
 					System.out.println(str + " is geen woord!");
+					JOptionPane.showMessageDialog(popup,
+							str + " is geen woord", "Foutje!",
+							JOptionPane.WARNING_MESSAGE);
+						popup = null;
 				}
 			}
 			if( numWoorden == woordenGevonden.size())
