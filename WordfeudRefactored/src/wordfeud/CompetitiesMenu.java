@@ -97,9 +97,9 @@ public class CompetitiesMenu extends JPanel implements ActionListener {
 
 				idCompetitie = rs.getInt("ID");
 				eigenaar = rs.getString("Account_naam_eigenaar");
+				String compNaam = rs.getString("omschrijving");
 
-				CompetitieItem compItem = new CompetitieItem(idCompetitie,
-						eigenaar);
+				CompetitieItem compItem = new CompetitieItem(idCompetitie,eigenaar, compNaam);
 
 				competities.add(Box.createVerticalStrut(5));
 				competities.add(compItem);

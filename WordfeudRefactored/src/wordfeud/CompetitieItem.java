@@ -18,15 +18,17 @@ public class CompetitieItem extends JPanel implements MouseListener {
 	private static final long serialVersionUID = 1L;
 	int idCompetitie;
 	String eigenaar;
+	String compNaam;
 	JLabel compTxt;
 	
-	public CompetitieItem(int idCompetitie, String eigenaar){
+	public CompetitieItem(int idCompetitie, String eigenaar, String compNaam){
 		this.idCompetitie = idCompetitie;
 		this.eigenaar = eigenaar;
+		this.compNaam = compNaam;
 		setMaximumSize(new Dimension(650,80));
 		setPreferredSize(this.getMaximumSize());
 		setBackground(new Color(44,47,53));
-		compTxt = new JLabel("Competitie " + idCompetitie + " Eigenaar: " + eigenaar);
+		compTxt = new JLabel(compNaam+ " [id: " + idCompetitie + "]");
 		compTxt.setForeground(Color.white);
 		add(compTxt);
 		addMouseListener(this);
