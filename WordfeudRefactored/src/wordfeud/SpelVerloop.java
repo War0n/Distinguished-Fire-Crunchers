@@ -97,7 +97,9 @@ public class SpelVerloop implements Runnable {
 					System.out.println(str + " is een woord.");
 				}
 				else
+				{
 					System.out.println(str + " is geen woord!");
+				}
 			}
 			if( numWoorden == woordenGevonden.size())
 			{
@@ -308,35 +310,29 @@ public class SpelVerloop implements Runnable {
 		Point tmp = new Point(p.x, p.y);
 		if(horizontaal)
 		{
-			boolean hasTwoOrMore = false;
 			while(nextStone(tmp,'l') != null)
 			{
 				tmp.x -= 1;
-				hasTwoOrMore = true;
 			}
+			tmp.x -= 1;
 			do
 			{
-				myWord.put(new Point(tmp.x, tmp.y), spelBord.getStoneAt(tmp));
 				tmp.x += 1;
-			} while(nextStone(tmp,'r') != null);
-			if(hasTwoOrMore == true)
 				myWord.put(new Point(tmp.x, tmp.y), spelBord.getStoneAt(tmp));
+			} while(nextStone(tmp,'r') != null);
 		}
 		else
 		{
-			boolean hasTwoOrMore = false;
 			while(nextStone(tmp,'u') != null)
 			{
 				tmp.y -= 1;
-				hasTwoOrMore = true;
 			}
+			tmp.y -= 1;
 			do
 			{
-				myWord.put(new Point(tmp.x, tmp.y), spelBord.getStoneAt(tmp));
 				tmp.y += 1;
-			} while(nextStone(tmp,'d') != null);
-			if(hasTwoOrMore == true)
 				myWord.put(new Point(tmp.x, tmp.y), spelBord.getStoneAt(tmp));
+			} while(nextStone(tmp,'d') != null);
 		}
 		
 		if(myWord.size() <= 1)
