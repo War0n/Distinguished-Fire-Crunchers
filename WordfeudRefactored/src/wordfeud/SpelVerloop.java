@@ -589,11 +589,17 @@ public class SpelVerloop implements Runnable, ActionListener{
 	
 	public void askModerator(String str){
 		Connectie connecteer = new Connectie();
-		ResultSet rs = connecteer.voerSelectQueryUit("SELECT COUNT(*) FROM woordenboek WHERE woord = '" + str + "'");
+		ResultSet rs = connecteer.voerSelectQueryUit("SELECT COUNT(*), status FROM woordenboek WHERE woord = '" + str + "'");
 		try {
 			if(rs.next()){
 				if(rs.getInt(1) == 0){
 					connecteer.voerInsertOrUpdateQueryUit("INSERT INTO woordenboek (woord,status) VALUES ('" + str + "', 'Pending')");
+				}
+				if(rs.getString(2).equals("Pending")){
+					System.out.println(str + " wacht al op een actie van de moderator");
+				}
+				if(rs.getString(2).equals("Denied")){
+					System.out.println(str + " is al een keer verworpen");
 				}
 			}
 		} catch (SQLException e) {
