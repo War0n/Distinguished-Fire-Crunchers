@@ -130,8 +130,7 @@ public class ObserverGUI extends JPanel implements ActionListener {
 		beurtPanel.add(beurtVan);
 
 		add(letterbak);
-//		add(filler);
-		
+	
 		add(beurtPanel);
 		
 	}
