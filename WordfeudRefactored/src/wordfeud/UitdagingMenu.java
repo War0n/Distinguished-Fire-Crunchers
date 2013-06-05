@@ -46,7 +46,7 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 	private HashMap<WFButton, String[]> declineBtn = new HashMap<WFButton, String[]>();
 
 	public UitdagingMenu() {
-
+		existingCompetitions =new HashMap<Integer,Integer>();
 		// TODO Auto-generated constructor stub
 		setMinimumSize(new Dimension(630, 700));
 		setPreferredSize(getMinimumSize());
@@ -211,7 +211,8 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 
 	public void extendUitdaging() {
 		String naam = Account.getAccountNaam();
-		int compID = existingCompetitions.get(selectedCompetition.getSelectedItem());
+		
+		int compID = existingCompetitions.get(selectedCompetition.getSelectedIndex());
 		String naam2 = playerName.getText();
 		String toestand = "Request";
 		String reaktie = "Unknown";
@@ -398,15 +399,12 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 
 	public void addExistingCompetitions() {
 		connect = new Connectie();
-		existingCompetitions =new HashMap<Integer,Integer>();
 		ResultSet competitieRS = connect
 				.voerSelectQueryUit("SELECT ID,omschrijving FROM competitie");
 		try {
 			int i = 0;
 			while (competitieRS.next()) {
-				existingCompetitions.put(
-						i,
-						competitieRS.getInt("ID"));
+				existingCompetitions.put(i,competitieRS.getInt("ID"));
 				selectedCompetition.insertItemAt(competitieRS.getString("omschrijving"), i);
 				i++;
 			}
