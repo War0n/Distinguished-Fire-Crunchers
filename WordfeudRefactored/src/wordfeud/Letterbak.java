@@ -91,10 +91,12 @@ import java.util.ArrayList;
             		curSpel.getSpelPanel().getSwapButton().setEnabled(false);
             		curSpel.getSpelPanel().getSkipButton().setEnabled(false);
             		curSpel.getSpelPanel().getPlayButton().setEnabled(true);
+            		curSpel.getSpelPanel().getClearButton().setEnabled(true);
             	} else{
             		curSpel.getSpelPanel().getSwapButton().setEnabled(true);
             		curSpel.getSpelPanel().getSkipButton().setEnabled(true);
             		curSpel.getSpelPanel().getPlayButton().setEnabled(false);
+            		curSpel.getSpelPanel().getClearButton().setEnabled(false);
             	}
             }
     }

@@ -41,6 +41,7 @@ public class BordPanel extends JPanel
 	private Bord speelVeld;
 	private GUITile[][] tiles;
 	
+	
 	private DataFlavor flav = new DataFlavor(Stone.class, "java-x-StoneTransfer");
 	
 	public BordPanel(Bord speelVeld) {
@@ -149,6 +150,9 @@ public class BordPanel extends JPanel
 	            	if(this.tile.getTile().getStone() == null) // geen steen, dus leggen
 	            	{
 		                event.acceptDrop(DnDConstants.ACTION_MOVE);
+		                if(an.getTile().getStone().getLetter() == '?'){
+		                	
+		                }
 		                this.tile.getTile().setStone(an.getTile().getStone());
 		                an.getTile().setStone(null);
 		                an.validate();
