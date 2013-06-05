@@ -2,6 +2,7 @@ package wordfeud;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -83,7 +84,7 @@ public class SpelPanel extends JPanel {
 		scores.setBackground(letterbak.getBackground());
 		scores.setMaximumSize(new Dimension(400, 20));
 		scores.setPreferredSize(scores.getMaximumSize());
-
+		
 		leftBottomContainer.setLayout(new BoxLayout(leftBottomContainer,
 				BoxLayout.Y_AXIS));
 		this.add(speelVeld);

@@ -18,7 +18,6 @@ public class ObserverGUI extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private Spel spel;
 	private BordPanel speelVeld;
-	private JPanel leftBottomContainer;
 	private JPanel scores;
 	private JPanel filler;
 	private JLabel score;
@@ -44,7 +43,6 @@ public class ObserverGUI extends JPanel implements ActionListener {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		speelVeld = new BordPanel(spel, true);
 		spel.getBord().setPanel(speelVeld);
-		leftBottomContainer = new JPanel();
 		backButton = new WFButton("< Terug");
 		scores = new JPanel();
 		filler = new JPanel();
@@ -53,21 +51,22 @@ public class ObserverGUI extends JPanel implements ActionListener {
 		filler.setBackground(new Color(23, 26, 30));
 		scores.setMaximumSize(new Dimension(800, 20));
 
-		leftBottomContainer.setLayout(new BoxLayout(leftBottomContainer,
-				BoxLayout.PAGE_AXIS));
 		this.add(speelVeld);
 		scores.add(backButton, BorderLayout.WEST);
 		scores.add(score, BorderLayout.EAST);
-		leftBottomContainer.add(scores);
 		backButton.addActionListener(this);
 		
 		letterbak = new LetterbakPanel(spel);
 		
 		beurtPanel = new JPanel();
+		beurtPanel.setBackground(filler.getBackground());
 		beurtLabel = new JLabel("Beurt: " + (beurt - 1));
 		prevTurn = new WFButton("Vorige");
 		nextTurn = new WFButton("Volgende");
 		beurtVan = new JLabel("Beurt van: " + getBeurtNaam());
+		
+		beurtLabel.setForeground(Color.white);
+		beurtVan.setForeground(Color.white);
 		
 		spel.getLetterBak().laadStenenVoorBeurt(beurt);
 		if(letterbak != null)
@@ -124,16 +123,15 @@ public class ObserverGUI extends JPanel implements ActionListener {
 			}
 			
 		});
+		beurtPanel.add(backButton);
 		beurtPanel.add(prevTurn);
 		beurtPanel.add(beurtLabel);
 		beurtPanel.add(nextTurn);
 		beurtPanel.add(beurtVan);
 
 		add(letterbak);
-		add(filler);
+	
 		add(beurtPanel);
-		add(filler);
-		add(leftBottomContainer);
 		
 	}
 

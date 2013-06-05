@@ -2,6 +2,7 @@ package wordfeud;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -85,7 +86,10 @@ public class LetterbakPanel extends JPanel
 	        {
 	            cursor = DragSource.DefaultMoveDrop;
 	        }
-	        event.startDrag(cursor, new StoneTransfer(panel));
+	        if(panel.getTile().getStone() != null)
+	        	event.startDrag(null, panel.getTile().getImageWithLetter(spel), new Point(0,0), new StoneTransfer(panel), null);
+	        else
+	        	event.startDrag(cursor, new StoneTransfer(panel));
 	    }
 	}
 

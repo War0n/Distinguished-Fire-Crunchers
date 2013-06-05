@@ -117,7 +117,10 @@ public class BordPanel extends JPanel
 	        {
 	            cursor = DragSource.DefaultMoveDrop;
 	        }
-	        event.startDrag(cursor, new StoneTransfer(panel));
+	        if(panel.getTile().getStone() != null)
+	        	event.startDrag(null, panel.getTile().getImageWithLetter(mySpel), new Point(0,0), new StoneTransfer(panel), null);
+	        else
+	        	event.startDrag(cursor, new StoneTransfer(panel));
 	    }
 	}
 
