@@ -30,6 +30,8 @@ public class Changepassword extends JFrame {
 	private JLabel registercontroleLabel;
 	private WFButton changepwbutton;
 	private JFrame activeFrame;
+	
+	private WFButton removeAccount;
 	JFrame popup = null;
 
 	public Changepassword() {
@@ -50,6 +52,7 @@ public class Changepassword extends JFrame {
 		buttonpanel.setBackground(new Color(23, 26, 30));
 
 		changepwbutton = new WFButton("Verander!");
+		removeAccount = new WFButton("Verwijder account!");
 		currentPasslabel = new JLabel("huidig wachtwoord:");
 		currentPasslabel.setForeground(Color.white);
 		currentPasslabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -87,6 +90,7 @@ public class Changepassword extends JFrame {
 		changepwPanel.add(registerControle);
 		changepwPanel.add(Box.createVerticalStrut(5));
 		buttonpanel.add(changepwbutton);
+		buttonpanel.add(removeAccount);
 		changepwPanel.add(buttonpanel);
 		activeFrame.pack();
 		this.setVisible(true);
@@ -180,6 +184,34 @@ public class Changepassword extends JFrame {
 
 			};
 
+		});
+		
+		removeAccount.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String checkcurrentpassword = new String(currentPassword
+						.getPassword());
+				Connectie con2 = new Connectie();
+				ResultSet rs;
+				rs = con2
+						.voerSelectQueryUit("SELECT COUNT(*) AS aantal FROM account WHERE naam = '"
+								+ Account.getAccountNaam()
+								+ "' AND wachtwoord ='"
+								+ checkcurrentpassword
+								+ "' ");
+				try {
+					if (rs.next()) {
+						if (rs.getInt("aantal") == 1) {
+							con2.doInsertUpdate("DELETE FROM account WHERE naam = '%1$s'", Account.getAccountNaam());
+						}
+					}
+				}
+				catch(SQLException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		});
 	}
 }

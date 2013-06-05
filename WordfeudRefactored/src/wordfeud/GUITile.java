@@ -145,7 +145,7 @@ public class GUITile extends JPanel{
 			char[] c = new char[1];
 			if(tile.getStone().getLetter() == '?' && !isOverride()){
 				c[0] = tile.getStone().getBlancoLetter();
-				repaint();
+				//repaint();
 			}else{
 				c[0] = tile.getStone().getLetter();
 			}
