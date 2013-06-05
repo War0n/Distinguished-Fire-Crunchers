@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -22,7 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-public class UitdagingMenu extends JPanel implements ActionListener {
+public class UitdagingMenu extends JPanel implements ActionListener, ItemListener {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel titel;
@@ -39,6 +41,8 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 	private JPanel challengePlayer;
 	private JTextField playerName;
 	private JComboBox<String> selectedCompetition;
+	private JComboBox<String> selectedPlayer;
+	
 	private WFButton challengeButton;
 	private WFButton challengeCancelButton;
 
@@ -174,12 +178,16 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		challengeCancelButton.addActionListener(this);
 		playerName = new JTextField();
 		selectedCompetition = new JComboBox<String>();
+		selectedPlayer = new JComboBox<String>();
+		selectedPlayer.addItem("Selecteer competitie");
+		selectedCompetition.addItemListener(this);
 		playerName.setMaximumSize(new Dimension(200, 20));
 		selectedCompetition.setMaximumSize(new Dimension(200, 20));
+		selectedPlayer.setMaximumSize(new Dimension(200, 20));
 		addExistingCompetitions();
 
 		challengePlayer = new JPanel();
-		challengePlayer.setMaximumSize(new Dimension(650, 140));
+		challengePlayer.setMaximumSize(new Dimension(650, 160));
 		challengePlayer.setPreferredSize(challengePlayer.getMaximumSize());
 		challengePlayer.setBackground(new Color(44, 47, 53));
 
@@ -188,14 +196,17 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		Box inputBox = new Box(BoxLayout.PAGE_AXIS);
 		chalName.setAlignmentX(RIGHT_ALIGNMENT);
 		chalComp.setAlignmentX(RIGHT_ALIGNMENT);
-		inputBox.add(chalName);
-		inputBox.add(playerName);
+		
+		//inputBox.add(playerName);
 
 		inputBox.add(chalComp);
 		inputBox.add(selectedCompetition);
 		inputBox.add(Box.createVerticalStrut(10));
+		inputBox.add(chalName);
+		inputBox.add(selectedPlayer);
+		inputBox.add(Box.createVerticalStrut(10));
 		superBox.add(inputBox);
-
+		superBox.add(Box.createVerticalStrut(10));
 		Box lineBox = new Box(BoxLayout.LINE_AXIS);
 		lineBox.add(challengeButton);
 		lineBox.add(challengeCancelButton);
@@ -213,7 +224,7 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		String naam = Account.getAccountNaam();
 		
 		int compID = existingCompetitions.get(selectedCompetition.getSelectedIndex());
-		String naam2 = playerName.getText();
+		String naam2 = selectedPlayer.getSelectedItem().toString();
 		String toestand = "Request";
 		String reaktie = "Unknown";
 		String letterset = "NL";
@@ -418,6 +429,25 @@ public class UitdagingMenu extends JPanel implements ActionListener {
 		JFrame root = (JFrame) SwingUtilities.getWindowAncestor(this);
 		root.setContentPane(contentPane);
 		root.pack();
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent arg0) {
+		int curCompID = existingCompetitions.get(selectedCompetition.getSelectedIndex());
+		String q = "SELECT Account_naam FROM Deelnemer WHERE Competitie_ID ="+curCompID+"";
+		connect = new Connectie();
+		ResultSet rs = connect.voerSelectQueryUit(q);
+		selectedPlayer.removeAllItems();
+		try {
+			while(rs.next()){
+				selectedPlayer.addItem(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 }

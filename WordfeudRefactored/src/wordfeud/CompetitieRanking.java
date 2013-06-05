@@ -24,7 +24,6 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 	WFButton backButton;
 	WFButton joinButton;
 	private int idCompetitie;
-	private boolean hasJoined;
 	private JLabel titel;
 	private JPanel rankings;
 	private JPanel head;
@@ -91,8 +90,7 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		Connectie connect = new Connectie();
 		ResultSet rs = connect.voerSelectQueryUit("SELECT * FROM ranking WHERE Competitie_ID = " + idCompetitie);
 		try {
-			while(rs.next()){
-				hasJoined = (rs.getString("account_naam") == Account.getAccountNaam()) ? true : false; 
+			while(rs.next()){ 
 				
 				JLabel plaats = new JLabel();
 				JLabel competitieID = new JLabel();
@@ -143,6 +141,7 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 			System.out.println("Joinen..");
 			Connectie connect = new Connectie();
 			String q = "INSERT INTO Deelnemer (Account_naam, Competitie_ID) VALUES ('"+Account.getAccountNaam()+"', '"+idCompetitie+"')";
+			
 			connect.voerInsertOrUpdateQueryUit(q);
 			connect.closeConnection();
 			
