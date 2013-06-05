@@ -45,6 +45,7 @@ public class QuestionMarkChooser extends JFrame{
 		add(submitButton);
 		
 		this.pack();
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
