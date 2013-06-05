@@ -35,6 +35,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 	private WFButton observerButton;
 	private WFButton wachtwoordWijzigen;
 	private WFButton uitnodigingButton;
+	private WFButton uitdagerButton;
 	private WFButton adminButton;
 	private WFButton modButton;
 	private WFButton logoutButton;
@@ -79,12 +80,14 @@ public class GUIMenu extends JPanel implements ActionListener{
 		stopButton = new WFButton("Spel Stoppen");
 		adminButton = new WFButton("Administrator scherm bekijken");
 		modButton = new WFButton("Moderator scherm bekijken");
+		uitdagerButton = new WFButton("Verzonden uitdagingen bekijken");
 		myButtons = new ArrayList<WFButton>();
 		
 		myButtons.add(actieveSpellenButton);
 		myButtons.add(competitieButton);
 		//myButtons.add(competitieAanmaken);
 		myButtons.add(uitnodigingButton);
+		myButtons.add(uitdagerButton);
 		myButtons.add(observerButton);
 		myButtons.add(adminButton);
 		myButtons.add(modButton);
@@ -120,10 +123,12 @@ public class GUIMenu extends JPanel implements ActionListener{
 			competitieButton.setEnabled(false);
 			competitieAanmaken.setEnabled(false);
 			uitnodigingButton.setEnabled(false);
+			uitdagerButton.setEnabled(false);
 		} else {
 			competitieButton.setEnabled(true);
 			competitieAanmaken.setEnabled(true);
 			uitnodigingButton.setEnabled(true);
+			uitdagerButton.setEnabled(true);
 		}
 				
 		add(titel);
@@ -137,33 +142,27 @@ public class GUIMenu extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource().equals(actieveSpellenButton)){
 			setParentContentPane(new ActieveSpellenMenu(false));
-		}
-		if(arg0.getSource().equals(competitieButton)){
+		} else if(arg0.getSource().equals(competitieButton)){
 			myCompetitiesMenu = new CompetitiesMenu(false);
 			setParentContentPane(myCompetitiesMenu);
-		}
-		if(arg0.getSource().equals(observerButton)){
+		} else if(arg0.getSource().equals(observerButton)){
 			setParentContentPane(new ObserverMenu());
-		}
-		if(arg0.getSource().equals(modButton)){
+		} else if(arg0.getSource().equals(modButton)){
             GUIModerator myGUIModerator = new GUIModerator();
 			new Moderator(myGUIModerator);
 			setParentContentPane(myGUIModerator);
-		}
-		if(arg0.getSource().equals(wachtwoordWijzigen)){
+		} else if(arg0.getSource().equals(wachtwoordWijzigen)){
 			new Changepassword();
 	
-		}
-		if(arg0.getSource().equals(uitnodigingButton)){
+		} else if(arg0.getSource().equals(uitnodigingButton)){
 			setParentContentPane(new UitdagingMenu());
-		}
-		if(arg0.getSource().equals(logoutButton)){
+		} else if(arg0.getSource().equals(uitdagerButton)) {
+			setParentContentPane(new UitdagerMenu());
+		} else if(arg0.getSource().equals(logoutButton)){
 			setParentContentPane(new LoginScreen());
-		}
-		if(arg0.getSource().equals(stopButton)){
+		} else if(arg0.getSource().equals(stopButton)){
 			System.exit(0);
-		}	
-		if(arg0.getSource().equals(adminButton)){
+		} else if(arg0.getSource().equals(adminButton)){
 			setParentContentPane(new GUIAdmin());
 		}
 	}
