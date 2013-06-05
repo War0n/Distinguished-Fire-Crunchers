@@ -39,7 +39,7 @@ public class SpelPanel extends JPanel {
 	private WFButton shuffleButton;
 
 	public SpelPanel(int spelID) {
-		
+
 		setMaximumSize(new Dimension(630, 700));
 		setPreferredSize(getMaximumSize());
 		swapButton = new WFButton("Swap");
@@ -49,10 +49,10 @@ public class SpelPanel extends JPanel {
 		clearButton = new WFButton("Clear");
 		shuffleButton = new WFButton("Shuffle");
 		backButton = new WFButton("< Terug");
-		
+
 		spel = new Spel(this, spelID);
 		chat = new Chat(spel.getSpelId());
-		
+
 		score = new JLabel("Scoreveld hier");
 		score.setForeground(Color.white);
 
@@ -75,7 +75,7 @@ public class SpelPanel extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		speelVeld = new BordPanel(spel.getBord());
 		functiepanel = new FunctionPanel();
-		functiepanel.setLayout(new BoxLayout(functiepanel,BoxLayout.X_AXIS));
+		functiepanel.setLayout(new BoxLayout(functiepanel, BoxLayout.X_AXIS));
 		leftBottomContainer = new JPanel();
 		scores = new JPanel();
 		scores.setLayout(new BorderLayout());
@@ -83,19 +83,21 @@ public class SpelPanel extends JPanel {
 		scores.setMaximumSize(new Dimension(400, 20));
 		scores.setPreferredSize(scores.getMaximumSize());
 
-		leftBottomContainer.setLayout(new BoxLayout(leftBottomContainer,BoxLayout.Y_AXIS));
+		leftBottomContainer.setLayout(new BoxLayout(leftBottomContainer,
+				BoxLayout.Y_AXIS));
 		this.add(speelVeld);
 		scores.add(backButton, BorderLayout.WEST);
 		scores.add(score, BorderLayout.EAST);
 		functiepanel.setBackground(letterbak.getBackground());
-		functiepanel.setMaximumSize(new Dimension(630,70));
+		functiepanel.setMaximumSize(new Dimension(630, 70));
 		functiepanel.setPreferredSize(functiepanel.getMaximumSize());
-		letterbak.setPreferredSize(new Dimension(300,40));
-		buttons.setMinimumSize(new Dimension(100,70));
+		letterbak.setPreferredSize(new Dimension(300, 40));
+		buttons.setMinimumSize(new Dimension(100, 70));
 		buttons.setPreferredSize(getMinimumSize());
 		leftBottomContainer.setBackground(letterbak.getBackground());
-		leftBottomContainer.setMaximumSize(new Dimension(500,70));
-		leftBottomContainer.setPreferredSize(leftBottomContainer.getMaximumSize());
+		leftBottomContainer.setMaximumSize(new Dimension(500, 70));
+		leftBottomContainer.setPreferredSize(leftBottomContainer
+				.getMaximumSize());
 		leftBottomContainer.add(letterbak);
 		leftBottomContainer.add(scores);
 		functiepanel.add(leftBottomContainer);
@@ -165,33 +167,37 @@ public class SpelPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				spel.getVerloop().play();
+				System.out.println(spel.getVerloop().puntenTeller());
 			}
 		});
 	}
-	
-	public WFButton getPlayButton(){
+
+	public WFButton getPlayButton() {
 		return placeButton;
 	}
-	public WFButton getSwapButton()
-	{
+
+	public WFButton getSwapButton() {
 		return swapButton;
 	}
-	public WFButton getSkipButton(){
+
+	public WFButton getSkipButton() {
 		return skipButton;
 	}
-	public WFButton getClearButton(){
+
+	public WFButton getClearButton() {
 		return clearButton;
 	}
-	public WFButton getShuffleButton(){
+
+	public WFButton getShuffleButton() {
 		return shuffleButton;
 	}
-	public void setScore(String text){
+
+	public void setScore(String text) {
 		score.setText(text);
 		repaint();
 	}
-	
-	public LetterbakPanel getLetterbakPanel()
-	{
+
+	public LetterbakPanel getLetterbakPanel() {
 		return letterbak;
 	}
 }

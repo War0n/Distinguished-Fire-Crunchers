@@ -174,7 +174,7 @@ public class SpelVerloop implements Runnable {
 		pakLetters();
 	}
 
-	private Integer puntenTeller() {
+	public Integer puntenTeller() {
 		int score = 0;
 		for (HashMap<Point, Stone> woordTiles : woordenLijst) { // nullpointer
 			int woordScore = 0;
