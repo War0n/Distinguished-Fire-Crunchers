@@ -31,6 +31,8 @@ public class SpelVerloop implements Runnable, ActionListener{
 	private int beurtVerdelen;
 	private String accountEersteBeurt;
 	private String woordCheck;
+	
+	private ArrayList<String> gelegdeWoordenInBeurt;
 
 	public SpelVerloop(Spel spel) {
 		spelOver = false;
@@ -95,12 +97,14 @@ public class SpelVerloop implements Runnable, ActionListener{
 			}
 			System.out.println("Woorden gevonden: "+woordenGevonden.size());
 			int numWoorden = 0;
+			gelegdeWoordenInBeurt = new ArrayList<String>();
 			for(String str : woordenGevonden)
 			{
 				if(checkWoordInDB(str) == true)
 				{
 					numWoorden++;
 					System.out.println(str + " is een woord.");
+					gelegdeWoordenInBeurt.add(str);
 				}
 				else
 				{
@@ -138,6 +142,14 @@ public class SpelVerloop implements Runnable, ActionListener{
 			System.out.println("LetterID "+tiles.get(pt).getLetterId()+"\nSpel ID: " + spel.getSpelId() + "\nX: " + pt.x + "\nY: " + pt.y + "\nBord naam: " + spelBord.getName() + "\nBlanco:" + (tiles.get(pt).isBlancoLetter() ? "Ja, " + tiles.get(pt).getBlancoLetter() + "\n" : "Nee. NULL\n") );
 			con.doInsertUpdate("INSERT INTO gelegdeletter (Letter_ID, Spel_ID, Beurt_ID, Tegel_X, Tegel_Y, Tegel_Bord_naam, BlancoLetterKarakter) VALUES (%1$d, %2$d, (SELECT MAX(ID) FROM beurt WHERE Spel_ID = %2$d), %3$d, %4$d, '%5$s', %6$s)", tiles.get(pt).getLetterId(), spel.getSpelId(), pt.x, pt.y, spelBord.getName(), tiles.get(pt).isBlancoLetter() ? tiles.get(pt).getBlancoLetter() : "NULL" );
 		}
+		
+		String bericht = "[LEGT] ";
+		for(String str : gelegdeWoordenInBeurt){
+			bericht += str + " ";
+		}
+		
+		String q = "INSERT INTO chatregel VALUES('" + Account.getAccountNaam() + "',"+ spel.getSpelId() +",NOW(),'"+ bericht +"')";
+		con.doInsertUpdate(q);
 		con.closeConnection();
 	}
 
