@@ -75,8 +75,8 @@ public class Bord {
 							+ spel.getSpelId());
 
 			while (result.next()) {
-				int xSQL = result.getInt("Tegel_X");
-				int ySQL = result.getInt("Tegel_Y");
+				int xSQL = result.getInt("Tegel_X")-1;
+				int ySQL = result.getInt("Tegel_Y")-1;
 				if(tiles[xSQL][ySQL].getStone() != null && tiles[xSQL][ySQL].getStone().getLocked() == true)
 					continue;
 				int idSQL = result.getInt("letter_ID");
