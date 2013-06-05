@@ -159,7 +159,7 @@ public class BordPanel extends JPanel
 		                this.tile.validate();
 		                this.tile.repaint();
 	            	}
-	            	else // ligt al een steen, dus swappen?
+	            	else // ligt al een steen, dus swappen? 
 	            	{
 	            		if( this.tile.getTile().getLocked() == false )
 	            		{
