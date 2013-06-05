@@ -69,7 +69,7 @@ public class SpelVerloop implements Runnable {
 	public void play() {
 		JFrame popup = null;
 		ArrayList<HashMap<Point, Stone>> myList = vindWoord();
-		if( myList != null )
+		if( myList != null && myList.size() > 0)
 		{
 			ArrayList<String> woordenGevonden = new ArrayList<String>();
 			for(int i = 0; i < myList.size(); i++)
@@ -106,7 +106,7 @@ public class SpelVerloop implements Runnable {
 						popup = null;
 				}
 			}
-			if( numWoorden == woordenGevonden.size())
+			if( numWoorden == woordenGevonden.size() && woordenGevonden.size() > 0)
 			{
 				doTurn("Word", true);
 				pushLettersNaarDatabase();
@@ -225,6 +225,7 @@ public class SpelVerloop implements Runnable {
 		}
 		return score;
 	}
+	
 	private ArrayList<HashMap<Point, Stone>> vindWoord() 
 	{
 		/*
@@ -242,7 +243,8 @@ public class SpelVerloop implements Runnable {
 		 * Geeft: Woordenlijst[0]: 2.3 , E 3.3 , e 3.4 , N 3.5 , D
 		 * Woordenlijst[1]: 5.3 , D 5.4 , o 5.5 , m
 		 */
-		if(spelBord.getStoneAt(new Point(7,7))==null)
+		Stone startStone = spelBord.getStoneAt(new Point(7,7));
+		if(startStone==null)
 			return null;
 		
 		Stone[] newStones = spelBord.getNewTiles().values().toArray(new Stone[spelBord.getNewTiles().size()]);
@@ -281,6 +283,15 @@ public class SpelVerloop implements Runnable {
 			HashMap<Point, Stone> pt = vindWoord(newTiles[0], horiz);
 			if(pt != null)
 			{
+				int x = 0;
+				for(Point pat : pt.keySet())
+				{
+					x += pt.get(pat).getLocked() == true? 0 : 1;
+				}
+				if( x != newTiles.length)
+				{
+					return null;
+				}
 				wordlist.add(pt);
 			}
 			for(int i = 0; i < newTiles.length; i++)
@@ -306,6 +317,28 @@ public class SpelVerloop implements Runnable {
 			}
 		}
 		woordenLijst = wordlist;
+		
+		boolean heeftWoordGrens = false;
+		if(wordlist != null && wordlist.size() > 0)
+		{
+			for(int i = 0; i < wordlist.size(); i++)
+			{
+				int x = 0;
+				for(Point pt : wordlist.get(i).keySet())
+				{
+					x += wordlist.get(i).get(pt).getLocked() == true? 1 : 0;
+				}
+				if( x > 0)
+				{
+					heeftWoordGrens = true;
+				}
+			}
+		}
+		
+		if( !heeftWoordGrens && startStone.getLocked() == true )
+			return null;
+			
+			
 		return wordlist;
 	}
 	
