@@ -72,7 +72,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		actieveSpellenButton = new WFButton("Actieve spellen");
 		competitieButton = new WFButton("Competities openen");
 		competitieAanmaken = new WFButton("Competitie aanmaken");
-		uitnodigingButton = new WFButton("Uitnodigingen bekijken");
+		uitnodigingButton = new WFButton("Uitdagingen");
 		observerButton = new WFButton("Observeren");
 		wachtwoordWijzigen = new WFButton("Wachtwoord wijzigen");
 		logoutButton = new WFButton("Log Uit");
