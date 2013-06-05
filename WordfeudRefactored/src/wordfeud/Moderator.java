@@ -41,7 +41,7 @@ public class Moderator extends Observable implements ActionListener {
 								+ reviewWoorden.get(i).getText() + "'");
 				try {
 					if ((myResultSet.next())) {
-						connect.voerInsertOrUpdateQueryUit("UPDATE  `rcollard_db2`.`woordenboek` SET  `status` =  'Accepted' WHERE  `woordenboek`.`woord` =  '"
+						connect.voerInsertOrUpdateQueryUit("UPDATE  `woordenboek` SET  `status` =  'Accepted' WHERE  `woordenboek`.`woord` =  '"
 								+ reviewWoorden.get(i).getText() + "';");
 					}
 				} catch (SQLException e) {
@@ -59,7 +59,7 @@ public class Moderator extends Observable implements ActionListener {
 			if (reviewWoorden.get(i).isSelected()) { // verander status van
 														// geselecteerde woorden
 														// in denied
-				connect.voerInsertOrUpdateQueryUit("UPDATE  `rcollard_db2`.`woordenboek` SET  `status` =  'Denied' WHERE  `woordenboek`.`woord` =  '"
+				connect.voerInsertOrUpdateQueryUit("UPDATE  `woordenboek` SET  `status` =  'Denied' WHERE  `woordenboek`.`woord` =  '"
 						+ reviewWoorden.get(i).getText() + "';");
 			}
 		}
