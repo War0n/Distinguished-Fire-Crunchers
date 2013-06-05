@@ -104,7 +104,7 @@ public class SpelVerloop implements Runnable, ActionListener{
 				}
 				else
 				{
-					woordCheck = str;
+					woordCheck = str; // Moderator voor goedkeuring vragen
 					int selection = JOptionPane.showConfirmDialog(
                             null
                     , "Het gelegde woord is geen geldig woord, wil je dit woord naar de moderator sturen voor goedkeuring?"
