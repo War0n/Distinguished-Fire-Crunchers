@@ -19,7 +19,9 @@ import javax.swing.SwingUtilities;
 public class CompetitieRanking extends JPanel implements ActionListener {
 	
 	WFButton backButton;
-	int idCompetitie;
+	WFButton joinButton;
+	private int idCompetitie;
+	private boolean hasJoined;
 	private JLabel titel;
 	private JPanel rankings;
 	private JPanel head;
@@ -40,6 +42,9 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		head.add(titel);
 		backButton = new WFButton("< terug naar competities");
 		backButton.addActionListener(this);
+		joinButton = new WFButton("Join competitie");
+		joinButton.addActionListener(this);
+		
 		functies = new JPanel();
 		functies.setBackground(new Color(29,144,160));
 		functies.setMaximumSize(new Dimension(650,40));
@@ -66,6 +71,7 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		this.add(functies);
 		head.add(titel);
 		functies.add(backButton);
+		functies.add(joinButton);
 		showRanking();
 		this.add(rankings);
 	}
@@ -83,6 +89,8 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		ResultSet rs = connect.voerSelectQueryUit("SELECT * FROM ranking WHERE Competitie_ID = " + idCompetitie);
 		try {
 			while(rs.next()){
+				hasJoined = (rs.getString("account_naam") == Account.getAccountNaam()) ? true : false; 
+				
 				JLabel plaats = new JLabel();
 				JLabel competitieID = new JLabel();
 				JLabel accountNaam = new JLabel();
@@ -105,6 +113,22 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 				index++;
 			}	
 		} catch (SQLException e){e.printStackTrace();}
+		
+		//als je meespeelt kan je niet nog een keer joinen
+		
+		String q = "SELECT * FROM Deelnemer WHERE Competitie_ID = "+idCompetitie+"";
+		rs = connect.voerSelectQueryUit(q);
+		try{
+			while(rs.next()){
+				if(rs.getString("Account_naam").equals(Account.getAccountNaam())){
+					System.out.println("al in competitie");
+					joinButton.setEnabled(false);
+					joinButton.setText("Al gejoint");
+				}
+			}
+		}catch (SQLException e){e.printStackTrace();}
+		
+		
 		connect.closeConnection();
 	}
 
@@ -112,6 +136,13 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(backButton)){
 			setParentContentPane(new CompetitiesMenu(true));
+		}else if(e.getSource().equals(joinButton)){
+			System.out.println("Joinen..");
+			Connectie connect = new Connectie();
+			String q = "INSERT INTO Deelnemer (Account_naam, Competitie_ID) VALUES ('"+Account.getAccountNaam()+"', '"+idCompetitie+"')";
+			connect.voerInsertOrUpdateQueryUit(q);
+			connect.closeConnection();
+			
 		}
 	}
 }
