@@ -150,9 +150,6 @@ public class BordPanel extends JPanel
 	            	if(this.tile.getTile().getStone() == null) // geen steen, dus leggen
 	            	{
 		                event.acceptDrop(DnDConstants.ACTION_MOVE);
-		                if(an.getTile().getStone().getLetter() == '?'){
-		                	
-		                }
 		                this.tile.getTile().setStone(an.getTile().getStone());
 		                an.getTile().setStone(null);
 		                an.validate();
@@ -162,7 +159,7 @@ public class BordPanel extends JPanel
 		                this.tile.validate();
 		                this.tile.repaint();
 	            	}
-	            	else // ligt al een steen, dus swappen?
+	            	else // ligt al een steen, dus swappen? 
 	            	{
 	            		if( this.tile.getTile().getLocked() == false )
 	            		{
