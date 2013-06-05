@@ -589,11 +589,10 @@ public class SpelVerloop implements Runnable, ActionListener{
 	
 	public void askModerator(String str){
 		Connectie connecteer = new Connectie();
-		JFrame popup = new JFrame();
-		ResultSet rs = connecteer.voerSelectQueryUit("SELECT * FROM woordenboek WHERE woord = '" + str + "'");
+		ResultSet rs = connecteer.voerSelectQueryUit("SELECT COUNT(*) FROM woordenboek WHERE woord = '" + str + "'");
 		try {
 			if(rs.next()){
-				if(rs.getString("woord").equals(null) || !(rs.getString("status").equals("Denied"))){
+				if(rs.getInt(1) == 0){
 					connecteer.voerInsertOrUpdateQueryUit("INSERT INTO woordenboek (woord,status) VALUES ('" + str + "', 'Pending')");
 				}
 			}
