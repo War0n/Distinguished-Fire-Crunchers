@@ -448,7 +448,16 @@ public class SpelVerloop implements Runnable, ActionListener{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
+			ResultSet spelOverCheck = connect2.voerSelectQueryUit("SELECT * FROM beurt WHERE Spel_ID = "+spel.getSpelId()+" AND Aktie_type = 'End'");
+			try {
+				
+				if(spelOverCheck.next()){
+					spelOver = true;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			spel.getSpelPanel().updateScoreLabel();
 		}
 		if(spelOver){
@@ -584,7 +593,7 @@ public class SpelVerloop implements Runnable, ActionListener{
 			e.printStackTrace();
 		}
 		if (gepasst >= 3) {
-			spelOver = true;
+			connect3.voerInsertOrUpdateQueryUit("INSERT INTO beurt VALUES(,"+spel.getSpelId()+",'"+Account.getAccountNaam()+"',0,'End'");
 		}
 		gepasst = 0;
 		connect3.closeConnection();
