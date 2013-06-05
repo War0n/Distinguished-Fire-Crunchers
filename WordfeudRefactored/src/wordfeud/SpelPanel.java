@@ -127,6 +127,7 @@ public class SpelPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				setParentContentPane(new ActieveSpellenMenu(false));
+				cg.dispose();
 			}
 		});
 

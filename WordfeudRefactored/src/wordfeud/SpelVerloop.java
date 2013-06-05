@@ -84,7 +84,7 @@ public class SpelVerloop implements Runnable, ActionListener{
 				for(Point pt : myList.get(i).keySet())
 				{
 					int curPt = pt.y * 15 + pt.x;
-					letters.add(new letterSortStruct(curPt, myList.get(i).get(pt).getLetter()));
+					letters.add(new letterSortStruct(curPt, myList.get(i).get(pt).isBlancoLetter()?myList.get(i).get(pt).getBlancoLetter() : myList.get(i).get(pt).getLetter()));
 				}
 				Collections.sort(letters, new letterCompare());
 				for(letterSortStruct ss : letters)
