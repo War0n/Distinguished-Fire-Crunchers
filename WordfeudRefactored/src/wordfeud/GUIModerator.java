@@ -55,16 +55,22 @@ public class GUIModerator extends JPanel implements Observer{
 		functies.setLayout(new FlowLayout());
 		
 		acceptWord = new WFButton("Accepteer");
+		acceptWord.setMinimumSize(new Dimension(120,25));
+		acceptWord.setPreferredSize(acceptWord.getMinimumSize());
 		declineWord = new WFButton("Verwerp");
+		declineWord.setMinimumSize(acceptWord.getMinimumSize());
+		declineWord.setPreferredSize(declineWord.getMinimumSize());
 		woordenPanel = new JPanel();
 		myButtonPanel = new JPanel();
 		backToMenu = new WFButton("Ga terug");
+		backToMenu.setMinimumSize(acceptWord.getMinimumSize());
+		backToMenu.setPreferredSize(backToMenu.getMinimumSize());
 
 		//scrollend
 		wordScrollPane = new JScrollPane(woordenPanel);
 		wordScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		woordenPanel.setLayout(new BoxLayout(woordenPanel,BoxLayout.Y_AXIS));
-		myButtonPanel.setLayout(new BoxLayout(myButtonPanel, BoxLayout.PAGE_AXIS));
+		myButtonPanel.setLayout(new FlowLayout());
 		myButtonPanel.setPreferredSize(new Dimension(120,650));
 		woordenPanel.setBackground(new Color(23,26,30));
 		myButtonPanel.setBackground(new Color(23,26,30));
