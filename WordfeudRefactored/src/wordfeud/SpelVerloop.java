@@ -162,7 +162,6 @@ public class SpelVerloop implements Runnable, ActionListener{
 			if( !beurtType.equals("Win") )
 				myTurn = true;
 		}
-		winByPass(); //kijken of er 3x gepasst is
 		con.closeConnection();
 		return myTurn;
 	}
@@ -189,6 +188,10 @@ public class SpelVerloop implements Runnable, ActionListener{
 		}
 		con.closeConnection();
 		pakLetters();
+		if( moveType.equals("Pass") == true)
+		{
+			winByPass();
+		}
 	}
 
 	public Integer puntenTeller() {
