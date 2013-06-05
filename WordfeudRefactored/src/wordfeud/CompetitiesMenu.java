@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,100 +20,99 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+public class CompetitiesMenu extends JPanel implements ActionListener {
 
-public class CompetitiesMenu extends JPanel  implements ActionListener {
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel titel;
 	private JPanel head;
-	private JPanel functies; 
+	private JPanel functies;
 	private JPanel competities;
 	private JScrollPane scrollPane;
 	private WFButton inviteButton;
 	private WFButton backButton;
 	private Connectie connect;
-	
+
 	private JPanel newCompPanel;
 	private JTextField compDesc;
 	private JTextField startDate;
 	private JTextField endDate;
 	private WFButton newCompButton;
 	private WFButton cancelButton;
-	
+
 	public CompetitiesMenu(boolean observerMode) {
-		setMinimumSize(new Dimension(650,750));
+		setMinimumSize(new Dimension(650, 750));
 		setPreferredSize(getMinimumSize());
-		setBackground(new Color(23,26,30));
-		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+		setBackground(new Color(23, 26, 30));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		backButton = new WFButton("< Terug naar menu");
 		backButton.addActionListener(this);
 		inviteButton = new WFButton("Competitie aanmaken");
 		inviteButton.addActionListener(this);
 		titel = new JLabel("Competitieoverzicht");
 		titel.setForeground(Color.white);
-		titel.setFont(new Font("Arial",Font.BOLD,30));
-		head =  new JPanel();
+		titel.setFont(new Font("Arial", Font.BOLD, 30));
+		head = new JPanel();
 		head.setBackground(this.getBackground());
-		head.setMaximumSize(new Dimension(650,50));
+		head.setMaximumSize(new Dimension(650, 50));
 		head.setPreferredSize(head.getMaximumSize());
 		head.add(titel);
 		functies = new JPanel();
-		functies.setBackground(new Color(29,144,160));
-		functies.setMaximumSize(new Dimension(650,40));
+		functies.setBackground(new Color(29, 144, 160));
+		functies.setMaximumSize(new Dimension(650, 40));
 		functies.setPreferredSize(functies.getMaximumSize());
 		functies.setLayout(new FlowLayout());
 		functies.add(backButton);
 		functies.add(inviteButton);
-		
+
 		add(head);
 		add(functies);
 		initShow();
 		showCompetitions();
 	}
-	
-	public void initShow(){
+
+	public void initShow() {
 		competities = new JPanel();
-		competities.setLayout(new BoxLayout(competities,BoxLayout.Y_AXIS));
+		competities.setLayout(new BoxLayout(competities, BoxLayout.Y_AXIS));
 		competities.setBackground(this.getBackground());
 		scrollPane = new JScrollPane(competities);
-		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane
+				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		add(scrollPane);
 	}
-	
-	public void showCompetitions(){
-		
+
+	public void showCompetitions() {
+
 		connect = new Connectie();
 		ResultSet rs;
 		int idCompetitie = 0;
 		String eigenaar = null;
-		
-		//Haal alle competities op uit de database
+
+		// Haal alle competities op uit de database
 		rs = connect.voerSelectQueryUit("SELECT * FROM Competitie");
 		try {
-			while(rs.next())
-			{
-				
+			while (rs.next()) {
+
 				idCompetitie = rs.getInt("ID");
 				eigenaar = rs.getString("Account_naam_eigenaar");
-				
-				CompetitieItem compItem = new CompetitieItem(idCompetitie, eigenaar);
-	
+
+				CompetitieItem compItem = new CompetitieItem(idCompetitie,
+						eigenaar);
+
 				competities.add(Box.createVerticalStrut(5));
 				competities.add(compItem);
-								
+
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			System.out.println("Error: " + e);
 		}
 		connect.closeConnection();
 	}
-	
-	public void newCompetition(){
-		this.remove(scrollPane);				
+
+	public void newCompetition() {
+		this.remove(scrollPane);
 		JLabel compNaam = new JLabel("Competitienaam:");
 		compNaam.setForeground(Color.white);
 		JLabel compStart = new JLabel("Competitie start (yyyy-mm-dd)");
@@ -125,73 +126,83 @@ public class CompetitiesMenu extends JPanel  implements ActionListener {
 		compDesc = new JTextField();
 		startDate = new JTextField();
 		endDate = new JTextField();
-		
-		compDesc.setMaximumSize(new Dimension(200,20));
-		startDate.setMaximumSize(new Dimension(200,20));
-		endDate.setMaximumSize(new Dimension(200,20));
-		
+
+		compDesc.setMaximumSize(new Dimension(200, 20));
+		startDate.setMaximumSize(new Dimension(200, 20));
+		endDate.setMaximumSize(new Dimension(200, 20));
+
 		newCompPanel = new JPanel();
-		newCompPanel.setMaximumSize(new Dimension(650,160));
+		newCompPanel.setMaximumSize(new Dimension(650, 160));
 		newCompPanel.setPreferredSize(newCompPanel.getMaximumSize());
-		newCompPanel.setBackground(new Color(44,47,53));
-		
+		newCompPanel.setBackground(new Color(44, 47, 53));
+
 		Box superBox = new Box(BoxLayout.PAGE_AXIS);
-		
-		
+
 		Box inputBox = new Box(BoxLayout.PAGE_AXIS);
 		inputBox.add(compNaam);
 		inputBox.add(compDesc);
 		inputBox.add(Box.createVerticalStrut(5));
 		inputBox.add(compStart);
+
+		startDate.setText(now());
 		inputBox.add(startDate);
 		inputBox.add(Box.createVerticalStrut(5));
 		inputBox.add(compEind);
 		inputBox.add(endDate);
 		inputBox.add(Box.createVerticalStrut(10));
 		superBox.add(inputBox);
-		
+
 		Box lineBox = new Box(BoxLayout.LINE_AXIS);
 		lineBox.add(newCompButton);
 		lineBox.add(cancelButton);
 		superBox.add(lineBox);
-		
+
 		newCompPanel.add(superBox);
 		this.add(newCompPanel);
 		this.validate();
 		repaint();
 	}
-	
-	
-	public void addCompetition()
-	{
-		
+
+	public String now() {
+		java.sql.Date dt1 = new java.sql.Date(System.currentTimeMillis());
+		String dt1Text = dt1.toString();
+		return dt1Text;
+	}
+
+	public void addCompetition() {
+
 		String eigenaar = Account.getAccountNaam();
 		Connectie connect = new Connectie();
-		
-		String q = "INSERT INTO `Competitie` (`Account_naam_eigenaar`, `start`, `einde`, `omschrijving`) VALUES ('"+eigenaar+"','"+startDate.getText()+"','"+endDate.getText()+"','"+compDesc.getText()+"')";
+
+		String q = "INSERT INTO `Competitie` (`Account_naam_eigenaar`, `start`, `einde`, `omschrijving`) VALUES ('"
+				+ eigenaar
+				+ "','"
+				+ startDate.getText()
+				+ "','"
+				+ endDate.getText() + "','" + compDesc.getText() + "')";
 		connect.voerInsertOrUpdateQueryUit(q);
 		connect.closeConnection();
 	}
-	
-	public void setParentContentPane(JPanel contentPane){
+
+	public void setParentContentPane(JPanel contentPane) {
 		JFrame root = (JFrame) SwingUtilities.getWindowAncestor(this);
 		root.setContentPane(contentPane);
 		root.pack();
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		if(arg0.getSource().equals(inviteButton)){
+		if (arg0.getSource().equals(inviteButton)) {
 			newCompetition();
-		} else if(arg0.getSource().equals(backButton)){
+		} else if (arg0.getSource().equals(backButton)) {
 			setParentContentPane(new GUIMenu());
-		}else if(arg0.getSource().equals(newCompButton)){
+		} else if (arg0.getSource().equals(newCompButton)) {
 			addCompetition();
 			this.remove(newCompPanel);
 			initShow();
 			showCompetitions();
 			revalidate();
 			repaint();
-		}else if(arg0.getSource().equals(cancelButton)){
+		} else if (arg0.getSource().equals(cancelButton)) {
 			this.remove(newCompPanel);
 			initShow();
 			showCompetitions();
