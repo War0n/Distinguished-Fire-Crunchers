@@ -39,7 +39,7 @@ public class QuestionMarkChooser extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				veranderSteen.setBlancoLetter(charField.getText().charAt(0));
+				veranderSteen.setBlancoLetter(Character.toUpperCase(charField.getText().charAt(0)));
 				dispose();
 			}
 		});
