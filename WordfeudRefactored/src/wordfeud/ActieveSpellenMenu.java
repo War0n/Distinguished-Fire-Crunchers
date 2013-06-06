@@ -256,7 +256,6 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 			doNotCheckBeurten = true;
 			setParentContentPane(new GUIMenu());
 		}
-		JLabel popup = null;
 		if (arg0.getActionCommand().equals("opgeven")) {
 			String[] a = playBtn.get(arg0.getSource());
 			int selection = JOptionPane.showConfirmDialog(null,
@@ -266,7 +265,6 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 			if (selection == JOptionPane.OK_OPTION) {
 				resign(Integer.parseInt(a[0]));
 			}
-			popup = null;
 		}
 
 	}
