@@ -14,6 +14,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -248,6 +249,19 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		} else if (arg0.getSource().equals(backButton)) {
 			doNotCheckBeurten = true;
 			setParentContentPane(new GUIMenu());
+		}
+		JLabel popup = null;
+		if (arg0.getActionCommand().equals("opgeven")) {
+			String[] a = playBtn.get(arg0.getSource());
+			Spel spel = new Spel(Integer.parseInt(a[0]));
+			int selection = JOptionPane.showConfirmDialog(null,
+					"Weet je zeker dat je wilt opgeven?", "let op",
+					JOptionPane.OK_CANCEL_OPTION,
+					JOptionPane.INFORMATION_MESSAGE);
+			if (selection == JOptionPane.OK_OPTION) {
+				spel.getVerloop().resign();
+			}
+			popup = null;
 		}
 	}
 	
