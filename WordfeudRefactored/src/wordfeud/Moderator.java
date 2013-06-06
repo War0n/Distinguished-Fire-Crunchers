@@ -93,6 +93,9 @@ public class Moderator extends Observable implements ActionListener {
 			declineWord();
 			refreshList();
 			break;
+		case "Ververs lijst":
+			refreshList();
+			break;
 		case "Ga terug":
 			myGuiMenu = new GUIMenu();
 			myGUIModerator.setParentContentPane(myGuiMenu);
