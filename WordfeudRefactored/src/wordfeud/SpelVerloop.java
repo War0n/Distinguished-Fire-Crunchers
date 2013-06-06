@@ -444,7 +444,13 @@ public class SpelVerloop implements Runnable, ActionListener {
 				if (spel.getLetterBak() != null) {
 					spel.getLetterBak().lockButtons();
 				}
+				if( spel.getLetterBak().getTilesInLetterbak() == 0)
+				{
+					spelOver = true;
+					break;
+				}
 			}
+			spel.getSpelPanel().updateScoreLabel();
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -457,12 +463,12 @@ public class SpelVerloop implements Runnable, ActionListener {
 
 				if (spelOverCheck.next()) {
 					spelOver = true;
+					break;
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			spel.getSpelPanel().updateScoreLabel();
 		}
 		if (spelOver) {
 			int myScore = 0;
