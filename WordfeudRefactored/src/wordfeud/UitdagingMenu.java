@@ -34,6 +34,7 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 	private JScrollPane scrollPane;
 	private WFButton inviteButton;
 	private WFButton backButton;
+	private WFButton uitdagerButton;
 	private Connectie connect;
 	private JFrame popup = null;
 	private HashMap<Integer,Integer> existingCompetitions;
@@ -60,6 +61,8 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 		backButton.addActionListener(this);
 		inviteButton = new WFButton("Speler uitdagen");
 		inviteButton.addActionListener(this);
+		uitdagerButton = new WFButton("Verzonden uitdagingen bekijken");
+		uitdagerButton.addActionListener(this);
 		titel = new JLabel("Uitdagingen");
 		titel.setForeground(Color.white);
 		titel.setFont(new Font("Arial", Font.BOLD, 30));
@@ -75,6 +78,7 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 		functies.setLayout(new FlowLayout());
 		functies.add(backButton);
 		functies.add(inviteButton);
+		functies.add(uitdagerButton);
 
 		add(head);
 		add(functies);
@@ -398,6 +402,8 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 			// decline uitdaging
 			String[] a = declineBtn.get(arg0.getSource());
 			declineUitdaging(a);
+		}else if(arg0.getSource().equals(uitdagerButton)) {
+			setParentContentPane(new UitdagerMenu());
 		}
 
 	}
@@ -405,7 +411,7 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 	public void addExistingCompetitions() {
 		connect = new Connectie();
 		ResultSet competitieRS = connect
-				.voerSelectQueryUit("SELECT ID,omschrijving FROM competitie WHERE einde > NOW();");
+				.voerSelectQueryUit("SELECT ID,omschrijving FROM deelnemer AS d LEFT JOIN competitie AS c ON d.competitie_ID = c.ID WHERE d.Account_naam = '" + Account.getAccountNaam() +"' AND einde > NOW()");
 		try {
 			int i = 0;
 			while (competitieRS.next()) {

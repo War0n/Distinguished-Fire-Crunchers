@@ -1,5 +1,6 @@
 package wordfeud;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
@@ -30,7 +31,6 @@ public class GUI extends JFrame {
 		this.setResizable(false);
 		
 		setCompetitie(new Competitie());
-		
 		this.validate();
 		this.pack();
 		this.setLocationRelativeTo(null);

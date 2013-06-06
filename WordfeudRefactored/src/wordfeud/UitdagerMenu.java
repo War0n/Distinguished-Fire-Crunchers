@@ -151,7 +151,7 @@ public class UitdagerMenu extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource().equals(backButton)) {
-			setParentContentPane(new GUIMenu());
+			setParentContentPane(new UitdagingMenu());
 		} else if (arg0.getActionCommand().equals("Annuleer uitdaging")) {
 			// decline uitdaging
 			String[] a = declineBtn.get(arg0.getSource());
