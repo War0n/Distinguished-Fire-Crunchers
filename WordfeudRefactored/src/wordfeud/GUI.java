@@ -1,6 +1,5 @@
 package wordfeud;
 
-import java.awt.Cursor;
 import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
