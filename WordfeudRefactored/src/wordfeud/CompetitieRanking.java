@@ -198,7 +198,7 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JFrame popup = null;
 		if (e.getSource().equals(backButton)) {
-			setParentContentPane(new CompetitiesMenu(true));
+			setParentContentPane(new ObserverMenu());
 		} else if (e.getSource().equals(joinButton)) {
 			Connectie connect = new Connectie();
 			String q = "INSERT INTO Deelnemer (Account_naam, Competitie_ID) VALUES ('"

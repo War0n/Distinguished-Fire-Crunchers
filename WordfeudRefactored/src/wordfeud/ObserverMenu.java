@@ -115,7 +115,7 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 		// Haal alle spellen op uit de db voor de geselecteerde competitie
 		
 		rs = connect
-				.voerSelectQueryUit("select Account_naam_uitdager, Account_naam_tegenstander, ID, Toestand_type from Spel WHERE Competitie_ID = (SELECT ID FROM competitie WHERE ID = '"+ selectedCompetitionID + "') AND Toestand_type <> 'Request'");
+				.voerSelectQueryUit("select Account_naam_uitdager, Account_naam_tegenstander, ID, Toestand_type from Spel WHERE Competitie_ID = '"+ selectedCompetitionID + "' AND Toestand_type <> 'Request'");
 		try {
 			while (rs.next()) {
 				// Wie is de tegenstander in het spel? Degene die je niet zelf
@@ -162,17 +162,7 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 		if (arg0.getActionCommand().equals("open spel")) {
 			String[] a = playBtn.get(arg0.getSource());
 			System.out.println(Integer.parseInt(a[0]));
-			connect = new Connectie();
-			ResultSet rs = connect.voerSelectQueryUit("SELECT ID FROM competitie WHERE ID = '"+ selectedCompetitionID + "'");
-			try {
-				if(rs.next()){
-				System.out.println("opening");
-				setParentContentPane(new CompetitieRanking(rs.getInt("ID"),Integer.parseInt(a[0])));
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			setParentContentPane(new CompetitieRanking(selectedCompetitionID,Integer.parseInt(a[0])));
 			//setParentContentPane(new ObserverGUI(Integer.parseInt(a[0])));
 		} else if (arg0.getSource().equals(backButton)) {
 			setParentContentPane(new GUIMenu());
@@ -188,19 +178,19 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 	public void addExistingCompetitions(){
 		connect = new Connectie();
 		ResultSet competitieRS = connect.voerSelectQueryUit("SELECT omschrijving, ID FROM competitie");
+		int i=0;
 		try {
 			while(competitieRS.next()){
-				int i = 0;
-				while (competitieRS.next()) {
-					existingCompetitions.put(i,competitieRS.getInt("ID"));
-					selectedCompetition.insertItemAt(competitieRS.getString("omschrijving")+" (id:"+competitieRS.getInt("ID")+")", i);
-					i++;
-				}
+				existingCompetitions.put(i,competitieRS.getInt("ID"));
+				selectedCompetition.insertItemAt(competitieRS.getString("omschrijving")+" (id:"+competitieRS.getInt("ID")+")", i);
+				i++;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		if(i >0){
 		selectedCompetition.setSelectedIndex(0);
+		}
 		connect.closeConnection();
 	}
 
