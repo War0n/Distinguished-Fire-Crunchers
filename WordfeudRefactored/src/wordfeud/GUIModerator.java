@@ -23,7 +23,8 @@ public class GUIModerator extends JPanel implements Observer{
 	
 	private WFButton acceptWord;
 	private WFButton declineWord;
-	private JPanel headPanel;
+	private WFButton refreshBtn;
+	private JPanel contentPanel;
 	private JPanel woordenPanel;
 	private JPanel myButtonPanel;
 	private JPanel functies;
@@ -35,23 +36,24 @@ public class GUIModerator extends JPanel implements Observer{
 	public GUIModerator(){
 		this.setMinimumSize(new Dimension(650,700));
 		this.setPreferredSize(getMinimumSize());
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBackground(new Color(23,26,30));
 		
 		//new Moderator(this);
 		
 		reviewWoorden = new ArrayList<JCheckBox>();
 		
-		headPanel = new JPanel();
-		headPanel.setForeground(Color.white);
-		headPanel.setBackground(new Color(23,26,30));
+		contentPanel = new JPanel();
+		contentPanel.setBackground(new Color(23,26,30));
+		contentPanel.setLayout(new BorderLayout());
 		titel = new JLabel("Moderatorscherm");
 		titel.setForeground(Color.white);
 		titel.setFont(new Font("Arial",Font.BOLD,30));
+		titel.setAlignmentX(CENTER_ALIGNMENT);
 		functies = new JPanel();
 		functies.setBackground(new Color(29,144,160));
-		functies.setMaximumSize(new Dimension(650,40));
-		functies.setPreferredSize(functies.getMaximumSize());
+		functies.setMinimumSize(new Dimension(650,40));
+		functies.setPreferredSize(functies.getMinimumSize());
 		functies.setLayout(new FlowLayout());
 		
 		acceptWord = new WFButton("Accepteer");
@@ -62,27 +64,29 @@ public class GUIModerator extends JPanel implements Observer{
 		declineWord.setPreferredSize(declineWord.getMinimumSize());
 		woordenPanel = new JPanel();
 		myButtonPanel = new JPanel();
+		refreshBtn = new WFButton("Ververs lijst");
 		backToMenu = new WFButton("Ga terug");
 		backToMenu.setMinimumSize(acceptWord.getMinimumSize());
 		backToMenu.setPreferredSize(backToMenu.getMinimumSize());
+		functies.add(refreshBtn);
 
 		//scrollend
 		wordScrollPane = new JScrollPane(woordenPanel);
 		wordScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		woordenPanel.setLayout(new BoxLayout(woordenPanel,BoxLayout.Y_AXIS));
 		myButtonPanel.setLayout(new FlowLayout());
-		myButtonPanel.setPreferredSize(new Dimension(120,650));
+		myButtonPanel.setPreferredSize(new Dimension(120,610));
 		woordenPanel.setBackground(new Color(23,26,30));
 		myButtonPanel.setBackground(new Color(23,26,30));
 		
-		headPanel.add(titel);
-		headPanel.add(functies);
-		this.add(headPanel, BorderLayout.NORTH);
-		this.add(wordScrollPane, BorderLayout.CENTER);
+		this.add(titel);
+		this.add(functies);
+		contentPanel.add(wordScrollPane,BorderLayout.CENTER);
 		myButtonPanel.add(acceptWord);
 		myButtonPanel.add(declineWord);
 		myButtonPanel.add(backToMenu);
-		this.add(myButtonPanel, BorderLayout.LINE_END);
+		contentPanel.add(myButtonPanel, BorderLayout.LINE_END);
+		this.add(contentPanel);
 	}
 
 	public void clearWoordenPanel(){
@@ -107,6 +111,7 @@ public class GUIModerator extends JPanel implements Observer{
 	public void addButtonMethods(ActionListener controller){
         acceptWord.addActionListener(controller);
         declineWord.addActionListener(controller);
+        refreshBtn.addActionListener(controller);
         backToMenu.addActionListener(controller);
 	}
 	

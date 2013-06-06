@@ -106,21 +106,15 @@ public class BordPanel extends JPanel
 	    @Override
 	    public void dragGestureRecognized(DragGestureEvent event) 
 	    {
-	        Cursor cursor = null;
 	        GUITile panel = (GUITile) event.getComponent();
 	        if(panel.getTile().getLocked() == true)
 	        {
 	        	return; // niet laten slepen als steen gepinned is.
 	        }
-
-	        if (event.getDragAction() == DnDConstants.ACTION_MOVE) 
-	        {
-	            cursor = DragSource.DefaultMoveDrop;
-	        }
 	        if(panel.getTile().getStone() != null)
-	        	event.startDrag(null, panel.getTile().getImageWithLetter(mySpel), new Point(0,0), new StoneTransfer(panel), null);
+	        	event.startDrag(Cursor.getDefaultCursor(), panel.getTile().getImageWithLetter(mySpel), new Point(0,0), new StoneTransfer(panel), null);
 	        else
-	        	event.startDrag(cursor, new StoneTransfer(panel));
+	        	event.startDrag(DragSource.DefaultMoveDrop, new StoneTransfer(panel));
 	    }
 	}
 
@@ -148,7 +142,7 @@ public class BordPanel extends JPanel
 	            	{
 		                event.acceptDrop(DnDConstants.ACTION_MOVE);
 		                this.tile.getTile().setStone(an.getTile().getStone());
-		                if(an.getStone().getLetter() == '?'){
+		                if(an.getStone() != null && an.getStone().getLetter() == '?'){
 		                	new QuestionMarkChooser(an.getStone());
 		                }
 		                an.getTile().setStone(null);

@@ -12,6 +12,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -181,14 +182,36 @@ public class CompetitiesMenu extends JPanel implements ActionListener {
 
 		String eigenaar = Account.getAccountNaam();
 		Connectie connect = new Connectie();
-
-		String q = "INSERT INTO `Competitie` (`Account_naam_eigenaar`, `start`, `einde`, `omschrijving`) VALUES ('"
-				+ eigenaar
-				+ "','"
-				+ startDate.getText()
-				+ "','"
-				+ endDate.getText() + "','" + compDesc.getText() + "')";
-		connect.voerInsertOrUpdateQueryUit(q);
+		try
+		{
+			ResultSet rs = connect.doSelect("SELECT COUNT(*) FROM Competitie WHERE Account_naam_eigenaar = '%1$s'", eigenaar);
+			if( rs.getInt(1) == 0)
+			{
+				String q = "INSERT INTO `Competitie` (`Account_naam_eigenaar`, `start`, `einde`, `omschrijving`) VALUES ('"
+						+ eigenaar
+						+ "','"
+						+ startDate.getText()
+						+ "','"
+						+ endDate.getText() + "','" + compDesc.getText() + "')";
+				connect.voerInsertOrUpdateQueryUit(q);
+				
+				JOptionPane.showConfirmDialog(null,
+						"Je competitie is aangemaakt", "Success!",
+						JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+			else
+			{
+				JOptionPane.showConfirmDialog(null,
+						"Je bent al eigenaar van een competitie!", "Sorry!",
+						JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
 		connect.closeConnection();
 	}
 	

@@ -269,6 +269,9 @@ public class SpelVerloop implements Runnable, ActionListener {
 			System.out.println(woord);
 			score = score + woordScore;
 		}
+		if(spelBord.getNewTiles().size() == 7){
+			score = score + 40;
+		}
 		lastScore = score;
 		return score;
 	}
@@ -430,6 +433,7 @@ public class SpelVerloop implements Runnable, ActionListener {
 			spelBord.plaatsLetters();
 			if (!myTurn()) {
 				spel.getSpelPanel().getPlayButton().setEnabled(false);
+				spel.getSpelPanel().getPlayButton().setText("Niet jouw beurt"); 
 				spel.getSpelPanel().getShuffleButton().setEnabled(false);
 				spel.getSpelPanel().getSkipButton().setEnabled(false);
 				spel.getSpelPanel().getSwapButton().setEnabled(false);
@@ -510,6 +514,7 @@ public class SpelVerloop implements Runnable, ActionListener {
 				popup = null;
 			}
 			spel.getSpelPanel().getPlayButton().setEnabled(false);
+			spel.getSpelPanel().getPlayButton().setText("Play"); 
 			spel.getSpelPanel().getShuffleButton().setEnabled(false);
 			spel.getSpelPanel().getSkipButton().setEnabled(false);
 			spel.getSpelPanel().getSwapButton().setEnabled(false);
