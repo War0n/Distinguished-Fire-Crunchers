@@ -411,12 +411,12 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 	public void addExistingCompetitions() {
 		connect = new Connectie();
 		ResultSet competitieRS = connect
-				.voerSelectQueryUit("SELECT ID,omschrijving FROM deelnemer AS d LEFT JOIN competitie AS c ON d.competitie_ID = c.ID WHERE d.Account_naam = '" + Account.getAccountNaam() +"' WHERE einde > NOW();");
+				.voerSelectQueryUit("SELECT ID,omschrijving FROM deelnemer AS d LEFT JOIN competitie AS c ON d.competitie_ID = c.ID WHERE d.Account_naam = '" + Account.getAccountNaam() +"' AND einde > NOW()");
 		try {
 			int i = 0;
 			while (competitieRS.next()) {
 				existingCompetitions.put(i,competitieRS.getInt("ID"));
-				selectedCompetition.insertItemAt(competitieRS.getString("omschrijving"), i);
+				selectedCompetition.insertItemAt(competitieRS.getString("omschrijving")+" (id:"+competitieRS.getInt(1)+")", i);
 				i++;
 			}
 		} catch (SQLException e) {
@@ -434,7 +434,7 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
 		int curCompID = existingCompetitions.get(selectedCompetition.getSelectedIndex());
-		String q = "SELECT Account_naam FROM Deelnemer WHERE Competitie_ID ="+curCompID+"";
+		String q = "SELECT Account_naam FROM Deelnemer WHERE Competitie_ID ="+curCompID+" AND Account_naam <> '"+Account.getAccountNaam()+"'";
 		connect = new Connectie();
 		ResultSet rs = connect.voerSelectQueryUit(q);
 		selectedPlayer.removeAllItems();
