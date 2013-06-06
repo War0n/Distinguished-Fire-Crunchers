@@ -165,7 +165,16 @@ public class ObserverGUI extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		setParentContentPane(new ObserverMenu());
+		Connectie conn = new Connectie();
+		ResultSet rs = conn.voerSelectQueryUit("SELECT Competitie_ID FROM spel WHERE ID = "+spel.getSpelId());
+		try {
+			if(rs.next()){
+			setParentContentPane(new CompetitieRanking(rs.getInt("Competitie_ID"),spel.getSpelId()));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void setScore(String text) {
