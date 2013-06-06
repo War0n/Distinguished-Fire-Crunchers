@@ -147,7 +147,7 @@ public class GUIMenu extends JPanel implements ActionListener{
 		} else if(arg0.getSource().equals(uitnodigingButton)){
 			setParentContentPane(new UitdagingMenu());
 		} else if(arg0.getSource().equals(logoutButton)){
-			setParentContentPane(new LoginScreen());
+			setParentContentPane(new LoginScreen(true));
 		} else if(arg0.getSource().equals(stopButton)){
 			System.exit(0);
 		} else if(arg0.getSource().equals(adminButton)){

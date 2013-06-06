@@ -110,7 +110,6 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 		connect = new Connectie();
 		ResultSet rs;
 		String comp_naam = null;
-
 		// Haal alle spellen op uit de db voor de geselecteerde competitie
 		rs = connect
 				.voerSelectQueryUit("select Account_naam_uitdager, Account_naam_tegenstander, ID from Spel where Competitie_ID = (SELECT ID FROM competitie WHERE omschrijving = '"+ selectedCompetitionID + "')");
@@ -159,7 +158,17 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getActionCommand().equals("open spel")) {
 			String[] a = playBtn.get(arg0.getSource());
-			setParentContentPane(new ObserverGUI(Integer.parseInt(a[0])));
+			connect = new Connectie();
+			ResultSet rs = connect.voerSelectQueryUit("SELECT ID FROM competitie WHERE omschrijving = '"+ selectedCompetitionID + "'");
+			try {
+				if(rs.next()){
+				setParentContentPane(new CompetitieRanking(rs.getInt("ID"),Integer.parseInt(a[0])));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//setParentContentPane(new ObserverGUI(Integer.parseInt(a[0])));
 		} else if (arg0.getSource().equals(backButton)) {
 			setParentContentPane(new GUIMenu());
 		}

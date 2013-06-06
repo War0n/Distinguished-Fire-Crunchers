@@ -41,7 +41,7 @@ public class Admin extends Observable {
 	public String[] getInfo(String naam) {
 		connect = new Connectie();
 		gegevensRS = connect
-				.voerSelectQueryUit("SELECT * from account WHERE naam = '"
+				.voerSelectQueryUit("SELECT naam,wachtwoord from account WHERE naam = '"
 						+ naam + "'");
 		String[] rij = new String[3];
 		try {
@@ -111,7 +111,7 @@ public class Admin extends Observable {
 
 	public ArrayList<JCheckBox> getAvailableRoles() {
 		connect = new Connectie();
-		ResultSet roles = connect.voerSelectQueryUit("SELECT * FROM rol");
+		ResultSet roles = connect.voerSelectQueryUit("SELECT type FROM rol");
 		ArrayList<JCheckBox> checkboxes = new ArrayList<JCheckBox>();
 		try {
 			while (roles.next()) {

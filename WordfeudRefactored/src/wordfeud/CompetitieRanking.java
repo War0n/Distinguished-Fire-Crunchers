@@ -1,5 +1,6 @@
 package wordfeud;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -10,9 +11,12 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 public class CompetitieRanking extends JPanel implements ActionListener {
@@ -21,17 +25,24 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	WFButton backButton;
-	WFButton joinButton;
+	private WFButton backButton;
+	private WFButton joinButton;
+	private WFButton gameButton;
 	private int idCompetitie;
+	private int idSpel;
 	private JLabel titel;
 	private JPanel rankings;
 	private JPanel head;
 	private JPanel functies;
+	private String spelerNamen;
+	private JPanel showSpelersPanel;
+	final ImageIcon icon = new ImageIcon("src/images/conf.jpg");
 	
-	public CompetitieRanking(int idCompetitie){
+	public CompetitieRanking(int idCompetitie,int spelid){
+		this.idSpel = spelid;
 		this.idCompetitie = idCompetitie;
 		setMinimumSize(new Dimension(650,750));
+		
 		setPreferredSize(getMinimumSize());
 		setBackground(new Color(23,26,30));
 		titel = new JLabel("Ranking");
@@ -46,12 +57,15 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		backButton.addActionListener(this);
 		joinButton = new WFButton("Join competitie");
 		joinButton.addActionListener(this);
+		gameButton = new WFButton("Door naar game");
+		gameButton.addActionListener(this);
 		
 		functies = new JPanel();
 		functies.setBackground(new Color(29,144,160));
 		functies.setMaximumSize(new Dimension(650,40));
 		functies.setPreferredSize(functies.getMaximumSize());
-		functies.setLayout(new FlowLayout());
+		showSpelersPanel = new JPanel();
+		showSpelersPanel.setBackground(new Color(23,26,30));
 		rankings = new JPanel();
 		rankings.setBackground(new Color(23,26,30));
 		rankings.setLayout(new GridLayout(0,4));
@@ -74,8 +88,13 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		head.add(titel);
 		functies.add(backButton);
 		functies.add(joinButton);
+		if(idSpel != 0){
+			functies.add(gameButton);
+		}
 		showRanking();
 		this.add(rankings);
+		showSpelers();
+		this.add(showSpelersPanel);
 	}
 	
 	public void setParentContentPane(JPanel contentPane){
@@ -127,13 +146,42 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 				}
 			}
 		}catch (SQLException e){e.printStackTrace();}
-		
-		
+		connect.closeConnection();
+	}
+	
+	public void showSpelers(){
+		Connectie connect = new Connectie();
+//		JLabel spelerInfo = new JLabel("Spelers in de competitie: ");
+//		spelerInfo.setForeground(Color.WHITE);
+//		showSpelersPanel.add(spelerInfo);
+//		this.add(spelerInfo);
+		JTextArea showSpelers = new JTextArea();
+		showSpelers.setBackground(new Color(23,26,30));
+		showSpelers.setEditable(false);
+		showSpelers.setForeground(Color.WHITE);
+		showSpelers.setAlignmentY(TOP_ALIGNMENT);
+		ResultSet rs = connect.voerSelectQueryUit("SELECT Account_naam FROM deelnemer WHERE Competitie_ID = " + idCompetitie);
+		try {
+			spelerNamen = "Spelers in competitie:";
+			spelerNamen += System.lineSeparator();
+			while(rs.next()){
+				if(!(rs.getString("Account_naam").equals("null"))){
+					spelerNamen += rs.getString("Account_naam");
+					spelerNamen += System.lineSeparator();
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		showSpelers.setText(spelerNamen);
+		showSpelersPanel.add(showSpelers);
 		connect.closeConnection();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		JFrame popup = null;
 		if(e.getSource().equals(backButton)){
 			setParentContentPane(new CompetitiesMenu(true));
 		}else if(e.getSource().equals(joinButton)){
@@ -143,6 +191,15 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 			connect.voerInsertOrUpdateQueryUit(q);
 			connect.closeConnection();
 			
+		}else if(e.getSource().equals(gameButton)){
+			if(idSpel != 0){
+			setParentContentPane(new ObserverGUI(idSpel));	
+			}
 		}
+		JOptionPane.showMessageDialog(popup,
+				"Je bent " + idCompetitie + " gejoint", "Gejoint",
+				JOptionPane.INFORMATION_MESSAGE, icon);
+		popup = null;
 	}
 }
+	

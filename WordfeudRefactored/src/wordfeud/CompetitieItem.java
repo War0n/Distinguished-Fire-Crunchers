@@ -81,7 +81,7 @@ public class CompetitieItem extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		setParentContentPane(new CompetitieRanking(idCompetitie));
+		setParentContentPane(new CompetitieRanking(idCompetitie,0));
 	}
 
 	@Override

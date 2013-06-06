@@ -36,9 +36,11 @@ public class LoginScreen extends JPanel {
 	private WFButton loginButton;
 	private WFButton registerButton;
 	private String curUser;
+	private boolean inlog;
 	JFrame popup = null;
 
-	public LoginScreen() {
+	public LoginScreen(boolean inlog) {
+		this.inlog = inlog;
 		setBackground(new Color(23, 26, 30));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		loginpanel = new JPanel();
@@ -88,7 +90,9 @@ public class LoginScreen extends JPanel {
 		loginpanel.add(registercontroleLabel);
 		loginpanel.add(registerControle);
 		loginpanel.add(Box.createVerticalStrut(5));
-		buttonpanel.add(loginButton);
+		if (inlog) {
+			buttonpanel.add(loginButton);
+		}
 		buttonpanel.add(registerButton);
 		loginpanel.add(buttonpanel);
 		content.add(loginpanel);
