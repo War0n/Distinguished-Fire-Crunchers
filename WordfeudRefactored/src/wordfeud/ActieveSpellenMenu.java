@@ -255,8 +255,7 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		} else if (arg0.getSource().equals(backButton)) {
 			doNotCheckBeurten = true;
 			setParentContentPane(new GUIMenu());
-		}
-		if (arg0.getActionCommand().equals("opgeven")) {
+		} else if (arg0.getActionCommand().equals("opgeven")) {
 			String[] a = playBtn.get(arg0.getSource());
 			int selection = JOptionPane.showConfirmDialog(null,
 					"Weet je zeker dat je wilt opgeven?", "let op",
@@ -266,17 +265,12 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 				resign(Integer.parseInt(a[0]));
 			}
 		}
-
 	}
 
 	public void resign(int spelid) {
 		int totaalscore = 0;
+		int ID = 0;
 		Connectie connect = new Connectie();
-		JFrame popup = null;
-		JOptionPane.showMessageDialog(popup, "Je hebt verloren.", "Verloren",
-				JOptionPane.WARNING_MESSAGE);
-		popup = null;
-
 		myResultSet = connect
 				.voerSelectQueryUit("SELECT totaalscore FROM score WHERE Account_naam = '"
 						+ Account.getAccountNaam()
@@ -290,12 +284,26 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		connect.voerInsertOrUpdateQueryUit("INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES ("
+		myResultSet = connect
+				.voerSelectQueryUit("SELECT MAX(ID) FROM beurt WHERE Spel_ID = "
+						+ spelid);
+		try {
+			if (myResultSet.next()) {
+				ID = myResultSet.getInt(1) + 1;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		connect.voerInsertOrUpdateQueryUit("INSERT INTO beurt (ID, Spel_ID, Account_naam, score, Aktie_type) VALUES ("
+				+ ID
+				+ ", "
 				+ spelid
 				+ ", '"
 				+ Account.getAccountNaam()
 				+ "', "
-				+ -totaalscore + ", 'End';");
+				+ -totaalscore + ", 'End');");
+		connect.closeConnection();
 	}
 
 	public void setParentContentPane(JPanel contentPane) {
