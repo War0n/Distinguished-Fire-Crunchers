@@ -197,6 +197,8 @@ public class CompetitiesMenu extends JPanel implements ActionListener {
 							+ endDate.getText() + "','" + compDesc.getText() + "')";
 					connect.voerInsertOrUpdateQueryUit(q);
 					
+					connect.doInsertUpdate("INSERT INTO deelnemer (Account_naam, Competitie_ID) VALUES ('%1$s', (SELECT MAX(ID) FROM competitie))", Account.getAccountNaam());
+					
 					JOptionPane.showConfirmDialog(null,
 							"Je competitie is aangemaakt", "Success!",
 							JOptionPane.OK_CANCEL_OPTION,
