@@ -642,34 +642,6 @@ public class SpelVerloop implements Runnable, ActionListener{
 		}
 		connecteer.closeConnection();
 	}
-	public void resign() {
-		int totaalscore = 0;
-		Connectie connect = new Connectie();
-		JFrame popup = null;
-		JOptionPane.showMessageDialog(popup, "Je hebt verloren.", "Verloren",
-				JOptionPane.WARNING_MESSAGE);
-		popup = null;
-
-		myResultSet = connect
-				.voerSelectQueryUit("SELECT totaalscore FROM score WHERE Account_naam = '"
-						+ Account.getAccountNaam()
-						+ "' AND Spel_ID = "
-						+ spel.getSpelId() + ";");
-		try {
-			if (myResultSet.next()) {
-				totaalscore = myResultSet.getInt(1);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		connect.voerInsertOrUpdateQueryUit("INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES ("
-				+ spel.getSpelId()
-				+ ", '"
-				+ Account.getAccountNaam()
-				+ "', "
-				+ -totaalscore + ", 'End';");
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
