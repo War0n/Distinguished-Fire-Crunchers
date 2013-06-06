@@ -161,10 +161,12 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getActionCommand().equals("open spel")) {
 			String[] a = playBtn.get(arg0.getSource());
+			System.out.println(Integer.parseInt(a[0]));
 			connect = new Connectie();
-			ResultSet rs = connect.voerSelectQueryUit("SELECT ID FROM competitie WHERE omschrijving = '"+ selectedCompetitionID + "'");
+			ResultSet rs = connect.voerSelectQueryUit("SELECT ID FROM competitie WHERE ID = '"+ selectedCompetitionID + "'");
 			try {
 				if(rs.next()){
+				System.out.println("opening");
 				setParentContentPane(new CompetitieRanking(rs.getInt("ID"),Integer.parseInt(a[0])));
 				}
 			} catch (SQLException e) {
