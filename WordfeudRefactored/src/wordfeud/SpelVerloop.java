@@ -112,7 +112,6 @@ public class SpelVerloop implements Runnable, ActionListener {
 				spel.getBord().lockField();
 			}
 		}
-		// spel.getVerloop().doTurn("Word");
 	}
 
 	public void pushLettersNaarDatabase() {
@@ -466,6 +465,11 @@ public class SpelVerloop implements Runnable, ActionListener {
 		}
 		if (spelOver) {
 			int myScore = 0;
+			for(Tile tile : spel.getLetterBak().getTiles()){
+				if(tile.getStone() != null){
+					myScore -= tile.getStone().getValue(spel.getLetterSet());
+				}
+			}
 			int opScore = 0;
 			JFrame popup = null;
 			connect2.voerInsertOrUpdateQueryUit("UPDATE spel SET Toestand_type = 'Finished' WHERE ID = "
