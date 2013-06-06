@@ -38,7 +38,6 @@ public class ObserverGUI extends JPanel implements ActionListener {
 		setPreferredSize(getMinimumSize());
 		score = new JLabel();
 		score.setBackground(Color.red);
-		getScoreString();
 		score.setForeground(Color.white);
 
 		setBackground(Color.blue);
@@ -88,6 +87,7 @@ public class ObserverGUI extends JPanel implements ActionListener {
 					letterbak.repaint();
 				}
 				updateBeurtLabel();
+				updateScoreLabel();
 			}
 
 		});
@@ -116,6 +116,7 @@ public class ObserverGUI extends JPanel implements ActionListener {
 				}
 				con.closeConnection();
 				updateBeurtLabel();
+				updateScoreLabel();
 			}
 
 		});
@@ -126,6 +127,8 @@ public class ObserverGUI extends JPanel implements ActionListener {
 		beurtPanel.add(beurtLabel);
 		beurtPanel.add(nextTurn);
 		beurtPanel.add(beurtVan);
+		
+		updateScoreLabel();
 
 		add(letterbak);
 		add(beurtPanel);
@@ -169,47 +172,15 @@ public class ObserverGUI extends JPanel implements ActionListener {
 		score.setText(text);
 		repaint();
 	}
-
+	
 	public void updateScoreLabel() {
-		int scores[] = new int[2];
-		scores[0] = scores[1] = 0;
-		String names[] = new String[2];
-		names[0] = names[1] = "";
-
-		Connectie connect = new Connectie();
-		try {
-			ResultSet rs = connect
-					.voerSelectQueryUit("SELECT Account_naam, totaalscore FROM score WHERE Spel_ID = "
-							+ spel.getSpelId());
-			while (rs.next()) {
-				names[0] = rs.getString(1);
-				scores[0] = rs.getInt(2);
-				if (!rs.getString(1).equals(names[0])) {
-					names[1] = rs.getString(1);
-					scores[1] = rs.getInt(2);
-				} else {
-					rs.next();
-					names[1] = rs.getString(1);
-					scores[1] = rs.getInt(2);
-				}
-
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		connect.closeConnection();
-		setScore(names[0] + ": " + scores[0] + "            " + names[1] + ": "
-				+ scores[1]);
-	}
-
-	public String getScoreString() {
 		String ret = "";
 		Connectie con = new Connectie();
 		try {
 			ResultSet rs = con
 					.doSelect(
 							"SELECT Account_naam, SUM(score) FROM wordfeud.beurt WHERE Spel_ID = %1$d AND ID <= %2$d GROUP BY Account_naam ORDER BY Account_naam ASC;",
-							spel.getSpelId(), beurt - 1);
+							spel.getSpelId(), beurt);
 			while (rs.next()) {
 				ret += (rs.getString(1) + ": " + rs.getInt(2) + "        ");
 			}
@@ -217,7 +188,6 @@ public class ObserverGUI extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 		setScore(ret.trim());
-		return ret.trim();
 	}
 
 }
