@@ -31,11 +31,9 @@ public class GUIMenu extends JPanel implements ActionListener{
 	private JPanel blankSpace;
 	private WFButton actieveSpellenButton;
 	private WFButton competitieButton;
-	private WFButton competitieAanmaken;
 	private WFButton observerButton;
 	private WFButton wachtwoordWijzigen;
 	private WFButton uitnodigingButton;
-	private WFButton uitdagerButton;
 	private WFButton adminButton;
 	private WFButton modButton;
 	private WFButton logoutButton;
@@ -72,7 +70,6 @@ public class GUIMenu extends JPanel implements ActionListener{
 		
 		actieveSpellenButton = new WFButton("Actieve spellen");
 		competitieButton = new WFButton("Competities openen");
-		competitieAanmaken = new WFButton("Competitie aanmaken");
 		uitnodigingButton = new WFButton("Uitdagingen");
 		observerButton = new WFButton("Observeren");
 		wachtwoordWijzigen = new WFButton("Wachtwoord wijzigen");
@@ -80,14 +77,11 @@ public class GUIMenu extends JPanel implements ActionListener{
 		stopButton = new WFButton("Spel Stoppen");
 		adminButton = new WFButton("Administrator scherm bekijken");
 		modButton = new WFButton("Moderator scherm bekijken");
-		uitdagerButton = new WFButton("Verzonden uitdagingen bekijken");
 		myButtons = new ArrayList<WFButton>();
 		
 		myButtons.add(actieveSpellenButton);
 		myButtons.add(competitieButton);
-		//myButtons.add(competitieAanmaken);
 		myButtons.add(uitnodigingButton);
-		myButtons.add(uitdagerButton);
 		myButtons.add(observerButton);
 		myButtons.add(adminButton);
 		myButtons.add(modButton);
@@ -121,14 +115,10 @@ public class GUIMenu extends JPanel implements ActionListener{
 		
 		if(!Account.checkPlayer()){
 			competitieButton.setEnabled(false);
-			competitieAanmaken.setEnabled(false);
 			uitnodigingButton.setEnabled(false);
-			uitdagerButton.setEnabled(false);
 		} else {
 			competitieButton.setEnabled(true);
-			competitieAanmaken.setEnabled(true);
 			uitnodigingButton.setEnabled(true);
-			uitdagerButton.setEnabled(true);
 		}
 				
 		add(titel);
@@ -156,8 +146,6 @@ public class GUIMenu extends JPanel implements ActionListener{
 	
 		} else if(arg0.getSource().equals(uitnodigingButton)){
 			setParentContentPane(new UitdagingMenu());
-		} else if(arg0.getSource().equals(uitdagerButton)) {
-			setParentContentPane(new UitdagerMenu());
 		} else if(arg0.getSource().equals(logoutButton)){
 			setParentContentPane(new LoginScreen());
 		} else if(arg0.getSource().equals(stopButton)){
