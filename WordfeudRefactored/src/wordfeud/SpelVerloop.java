@@ -447,7 +447,7 @@ public class SpelVerloop implements Runnable, ActionListener{
 			spelBord.plaatsLetters();
 			if (!myTurn()) {
 				spel.getSpelPanel().getPlayButton().setEnabled(false);
-				spel.getSpelPanel().getPlayButton().setText("Niet jouw beurt");
+				spel.getSpelPanel().getPlayButton().setText("Niet jouw beurt"); 
 				spel.getSpelPanel().getShuffleButton().setEnabled(false);
 				spel.getSpelPanel().getSkipButton().setEnabled(false);
 				spel.getSpelPanel().getSwapButton().setEnabled(false);
