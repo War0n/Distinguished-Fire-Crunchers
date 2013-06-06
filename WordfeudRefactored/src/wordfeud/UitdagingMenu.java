@@ -405,7 +405,7 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 	public void addExistingCompetitions() {
 		connect = new Connectie();
 		ResultSet competitieRS = connect
-				.voerSelectQueryUit("SELECT ID,omschrijving FROM deelnemer AS d LEFT JOIN competitie AS c ON d.competitie_ID = c.ID WHERE d.Account_naam = '" + Account.getAccountNaam() +"' WHERE einde > NOW();");
+				.voerSelectQueryUit("SELECT ID,omschrijving FROM deelnemer AS d LEFT JOIN competitie AS c ON d.competitie_ID = c.ID WHERE d.Account_naam = '" + Account.getAccountNaam() +"' AND einde > NOW()");
 		try {
 			int i = 0;
 			while (competitieRS.next()) {
