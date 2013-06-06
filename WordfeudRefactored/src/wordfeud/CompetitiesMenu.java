@@ -8,6 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -101,18 +106,20 @@ public class CompetitiesMenu extends JPanel implements ActionListener {
 				String compNaam = rs.getString("omschrijving");
 				String start = rs.getString("start").substring(0,10);
 				String einde = rs.getString("einde").substring(0,10);
-				
-				
-				/*
-				check of competitie al is afgelopen
-				
+				//controleer of competitie al is afgelopen
+				boolean finished = false;
 				java.sql.Date dt1 = new java.sql.Date(System.currentTimeMillis());
-				String dt1Text = dt1.toString();
-				Date date = new SimpleDateFormat("yyyy-M-d", Locale.ENGLISH).parse(einde);
-				if
-				 */
+				try {
+					Date dt2 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(einde);
+					if(dt1.after(dt2)){
+						finished = true;
+					}
+				} catch (ParseException e) {
+					System.out.println("Date incorrectly parsed!");
+				}
 
-				CompetitieItem compItem = new CompetitieItem(idCompetitie,eigenaar, compNaam, start, einde);
+				CompetitieItem compItem = new CompetitieItem(idCompetitie,eigenaar, compNaam, start, einde, finished);
+
 
 				competities.add(Box.createVerticalStrut(5));
 				competities.add(compItem);

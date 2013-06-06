@@ -24,7 +24,7 @@ public class CompetitieItem extends JPanel implements MouseListener {
 	String compNaam;
 	JLabel compTxt;
 	
-	public CompetitieItem(int idCompetitie, String eigenaar, String compNaam, String start, String einde){
+	public CompetitieItem(int idCompetitie, String eigenaar, String compNaam, String start, String einde, boolean finished){
 		this.idCompetitie = idCompetitie;
 		this.eigenaar = eigenaar;
 		this.compNaam = compNaam;
@@ -38,9 +38,14 @@ public class CompetitieItem extends JPanel implements MouseListener {
 		
 		JLabel compTimeHead = new JLabel("competitie looptijd:");
 		compTimeHead.setForeground(Color.white);
-		
-		JLabel compTime = new JLabel(start +" -- "+einde);
-		compTime.setForeground(Color.white);
+		JLabel compTime = new JLabel();
+		if(finished){
+			compTime = new JLabel("Geeindigd op "+einde);
+			compTime.setForeground(Color.white);			
+		}else{
+			compTime = new JLabel(start +" -- "+einde);
+			compTime.setForeground(Color.white);
+		}
 		//add(compTxt);
 		Box superBox = new Box(BoxLayout.PAGE_AXIS);
 		Box superBox2 = new Box(BoxLayout.PAGE_AXIS);
