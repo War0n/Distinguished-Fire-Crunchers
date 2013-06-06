@@ -38,6 +38,11 @@ public class SpelVerloop implements Runnable, ActionListener {
 		spelBord = spel.getBord();
 		woordCheck = "";
 	}
+	
+	public void setSpelOver()
+	{
+		spelOver = true;
+	}
 
 	class letterSortStruct {
 		int pos;
@@ -111,6 +116,11 @@ public class SpelVerloop implements Runnable, ActionListener {
 				pushLettersNaarDatabase();
 				pakLetters();
 				spel.getBord().lockField();
+				if(spel.getLetterBak().getTilesInLetterbak()==0)
+				{
+					doTurn("End", false);
+					setSpelOver();
+				}
 			}
 		}
 	}
@@ -443,11 +453,6 @@ public class SpelVerloop implements Runnable, ActionListener {
 				spel.getSpelPanel().getShuffleButton().setEnabled(true);
 				if (spel.getLetterBak() != null) {
 					spel.getLetterBak().lockButtons();
-				}
-				if( spel.getLetterBak().getTilesInLetterbak() == 0)
-				{
-					spelOver = true;
-					break;
 				}
 			}
 			spel.getSpelPanel().updateScoreLabel();

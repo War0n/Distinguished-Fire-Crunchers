@@ -36,11 +36,9 @@ public class LoginScreen extends JPanel {
 	private WFButton loginButton;
 	private WFButton registerButton;
 	private String curUser;
-	private boolean inlog;
 	JFrame popup = null;
 
 	public LoginScreen(boolean inlog) {
-		this.inlog = inlog;
 		setBackground(new Color(23, 26, 30));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		loginpanel = new JPanel();

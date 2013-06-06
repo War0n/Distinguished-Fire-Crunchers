@@ -48,7 +48,7 @@ public class SpelPanel extends JPanel {
 		chatButton = new WFButton("Chat");
 		clearButton = new WFButton("Clear");
 		shuffleButton = new WFButton("Shuffle");
-		backButton = new WFButton("< Terug");
+		backButton = new WFButton("< Back");
 
 		spel = new Spel(this, spelID);
 		chat = new Chat(spel.getSpelId());
@@ -174,7 +174,6 @@ public class SpelPanel extends JPanel {
 	}
 
 	public WFButton getPlayButton() {
-		buttons.repaint();
 		return placeButton;
 	}
 

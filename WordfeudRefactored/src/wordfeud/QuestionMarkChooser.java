@@ -40,7 +40,7 @@ public class QuestionMarkChooser extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(Character.toUpperCase(charField.getText().charAt(0)) > 'A' && Character.toUpperCase(charField.getText().charAt(0)) < 'Z')
+				if(Character.toUpperCase(charField.getText().charAt(0)) >= 'A' && Character.toUpperCase(charField.getText().charAt(0)) <= 'Z')
 				{
 					veranderSteen.setBlancoLetter(Character.toUpperCase(charField.getText().charAt(0)));
 					dispose();
