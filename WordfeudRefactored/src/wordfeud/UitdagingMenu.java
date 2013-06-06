@@ -416,7 +416,7 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 			int i = 0;
 			while (competitieRS.next()) {
 				existingCompetitions.put(i,competitieRS.getInt("ID"));
-				selectedCompetition.insertItemAt(competitieRS.getString("omschrijving"), i);
+				selectedCompetition.insertItemAt(competitieRS.getString("omschrijving")+" (id:"+competitieRS.getInt(1)+")", i);
 				i++;
 			}
 		} catch (SQLException e) {
