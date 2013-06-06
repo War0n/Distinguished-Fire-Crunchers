@@ -23,10 +23,7 @@ public class Account {
 		if(checkRole("Moderator")){
 			return true;
 		}
-		else
-		{
 			return false;
-		}
 	}
 	
 	public static boolean checkAdmin()
@@ -34,10 +31,7 @@ public class Account {
 		if(checkRole("Administrator")){
 			return true;
 		}
-		else
-		{
 			return false;
-		}
 	}
 	
 	public static boolean checkPlayer()
@@ -45,10 +39,7 @@ public class Account {
 		if(checkRole("Player")){
 			return true;
 		}
-		else
-		{
 			return false;
-		}
 	}
 	
 	public static boolean checkObserver()
@@ -56,10 +47,7 @@ public class Account {
 		if(checkRole("Observer")){
 			return true;
 		}
-		else
-		{
 			return false;
-		}
 	}
 	
 	public static boolean checkRole(String rol)
