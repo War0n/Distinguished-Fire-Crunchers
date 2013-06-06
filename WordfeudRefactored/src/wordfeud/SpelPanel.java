@@ -174,7 +174,6 @@ public class SpelPanel extends JPanel {
 	}
 
 	public WFButton getPlayButton() {
-		buttons.repaint();
 		return placeButton;
 	}
 
