@@ -22,21 +22,23 @@ public class ObserverGUI extends JPanel implements ActionListener {
 	private JPanel filler;
 	private JLabel score;
 	private WFButton backButton;
-	
+
 	private WFButton prevTurn, nextTurn;
 	private JLabel beurtLabel;
 	private JPanel beurtPanel;
 	private JLabel beurtVan;
-	
+
 	private int beurt = 2;
-	
+
 	private LetterbakPanel letterbak;
-	
+
 	public ObserverGUI(int observableSpelId) {
 		spel = new Spel(observableSpelId); // TODO verander in logisch nummer
 		setMinimumSize(new Dimension(630, 710));
 		setPreferredSize(getMinimumSize());
-		score = new JLabel("Scoreveld hier");
+		score = new JLabel();
+		score.setBackground(Color.red);
+		getScoreString();
 		score.setForeground(Color.white);
 
 		setBackground(Color.blue);
@@ -46,6 +48,7 @@ public class ObserverGUI extends JPanel implements ActionListener {
 		backButton = new WFButton("< Terug");
 		scores = new JPanel();
 		filler = new JPanel();
+
 		scores.setLayout(new BorderLayout());
 		scores.setBackground(new Color(23, 26, 30));
 		filler.setBackground(new Color(23, 26, 30));
@@ -55,74 +58,69 @@ public class ObserverGUI extends JPanel implements ActionListener {
 		scores.add(backButton, BorderLayout.WEST);
 		scores.add(score, BorderLayout.EAST);
 		backButton.addActionListener(this);
-		
+
 		letterbak = new LetterbakPanel(spel);
-		
+
 		beurtPanel = new JPanel();
 		beurtPanel.setBackground(filler.getBackground());
 		beurtLabel = new JLabel("Beurt: " + (beurt - 1));
 		prevTurn = new WFButton("Vorige");
 		nextTurn = new WFButton("Volgende");
 		beurtVan = new JLabel("Beurt van: " + getBeurtNaam());
-		
+
 		beurtLabel.setForeground(Color.white);
 		beurtVan.setForeground(Color.white);
-		
+
 		spel.getLetterBak().laadStenenVoorBeurt(beurt);
-		if(letterbak != null)
-		{
+		if (letterbak != null) {
 			letterbak.repaint();
 		}
-		
-		prevTurn.addActionListener(new ActionListener()
-		{
+
+		prevTurn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(beurt > 2)
+				if (beurt > 2)
 					beurt--;
 				spel.getBord().plaatsLetters(beurt);
 				spel.getLetterBak().laadStenenVoorBeurt(beurt);
-				if(letterbak != null)
-				{
+				if (letterbak != null) {
 					letterbak.repaint();
 				}
 				updateBeurtLabel();
 			}
-			
+
 		});
-		nextTurn.addActionListener(new ActionListener()
-		{
+		nextTurn.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
+			public void actionPerformed(ActionEvent arg0) {
 				Connectie con = new Connectie();
-				try
-				{
-					ResultSet rs = con.doSelect("SELECT MAX(ID) FROM beurt WHERE Spel_ID = %1$d AND Aktie_type != 'End'", spel.getSpelId());
-					if(rs.next())
-					{
-						if(beurt < rs.getInt(1))
+				try {
+					ResultSet rs = con
+							.doSelect(
+									"SELECT MAX(ID) FROM beurt WHERE Spel_ID = %1$d AND Aktie_type != 'End'",
+									spel.getSpelId());
+					if (rs.next()) {
+						if (beurt < rs.getInt(1))
 							beurt++;
 					}
-					
+
 					spel.getBord().plaatsLetters(beurt);
 					spel.getLetterBak().laadStenenVoorBeurt(beurt);
-					if(letterbak != null)
-					{
+					if (letterbak != null) {
 						letterbak.repaint();
 					}
-				}
-				catch(SQLException ex)
-				{
+				} catch (SQLException ex) {
 					ex.printStackTrace();
 				}
 				con.closeConnection();
 				updateBeurtLabel();
 			}
-			
+
 		});
+
+		beurtPanel.add(score);
 		beurtPanel.add(backButton);
 		beurtPanel.add(prevTurn);
 		beurtPanel.add(beurtLabel);
@@ -130,35 +128,33 @@ public class ObserverGUI extends JPanel implements ActionListener {
 		beurtPanel.add(beurtVan);
 
 		add(letterbak);
-	
 		add(beurtPanel);
-		
+
 	}
 
-	public String getBeurtNaam()
-	{
+	public String getBeurtNaam() {
 		String ret = "???";
 		Connectie con = new Connectie();
-		try
-		{
-			ResultSet rs = con.doSelect("SELECT Account_naam FROM beurt WHERE Spel_ID = %1$d AND ID = %2$d", spel.getSpelId(), beurt-1);
-			if(rs.next())
-			{
+		try {
+			ResultSet rs = con
+					.doSelect(
+							"SELECT Account_naam FROM beurt WHERE Spel_ID = %1$d AND ID = %2$d",
+							spel.getSpelId(), beurt - 1);
+			if (rs.next()) {
 				ret = rs.getString(1);
 			}
-		}
-		catch(SQLException e)
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		con.closeConnection();
 		return ret;
 	}
-	public void updateBeurtLabel()
-	{
-		beurtLabel.setText("Beurt: " + (beurt-1));
-		beurtVan.setText("Beurt van: "+getBeurtNaam());
+
+	public void updateBeurtLabel() {
+		beurtLabel.setText("Beurt: " + (beurt - 1));
+		beurtVan.setText("Beurt van: " + getBeurtNaam());
 	}
+
 	public void setParentContentPane(JPanel contentPane) {
 		JFrame root = (JFrame) SwingUtilities.getWindowAncestor(this);
 		root.setContentPane(contentPane);
@@ -168,6 +164,60 @@ public class ObserverGUI extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		setParentContentPane(new ObserverMenu());
 	}
-	
-	
+
+	public void setScore(String text) {
+		score.setText(text);
+		repaint();
+	}
+
+	public void updateScoreLabel() {
+		int scores[] = new int[2];
+		scores[0] = scores[1] = 0;
+		String names[] = new String[2];
+		names[0] = names[1] = "";
+
+		Connectie connect = new Connectie();
+		try {
+			ResultSet rs = connect
+					.voerSelectQueryUit("SELECT Account_naam, totaalscore FROM score WHERE Spel_ID = "
+							+ spel.getSpelId());
+			while (rs.next()) {
+				names[0] = rs.getString(1);
+				scores[0] = rs.getInt(2);
+				if (!rs.getString(1).equals(names[0])) {
+					names[1] = rs.getString(1);
+					scores[1] = rs.getInt(2);
+				} else {
+					rs.next();
+					names[1] = rs.getString(1);
+					scores[1] = rs.getInt(2);
+				}
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		connect.closeConnection();
+		setScore(names[0] + ": " + scores[0] + "            " + names[1] + ": "
+				+ scores[1]);
+	}
+
+	public String getScoreString() {
+		String ret = "";
+		Connectie con = new Connectie();
+		try {
+			ResultSet rs = con
+					.doSelect(
+							"SELECT Account_naam, SUM(score) FROM wordfeud.beurt WHERE Spel_ID = %1$d AND ID <= %2$d GROUP BY Account_naam ORDER BY Account_naam ASC;",
+							spel.getSpelId(), beurt - 1);
+			while (rs.next()) {
+				ret += (rs.getString(1) + ": " + rs.getInt(2) + "        ");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		setScore(ret.trim());
+		return ret.trim();
+	}
+
 }
