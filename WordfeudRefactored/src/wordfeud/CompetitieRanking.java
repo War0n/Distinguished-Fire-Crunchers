@@ -1,5 +1,6 @@
 package wordfeud;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 public class CompetitieRanking extends JPanel implements ActionListener {
@@ -30,11 +32,14 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 	private JPanel rankings;
 	private JPanel head;
 	private JPanel functies;
+	private String spelerNamen;
+	private JPanel showSpelersPanel;
 	
 	public CompetitieRanking(int idCompetitie,int spelid){
 		this.idSpel = spelid;
 		this.idCompetitie = idCompetitie;
 		setMinimumSize(new Dimension(650,750));
+		
 		setPreferredSize(getMinimumSize());
 		setBackground(new Color(23,26,30));
 		titel = new JLabel("Ranking");
@@ -56,7 +61,8 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		functies.setBackground(new Color(29,144,160));
 		functies.setMaximumSize(new Dimension(650,40));
 		functies.setPreferredSize(functies.getMaximumSize());
-		functies.setLayout(new FlowLayout());
+		showSpelersPanel = new JPanel();
+		showSpelersPanel.setBackground(new Color(23,26,30));
 		rankings = new JPanel();
 		rankings.setBackground(new Color(23,26,30));
 		rankings.setLayout(new GridLayout(0,4));
@@ -84,6 +90,8 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		}
 		showRanking();
 		this.add(rankings);
+		showSpelers();
+		this.add(showSpelersPanel);
 	}
 	
 	public void setParentContentPane(JPanel contentPane){
@@ -135,8 +143,36 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 				}
 			}
 		}catch (SQLException e){e.printStackTrace();}
-		
-		
+		connect.closeConnection();
+	}
+	
+	public void showSpelers(){
+		Connectie connect = new Connectie();
+//		JLabel spelerInfo = new JLabel("Spelers in de competitie: ");
+//		spelerInfo.setForeground(Color.WHITE);
+//		showSpelersPanel.add(spelerInfo);
+//		this.add(spelerInfo);
+		JTextArea showSpelers = new JTextArea();
+		showSpelers.setBackground(new Color(23,26,30));
+		showSpelers.setEditable(false);
+		showSpelers.setForeground(Color.WHITE);
+		showSpelers.setAlignmentY(TOP_ALIGNMENT);
+		ResultSet rs = connect.voerSelectQueryUit("SELECT Account_naam FROM deelnemer WHERE Competitie_ID = " + idCompetitie);
+		try {
+			spelerNamen = "Spelers in competitie:";
+			spelerNamen += System.lineSeparator();
+			while(rs.next()){
+				if(!(rs.getString("Account_naam").equals("null"))){
+					spelerNamen += rs.getString("Account_naam");
+					spelerNamen += System.lineSeparator();
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		showSpelers.setText(spelerNamen);
+		showSpelersPanel.add(showSpelers);
 		connect.closeConnection();
 	}
 
@@ -158,3 +194,4 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		}
 	}
 }
+	
