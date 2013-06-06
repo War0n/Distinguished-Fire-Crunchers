@@ -250,7 +250,6 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 			doNotCheckBeurten = true;
 			setParentContentPane(new GUIMenu());
 		}
-		JLabel popup = null;
 		if (arg0.getActionCommand().equals("opgeven")) {
 			String[] a = playBtn.get(arg0.getSource());
 			Spel spel = new Spel(Integer.parseInt(a[0]));
@@ -261,7 +260,6 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 			if (selection == JOptionPane.OK_OPTION) {
 				spel.getVerloop().resign();
 			}
-			popup = null;
 		}
 	}
 	
