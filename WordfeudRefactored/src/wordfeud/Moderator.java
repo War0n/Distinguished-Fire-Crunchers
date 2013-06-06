@@ -16,10 +16,8 @@ public class Moderator extends Observable implements ActionListener {
 	private GUIMenu myGuiMenu;
 	private ArrayList<JCheckBox> reviewWoorden;
 
-	private boolean refresh;
 
 	public Moderator(GUIModerator gui) {
-		refresh = true;
 		this.myGUIModerator = gui;
 		reviewWoorden = new ArrayList<JCheckBox>();
 		this.addObserver(myGUIModerator);
@@ -97,7 +95,6 @@ public class Moderator extends Observable implements ActionListener {
 			break;
 		case "Ga terug":
 			myGuiMenu = new GUIMenu();
-			refresh = false;
 			myGUIModerator.setParentContentPane(myGuiMenu);
 			break;
 		}
