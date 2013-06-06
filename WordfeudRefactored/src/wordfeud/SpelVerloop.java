@@ -247,6 +247,9 @@ public class SpelVerloop implements Runnable, ActionListener{
 			System.out.println(woord);
 			score = score + woordScore;
 		}
+		if(spelBord.getNewTiles().size() == 7){
+			score = score + 40;
+		}
 		lastScore = score;
 		return score;
 	}
