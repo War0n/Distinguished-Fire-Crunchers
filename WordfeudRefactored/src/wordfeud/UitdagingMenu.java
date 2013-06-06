@@ -434,7 +434,7 @@ public class UitdagingMenu extends JPanel implements ActionListener, ItemListene
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
 		int curCompID = existingCompetitions.get(selectedCompetition.getSelectedIndex());
-		String q = "SELECT Account_naam FROM Deelnemer WHERE Competitie_ID ="+curCompID+"";
+		String q = "SELECT Account_naam FROM Deelnemer WHERE Competitie_ID ="+curCompID+" AND Account_naam <> '"+Account.getAccountNaam()+"'";
 		connect = new Connectie();
 		ResultSet rs = connect.voerSelectQueryUit(q);
 		selectedPlayer.removeAllItems();
