@@ -33,14 +33,16 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 	private Connectie connect;
 
 	private JComboBox<String> selectedCompetition = new JComboBox<String>();
+	private HashMap<Integer,Integer> existingCompetitions;
 	
-	private String selectedCompetitionID;
+	private int selectedCompetitionID;
 	
 	private HashMap<WFButton, String[]> playBtn = new HashMap<WFButton, String[]>();
 
 	public ObserverMenu() {
+		existingCompetitions =new HashMap<Integer,Integer>();
 		selectedCompetition.addItemListener(this);
-		selectedCompetitionID = "";
+		selectedCompetitionID = 1;
 		setMinimumSize(new Dimension(630, 700));
 		setPreferredSize(getMinimumSize());
 		setBackground(new Color(23, 26, 30));
@@ -111,8 +113,9 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 		ResultSet rs;
 		String comp_naam = null;
 		// Haal alle spellen op uit de db voor de geselecteerde competitie
+		
 		rs = connect
-				.voerSelectQueryUit("select Account_naam_uitdager, Account_naam_tegenstander, ID from Spel where Competitie_ID = (SELECT ID FROM competitie WHERE omschrijving = '"+ selectedCompetitionID + "')");
+				.voerSelectQueryUit("select Account_naam_uitdager, Account_naam_tegenstander, ID from Spel where Competitie_ID = (SELECT ID FROM competitie WHERE ID = '"+ selectedCompetitionID + "')");
 		try {
 			while (rs.next()) {
 				// Wie is de tegenstander in het spel? Degene die je niet zelf
@@ -182,10 +185,15 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 	
 	public void addExistingCompetitions(){
 		connect = new Connectie();
-		ResultSet competitieRS = connect.voerSelectQueryUit("SELECT omschrijving FROM competitie");
+		ResultSet competitieRS = connect.voerSelectQueryUit("SELECT omschrijving, ID FROM competitie");
 		try {
 			while(competitieRS.next()){
-				selectedCompetition.addItem(competitieRS.getString(1));
+				int i = 0;
+				while (competitieRS.next()) {
+					existingCompetitions.put(i,competitieRS.getInt("ID"));
+					selectedCompetition.insertItemAt(competitieRS.getString("omschrijving")+" (id:"+competitieRS.getInt("ID")+")", i);
+					i++;
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -196,7 +204,9 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		selectedCompetitionID = selectedCompetition.getSelectedItem().toString();
+		//tmpID = selectedCompetition.getSelectedItem().toString();
+		int tmpID = existingCompetitions.get(selectedCompetition.getSelectedIndex());
+		selectedCompetitionID = tmpID;
 		remove(scrollPane);
 		initSpellen();
 		showSpellen();
