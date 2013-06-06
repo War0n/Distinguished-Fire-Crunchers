@@ -14,6 +14,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -39,6 +40,7 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 	private WFButton backButton;
 	private Connectie connect;
 	private Thread checkBeurtThread;
+	private ResultSet myResultSet;
 
 	private HashMap<WFButton, String[]> playBtn = new HashMap<WFButton, String[]>();
 
@@ -51,10 +53,10 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		backButton = new WFButton("< Terug naar menu");
 		backButton.addActionListener(this);
-		if(!observer){
-		inviteButton = new WFButton("Speler uitdagen");
-		inviteButton.addActionListener(this);
-		titel = new JLabel("Actieve spellen");
+		if (!observer) {
+			inviteButton = new WFButton("Speler uitdagen");
+			inviteButton.addActionListener(this);
+			titel = new JLabel("Actieve spellen");
 		}
 		titel.setForeground(Color.white);
 		titel.setFont(new Font("Arial", Font.BOLD, 30));
@@ -82,46 +84,47 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		notMyTurns = new JPanel();
 		notMyTurns.setLayout(new BoxLayout(notMyTurns, BoxLayout.Y_AXIS));
 		notMyTurns.setBackground(this.getBackground());
-		
-		//Verdeling in myTurn en notMyTurn
+
+		// Verdeling in myTurn en notMyTurn
 		myTurnLabelPanel = new JPanel();
-		myTurnLabelPanel.setBackground(new Color(44,47,53));
+		myTurnLabelPanel.setBackground(new Color(44, 47, 53));
 		myTurnLabel = new JLabel("Jouw beurt");
 		myTurnLabel.setForeground(Color.white);
-		myTurnLabelPanel.setMaximumSize(new Dimension(650,25));
+		myTurnLabelPanel.setMaximumSize(new Dimension(650, 25));
 		myTurnLabelPanel.setPreferredSize(myTurnLabelPanel.getMaximumSize());
 		myTurnLabelPanel.add(myTurnLabel);
 		myTurns.add(myTurnLabelPanel);
 		myTurns.add(Box.createVerticalStrut(5));
-		
+
 		notMyTurnLabelPanel = new JPanel();
-		notMyTurnLabelPanel.setBackground(new Color(44,47,53));
+		notMyTurnLabelPanel.setBackground(new Color(44, 47, 53));
 		notMyTurnLabel = new JLabel("Niet jouw beurt");
 		notMyTurnLabel.setForeground(Color.white);
-		notMyTurnLabelPanel.setMaximumSize(new Dimension(650,25));
-		notMyTurnLabelPanel.setPreferredSize(notMyTurnLabelPanel.getMaximumSize());
+		notMyTurnLabelPanel.setMaximumSize(new Dimension(650, 25));
+		notMyTurnLabelPanel.setPreferredSize(notMyTurnLabelPanel
+				.getMaximumSize());
 		notMyTurnLabelPanel.add(notMyTurnLabel);
 		notMyTurns.add(notMyTurnLabelPanel);
 		notMyTurns.add(Box.createVerticalStrut(5));
-		
+
 		spellen.add(myTurns);
 		spellen.add(notMyTurns);
-		
+
 		scrollPane = new JScrollPane(spellen);
 		scrollPane
 				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		add(scrollPane);
 		checkBeurtThread = new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				while(!doNotCheckBeurten){
+				while (!doNotCheckBeurten) {
 					try {
 						Thread.sleep(5000);
 						myTurns.removeAll();
 						myTurns.add(myTurnLabelPanel);
 						myTurns.add(Box.createVerticalStrut(5));
-						
+
 						notMyTurns.removeAll();
 						notMyTurns.add(notMyTurnLabelPanel);
 						notMyTurns.add(Box.createVerticalStrut(5));
@@ -129,9 +132,9 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 						spellen.revalidate();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
-					}	
+					}
 				}
-				
+
 			}
 		});
 		checkBeurtThread.start();
@@ -210,10 +213,14 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 				String[] challengeSpecs = { spelID, comp_naam };
 				// accept
 				WFButton accept = new WFButton("open spel");
+				WFButton resign = new WFButton("opgeven");
 				accept.addActionListener(this);
+				resign.addActionListener(this);
 				playBtn.put(accept, challengeSpecs);
+				playBtn.put(resign, challengeSpecs);
 
 				lineBoxControls.add(accept);
+				lineBoxControls.add(resign);
 				vertBox.add(lineBoxText);
 				vertBox.add(Box.createVerticalStrut(5));
 				vertBox.add(lineBoxControls);
@@ -249,8 +256,48 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 			doNotCheckBeurten = true;
 			setParentContentPane(new GUIMenu());
 		}
+		if (arg0.getActionCommand().equals("opgeven")) {
+			String[] a = playBtn.get(arg0.getSource());
+			int selection = JOptionPane.showConfirmDialog(null,
+					"Weet je zeker dat je wilt opgeven?", "let op",
+					JOptionPane.OK_CANCEL_OPTION,
+					JOptionPane.INFORMATION_MESSAGE);
+			if (selection == JOptionPane.OK_OPTION) {
+				resign(Integer.parseInt(a[0]));
+			}
+		}
+
 	}
-	
+
+	public void resign(int spelid) {
+		int totaalscore = 0;
+		Connectie connect = new Connectie();
+		JFrame popup = null;
+		JOptionPane.showMessageDialog(popup, "Je hebt verloren.", "Verloren",
+				JOptionPane.WARNING_MESSAGE);
+		popup = null;
+
+		myResultSet = connect
+				.voerSelectQueryUit("SELECT totaalscore FROM score WHERE Account_naam = '"
+						+ Account.getAccountNaam()
+						+ "' AND Spel_ID = "
+						+ spelid + ";");
+		try {
+			if (myResultSet.next()) {
+				totaalscore = myResultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		connect.voerInsertOrUpdateQueryUit("INSERT INTO beurt (ID,  Spel_ID, Account_naam, score, Aktie_type) VALUES ("
+				+ spelid
+				+ ", '"
+				+ Account.getAccountNaam()
+				+ "', "
+				+ -totaalscore + ", 'End';");
+	}
+
 	public void setParentContentPane(JPanel contentPane) {
 		JFrame root = (JFrame) SwingUtilities.getWindowAncestor(this);
 		root.setContentPane(contentPane);
