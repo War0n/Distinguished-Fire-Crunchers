@@ -153,6 +153,7 @@ public class SpelPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				spel.getVerloop().doTurn("Pass", false);
+				spel.getVerloop().pakLetters();
 			}
 		});
 

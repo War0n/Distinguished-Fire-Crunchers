@@ -109,6 +109,7 @@ public class SpelVerloop implements Runnable, ActionListener {
 					&& woordenGevonden.size() > 0) {
 				doTurn("Word", true);
 				pushLettersNaarDatabase();
+				pakLetters();
 				spel.getBord().lockField();
 			}
 		}
@@ -221,7 +222,6 @@ public class SpelVerloop implements Runnable, ActionListener {
 			con.doInsertUpdate(q);
 		}
 		con.closeConnection();
-		pakLetters();
 	}
 
 	public Integer puntenTeller() {
@@ -527,7 +527,7 @@ public class SpelVerloop implements Runnable, ActionListener {
 		connect2.closeConnection();
 	}
 
-	private void pakLetters() {
+	public void pakLetters() {
 		Connectie con = new Connectie();
 		for (int i = 0; i < 7; i++) {
 			if (spel.getLetterBak().getTile(i).getStone() != null) {
@@ -617,6 +617,7 @@ public class SpelVerloop implements Runnable, ActionListener {
 		}
 		if (gepasst >= 3) {
 			doTurn("End", false);
+			spel.getVerloop().pakLetters();
 		}
 		gepasst = 0;
 		connect3.closeConnection();
