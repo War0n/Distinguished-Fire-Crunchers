@@ -1,5 +1,6 @@
 package wordfeud;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -32,6 +33,7 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 	private JPanel rankings;
 	private JPanel head;
 	private JPanel functies;
+	private JPanel borderPanel;
 	private String spelerNamen;
 	private JPanel showSpelersPanel;
 	final ImageIcon icon = new ImageIcon("src/images/conf.jpg");
@@ -57,6 +59,9 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		joinButton.addActionListener(this);
 		gameButton = new WFButton("Door naar game");
 		gameButton.addActionListener(this);
+		borderPanel = new JPanel();
+		borderPanel.setBackground(new Color(23, 26, 30));
+		borderPanel.setLayout(new BorderLayout());
 
 		functies = new JPanel();
 		functies.setBackground(new Color(29, 144, 160));
@@ -90,9 +95,10 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 			functies.add(gameButton);
 		}
 		showRanking();
-		this.add(rankings);
+		borderPanel.add(rankings, BorderLayout.NORTH);
 		showSpelers();
-		this.add(showSpelersPanel);
+		borderPanel.add(showSpelersPanel, BorderLayout.CENTER);
+		this.add(borderPanel);
 	}
 
 	public void setParentContentPane(JPanel contentPane) {
@@ -200,7 +206,7 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 
 			connect.voerInsertOrUpdateQueryUit(q);
 			connect.closeConnection();
-			JOptionPane.showMessageDialog(popup, "Je bent " + idCompetitie
+			JOptionPane.showMessageDialog(popup, "Je bent competitie " + idCompetitie
 					+ " gejoint", "Gejoint", JOptionPane.INFORMATION_MESSAGE,
 					icon);
 			popup = null;
