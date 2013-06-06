@@ -1,10 +1,13 @@
 package wordfeud;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,16 +24,36 @@ public class CompetitieItem extends JPanel implements MouseListener {
 	String compNaam;
 	JLabel compTxt;
 	
-	public CompetitieItem(int idCompetitie, String eigenaar, String compNaam){
+	public CompetitieItem(int idCompetitie, String eigenaar, String compNaam, String start, String einde){
 		this.idCompetitie = idCompetitie;
 		this.eigenaar = eigenaar;
 		this.compNaam = compNaam;
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
 		setMaximumSize(new Dimension(650,80));
 		setPreferredSize(this.getMaximumSize());
 		setBackground(new Color(44,47,53));
 		compTxt = new JLabel(compNaam+ " [id: " + idCompetitie + "]");
 		compTxt.setForeground(Color.white);
-		add(compTxt);
+		
+		JLabel compTimeHead = new JLabel("competitie looptijd:");
+		compTimeHead.setForeground(Color.white);
+		
+		JLabel compTime = new JLabel(start +" -- "+einde);
+		compTime.setForeground(Color.white);
+		//add(compTxt);
+		Box superBox = new Box(BoxLayout.PAGE_AXIS);
+		Box superBox2 = new Box(BoxLayout.PAGE_AXIS);
+		superBox2.add(Box.createHorizontalGlue());
+		superBox2.add(compTxt);
+		superBox.add(Box.createVerticalStrut(15));
+		superBox.add(compTimeHead);
+		superBox.add(compTime);
+		compTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
+		compTimeHead.setAlignmentX(Component.CENTER_ALIGNMENT);
+		compTime.setAlignmentX(Component.CENTER_ALIGNMENT);
+		add(superBox2);
+		add(superBox);
 		addMouseListener(this);
 	}
 	
