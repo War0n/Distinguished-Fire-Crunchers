@@ -21,15 +21,18 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	WFButton backButton;
-	WFButton joinButton;
+	private WFButton backButton;
+	private WFButton joinButton;
+	private WFButton gameButton;
 	private int idCompetitie;
+	private int idSpel;
 	private JLabel titel;
 	private JPanel rankings;
 	private JPanel head;
 	private JPanel functies;
 	
-	public CompetitieRanking(int idCompetitie){
+	public CompetitieRanking(int idCompetitie,int spelid){
+		this.idSpel = spelid;
 		this.idCompetitie = idCompetitie;
 		setMinimumSize(new Dimension(650,750));
 		setPreferredSize(getMinimumSize());
@@ -46,6 +49,8 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		backButton.addActionListener(this);
 		joinButton = new WFButton("Join competitie");
 		joinButton.addActionListener(this);
+		gameButton = new WFButton("Door naar game");
+		gameButton.addActionListener(this);
 		
 		functies = new JPanel();
 		functies.setBackground(new Color(29,144,160));
@@ -74,6 +79,9 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 		head.add(titel);
 		functies.add(backButton);
 		functies.add(joinButton);
+		if(idSpel != 0){
+			functies.add(gameButton);
+		}
 		showRanking();
 		this.add(rankings);
 	}
@@ -143,6 +151,10 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 			connect.voerInsertOrUpdateQueryUit(q);
 			connect.closeConnection();
 			
+		}else if(e.getSource().equals(gameButton)){
+			if(idSpel != 0){
+			setParentContentPane(new ObserverGUI(idSpel));	
+			}
 		}
 	}
 }
