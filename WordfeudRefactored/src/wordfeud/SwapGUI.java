@@ -128,6 +128,7 @@ public class SwapGUI extends JFrame {
 	{
 		stenen.clear();
 		curSpel.getVerloop().doTurn("Swap", false);
+		curSpel.getVerloop().pakLetters();
 		curSpel.getSpelPanel().getLetterbakPanel().repaint();
 		
 		cancelFrame();
