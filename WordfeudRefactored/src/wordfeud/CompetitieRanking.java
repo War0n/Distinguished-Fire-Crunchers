@@ -11,8 +11,10 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
@@ -34,6 +36,7 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 	private JPanel functies;
 	private String spelerNamen;
 	private JPanel showSpelersPanel;
+	final ImageIcon icon = new ImageIcon("src/images/conf.jpg");
 	
 	public CompetitieRanking(int idCompetitie,int spelid){
 		this.idSpel = spelid;
@@ -178,6 +181,7 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		JFrame popup = null;
 		if(e.getSource().equals(backButton)){
 			setParentContentPane(new CompetitiesMenu(true));
 		}else if(e.getSource().equals(joinButton)){
@@ -192,6 +196,10 @@ public class CompetitieRanking extends JPanel implements ActionListener {
 			setParentContentPane(new ObserverGUI(idSpel));	
 			}
 		}
+		JOptionPane.showMessageDialog(popup,
+				"Je bent " + idCompetitie + " gejoint", "Gejoint",
+				JOptionPane.INFORMATION_MESSAGE, icon);
+		popup = null;
 	}
 }
 	
