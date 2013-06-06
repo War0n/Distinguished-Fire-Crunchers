@@ -513,6 +513,7 @@ public class SpelVerloop implements Runnable, ActionListener{
 				popup = null;
 			}
 			spel.getSpelPanel().getPlayButton().setEnabled(false);
+			spel.getSpelPanel().getPlayButton().setText("Play"); 
 			spel.getSpelPanel().getShuffleButton().setEnabled(false);
 			spel.getSpelPanel().getSkipButton().setEnabled(false);
 			spel.getSpelPanel().getSwapButton().setEnabled(false);
