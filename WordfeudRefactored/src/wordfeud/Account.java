@@ -5,10 +5,6 @@ import java.sql.SQLException;
 
 public class Account {
 	private static String accountNaam;
-	
-	public Account() // private constructor
-	{
-	}
 		
 	public static String getAccountNaam(){
 		return accountNaam;

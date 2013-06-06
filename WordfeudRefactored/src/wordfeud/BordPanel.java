@@ -82,7 +82,7 @@ public class BordPanel extends JPanel
 		tiles[x][y].repaint();
 	}
 	
-	public ArrayList<Stone> clearField() //
+	public ArrayList<Stone> clearField() //Haal niet-gespeelde tiles leeg
 	{
 		ArrayList<Stone> stenen = new ArrayList<Stone>();
 		for(int y = 0; y < 15; y++)

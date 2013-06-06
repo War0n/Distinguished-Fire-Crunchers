@@ -71,7 +71,6 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		functies.setPreferredSize(functies.getMaximumSize());
 		functies.setLayout(new FlowLayout());
 		functies.add(backButton);
-		// functies.add(inviteButton);
 		add(head);
 		add(functies);
 
@@ -244,7 +243,6 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getActionCommand().equals("open spel")) {
-			// addCompetition();
 			String[] a = playBtn.get(arg0.getSource());
 			if (!observer) {
 				setParentContentPane(new SpelPanel(Integer.parseInt(a[0])));

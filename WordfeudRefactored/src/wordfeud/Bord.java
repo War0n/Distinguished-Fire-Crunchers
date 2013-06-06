@@ -34,8 +34,6 @@ public class Bord {
 
 	private void setupTiles() {
 		tiles = new Tile[15][15];
-		// int[] xArray = null;
-		// int[] yArray = null;
 		ArrayList<String> soortArray = new ArrayList<String>();
 
 		try {
