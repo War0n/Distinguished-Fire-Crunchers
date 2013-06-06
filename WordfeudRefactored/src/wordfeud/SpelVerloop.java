@@ -439,6 +439,7 @@ public class SpelVerloop implements Runnable, ActionListener {
 				spel.getSpelPanel().getClearButton().setEnabled(false);
 			} else {
 				// zet alles op het bord waar nodig, update score moet nog
+				spel.getSpelPanel().getPlayButton().setText("Play");
 				spel.getSpelPanel().getShuffleButton().setEnabled(true);
 				if (spel.getLetterBak() != null) {
 					spel.getLetterBak().lockButtons();

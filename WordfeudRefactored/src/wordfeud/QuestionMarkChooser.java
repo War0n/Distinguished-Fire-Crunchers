@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -39,8 +40,20 @@ public class QuestionMarkChooser extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				veranderSteen.setBlancoLetter(Character.toUpperCase(charField.getText().charAt(0)));
-				dispose();
+				if(Character.toUpperCase(charField.getText().charAt(0)) > 'A' && Character.toUpperCase(charField.getText().charAt(0)) < 'Z')
+				{
+					veranderSteen.setBlancoLetter(Character.toUpperCase(charField.getText().charAt(0)));
+					dispose();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(
+							null,
+							"Input moet een letter zijn(A-Z)!",
+							"Fout!",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
 			}
 		});
 		
