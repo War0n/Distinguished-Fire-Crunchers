@@ -115,7 +115,7 @@ public class ObserverMenu extends JPanel implements ActionListener, ItemListener
 		// Haal alle spellen op uit de db voor de geselecteerde competitie
 		
 		rs = connect
-				.voerSelectQueryUit("select Account_naam_uitdager, Account_naam_tegenstander, ID from Spel where Competitie_ID = (SELECT ID FROM competitie WHERE ID = '"+ selectedCompetitionID + "')");
+				.voerSelectQueryUit("select Account_naam_uitdager, Account_naam_tegenstander, ID, Toestand_type from Spel WHERE Competitie_ID = (SELECT ID FROM competitie WHERE ID = '"+ selectedCompetitionID + "') AND Toestand_type <> 'Request'");
 		try {
 			while (rs.next()) {
 				// Wie is de tegenstander in het spel? Degene die je niet zelf
