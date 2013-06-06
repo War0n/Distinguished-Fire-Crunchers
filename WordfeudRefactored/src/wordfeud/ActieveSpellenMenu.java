@@ -167,6 +167,7 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		ResultSet rs2;
 		int idCompetitie = 0;
 		String comp_naam = null;
+		int countR =0;
 
 		// Haal alle uitdagingen op uit de db
 		rs = connect
@@ -176,7 +177,9 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 						+ Account.getAccountNaam()
 						+ "') AND Toestand_type = 'Playing'");
 		try {
+			countR = 0;
 			while (rs.next()) {
+				countR++;
 				idCompetitie = rs.getInt("Competitie_ID");
 				rs2 = connect
 						.voerSelectQueryUit("select * from Competitie where ID ='"
@@ -238,6 +241,22 @@ public class ActieveSpellenMenu extends JPanel implements ActionListener {
 		} catch (SQLException e) {
 		}
 		connect.closeConnection();
+		if(countR == 0){
+			JPanel comp = new JPanel();
+			comp.setMaximumSize(new Dimension(650, 80));
+			comp.setPreferredSize(comp.getMaximumSize());
+			comp.setBackground(new Color(44, 47, 53));
+			/*
+			Box vertBox = new Box(BoxLayout.PAGE_AXIS);
+			Box lineBoxText = new Box(BoxLayout.LINE_AXIS);
+			Box lineBoxControls = new Box(BoxLayout.LINE_AXIS);
+			*/
+			JLabel uitdagingTxt = new JLabel("Geen actieve games!");
+			uitdagingTxt.setForeground(Color.white);
+			comp.add(uitdagingTxt);
+			add(comp);
+
+		}
 	}
 
 	@Override
