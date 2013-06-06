@@ -86,13 +86,11 @@ public class SpelVerloop implements Runnable, ActionListener {
 				}
 				woordenGevonden.add(tmp);
 			}
-			System.out.println("Woorden gevonden: " + woordenGevonden.size());
 			int numWoorden = 0;
 			gelegdeWoordenInBeurt = new ArrayList<String>();
 			for (String str : woordenGevonden) {
 				if (checkWoordInDB(str) == true) {
 					numWoorden++;
-					System.out.println(str + " is een woord.");
 					gelegdeWoordenInBeurt.add(str);
 				} else {
 					woordCheck = str; // Moderator voor goedkeuring vragen
@@ -129,20 +127,6 @@ public class SpelVerloop implements Runnable, ActionListener {
 		Connectie con = new Connectie();
 		HashMap<Point, Stone> tiles = spelBord.getNewTiles();
 		for (Point pt : tiles.keySet()) {
-			System.out.println("LetterID "
-					+ tiles.get(pt).getLetterId()
-					+ "\nSpel ID: "
-					+ spel.getSpelId()
-					+ "\nX: "
-					+ pt.x
-					+ "\nY: "
-					+ pt.y
-					+ "\nBord naam: "
-					+ spelBord.getName()
-					+ "\nBlanco:"
-					+ (tiles.get(pt).isBlancoLetter() ? "Ja, "
-							+ tiles.get(pt).getBlancoLetter() + "\n"
-							: "Nee. NULL\n"));
 			con.doInsertUpdate(
 					"INSERT INTO gelegdeletter (Letter_ID, Spel_ID, Beurt_ID, Tegel_X, Tegel_Y, Tegel_Bord_naam, BlancoLetterKarakter) VALUES (%1$d, %2$d, (SELECT MAX(ID) FROM beurt WHERE Spel_ID = %2$d), %3$d, %4$d, '%5$s', %6$s)",
 					tiles.get(pt).getLetterId(), spel.getSpelId(), pt.x + 1,
@@ -275,7 +259,6 @@ public class SpelVerloop implements Runnable, ActionListener {
 			if (DW) {
 				woordScore = woordScore * 2;
 			}
-			System.out.println(woord);
 			score = score + woordScore;
 		}
 		if(spelBord.getNewTiles().size() == 7){
@@ -442,14 +425,11 @@ public class SpelVerloop implements Runnable, ActionListener {
 			spelBord.plaatsLetters();
 			if (!myTurn()) {
 				spel.getSpelPanel().getPlayButton().setEnabled(false);
-				spel.getSpelPanel().getPlayButton().setText("Niet jouw beurt"); 
 				spel.getSpelPanel().getShuffleButton().setEnabled(false);
 				spel.getSpelPanel().getSkipButton().setEnabled(false);
 				spel.getSpelPanel().getSwapButton().setEnabled(false);
 				spel.getSpelPanel().getClearButton().setEnabled(false);
 			} else {
-				// zet alles op het bord waar nodig, update score moet nog
-				spel.getSpelPanel().getPlayButton().setText("Play");
 				spel.getSpelPanel().getShuffleButton().setEnabled(true);
 				if (spel.getLetterBak() != null) {
 					spel.getLetterBak().lockButtons();
